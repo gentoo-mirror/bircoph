@@ -1,0 +1,8 @@
+# ChangeLog for sys-apps/strerror
+# Copyright 2000-2010 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+*strerror-0.2.ebuild (24 Oct 2010)
+
+  24 Oct 2010; Andrew Savchenko <bircoph@gmail.com> +strerror-0.2.ebuild:
+  Initial ebuild for this overlay.
