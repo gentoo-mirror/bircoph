@@ -49,3 +49,9 @@ stop(){
     start-stop-daemon --stop --quiet --exec ${bin} --pidfile ${pid}
     eend $?
 }
+
+restart(){
+    svc_stop
+    sleep 2
+    svc_start
+}
