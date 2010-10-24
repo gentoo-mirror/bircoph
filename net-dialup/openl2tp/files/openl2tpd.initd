@@ -10,7 +10,7 @@ pid=/var/run/openl2tpd.pid
 
 depend() {
     need net
-    [[ userpc == "yes" ]] && need portmap
+    [[ $userpc == "yes" ]] && need portmap
     use racoon ipsec
 }
 
@@ -39,7 +39,7 @@ start(){
         -- -c "$conf" ${OPENL2TPDARGS}
 
     # it is possible to not to have config at all
-    if [[ userpc == "yes" ]] && [[ -r "${OPENL2TPD_CONFIG_FILE}" ]]; then
+    if [[ $userpc == "yes" ]] && [[ -r "${OPENL2TPD_CONFIG_FILE}" ]]; then
         sleep 0.5
         l2tpconfig config restore file="${OPENL2TPD_CONFIG_FILE}"
     fi
