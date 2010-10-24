@@ -1,0 +1,11 @@
+--- configure.in.orig	2009-09-25 01:16:51.487394243 +0400
++++ configure.in	2009-09-25 01:16:54.768674518 +0400
+@@ -12,7 +12,7 @@
+ [
+ 
+   --disable-ftp			Disables all ftp features and libftp dependencies
+-],[LIBS=""])
++],[LIBS="-lm"])
+ 
+ dnl Checks for header files.
+ AC_CONFIG_HEADERS([config.h:config.h.in])
