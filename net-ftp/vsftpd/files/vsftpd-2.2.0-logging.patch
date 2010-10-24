@@ -1,0 +1,12 @@
+diff -Nur vsftpd-2.0.5/logging.c vsftpd-2.0.5.1/logging.c
+--- vsftpd-2.0.5/logging.c	2005-05-25 23:04:17.000000000 +0800
++++ vsftpd-2.0.5.1/logging.c	2007-03-04 13:37:14.000000000 +0800
+@@ -159,7 +159,7 @@
+       return;
+     }
+   }
+-  str_replace_unprintable(p_str, '?');
++  /*str_replace_unprintable(p_str, '?');*/
+   str_append_char(p_str, '\n');
+   /* Ignore write failure; maybe the disk filled etc. */
+   (void) str_write_loop(p_str, fd);
