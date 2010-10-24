@@ -1,0 +1,9 @@
+# ChangeLog for net-wireless/madwimax
+# Copyright 2000-2010 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+*madwimax-0.1.1-r1.ebuild (24 Oct 2010)
+
+  24 Oct 2010; Andrew Savchenko <bircoph@gmail.com> +madwimax-0.1.1-r1.ebuild:
+  Initial ebuild for this overlay.
+  Ebuild is taken from here: http://xmas.ratry.ru/madwimax/
