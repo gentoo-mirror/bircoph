@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+<herd>no-herd</herd>
+<use>
+  <flag name='client'>Enable l2tp client</flag>
+  <flag name='pppd'>Build pppd plugins to let <pkg>net-dialup/ppp</pkg> use
+      pppol2tp kernel driver. These plugins are integrated in ppp since 2.4.5</flag>
+  <flag name='rpc'>Enable RPC queries and control. This flag is required for
+	  l2tpconfig to be built and used.</flag>
+  <flag name='server'>Enable l2tp server</flag>
+  <flag name='stats'>Enable status files. Note: when they are used, this
+	  hampers performance of the daemon.</flag>
+</use>
+</pkgmetadata>

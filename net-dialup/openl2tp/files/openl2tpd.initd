@@ -1,0 +1,35 @@
+#!/sbin/runscript
+# Copyright 1999-2008 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+
+bin=/usr/sbin/openl2tpd
+pid=/var/run/openl2tpd.pid
+conf=""
+[[ -n "${OPENL2TPD_CONFIG_FILE}" ]] && conf="-c \"${OPENL2TPD_CONFIG_FILE}\""
+
+depend() {
+    need portmap net
+}
+
+check_module ()
+{
+    if ! [ -f /proc/net/pppol2tp ]; then
+    ebegin "Loading pppol2tp module"
+	modprobe pppol2tp
+    eend $? 
+    fi
+}
+
+start(){
+    check_module
+    ebegin "Starting openl2tpd" 
+    start-stop-daemon --start --quiet --exec ${bin} --pidfile ${pid} \
+        -- $conf ${OPENL2TPDARGS}
+    eend $?
+}
+
+stop(){
+    ebegin "Stopping openl2tpd"
+    start-stop-daemon --stop --quiet --exec ${bin} --pidfile ${pid}
+    eend $?
+}
