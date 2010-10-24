@@ -4,6 +4,6 @@
 
 *openl2tp-1.7.ebuild (24 Oct 2010)
 
-  24 Oct 2010; Andrew Savchenko <bircoph@gmail.com> +symlookup-0.5.1.ebuild:
+  24 Oct 2010; Andrew Savchenko <bircoph@gmail.com> +openl2tp-1.7.ebuild:
   Initial ebuild for this overlay.
   For previous versions see git changelog and bug #195461..

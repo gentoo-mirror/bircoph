@@ -2,6 +2,10 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
 <herd>no-herd</herd>
+<maintainer>
+  <email>bircoph@gmail.com</email>
+  <name>Andrew Savchenko</name>
+</maintainer>
 <use>
   <flag name='client'>Enable l2tp client</flag>
   <flag name='pppd'>Build pppd plugins to let <pkg>net-dialup/ppp</pkg> use
