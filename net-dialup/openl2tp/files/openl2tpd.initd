@@ -1,20 +1,22 @@
 #!/sbin/runscript
-# Copyright 1999-2008 Gentoo Foundation
+# Copyright 1999-2010 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
+
+userpc="yes"
 
 bin=/usr/sbin/openl2tpd
 pid=/var/run/openl2tpd.pid
-conf=""
-[[ -n "${OPENL2TPD_CONFIG_FILE}" ]] && conf="-c \"${OPENL2TPD_CONFIG_FILE}\""
+[[ -z "${OPENL2TPD_CONFIG_FILE}" ]] && OPENL2TPD_CONFIG_FILE="/etc/openl2tpd.conf"
 
 depend() {
-    need portmap net
+    need net
+    [[ userpc == "yes" ]] && need portmap
     use racoon ipsec
 }
 
 check_module ()
 {
-    if ! [ -f /proc/net/pppol2tp ]; then
+    if ! [[ -f /proc/net/pppol2tp ]]; then
     ebegin "Loading pppol2tp module"
 	modprobe pppol2tp
     eend $? 
@@ -23,9 +25,22 @@ check_module ()
 
 start(){
     check_module
-    ebegin "Starting openl2tpd" 
+    ebegin "Starting openl2tpd"
+    # if rpc is enabled do not read config file by daemon (has bugs),
+    # but read by l2tpconfig instead
+    if [[ userpc == "yes" ]]; then 
+        conf="/dev/null"
+    else
+        conf="${OPENL2TPD_CONFIG_FILE}"
+    fi
+
     start-stop-daemon --start --quiet --exec ${bin} --pidfile ${pid} \
-        -- $conf ${OPENL2TPDARGS}
+        -- -c "$conf" ${OPENL2TPDARGS}
+
+    # it is possible to not to have config at all
+    if [[ userpc == "yes" ]] && [[ -r "${OPENL2TPD_CONFIG_FILE}" ]]; then
+        l2tpconfig config restore file="${OPENL2TPD_CONFIG_FILE}"
+    fi
     eend $?
 }
 
