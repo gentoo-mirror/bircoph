@@ -2,6 +2,9 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
 <herd>no-herd</herd>
+<maintainer>
+  <email>bircoph@gmail.com</email>
+</maintainer>
 <use>
   <flag name='portage'>Enable support for Portage database queries.</flag>
   <flag name='rpm'>Enable support for RPM database queries. May be useful if <pkg>app-arch/rpm</pkg> is used to install packages outside of portage</flag>
