@@ -90,10 +90,10 @@ src_configure() {
 		einfo "Building for pppd version $PPPD_VERSION"
 
 		# convert version to comparable format
-		local ver=$( echo PPPD_VERSION | gawk -F "." '{
+		local ver=$( echo $PPPD_VERSION | gawk -F "." '{
 			print lshift($1,16) + lshift($2,8) + $3
 		}' )
-	if [[ $ver -lt $(( 2<<16 + 4<<8 + 5)) ]]; then
+	if [[ $ver -lt $(( (2<<16) + (4<<8) + 5)) ]]; then
 			export PPPD_SUBDIR="pppd"
 		else
 		ewarn
