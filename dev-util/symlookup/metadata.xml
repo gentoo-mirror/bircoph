@@ -4,6 +4,7 @@
 <herd>no-herd</herd>
 <maintainer>
   <email>bircoph@gmail.com</email>
+  <name>Andrew Savchenko</name>
 </maintainer>
 <use>
   <flag name='portage'>Enable support for Portage database queries.</flag>
