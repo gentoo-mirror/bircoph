@@ -1,0 +1,10 @@
+--- script/xosd-config.in.orig	2004-08-20 02:39:31.000000000 +0400
++++ script/xosd-config.in	2009-09-27 13:40:25.654287634 +0400
+@@ -161,7 +161,6 @@
+         fi;;
+     *)
+         case " $af_other_flags " in
+-        *\ $i\ *) ;;                                  # already there
+         *) af_other_flags="$af_other_flags $i" ;;     # add it to output
+         esac ;;
+     esac
