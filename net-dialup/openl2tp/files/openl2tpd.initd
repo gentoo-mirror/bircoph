@@ -51,3 +51,10 @@ stop(){
     start-stop-daemon --stop --quiet --exec ${bin} --pidfile ${pid}
     eend $?
 }
+
+restart(){
+    svc_stop
+    # wait for pppd to shutdown
+    sleep 1
+    svc_start
+}
