@@ -93,6 +93,7 @@ src_configure() {
 	if [[ $ver -lt $(( 2<<16 + 4<<8 + 5)) ]]; then
 			export PPPD_SUBDIR="pppd"
 		else
+		ewarn
 			ewarn "openl2tp plugins are already integrated in >=net-dialup/ppp-2.4.5"
 		fi
 	fi
@@ -124,9 +125,11 @@ src_install() {
 
 pkg_postinst() {
 	if ! use rpc; then
+		ewarn
 		ewarn "Without RPC support you won't be able to use l2tpconfig."
 	fi
 	if use stats; then
+		ewarn
 		ewarn "To enable status files openl2tpd must be started with -S option."
 		ewarn "Upstream warns about runtime overhead with status files enabled."
 	fi
