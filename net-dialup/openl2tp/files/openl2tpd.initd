@@ -39,6 +39,7 @@ start(){
 
     # it is possible to not to have config at all
     if [[ userpc == "yes" ]] && [[ -r "${OPENL2TPD_CONFIG_FILE}" ]]; then
+        sleep 0.5
         l2tpconfig config restore file="${OPENL2TPD_CONFIG_FILE}"
     fi
     eend $?
@@ -48,10 +49,4 @@ stop(){
     ebegin "Stopping openl2tpd"
     start-stop-daemon --stop --quiet --exec ${bin} --pidfile ${pid}
     eend $?
-}
-
-restart(){
-    svc_stop
-    sleep 2
-    svc_start
 }
