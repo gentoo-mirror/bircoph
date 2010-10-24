@@ -9,6 +9,7 @@ conf=""
 
 depend() {
     need portmap net
+    use racoon ipsec
 }
 
 check_module ()
