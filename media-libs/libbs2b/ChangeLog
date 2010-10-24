@@ -1,0 +1,9 @@
+# ChangeLog for dev-util/symlookup
+# Copyright 2000-2010 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+*libbs2b-9999 (24 Oct 2010)
+
+  12 Oct 2010; Andrew Savchenko <bircoph@gmail.com> +libbs2b-9999.ebuild:
+  Initial ebuild.
+
