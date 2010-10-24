@@ -13,7 +13,7 @@ SRC_URI="mirror://sourceforge/openl2tp/${P}.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="doc +client pppd +rpc server -stats"
+IUSE="doc +client pppd rpc server -stats"
 
 CDEPEND="net-dialup/ppp
 	sys-libs/readline
@@ -58,6 +58,9 @@ src_prepare() {
 	epatch "${FILESDIR}/${P}-pppd.patch"
 	# do not gzip man pages, let portage to compress them
 	epatch "${FILESDIR}/${P}-man.patch"
+	# install l2tpconfig to /usr/sbin with 0700 permissions
+	# to make it at least a bit more secure
+	epatch "${FILESDIR}/${P}-l2tpconfig.patch"
 }
 
 src_configure() {
@@ -110,7 +113,7 @@ src_install() {
 	dodoc CHANGES INSTALL README
 
 	if use doc; then
-		dodoc doc/*.txt
+		dodoc doc/*.txt "${FILESDIR}"/openl2tpd.conf.sample
 		newdoc plugins/README README.plugins
 		use pppd && newdoc pppd/README README.pppd
 		docinto ipsec
@@ -118,13 +121,21 @@ src_install() {
 	fi
 
 	newinitd "${FILESDIR}"/openl2tpd.initd openl2tpd
-	# init.d script should not depend on portmap if RPC is disabled.
-	use rpc || sed -i s/portmap// "${D}/etc/init.d/openl2tpd" || die "sed failed"
+	# init.d script is quite different for RPC and non-RPC versions.
+	use rpc || sed -i s/userpc=\"yes\"/userpc=\"no\"/ "${D}/etc/init.d/openl2tpd" || die "sed failed"
 	newconfd "${FILESDIR}"/openl2tpd.confd openl2tpd
 }
 
 pkg_postinst() {
-	if ! use rpc; then
+	if use rpc; then
+		ewarn
+		ewarn "RPC control does not provide any auth checks for control connection."
+		ewarn "By default localhost only is allowed and l2tpconfig is installed"
+		ewarn "accessible only by root, but local users may install or compile binary"
+		ewarn "on they own if not prohibited by system administrator."
+		ewarn
+		ewarn "Therefore DO NOT USE RPC IN INSECURE ENVIRONMENTS!"
+	else
 		ewarn
 		ewarn "Without RPC support you won't be able to use l2tpconfig."
 	fi
