@@ -43,9 +43,10 @@ src_configure() {
 	./configure \
 		--prefix=/usr \
 		--libdir=/usr/$(get_libdir) \
-		--disable-avs-input \
-		--disable-lavf-input \
-		--disable-mp4-output \
+		--disable-avs \
+		--disable-lavf \
+		--disable-swscale \
+		--disable-gpac \
 		$(use_enable threads pthread) \
 		--enable-pic \
 		--enable-shared \
