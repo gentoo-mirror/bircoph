@@ -16,11 +16,12 @@ IUSE="3dnow 3dnowext +a52 aalib +alsa altivec aqua +ass bidi bindist bl bluray
 bs2b +cddb +cdio cdparanoia cpudetection custom-cpuopts debug dga +dirac
 directfb doc +dts +dv dvb +dvd +dvdnav dxr3 +enca +encode esd +faac +faad fbcon
 ftp gif ggi gsm +iconv ipv6 jack joystick jpeg jpeg2k kernel_linux ladspa
-libcaca lirc +live lzo mad md5sum +mmx mmxext mng +mp3 nas nemesi +network nut openal
-amr +opengl +osdmenu oss png pnm pulseaudio pvr +quicktime radio +rar +real +rtc
-rtmp samba +shm +schroedinger sdl +speex sse sse2 ssse3 svga svga-helper tga +theora tivo +tremor
-+truetype +toolame +twolame +unicode v4l v4l2 vdpau vidix +vorbis vpx
-win32codecs +X +x264 xanim xinerama +xscreensaver +xv +xvid xvmc zoran"
+libcaca libmpeg2 lirc +live lzo mad md5sum +mmx mmxext mng +mp3 mpg123 nas nemesi
++network nut openal amr +opengl +osdmenu oss png pnm pulseaudio pvr +quicktime
+radio +rar +real +rtc rtmp samba +shm +schroedinger sdl +speex sse sse2 ssse3 svga svga-helper
+tga +theora tivo +tremor +truetype +toolame +twolame +unicode v4l v4l2 vdpau vidix
++vorbis vpx win32codecs +X +x264 xanim xinerama +xscreensaver +xv +xvid xvmc
+zoran"
 [[ ${PV} == *9999* ]] && IUSE+=" external-ffmpeg"
 
 VIDEO_CARDS="s3virge mga tdfx vesa"
@@ -96,6 +97,10 @@ RDEPEND+="
 	dts? ( media-libs/libdca )
 	dv? ( media-libs/libdv )
 	dvb? ( media-tv/linuxtv-dvb-headers )
+	dvd? (
+		>=media-libs/libdvdread-4.1.3
+		dvdnav? ( >=media-libs/libdvdnav-4.1.3 )
+	)
 	encode? (
 		!twolame? ( toolame? ( media-sound/toolame ) )
 		twolame? ( media-sound/twolame )
@@ -115,11 +120,13 @@ RDEPEND+="
 	jpeg2k? ( media-libs/openjpeg )
 	ladspa? ( media-libs/ladspa-sdk )
 	libcaca? ( media-libs/libcaca )
+	libmpeg2? ( media-libs/libmpeg2 )
 	lirc? ( app-misc/lirc )
 	live? ( media-plugins/live )
 	lzo? ( >=dev-libs/lzo-2 )
 	mad? ( media-libs/libmad )
 	mng? ( media-libs/libmng )
+	mpg123? ( media-sound/mpg123 )
 	nas? ( media-libs/nas )
 	nemesi? ( net-libs/libnemesi )
 	nut? ( >=media-libs/libnut-661 )
@@ -316,8 +323,8 @@ src_configure() {
 	# dvdread - accessing a DVD
 	# dvdnav - navigation of menus
 	#
-	# internal dvdread and dvdnav use flags enable internal
-	# versions of the libraries, which are snapshots of the fork.
+	# use external libdvdcss, dvdread and dvdnav
+	myconf+=" --disable-dvdread-internal --disable-libdvdcss-internal"
 
 	if use dvd; then
 		use dvdnav || myconf+=" --disable-dvdnav"
@@ -325,8 +332,6 @@ src_configure() {
 		myconf+="
 			--disable-dvdnav
 			--disable-dvdread
-			--disable-dvdread-internal
-			--disable-libdvdcss-internal
 		"
 	fi
 
@@ -388,7 +393,7 @@ src_configure() {
 	##########
 	myconf+=" --disable-musepack" # Use internal musepack codecs for SV7 and SV8 support
 	myconf+=" --disable-faad-internal" # always use system media-libs/faad2
-	myconf+=" --disable-libmpeg2-internal" # always use system version
+	myconf+=" --disable-libmpeg2-internal" # always use system media-libs/libmpeg2
 	use dirac || myconf+=" --disable-libdirac-lavc"
 	use dts || myconf+=" --disable-libdca"
 	if ! use mp3; then
@@ -407,7 +412,7 @@ src_configure() {
 	# https://bugs.gentoo.org/show_bug.cgi?id=299405#c6
 	{ use amr && use !bindist ; } || myconf+=" --disable-libopencore_amrnb --disable-libopencore_amrwb"
 
-	uses="faad gif jpeg live mad mng png pnm speex tga theora xanim"
+	uses="faad gif jpeg libmpeg2 live mad mng mpg123 png pnm speex tga theora xanim"
 	for i in ${uses}; do
 		use ${i} || myconf+=" --disable-${i}"
 	done
@@ -480,7 +485,7 @@ src_configure() {
 	use libcaca || myconf+=" --disable-caca"
 	use zoran || myconf+=" --disable-zr"
 
-	if ! use kernel_linux && ! use video_cards_mga; then
+	if ! use kernel_linux || ! use video_cards_mga; then
 		 myconf+=" --disable-mga --disable-xmga"
 	fi
 
@@ -607,7 +612,6 @@ src_configure() {
 		myconf+="
 			--enable-macosx-finder
 			--enable-macosx-bundle
-			--enable-libdvdcss-internal
 		"
 	fi
 
@@ -618,12 +622,12 @@ src_configure() {
 		use external-ffmpeg && myconf+=" --disable-ffmpeg_a"
 	fi
 
-	myconf="--cc=$(tc-getCC) \
-		--host-cc=$(tc-getBUILD_CC) \
-		--prefix=${EPREFIX}/usr \
-		--confdir=${EPREFIX}/etc/mplayer \
-		--datadir=${EPREFIX}/usr/share/mplayer \
-		--libdir=${EPREFIX}/usr/$(get_libdir) \
+	myconf="--cc=$(tc-getCC)
+		--host-cc=$(tc-getBUILD_CC)
+		--prefix=${EPREFIX}/usr
+		--confdir=${EPREFIX}/etc/mplayer
+		--datadir=${EPREFIX}/usr/share/mplayer
+		--libdir=${EPREFIX}/usr/$(get_libdir)
 		${myconf}"
 
 	CFLAGS="${CFLAGS}" ./configure ${myconf} || die "configure died"
