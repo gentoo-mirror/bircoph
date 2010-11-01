@@ -1,6 +1,6 @@
 # Copyright 1999-2010 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/media-sound/audacity/audacity-1.3.12.ebuild,v 1.1 2010/04/12 08:38:53 aballier Exp $
+# $Header: /var/cvsroot/gentoo-x86/media-sound/audacity/audacity-1.3.12.ebuild,v 1.3 2010/10/26 21:22:53 radhermit Exp $
 
 EAPI=2
 
@@ -20,7 +20,7 @@ SLOT="0"
 KEYWORDS="~amd64 ~hppa ~ppc ~ppc64 ~sparc ~x86"
 RESTRICT="test"
 
-COMMON_DEPEND="=x11-libs/wxGTK-2.8*
+COMMON_DEPEND="x11-libs/wxGTK:2.8[X]
 	>=app-arch/zip-2.3
 	>=media-libs/libsndfile-1.0.0
 	dev-libs/expat
@@ -49,6 +49,8 @@ S=${WORKDIR}/${MY_P}
 
 src_prepare() {
 	epatch "${FILESDIR}/${PN}-1.3.12-automagic.patch"
+	epatch "${FILESDIR}/${PN}-1.3.12-gcc45.patch"
+	epatch "${FILESDIR}/${PN}-1.3.12-ffmpeg.patch"
 	AT_M4DIR="${S}/m4" eautoreconf
 	#pkgconfig --cflags causes #273971
 	cd "${S}"
