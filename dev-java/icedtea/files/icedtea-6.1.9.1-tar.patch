@@ -1,0 +1,11 @@
+--- icedtea6-1.9.1/Makefile.am.orig	2010-10-12 17:04:23.000000000 +0400
++++ icedtea6-1.9.1/Makefile.am	2010-11-04 02:26:31.927268225 +0300
+@@ -836,7 +836,7 @@
+ 	if ! test -d openjdk ; \
+ 	then \
+ 	  mkdir openjdk ; \
+-	  $(TAR) xf $(OPENJDK_SRC_ZIP) -C openjdk; \
++	  cd openjdk; $(TAR) xf ../$(OPENJDK_SRC_ZIP); cd .. ; \
+ 	  chmod -R ug+w openjdk ; \
+ 	  sh $(abs_top_srcdir)/fsg.sh ; \
+ 	fi
