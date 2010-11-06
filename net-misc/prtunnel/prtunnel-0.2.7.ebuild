@@ -1,8 +1,8 @@
-# Copyright 1999-2005 Gentoo Foundation
+# Copyright 1999-2010 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-DESCRIPTION="A program that can tunnel TCP/IP connections in a variety of ways, including through HTTP and SOCKS5 proxy servers"
+DESCRIPTION="Tunnels TCP/IP connections in a variety of ways, including through HTTP and SOCKS5 proxy servers"
 HOMEPAGE="http://joshbeam.com/software/prtunnel.php"
 SRC_URI="http://joshbeam.com/files/${P}.tar.gz"
 LICENSE="BSD"
@@ -10,10 +10,11 @@ SLOT="0"
 KEYWORDS="~x86"
 IUSE="ipv6"
 DEPEND="virtual/libc"
+RDEPEND=${DEPEND}
 
 src_unpack() {
 	unpack ${A}
-	cd ${S}
+	cd "${S}"
 	sed -i -e "s:CFLAGS=:CFLAGS+=:" Makefile
 	sed -i -e "s:-o prtunnel:\$\(LDFLAGS\) -o prtunnel:" Makefile
 	use ipv6 || {
@@ -22,7 +23,6 @@ src_unpack() {
 		sed -i -e "s|direct6.o ||" Makefile
 	}
 }
-		
 
 src_compile() {
 	emake || die "emake failed"

@@ -145,10 +145,10 @@ RDEPEND+="
 	schroedinger? ( media-libs/schroedinger )
 	sdl? ( media-libs/libsdl )
 	speex? ( media-libs/speex )
-	svga? (                                                                                                                                
-		svga-helper? ( media-libs/svgalib[kernel-helper] )                                                                             
-		!svga-helper? ( media-libs/svgalib )                                                                                           
-	)                                             
+	svga? (
+		svga-helper? ( media-libs/svgalib[kernel-helper] )
+		!svga-helper? ( media-libs/svgalib )
+	)
 	theora? ( media-libs/libtheora[encode?] )
 	tivo? ( media-libs/vstream-client )
 	truetype? ( ${FONT_RDEPS} )
@@ -624,10 +624,10 @@ src_configure() {
 
 	myconf="--cc=$(tc-getCC)
 		--host-cc=$(tc-getBUILD_CC)
-		--prefix=${EPREFIX}/usr
-		--confdir=${EPREFIX}/etc/mplayer
-		--datadir=${EPREFIX}/usr/share/mplayer
-		--libdir=${EPREFIX}/usr/$(get_libdir)
+		--prefix=\"${EPREFIX}/usr\"
+		--confdir=\"${EPREFIX}/etc/mplayer\"
+		--datadir=\"${EPREFIX}/usr/share/mplayer\"
+		--libdir=\"${EPREFIX}/usr/$(get_libdir)\"
 		${myconf}"
 
 	CFLAGS="${CFLAGS}" ./configure ${myconf} || die "configure died"

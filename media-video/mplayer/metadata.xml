@@ -22,7 +22,6 @@
 	<flag name="external-ffmpeg">Use shared FFmpeg libraries instead of static bundled ones. Discouraged by upstream.</flag>
 	<flag name="faac">Use external faac library for AAC encoding</flag>
 	<flag name="faad">Use external faad library for AAC decoding</flag>
-	<flag name="gmplayer">Build gmplayer, a GTK+ MPlayer gui (UNSUPPORTED)</flag>
 	<flag name="libmpeg2">Build support for mpeg2 over media-libs/libmpeg2 rather than using ffmpeg.</flag>
 	<flag name="live">Enables live.com streaming media support</flag>
 	<flag name="md5sum">Enables md5sum video output</flag>
@@ -45,7 +44,6 @@
 	<flag name="svga">SVGA video output</flag>
 	<flag name="svga-helper">Use SVGA kernel helper for userspace access</flag>
 	<flag name="ssse3">faster floating point optimization for SSSE3 capable chips (Intel Core 2 and later chips)</flag>
-	<flag name="teletext">Support for TV teletext interface</flag>
 	<flag name="tga">Enables Targa video output</flag>
 	<flag name="tivo">Enables vstream client support for TiVo streams</flag>
 	<flag name="toolame">Enable toolame MPEG-2 encoding</flag>

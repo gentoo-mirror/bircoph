@@ -1,4 +1,4 @@
-# Copyright 1999-2009 Gentoo Foundation
+# Copyright 1999-2010 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -25,5 +25,5 @@ src_install() {
 	exeinto /usr/bin/
 	doexe userchroot
 	fperms 4755 /usr/bin/userchroot
-	dodoc CHANGELOG COPYING html/index.xhtml
+	dodoc CHANGELOG html/index.xhtml
 }

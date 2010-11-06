@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
-<herd>noherd</herd>
+<herd>no-herd</herd>
 <maintainer>
   <email>slyfox@inbox.ru</email>
 </maintainer>
 <use>
-  <!-- old flags -->
-  <flag name='7zip'>Add support for 7zip archives</flag>
-  <flag name='attrs'>Add support for viewing/editing extended attributes (highly unstable)</flag>
-  <flag name='dnotify'>Add support for notify infrastructure (highly unstable)</flag>
-
   <flag name='background'>Add support for background jobs</flag>
   <flag name='editor'>Add support for mcedit (some people don't use it)</flag>
   <flag name='ext2undel'>Add support for undelete feature on ext2fs</flag>

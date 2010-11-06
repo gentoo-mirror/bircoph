@@ -1,4 +1,4 @@
-# Copyright 1999-2008 Gentoo Foundation
+# Copyright 1999-2010 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/app-cdr/xbiso/xbiso-0.6.1.ebuild,v 1.5 2008/06/21 08:18:17 opfer Exp $
 
@@ -16,7 +16,7 @@ KEYWORDS="~amd64 ~ppc x86"
 IUSE=""
 
 src_prepare() {
-	epatch ${FILESDIR}/${P}-lm.patch
+	epatch "${FILESDIR}/${P}-lm.patch"
 	eautoreconf
 }
 

@@ -158,7 +158,10 @@ src_unpack() {
 		die "Unable to find a supported VM for building"
 	fi
 	unpack ${ICEDTEA_PKG}.tar.gz
-	epatch ${FILESDIR}/${P}-tar.patch
+}
+
+src_prepare() {
+	epatch "${FILESDIR}/${P}-tar.patch"
 }
 
 unset_vars() {

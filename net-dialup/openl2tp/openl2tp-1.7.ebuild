@@ -1,4 +1,4 @@
-# Copyright 1999-2008 Gentoo Foundation
+# Copyright 1999-2010 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -109,7 +109,7 @@ src_compile() {
 }
 
 src_install() {
-	emake ${myconf} DESTDIR=${D} install || die "emake install failed"
+	emake ${myconf} DESTDIR="${D}" install || die "emake install failed"
 	dodoc CHANGES INSTALL README
 
 	if use doc; then
