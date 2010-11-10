@@ -1,6 +1,6 @@
 diff -Naur openl2tp-1.7.base/Makefile openl2tp-1.7/Makefile
 --- openl2tp-1.7.base/Makefile	2010-11-10 19:12:31.000000000 +0300
-+++ openl2tp-1.7/Makefile	2010-11-10 20:15:09.916132583 +0300
++++ openl2tp-1.7/Makefile	2010-11-10 20:59:36.738299663 +0300
 @@ -103,6 +103,10 @@
  			l2tp_network.c l2tp_tunnel.c l2tp_peer.c l2tp_transport.c \
  			l2tp_session.c l2tp_ppp.c \
@@ -128,7 +128,7 @@ diff -Naur openl2tp-1.7.base/cli/cli_util.h openl2tp-1.7/cli/cli_util.h
 +int cli_resolveip(const char *val, struct in_addr *ip);
 diff -Naur openl2tp-1.7.base/l2tp_config_token.l openl2tp-1.7/l2tp_config_token.l
 --- openl2tp-1.7.base/l2tp_config_token.l	2010-03-10 17:18:51.000000000 +0300
-+++ openl2tp-1.7/l2tp_config_token.l	2010-11-10 20:19:08.985957657 +0300
++++ openl2tp-1.7/l2tp_config_token.l	2010-11-10 21:04:05.626779747 +0300
 @@ -2,9 +2,7 @@
  
  #include <sys/types.h>
@@ -147,6 +147,15 @@ diff -Naur openl2tp-1.7.base/l2tp_config_token.l openl2tp-1.7/l2tp_config_token.
  
  void yyfatal(const char *s);
  void yyerror(const char *s);
+@@ -44,7 +43,7 @@
+ quotedstring	\"[^"]*\"
+ decstring	{digit}+
+ hexstring	(0x|0X){hexdigit}+
+-ipaddress	{decstring}\.{decstring}\.{decstring}\.{decstring}
++ipaddress	.+
+ name		{letter}(({letter}|{digit}|{hyphen}|{underscore})*({letter}|{digit}))*
+ hostname	{name}(({dot}{name})+{dot}?)?
+ bool		yes|no|on|off
 @@ -273,7 +272,7 @@
  
  {ipaddress}	{
