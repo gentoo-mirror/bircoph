@@ -128,7 +128,7 @@ diff -Naur openl2tp-1.7.base/cli/cli_util.h openl2tp-1.7/cli/cli_util.h
 +int cli_resolveip(const char *val, struct in_addr *ip);
 diff -Naur openl2tp-1.7.base/l2tp_config_token.l openl2tp-1.7/l2tp_config_token.l
 --- openl2tp-1.7.base/l2tp_config_token.l	2010-03-10 17:18:51.000000000 +0300
-+++ openl2tp-1.7/l2tp_config_token.l	2010-11-10 21:53:12.097565619 +0300
++++ openl2tp-1.7/l2tp_config_token.l	2010-11-10 22:14:41.091005021 +0300
 @@ -2,9 +2,7 @@
  
  #include <sys/types.h>
@@ -153,7 +153,8 @@ diff -Naur openl2tp-1.7.base/l2tp_config_token.l openl2tp-1.7/l2tp_config_token.
  hexstring	(0x|0X){hexdigit}+
 -ipaddress	{decstring}\.{decstring}\.{decstring}\.{decstring}
  name		{letter}(({letter}|{digit}|{hyphen}|{underscore})*({letter}|{digit}))*
- hostname	{name}(({dot}{name})+{dot}?)?
+-hostname	{name}(({dot}{name})+{dot}?)?
++hostname	{name}{dot}(({name}{dot}?)+)?
 +ipaddress	{decstring}\.{decstring}\.{decstring}\.{decstring}|{hostname}
  bool		yes|no|on|off
  linecont	{backslash}{nl}
