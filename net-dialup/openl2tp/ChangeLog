@@ -2,6 +2,14 @@
 # Copyright 2000-2010 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+*openl2tp-1.7-r2.ebuild (10 Nov 2010)
+
+  10 Nov 2010; Andrew Savchenko <bircoph@gmail.com> 
+  +openl2tp-1.7-r2.ebuild, -openl2tp-1.7-r1.ebuild,
+  files/openl2tp-1.7-resolveip.patch:
+  Fix hostname parsing for non-rpc setup.
+  Warn about damn buggy flex parser.
+
 *openl2tp-1.7-r1.ebuild (10 Nov 2010)
 
   10 Nov 2010; Andrew Savchenko <bircoph@gmail.com>
