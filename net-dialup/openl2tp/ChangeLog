@@ -3,6 +3,10 @@
 # $Header: $
 
   10 Nov 2010; Andrew Savchenko <bircoph@gmail.com>
+  +files/openl2tp-1.7-ppp_auth_args.patch:
+  Apply upstream patch to fix ppp auth args passing.
+
+  10 Nov 2010; Andrew Savchenko <bircoph@gmail.com>
   files/openl2tpd.conf.sample:
   Update sample config file with more reliable and practically
   verified defaults.
