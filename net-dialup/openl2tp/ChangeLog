@@ -2,6 +2,16 @@
 # Copyright 2000-2010 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+*openl2tp-1.7-r1.ebuild (10 Nov 2010)
+
+  10 Nov 2010; Andrew Savchenko <bircoph@gmail.com>
+  files/openl2tpd.conf.sample:
+  Update sample config file for hostname example.
+
+  10 Nov 2010; Andrew Savchenko <bircoph@gmail.com>
+  +files/openl2tp-1.7-resolveip.patch:
+  Allow to use host names instead of ipaddresses.
+
   10 Nov 2010; Andrew Savchenko <bircoph@gmail.com>
   +files/openl2tp-1.7-ppp_auth_args.patch:
   Apply upstream patch to fix ppp auth args passing.

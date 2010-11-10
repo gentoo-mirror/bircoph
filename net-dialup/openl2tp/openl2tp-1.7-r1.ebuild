@@ -64,6 +64,8 @@ src_prepare() {
 	# apply upstream patch for pppd auth args fix:
 	# ftp://ftp.openl2tp.org/releases/openl2tp-1.7/openl2tp-fix_ppp_auth_args.patch
 	epatch "${FILESDIR}/${P}-ppp_auth_args.patch"
+	# add support for host names in the config
+	epatch "${FILESDIR}/${P}-resolveip.patch"
 }
 
 src_configure() {

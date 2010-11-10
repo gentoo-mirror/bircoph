@@ -19,7 +19,7 @@ ppp profile modify \
 
 tunnel create \
     tunnel_name=campus \
-    dest_ipaddr=my_l2tp_provider_ip \
+    dest_ipaddr=my.l2tp.provider \
     use_udp_checksums=off \
     persist=yes
 
