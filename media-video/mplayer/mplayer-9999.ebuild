@@ -624,10 +624,10 @@ src_configure() {
 
 	myconf="--cc=$(tc-getCC)
 		--host-cc=$(tc-getBUILD_CC)
-		--prefix=\"${EPREFIX}/usr\"
-		--confdir=\"${EPREFIX}/etc/mplayer\"
-		--datadir=\"${EPREFIX}/usr/share/mplayer\"
-		--libdir=\"${EPREFIX}/usr/$(get_libdir)\"
+		--prefix=${EPREFIX}/usr
+		--confdir=${EPREFIX}/etc/mplayer
+		--datadir=${EPREFIX}/usr/share/mplayer
+		--libdir=${EPREFIX}/usr/$(get_libdir)
 		${myconf}"
 
 	CFLAGS="${CFLAGS}" ./configure ${myconf} || die "configure died"
