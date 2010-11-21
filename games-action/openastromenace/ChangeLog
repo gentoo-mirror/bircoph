@@ -1,0 +1,38 @@
+# ChangeLog for games-action/openastromenace
+# Copyright 1999-2010 Gentoo Foundation; Distributed under the GPL v2
+# $Header: /var/cvsroot/gentoo-x86/games-action/openastromenace/ChangeLog,v 1.8 2010/04/11 00:54:28 mr_bones_ Exp $
+
+  11 Apr 2010; Michael Sterrett <mr_bones_@gentoo.org>
+  openastromenace-1.2.0.ebuild, +files/openastromenace-1.2.0-mesa.patch:
+  Add patch from Andrew Savchenko to build against newer mesa versions (bug
+  #288340)
+
+  17 Dec 2009; Pacho Ramos <pacho@gentoo.org> openastromenace-1.2.0.ebuild:
+  amd64 stable, bug 295711
+
+  09 Dec 2009; Christian Faulhammer <fauli@gentoo.org>
+  openastromenace-1.2.0.ebuild:
+  stable x86, bug 295711
+
+  04 Nov 2009; Michael Sterrett <mr_bones_@gentoo.org>
+  openastromenace-1.2.0.ebuild:
+  Actually work with LINGUAS support (bug #234729)
+
+  27 May 2009; Tristan Heaven <nyhm@gentoo.org>
+  openastromenace-1.2.0.ebuild:
+  Use cmake-utils eclass, bug #267776
+
+  20 Mar 2009; Michael Sterrett <mr_bones_@gentoo.org>
+  openastromenace-1.2.0.ebuild:
+  EAPI=2; add joystick use flag for bug #262974
+
+  03 Jun 2008; Tristan Heaven <nyhm@gentoo.org>
+  +files/openastromenace-1.2.0-cmake.patch, openastromenace-1.2.0.ebuild:
+  Fix build error with cmake-2.6
+
+*openastromenace-1.2.0 (08 May 2008)
+
+  08 May 2008; Tristan Heaven <nyhm@gentoo.org> +metadata.xml,
+  +openastromenace-1.2.0.ebuild:
+  Initial commit, bug #204530
+

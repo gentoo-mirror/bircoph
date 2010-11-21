@@ -18,7 +18,7 @@ IUSE="tiff jpeg png"
 RDEPEND="x11-libs/libX11
 	tiff? ( media-libs/tiff )
 	png? ( media-libs/libpng )
-	jpeg? ( media-libs/jpeg:0 )"
+	jpeg? ( virtual/jpeg:0 )"
 DEPEND="${RDEPEND}
 	!media-gfx/xli"
 
