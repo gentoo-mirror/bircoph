@@ -117,7 +117,7 @@ src_install() {
 	fi
 
 	if use doc; then
-		dodoc doc/*.txt "${FILESDIR}"/openl2tpd.conf.sample
+		dodoc doc/*.txt doc/README.event_sock "${FILESDIR}"/openl2tpd.conf.sample
 		newdoc plugins/README README.plugins
 		use pppd && newdoc pppd/README README.pppd
 		docinto ipsec
