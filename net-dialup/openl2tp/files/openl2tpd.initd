@@ -19,7 +19,7 @@ check_module () {
     if ! [[ -f /proc/net/pppol2tp ]]; then
     ebegin "Loading l2tp module"
     # try both new and old module names
-	modprobe l2tp_ppp 2>/dev/null || modprobe pppol2tp
+	modprobe l2tp_ppp 2>/dev/null || modprobe pppol2tp 2>/dev/null
     eend $? 
     fi
 }
