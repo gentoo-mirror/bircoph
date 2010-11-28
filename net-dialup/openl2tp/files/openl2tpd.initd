@@ -2,6 +2,7 @@
 # Copyright 1999-2010 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
+opts="start stop restart"
 userpc="yes"
 
 bin=/usr/sbin/openl2tpd
@@ -14,8 +15,7 @@ depend() {
     use racoon ipsec
 }
 
-check_module ()
-{
+check_module () {
     if ! [[ -f /proc/net/pppol2tp ]]; then
     ebegin "Loading l2tp module"
     # try both new and old module names
@@ -24,7 +24,7 @@ check_module ()
     fi
 }
 
-start(){
+start() {
     check_module
     ebegin "Starting openl2tpd"
     # if rpc is enabled do not read config file by daemon (has bugs),
@@ -46,7 +46,7 @@ start(){
     eend $?
 }
 
-stop(){
+stop() {
     ebegin "Stopping openl2tpd"
     start-stop-daemon --stop --quiet --exec ${bin} --pidfile ${pid}
     eend $?
