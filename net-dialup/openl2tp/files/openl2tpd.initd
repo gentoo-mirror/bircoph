@@ -52,7 +52,7 @@ stop() {
     eend $?
 }
 
-restart(){
+restart() {
     svc_stop
     # wait for pppd to shutdown
     sleep 1

@@ -142,9 +142,9 @@ pkg_postinst() {
 	else
 		ewarn
 		ewarn "Without RPC support you won't be able to use l2tpconfig."
-		ewarn "Warning: config file parser is buggy due to flex braindead parsing logincs"
-		ewarn "and will deny you to use numerical login names, passwords with special"
-		ewarn "characters, short hostnames without dot symbol and many more."
+		ewarn "If you are using numerical strings (e.g. login name containing only"
+		ewarn "digits) or special characters in password, please use double quotes"
+		ewarn "to enclose them."
 	fi
 	if use stats; then
 		ewarn
