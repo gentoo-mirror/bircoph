@@ -2,6 +2,19 @@
 # Copyright 2000-2010 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+*openl2tp-1.8-r1.ebuild (28 Nov 2010)
+
+  6 Dec 2010; Andrew Savchenko <bircoph@gmail.com> 
+  files/openl2tpd.initd:
+  Use dns daemon too.
+
+*openl2tp-1.8.ebuild (28 Nov 2010)
+
+  28 Nov 2010; Andrew Savchenko <bircoph@gmail.com> 
+  +openl2tp-1.8.ebuild, openl2tp-1.8-ldflags.patch,
+  +openl2tp-1.8-pppd.patch,+openl2tp-1.8-werror.patch:
+  Bump for the new version.
+
 *openl2tp-1.7-r2.ebuild (10 Nov 2010)
 
   10 Nov 2010; Andrew Savchenko <bircoph@gmail.com> 

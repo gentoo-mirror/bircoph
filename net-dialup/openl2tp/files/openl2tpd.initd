@@ -12,7 +12,7 @@ pid=/var/run/openl2tpd.pid
 depend() {
     need net
     [[ $userpc == "yes" ]] && need portmap
-    use racoon ipsec
+    use dns ipsec racoon
 }
 
 check_module () {
