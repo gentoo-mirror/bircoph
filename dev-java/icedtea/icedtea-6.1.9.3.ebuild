@@ -1,6 +1,6 @@
 # Copyright 1999-2010 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/dev-java/icedtea/icedtea-6.1.9.1.ebuild,v 1.3 2010/11/26 22:07:44 caster Exp $
+# $Header: /var/cvsroot/gentoo-x86/dev-java/icedtea/icedtea-6.1.9.3.ebuild,v 1.2 2010/12/02 19:38:54 caster Exp $
 # Build written by Andrew John Hughes (gnu_andrew@member.fsf.org)
 
 # *********************************************************
@@ -24,13 +24,13 @@ OPENJDK_TARBALL="openjdk-6-src-b${OPENJDK_BUILD}-${OPENJDK_DATE}.tar.gz"
 JAXP_TARBALL="jdk6-jaxp-b20.zip"
 JAXWS_TARBALL="jdk6-jaxws-b20.zip"
 JAF_TARBALL="jdk6-jaf-b20.zip"
-HOTSPOT_TARBALL="0803c0f69b51.tar.gz"
+HOTSPOT_TARBALL="13edc857b967.tar.gz"
 CACAO_TARBALL="e321b101a9ee.tar.bz2"
 SRC_URI="http://icedtea.classpath.org/download/source/${ICEDTEA_PKG}.tar.gz
 		 http://download.java.net/openjdk/jdk6/promoted/b${OPENJDK_BUILD}/${OPENJDK_TARBALL}
-		 https://jax-ws.dev.java.net/files/documents/4202/150724/${JAXWS_TARBALL}
-		 https://jax-ws.dev.java.net/files/documents/4202/150725/${JAF_TARBALL}
-		 https://jaxp.dev.java.net/files/documents/913/150648/${JAXP_TARBALL}
+		 http://icedtea.classpath.org/download/drops/${JAXWS_TARBALL}
+		 http://icedtea.classpath.org/download/drops/${JAF_TARBALL}
+		 http://icedtea.classpath.org/download/drops/${JAXP_TARBALL}
 		 http://hg.openjdk.java.net/hsx/hsx19/master/archive/${HOTSPOT_TARBALL}
 		 cacao? ( http://mips.complang.tuwien.ac.at/hg/cacao/archive/${CACAO_TARBALL} )"
 HOMEPAGE="http://icedtea.classpath.org"
@@ -38,7 +38,7 @@ S=${WORKDIR}/${ICEDTEA_PKG}
 
 # Missing options:
 # shark - needs adding
-IUSE="cacao debug doc examples +hs19 javascript nio2 nsplugin +nss pulseaudio systemtap +xrender zero"
+IUSE="cacao debug doc examples +hs19 javascript nio2 +nsplugin +nss pulseaudio systemtap +webstart +xrender zero"
 
 # JTReg doesn't pass at present
 RESTRICT="test"
@@ -121,6 +121,11 @@ pkg_setup() {
 #		die "Rebuild without the shark USE flag on or with the zero USE flag turned on."
 #	  fi
 #	fi
+
+	if use nsplugin && ! use webstart ; then
+		eerror "WebStart is required if building the plugin."
+		die 'Re-try with USE="webstart"'
+	fi
 
 	# quite a hack since java-config does not provide a way for a package
 	# to limit supported VM's for building and their preferred order
@@ -226,6 +231,7 @@ src_configure() {
 		$(use_enable systemtap) \
 		$(use_enable nio2) \
 		$(use_enable nss) \
+		$(use_enable webstart) \
 		|| die "configure failed"
 }
 
