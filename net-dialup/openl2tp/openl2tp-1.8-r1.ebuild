@@ -13,7 +13,7 @@ SRC_URI="mirror://sourceforge/openl2tp/${P}.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="+client doc examples pppd rpc server -stats"
+IUSE="+client doc +examples pppd rpc server -stats"
 
 CDEPEND="net-dialup/ppp
 	sys-libs/readline
