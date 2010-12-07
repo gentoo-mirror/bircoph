@@ -1,0 +1,8 @@
+# ChangeLog for dev-python/bind2nsd
+# Copyright 2000-2010 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+*dev-python/bind2nsd-0.7.2.ebuild (07 Nov 2010)
+
+  07 Nov 2010; Andrew Savchenko <bircoph@gmail.com> +bind2nsd-0.7.2.ebuild:
+  Initial ebuild for this overlay.
