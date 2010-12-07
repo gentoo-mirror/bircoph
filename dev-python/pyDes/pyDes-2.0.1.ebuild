@@ -1,6 +1,6 @@
 # Copyright 1999-2010 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/dev-python/pexpect/pexpect-2.4.ebuild,v 1.9 2010/04/30 14:50:13 grobian Exp $
+# $Header: $
 
 EAPI="3"
 SUPPORT_PYTHON_ABIS="1"
