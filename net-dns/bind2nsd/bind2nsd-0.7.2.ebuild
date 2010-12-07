@@ -5,7 +5,7 @@
 EAPI="3"
 SUPPORT_PYTHON_ABIS="1"
 
-inherit distutils
+inherit distutils eutils
 
 DESCRIPTION="Program to translate DNS information in BIND format to NSD format"
 HOMEPAGE="http://bind2nsd.sourceforge.net"
@@ -26,3 +26,7 @@ RDEPEND="${DEPEND}
 "
 
 RESTRICT_PYTHON_ABIS="3.*"
+
+src_prepare() {
+	epatch "${FILESDIR}/${P}-bind-sysconfig.patch"
+}
