@@ -1,0 +1,9 @@
+# ChangeLog for dev-python/pyDes
+# Copyright 2000-2010 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+*dev-python/pyDes-2.01.ebuild (07 Nov 2010)
+
+  07 Nov 2010; Andrew Savchenko <bircoph@gmail.com> +pyDes-2.01.ebuild:
+  Initial ebuild for this overlay.
+  This packages is required for bind2nsd conversion utility.
