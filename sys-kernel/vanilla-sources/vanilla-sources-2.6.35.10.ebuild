@@ -13,7 +13,8 @@ detect_version
 
 DESCRIPTION="Full sources for the Linux kernel"
 HOMEPAGE="http://www.kernel.org"
-SRC_URI="mirror://kernel/linux/kernel/v${KV_MAJOR}.${KV_MINOR}/longterm/v${KV_MAJOR}.${KV_MINOR}.${KV_PATCH}/linux-${OKV}.tar.bz2"
+SRC_URI="mirror://kernel/linux/kernel/v${KV_MAJOR}.${KV_MINOR}/longterm/v${KV_MAJOR}.${KV_MINOR}.${KV_PATCH}/linux-${OKV}.tar.bz2
+mirror://kernel/linux/kernel/v${KV_MAJOR}.${KV_MINOR}/longterm/v${KV_MAJOR}.${KV_MINOR}.${KV_PATCH}/patch-${CKV}.bz2"
 
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~sh ~sparc ~x86"
 IUSE="deblob"
