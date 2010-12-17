@@ -60,5 +60,5 @@ src_configure() {
 
 src_install() {
 	emake DESTDIR="${D}" install || die "install failed"
-	dodoc COPYING HACKING INSTALL NEWS README TODO
+	dodoc HACKING INSTALL NEWS README TODO
 }
