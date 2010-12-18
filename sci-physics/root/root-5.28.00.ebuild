@@ -25,7 +25,7 @@ SRC_URI="ftp://root.cern.ch/${PN}/${PN}_v${PV}.source.tar.gz
 SLOT="0"
 LICENSE="LGPL-2.1"
 KEYWORDS="~amd64 ~hppa ~sparc ~x86"
-IUSE="afs clarens doc emacs examples fftw fits graphviz kerberos ldap
+IUSE="afs avahi clarens doc emacs examples fftw fits graphviz kerberos ldap
 	+math mysql	odbc +opengl openmp oracle postgres pythia6 pythia8 python
 	+reflex	ruby qt4 ssl xft xml xinetd xrootd"
 
@@ -44,6 +44,7 @@ CDEPEND=">=dev-lang/cfortran-4.4-r2
 	x11-libs/libXpm
 	x11-libs/libXft
 	afs? ( >=net-fs/openafs-1.4.7 )
+	avahi? ( net-dns/avahi )
 	clarens? ( dev-libs/xmlrpc-c )
 	emacs? ( virtual/emacs )
 	fftw? ( sci-libs/fftw:3.0 )
@@ -168,6 +169,7 @@ src_configure() {
 		--fail-on-missing \
 		--with-afs-shared=yes \
 		$(use_enable afs) \
+		$(use_enable avahi bonjour) \
 		$(use_enable clarens) \
 		$(use_enable clarens peac) \
 		$(use_enable fftw fftw3) \
