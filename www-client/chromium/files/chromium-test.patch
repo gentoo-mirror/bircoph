@@ -1,0 +1,11 @@
+--- trunk/src/base/watchdog_unittest.cc	2010/12/11 09:13:54	68932
++++ trunk/src/base/watchdog_unittest.cc	2010/12/11 09:23:32	68933
+@@ -86,7 +86,7 @@
+ 
+ // Make sure a basic alarm fires when the time has expired.
+ TEST_F(WatchdogTest, AlarmPriorTimeTest) {
+-  WatchdogCounter watchdog(TimeDelta::TimeDelta(), "Enabled2", true);
++  WatchdogCounter watchdog(TimeDelta(), "Enabled2", true);
+   // Set a time in the past.
+   watchdog.ArmSomeTimeDeltaAgo(TimeDelta::FromSeconds(2));
+   // It should instantly go off, but certainly in less than 5 minutes.

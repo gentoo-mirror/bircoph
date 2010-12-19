@@ -107,6 +107,9 @@ src_prepare() {
 	# Make sure we don't use bundled libvpx headers.
 	epatch "${FILESDIR}"/${PN}-system-vpx-r1.patch
 
+	# Fix build with tests
+	epatch "${FILESDIR}"/${PN}-test.patch
+
 	remove_bundled_lib "third_party/bzip2"
 	remove_bundled_lib "third_party/codesighs"
 	remove_bundled_lib "third_party/icu"
