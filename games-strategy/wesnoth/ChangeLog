@@ -1,6 +1,220 @@
 # ChangeLog for games-strategy/wesnoth
-# Copyright 2000-2009 Gentoo Foundation; Distributed under the GPL v2
-# $Header: /var/cvsroot/gentoo-x86/games-strategy/wesnoth/ChangeLog,v 1.140 2009/03/23 02:14:13 mr_bones_ Exp $
+# Copyright 1999-2010 Gentoo Foundation; Distributed under the GPL v2
+# $Header: /var/cvsroot/gentoo-x86/games-strategy/wesnoth/ChangeLog,v 1.192 2010/12/05 16:27:54 hwoarang Exp $
+
+  05 Dec 2010; Markos Chandras <hwoarang@gentoo.org> wesnoth-1.8.5.ebuild:
+  Stable on amd64 wrt bug #345267
+
+  15 Nov 2010; Thomas Kahle <tomka@gentoo.org> wesnoth-1.8.5.ebuild:
+  x86 stable per bug 345267
+
+  12 Oct 2010; Raúl Porcel <armin76@gentoo.org> wesnoth-1.6.5.ebuild,
+  wesnoth-1.8.2.ebuild, wesnoth-1.8.4.ebuild, wesnoth-1.8.5.ebuild:
+  Drop sparc keywords
+
+*wesnoth-1.8.5 (28 Sep 2010)
+
+  28 Sep 2010; Michael Sterrett <mr_bones_@gentoo.org>
+  +wesnoth-1.8.5.ebuild:
+  version bump
+
+  26 Sep 2010; Markos Chandras <hwoarang@gentoo.org> wesnoth-1.8.4.ebuild:
+  Stable on amd64 wrt bug #336408
+
+  15 Sep 2010; Joseph Jezak <josejx@gentoo.org> wesnoth-1.8.4.ebuild:
+  Marked ppc/ppc64 stable for bug #336408.
+
+  12 Sep 2010; Pawel Hajdan jr <phajdan.jr@gentoo.org> wesnoth-1.8.4.ebuild:
+  x86 stable wrt bug #336408
+
+*wesnoth-1.8.4 (08 Aug 2010)
+
+  08 Aug 2010; Michael Sterrett <mr_bones_@gentoo.org>
+  +wesnoth-1.8.4.ebuild:
+  version bump
+
+  19 Jul 2010; Joseph Jezak <josejx@gentoo.org> wesnoth-1.8.2.ebuild:
+  Marked ppc/ppc64 stable for bug #326369.
+
+  11 Jul 2010; Christian Faulhammer <fauli@gentoo.org> wesnoth-1.8.2.ebuild:
+  stable x86, bug 326369
+
+  06 Jul 2010; Markos Chandras <hwoarang@gentoo.org> wesnoth-1.8.2.ebuild:
+  Stable on amd64 wrt bug #326369
+
+*wesnoth-1.8.3 (05 Jul 2010)
+
+  05 Jul 2010; Michael Sterrett <mr_bones_@gentoo.org>
+  +wesnoth-1.8.3.ebuild:
+  version bump
+
+*wesnoth-1.8.2 (31 May 2010)
+
+  31 May 2010; Michael Sterrett <mr_bones_@gentoo.org>
+  +wesnoth-1.8.2.ebuild:
+  version bump
+
+*wesnoth-1.8.1 (01 May 2010)
+
+  01 May 2010; Michael Sterrett <mr_bones_@gentoo.org>
+  +wesnoth-1.8.1.ebuild:
+  version bump
+
+  09 Apr 2010; Michael Sterrett <mr_bones_@gentoo.org> wesnoth-1.8.ebuild:
+  Don't force the boost slot to 0 (bug #311635)
+
+  07 Apr 2010; Michael Sterrett <mr_bones_@gentoo.org> wesnoth-1.8.ebuild:
+  another attempt at sane boost handling
+
+  07 Apr 2010; Michael Sterrett <mr_bones_@gentoo.org> wesnoth-1.8.ebuild:
+  Expose the actual build commands to confirm proper behavior
+
+  02 Apr 2010; Michael Sterrett <mr_bones_@gentoo.org> wesnoth-1.8.ebuild:
+  Clamp amd64 to the one version of boost that works for them.
+
+  27 Mar 2010; Michael Sterrett <mr_bones_@gentoo.org> wesnoth-1.8.ebuild:
+  correct boost:0 handling (bug #311635)
+
+  26 Mar 2010; Michael Sterrett <mr_bones_@gentoo.org> wesnoth-1.8.ebuild:
+  Doesn't work with some boost versions so build/link against specific
+  versions
+
+*wesnoth-1.8 (25 Mar 2010)
+
+  25 Mar 2010; Michael Sterrett <mr_bones_@gentoo.org>
+  -wesnoth-1.7.15.ebuild, +wesnoth-1.8.ebuild:
+  version bump
+
+  16 Mar 2010; Michael Sterrett <mr_bones_@gentoo.org> wesnoth-1.6.5.ebuild,
+  wesnoth-1.7.15.ebuild:
+  make mycmakeargs an array
+
+*wesnoth-1.7.15 (15 Mar 2010)
+
+  15 Mar 2010; Michael Sterrett <mr_bones_@gentoo.org>
+  +wesnoth-1.7.15.ebuild:
+  masked version bump
+
+*wesnoth-1.7.14 (08 Mar 2010)
+
+  08 Mar 2010; Michael Sterrett <mr_bones_@gentoo.org>
+  -wesnoth-1.7.13.ebuild, +wesnoth-1.7.14.ebuild:
+  masked version bump
+
+  28 Feb 2010; Michael Sterrett <mr_bones_@gentoo.org>
+  wesnoth-1.7.13.ebuild:
+  allow media-gfx/graphicsmagick to provide image conversion
+
+*wesnoth-1.7.13 (10 Feb 2010)
+
+  10 Feb 2010; Michael Sterrett <mr_bones_@gentoo.org>
+  +wesnoth-1.7.13.ebuild:
+  masked version bump
+
+  09 Feb 2010; Michael Sterrett <mr_bones_@gentoo.org>
+  wesnoth-1.7.12.ebuild:
+  add dbus support
+
+*wesnoth-1.7.12 (18 Jan 2010)
+
+  18 Jan 2010; Michael Sterrett <mr_bones_@gentoo.org>
+  +wesnoth-1.7.12.ebuild:
+  masked version bump
+
+  31 Dec 2009; Michael Sterrett <mr_bones_@gentoo.org>
+  wesnoth-1.7.11.ebuild:
+  needs lua to build as well (bug #299068)
+
+  31 Dec 2009; Brent Baude <ranger@gentoo.org> wesnoth-1.6.5.ebuild:
+  Marking wesnoth-1.6.5 ppc64 for bug 288631
+
+*wesnoth-1.7.11 (30 Dec 2009)
+
+  30 Dec 2009; Michael Sterrett <mr_bones_@gentoo.org>
+  +wesnoth-1.7.11.ebuild:
+  masked beta version bump
+
+  22 Nov 2009; Mounir Lamouri <volkmar@gentoo.org> wesnoth-1.6.5.ebuild:
+  Stable for ppc, bug 288631
+
+  18 Nov 2009; Raúl Porcel <armin76@gentoo.org> wesnoth-1.6.5.ebuild:
+  sparc/x86 stable wrt #288631
+
+  23 Oct 2009; Richard Freeman <rich0@gentoo.org> wesnoth-1.6.5.ebuild:
+  amd64 stable - 288631
+
+  03 Oct 2009; Joseph Jezak <josejx@gentoo.org> wesnoth-1.6.4.ebuild:
+  Marked ppc stable for bug #278981.
+
+  26 Sep 2009; Brent Baude <ranger@gentoo.org> wesnoth-1.6.4.ebuild:
+  Marking wesnoth-1.6.4 ppc64 for bug 278981
+
+*wesnoth-1.6.5 (07 Sep 2009)
+
+  07 Sep 2009; Michael Sterrett <mr_bones_@gentoo.org>
+  +wesnoth-1.6.5.ebuild:
+  version bump
+
+  26 Aug 2009; Raúl Porcel <armin76@gentoo.org> wesnoth-1.6.4.ebuild:
+  sparc stable wrt #278981
+
+  02 Aug 2009; Markus Meier <maekke@gentoo.org> wesnoth-1.6.4.ebuild:
+  x86 stable, bug #278981
+
+  02 Aug 2009; <chainsaw@gentoo.org> wesnoth-1.6.4.ebuild:
+  Marked stable on AMD64 as requested by Michael "Mr. Bones" Sterrett
+  <mr_bones_@gentoo.org> in bug #278981. Played first tutorial on a dual
+  hex-core Opteron with USE="nls -dedicated -server -tinygui". Quoted two
+  variables.
+
+*wesnoth-1.6.4 (06 Jul 2009)
+
+  06 Jul 2009; Michael Sterrett <mr_bones_@gentoo.org>
+  +wesnoth-1.6.4.ebuild:
+  version bump
+
+*wesnoth-1.6.3 (22 Jun 2009)
+
+  22 Jun 2009; Michael Sterrett <mr_bones_@gentoo.org>
+  +wesnoth-1.6.3.ebuild:
+  version bump
+
+  01 Jun 2009; Michael Sterrett <mr_bones_@gentoo.org>
+  -files/config.h.cmake, -files/no-python.patch, -wesnoth-1.4.7-r1.ebuild:
+  clean old ebuild and files
+
+  01 Jun 2009; nixnut <nixnut@gentoo.org> wesnoth-1.6.2.ebuild:
+  ppc stable #271175
+
+  31 May 2009; Markus Meier <maekke@gentoo.org> wesnoth-1.6.2.ebuild:
+  amd64 stable, bug #271175
+
+  31 May 2009; Brent Baude <ranger@gentoo.org> wesnoth-1.6.2.ebuild:
+  Marking wesnoth-1.6.2 ppc64 for bug 271175
+
+  27 May 2009; Christian Faulhammer <fauli@gentoo.org> wesnoth-1.6.2.ebuild:
+  stable x86, bug 271175
+
+  25 May 2009; Ferris McCormick <fmccor@gentoo.org> wesnoth-1.6.2.ebuild:
+  Sparc stable, Bug #271175.
+
+*wesnoth-1.6.2 (11 May 2009)
+
+  11 May 2009; Michael Sterrett <mr_bones_@gentoo.org>
+  +wesnoth-1.6.2.ebuild:
+  version bump
+
+  16 Apr 2009; Michael Sterrett <mr_bones_@gentoo.org> wesnoth-1.6.1.ebuild:
+  fix the desktop files install (bug #263666)
+
+*wesnoth-1.6.1 (13 Apr 2009)
+
+  13 Apr 2009; Michael Sterrett <mr_bones_@gentoo.org>
+  +files/config.h.cmake, +wesnoth-1.6.1.ebuild:
+  version bump
+
+  24 Mar 2009; Michael Sterrett <mr_bones_@gentoo.org> wesnoth-1.6a.ebuild:
+  touchups; install desktop files (bug #263666)
 
 *wesnoth-1.6a (23 Mar 2009)
 
