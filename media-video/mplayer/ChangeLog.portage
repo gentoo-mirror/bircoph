@@ -1,6 +1,22 @@
 # ChangeLog for media-video/mplayer
-# Copyright 1999-2010 Gentoo Foundation; Distributed under the GPL v2
-# $Header: /var/cvsroot/gentoo-x86/media-video/mplayer/ChangeLog,v 1.768 2010/11/14 15:13:00 polynomial-c Exp $
+# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# $Header: /var/cvsroot/gentoo-x86/media-video/mplayer/ChangeLog,v 1.771 2011/01/02 19:57:12 klausman Exp $
+
+  02 Jan 2011; Tobias Klausmann <klausman@gentoo.org>
+  mplayer-1.0_rc4_p20101114.ebuild:
+  Stable on alpha, bug #343977
+
+  02 Jan 2011; Alexis Ballier <aballier@gentoo.org> mplayer-9999.ebuild:
+  The internal copy of faad2 is gone, bug #350316
+
+*mplayer-1.0_rc4_p20101219 (19 Dec 2010)
+
+  19 Dec 2010; Tomáš Chvátal <scarabeus@gentoo.org>
+  -mplayer-1.0_rc4_p20100506.ebuild, -mplayer-1.0_rc4_p20100612.ebuild,
+  -mplayer-1.0_rc4_p20101107.ebuild, +mplayer-1.0_rc4_p20101219.ebuild,
+  mplayer-9999.ebuild:
+  Version bump (add new snapshot that should fix vorbis failiture). Drop old.
+  Sort keywords in live ebuild.
 
 *mplayer-1.0_rc4_p20101114 (14 Nov 2010)
 
