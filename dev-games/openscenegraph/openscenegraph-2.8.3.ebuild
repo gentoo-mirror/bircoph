@@ -98,7 +98,7 @@ src_configure() {
 		-DGENTOO_DOCDIR="/usr/share/doc/${PF}"
 		$(cmake-utils_use_with curl)
 		$(cmake-utils_use_build doc DOCUMENTATION)
-		$(cmake-utils_use_build examples OSG_APPLICATIONS)
+		$(cmake-utils_use_build osgapps OSG_APPLICATIONS)
 		$(cmake-utils_use_build examples OSG_EXAMPLES)
 		$(cmake-utils_use_with ffmpeg FFmpeg)
 		$(cmake-utils_use_with fltk)
