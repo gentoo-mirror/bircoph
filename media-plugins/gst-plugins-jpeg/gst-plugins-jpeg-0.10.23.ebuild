@@ -5,7 +5,7 @@
 inherit gst-plugins-good
 
 DESCRIPTION="GStreamer encoder/decoder for JPEG format"
-KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ppc ~ppc64 ~sparc ~x86"
+KEYWORDS="alpha amd64 ~arm ~hppa ~ppc ~ppc64 sparc x86"
 IUSE=""
 
 RDEPEND="virtual/jpeg
