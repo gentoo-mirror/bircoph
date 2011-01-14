@@ -1,4 +1,4 @@
-# Copyright 1999-2010 Gentoo Foundation
+# Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/media-gfx/fontforge/fontforge-20100501.ebuild,v 1.8 2010/11/30 23:41:38 hanno Exp $
 

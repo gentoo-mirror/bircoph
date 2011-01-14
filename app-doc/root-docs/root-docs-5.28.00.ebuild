@@ -1,4 +1,4 @@
-# Copyright 1999-2010 Gentoo Foundation
+# Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/app-doc/root-docs/root-docs-5.26.00.ebuild,v 1.4 2010/07/11 17:47:19 armin76 Exp $
 

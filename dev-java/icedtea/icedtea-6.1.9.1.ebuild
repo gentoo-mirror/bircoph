@@ -1,4 +1,4 @@
-# Copyright 1999-2010 Gentoo Foundation
+# Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-java/icedtea/icedtea-6.1.9.1.ebuild,v 1.3 2010/11/26 22:07:44 caster Exp $
 # Build written by Andrew John Hughes (gnu_andrew@member.fsf.org)

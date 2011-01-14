@@ -1,4 +1,4 @@
-# Copyright 1999-2010 Gentoo Foundation
+# Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/media-video/motion/motion-3.2.11.1.ebuild,v 1.5 2010/06/17 20:27:47 patrick Exp $
 

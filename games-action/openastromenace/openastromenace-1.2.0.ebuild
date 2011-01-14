@@ -1,4 +1,4 @@
-# Copyright 1999-2010 Gentoo Foundation
+# Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/games-action/openastromenace/openastromenace-1.2.0.ebuild,v 1.8 2010/04/11 00:54:28 mr_bones_ Exp $
 
