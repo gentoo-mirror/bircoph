@@ -57,10 +57,10 @@ src_prepare() {
 	# let ebuild to control pppd plugins support
 	epatch "${FILESDIR}/${P}-pppd.patch"
 	# do not gzip man pages, let portage to compress them
-	epatch "${FILESDIR}/${PN}-1.7-man.patch"
+	epatch "${FILESDIR}/${P}-man.patch"
 	# install l2tpconfig to /usr/sbin with 0700 permissions
 	# to make it at least a bit more secure
-	epatch "${FILESDIR}/${PN}-1.7-l2tpconfig.patch"
+	epatch "${FILESDIR}/${P}-l2tpconfig.patch"
 }
 
 src_configure() {

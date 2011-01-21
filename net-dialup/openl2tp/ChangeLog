@@ -6,8 +6,10 @@
 
   21 Jan 2011; Andrew Savchenko <bircoph@gmail.com> 
   +openl2tp-1.8-r2.ebuild, -openl2tp-1.8-r1.ebuild,
+  -openl2tp-1.7-r2.ebuild, -openl2tp-1.7.ebuild,
   files/openl2tpd.initd:
   Use intelligent delay for l2tp config restore.
+  Drop old ebuilds.
 
   07 Nov 2010; Andrew Savchenko <bircoph@gmail.com> 
   openl2tp-1.8-r1.ebuild:
