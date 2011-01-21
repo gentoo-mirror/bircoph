@@ -4,6 +4,8 @@
 
 opts="start stop restart"
 userpc="yes"
+retry_count="40"
+retry_delay="0.5"
 
 bin=/usr/sbin/openl2tpd
 pid=/var/run/openl2tpd.pid
@@ -40,10 +42,15 @@ start() {
 
     # it is possible to not to have config at all
     if [[ $userpc == "yes" ]] && [[ -r "${OPENL2TPD_CONFIG_FILE}" ]]; then
-        sleep 0.5
-        l2tpconfig config restore file="${OPENL2TPD_CONFIG_FILE}"
+    # on system startup it may take some time to load daemon
+    for (( i=0; i<$retry_count; i++ )); do
+        l2tpconfig config restore file="${OPENL2TPD_CONFIG_FILE}" >/dev/null 2>&1
+        retcode=$?
+        [[ $retcode == 0 ]] && break
+        sleep $retry_delay
+    done
     fi
-    eend $?
+    eend $retcode
 }
 
 stop() {
