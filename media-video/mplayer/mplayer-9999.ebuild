@@ -15,7 +15,7 @@ inherit toolchain-funcs eutils flag-o-matic multilib base ${SVN_ECLASS}
 [[ ${PV} != *9999* ]] && MPLAYER_REVISION=SVN-r32598
 
 IUSE="3dnow 3dnowext +a52 aalib +alsa altivec aqua +ass bidi bindist bl bluray
-bs2b +cddb +cdio cdparanoia cpudetection custom-cpuopts debug dga +dirac
+bs2b cddb +cdio cdparanoia cpudetection custom-cpuopts debug dga +dirac
 directfb doc +dts +dv dvb +dvd +dvdnav dxr3 +enca +encode esd +faac +faad fbcon
 ftp gif ggi gsm +iconv ipv6 jack joystick jpeg jpeg2k kernel_linux ladspa
 libcaca libmpeg2 lirc +live lzo mad md5sum +mmx mmxext mng +mp3 mpg123 nas nemesi
@@ -568,7 +568,7 @@ src_configure() {
 	use video_cards_vesa || myconf+=" --disable-vesa"
 	use vidix || myconf+=" --disable-vidix-pcidb"
 	use xscreensaver || myconf+=" --disable-xss"
-	use xvmc && myconf+=" --with-xvmclib=XvMCW"
+	use xvmc && myconf+="--enable-xvmc --with-xvmclib=XvMCW"
 
 	############################
 	# OSX (aqua) configuration #
