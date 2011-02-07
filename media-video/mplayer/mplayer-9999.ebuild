@@ -444,7 +444,7 @@ src_configure() {
 		use ${i} || myconf+=" --disable-${i}"
 	done
 	use jpeg2k || myconf+=" --disable-libopenjpeg"
-	use tremor && myconf+=" --disable-tremor-internal"
+	# use tremor && myconf+=" --disable-tremor-internal"
 	use tremor || myconf+=" --disable-tremor-internal --disable-tremor"
 	use vorbis || myconf+=" --disable-libvorbis"
 	use vpx || myconf+=" --disable-libvpx-lavc"
