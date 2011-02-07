@@ -558,7 +558,7 @@ src_configure() {
 	# X enabled configuration #
 	###########################
 	myconf+=" --disable-gui"
-	uses="dxr3 ggi vdpau vidix xinerama xv xvmc"
+	uses="dxr3 ggi vdpau vidix xinerama xv"
 	for i in ${uses}; do
 		use ${i} || myconf+=" --disable-${i}"
 	done
