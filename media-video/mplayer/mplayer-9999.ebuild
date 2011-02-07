@@ -1,16 +1,18 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/media-video/mplayer/mplayer-9999.ebuild,v 1.82 2010/10/10 23:31:27 mr_bones_ Exp $
+# $Header: /var/cvsroot/gentoo-x86/media-video/mplayer/mplayer-9999.ebuild,v 1.91 2011/01/30 21:08:15 scarabeus Exp $
 
-EAPI=3
+EAPI=4
 
+EGIT_REPO_URI="git://git.ffmpeg.org/ffmpeg.git"
+EGIT_PROJECT="ffmpeg"
 ESVN_REPO_URI="svn://svn.mplayerhq.hu/mplayer/trunk"
-[[ ${PV} = *9999* ]] && SVN_ECLASS="subversion" || SVN_ECLASS=""
+[[ ${PV} = *9999* ]] && SVN_ECLASS="subversion git" || SVN_ECLASS=""
 
 inherit toolchain-funcs eutils flag-o-matic multilib base ${SVN_ECLASS}
 
 # BUMP ME PLZ, NO COOKIES OTHERWISE
-[[ ${PV} != *9999* ]] && MPLAYER_REVISION=SVN-r30554
+[[ ${PV} != *9999* ]] && MPLAYER_REVISION=SVN-r32598
 
 IUSE="3dnow 3dnowext +a52 aalib +alsa altivec aqua +ass bidi bindist bl bluray
 bs2b +cddb +cdio cdparanoia cpudetection custom-cpuopts debug dga +dirac
@@ -74,7 +76,7 @@ RDEPEND+="
 			media-libs/libggiwmh
 		)
 		opengl? ( virtual/opengl )
-		vdpau? ( || ( x11-libs/libvdpau >=x11-drivers/nvidia-drivers-180.51 ) )
+		vdpau? ( x11-libs/libvdpau )
 		xinerama? ( x11-libs/libXinerama )
 		xscreensaver? ( x11-libs/libXScrnSaver )
 		xv? (
@@ -188,6 +190,47 @@ else
 	KEYWORDS=""
 fi
 
+# bindist does not cope with amr codecs (#299405#c6), faac codecs are nonfree, win32codecs are nonfree
+# libcdio support: prefer libcdio over cdparanoia and don't check for cddb w/cdio
+# dvd navigation requires dvd read support
+# ass and freetype font require iconv and ass requires freetype fonts
+# unicode transformations are usefull only with iconv
+# libvorbis require external tremor to work
+# radio requires oss or alsa backend
+# xvmc requires xvideo support
+REQUIRED_USE="bindist? ( !amr !faac !win32codecs )
+	cdio? ( !cdparanoia !cddb )
+	dvdnav? ( dvd )
+	ass? ( iconv truetype )
+	truetype? ( iconv )
+	unicode? ( iconv )
+	vorbis? ( tremor )
+	radio? ( || ( alsa oss ) )
+	xvmc? ( xv )"
+# encoder codecs needs encoder support enabled
+uses="faac x264 xvid toolame twolame"
+for x in ${uses}; do
+	REQUIRED_USE+="
+		${x}? ( encode )
+	"
+done
+# cpu options needs custom-cpuopts enabled
+# but since it is not so fatal we rather ignore them
+#uses="3dnow 3dnowext altivec mmx mmxext shm sse sse2 ssse3"
+#for x in ${uses}; do
+#	REQUIRED_USE+="
+#		${x}? ( custom-cpuopts )
+#	"
+#done
+# xorg options require X useflag enabled
+uses="dga dxr3 ggi opengl osdmenu vdpau vidix xinerama xscreensaver xv xvmc"
+for x in ${uses}; do
+	REQUIRED_USE+="
+		${x}? ( X )
+	"
+done
+unset uses
+
 PATCHES=(
 )
 
@@ -233,8 +276,9 @@ pkg_setup() {
 src_unpack() {
 	if [[ ${PV} = *9999* ]]; then
 		subversion_src_unpack
-
 		cd "${WORKDIR}"
+		rm -rf "${WORKDIR}/${P}/ffmpeg/"
+		( S="${WORKDIR}/${P}/ffmpeg/" git_src_unpack )
 	else
 		unpack ${A}
 	fi
@@ -306,15 +350,10 @@ src_configure() {
 		"
 	fi
 
-	# libcdio support: prefer libcdio over cdparanoia
-	# don't check for cddb w/cdio
-	if use cdio; then
-		myconf+=" --disable-cdparanoia"
-	else
-		myconf+=" --disable-libcdio"
-		use cdparanoia || myconf+=" --disable-cdparanoia"
-		use cddb || myconf+=" --disable-cddb"
-	fi
+	use cdio && myconf+=" --disable-cdparanoia"
+	use cdio || myconf+=" --disable-libcdio"
+	use cdparanoia || myconf+=" --disable-cdparanoia"
+	use cddb || myconf+=" --disable-cddb"
 
 	################################
 	# DVD read, navigation support #
@@ -325,15 +364,8 @@ src_configure() {
 	#
 	# use external libdvdcss, dvdread and dvdnav
 	myconf+=" --disable-dvdread-internal --disable-libdvdcss-internal"
-
-	if use dvd; then
-		use dvdnav || myconf+=" --disable-dvdnav"
-	else
-		myconf+="
-			--disable-dvdnav
-			--disable-dvdread
-		"
-	fi
+	use dvd || myconf+=" --disable-dvdread"
+	use dvdnav || myconf+=" --disable-dvdnav"
 
 	#############
 	# Subtitles #
@@ -342,16 +374,14 @@ src_configure() {
 	# SRT/ASS/SSA (subtitles) requires freetype support
 	# freetype support requires iconv
 	# iconv optionally can use unicode
-	if ! use ass && ! use truetype; then
-		myconf+=" --disable-freetype"
-		if ! use iconv; then
-			myconf+="
-				--disable-iconv
-				--charset=noconv
-			"
-		fi
+	use truetype || myconf+=" --disable-freetype"
+	if ! use iconv; then
+		myconf+="
+			--disable-iconv
+			--charset=noconv
+		"
 	fi
-	use iconv && use unicode && myconf+=" --charset=UTF-8"
+	use unicode && myconf+=" --charset=UTF-8"
 
 	#####################################
 	# DVB / Video4Linux / Radio support #
@@ -407,45 +437,24 @@ src_configure() {
 		use ${i} || myconf+=" --disable-lib${i}"
 	done
 	use schroedinger || myconf+=" --disable-libschroedinger-lavc"
-	# Disable opencore-amr with bindist
-	# https://bugs.gentoo.org/show_bug.cgi?id=299405#c6
-	{ use amr && use !bindist ; } || myconf+=" --disable-libopencore_amrnb --disable-libopencore_amrwb"
+	use amr || myconf+=" --disable-libopencore_amrnb --disable-libopencore_amrwb"
 
 	uses="faad gif jpeg libmpeg2 live mad mng mpg123 png pnm speex tga theora xanim"
 	for i in ${uses}; do
 		use ${i} || myconf+=" --disable-${i}"
 	done
 	use jpeg2k || myconf+=" --disable-libopenjpeg"
-	if use vorbis || use tremor; then
-		use tremor || myconf+=" --disable-tremor-internal"
-		use vorbis || myconf+=" --disable-libvorbis"
-	else
-		myconf+="
-			--disable-tremor-internal
-			--disable-tremor
-			--disable-libvorbis
-		"
-	fi
+	use tremor && myconf+=" --disable-tremor-internal"
+	use tremor || myconf+=" --disable-tremor-internal --disable-tremor"
+	use vorbis || myconf+=" --disable-libvorbis"
 	use vpx || myconf+=" --disable-libvpx-lavc"
 	# Encoding
+	use encode || myconf+=" --disable-mencoder"
 	uses="faac x264 xvid toolame twolame"
-	if use encode; then
-		for i in ${uses}; do
-			use ${i} || myconf+=" --disable-${i}"
-		done
-		use faac || myconf+=" --disable-faac-lavc"
-		if use bindist && use faac; then
-			ewarn "faac is nonfree and cannot be distributed; disabling faac support."
-			myconf+=" --disable-faac --disable-faac-lavc"
-		fi
-	else
-		myconf+=" --disable-mencoder"
-		myconf+=" --disable-faac-lavc"
-		for i in ${uses}; do
-			myconf+=" --disable-${i}"
-			use ${i} && elog "Useflag \"${i}\" require \"encode\" useflag enabled to work."
-		done
-	fi
+	for i in ${uses}; do
+		use ${i} || myconf+=" --disable-${i}"
+	done
+	use faac || myconf+=" --disable-faac-lavc"
 
 	#################
 	# Binary codecs #
@@ -467,9 +476,7 @@ src_configure() {
 	# internal
 	use real || myconf+=" --disable-real"
 
-	if ! use bindist; then
-		myconf+=" $(use_enable win32codecs win32dll)"
-	fi
+	myconf+=" $(use_enable win32codecs win32dll)"
 
 	################
 	# Video Output #
@@ -512,17 +519,13 @@ src_configure() {
 		use ${i} || myconf+=" --disable-${i}"
 	done
 	use pulseaudio || myconf+=" --disable-pulse"
-	if ! use radio; then
-		use oss || myconf+=" --disable-ossaudio"
-	fi
+	use oss || myconf+=" --disable-ossaudio"
 
 	####################
 	# Advanced Options #
 	####################
 	# Platform specific flags, hardcoded on amd64 (see below)
-	if use cpudetection; then
-		myconf+=" --enable-runtime-cpudetection"
-	fi
+	use cpudetection && myconf+=" --enable-runtime-cpudetection"
 
 	# Turning off CPU optimizations usually will break the build.
 	# However, this use flag, if enabled, will allow users to completely
@@ -555,53 +558,17 @@ src_configure() {
 	# X enabled configuration #
 	###########################
 	myconf+=" --disable-gui"
-	if use X; then
-		uses="dxr3 ggi xinerama"
-		for i in ${uses}; do
-			use ${i} || myconf+=" --disable-${i}"
-		done
-		use dga || myconf+=" --disable-dga1 --disable-dga2"
-		use opengl || myconf+=" --disable-gl"
-		use osdmenu && myconf+=" --enable-menu"
-		use vdpau || myconf+=" --disable-vdpau"
-		use video_cards_vesa || myconf+=" --disable-vesa"
-		use vidix || myconf+=" --disable-vidix --disable-vidix-pcidb"
-		use xscreensaver || myconf+=" --disable-xss"
-
-		if use xv; then
-			if use xvmc; then
-				myconf+=" --enable-xvmc --with-xvmclib=XvMCW"
-			else
-				myconf+=" --disable-xvmc"
-			fi
-		else
-			myconf+="
-				--disable-xv
-				--disable-xvmc
-			"
-			use xvmc && elog "Disabling xvmc because it requires \"xv\" useflag enabled."
-		fi
-	else
-		myconf+="
-			--disable-dga1
-			--disable-dga2
-			--disable-dxr3
-			--disable-ggi
-			--disable-gl
-			--disable-vdpau
-			--disable-vidix
-			--disable-vidix-pcidb
-			--disable-xinerama
-			--disable-xss
-			--disable-xv
-			--disable-xvmc
-			--disable-x11
-		"
-		uses="dga dxr3 ggi opengl osdmenu vdpau vidix xinerama xscreensaver xv"
-		for i in ${uses}; do
-			use ${i} && elog "Useflag \"${i}\" require \"X\" useflag enabled to work."
-		done
-	fi
+	uses="dxr3 ggi vdpau vidix xinerama xv xvmc"
+	for i in ${uses}; do
+		use ${i} || myconf+=" --disable-${i}"
+	done
+	use dga || myconf+=" --disable-dga1 --disable-dga2"
+	use opengl || myconf+=" --disable-gl"
+	use osdmenu && myconf+=" --enable-menu"
+	use video_cards_vesa || myconf+=" --disable-vesa"
+	use vidix || myconf+=" --disable-vidix-pcidb"
+	use xscreensaver || myconf+=" --disable-xss"
+	use xvmc && myconf+=" --with-xvmclib=XvMCW"
 
 	############################
 	# OSX (aqua) configuration #
@@ -698,6 +665,12 @@ src_install() {
 
 	insinto /etc/mplayer
 	newins "${S}/etc/example.conf" mplayer.conf || die
+	cat >> "${ED}/etc/mplayer/mplayer.conf" << _EOF_
+	doins "${S}/etc/input.conf"
+# Config options can be section specific, global
+# options should go in the default section
+[default]
+_EOF_
 	doins "${S}/etc/input.conf" || die
 	if use osdmenu; then
 		doins "${S}/etc/menu.conf" || die

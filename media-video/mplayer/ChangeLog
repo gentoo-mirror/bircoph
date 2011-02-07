@@ -1,10 +1,15 @@
 # ChangeLog for media-video/mplayer
-# Copyright 2000-2010 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 2000-2011 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 # This is ChangeLog for overlay specific changes.
 # Please refer to ChangeLog.portage for changes in portage ebuild.
 # Advanced overlay ebuild is meant to be in sync with portage one,
 # provide additional features and eventually send some of them upstream.
+
+  07 Feb 2010; Andrew Savchenko <bircoph@gmail.com> ChangeLog.portage,
+  mplayer-9999.ebuild:
+  Sync with portage ebuild.
+  Use ffmpeg git.
 
   17 Jan 2010; Andrew Savchenko <bircoph@gmail.com> ChangeLog.portage,
   mplayer-9999.ebuild:
