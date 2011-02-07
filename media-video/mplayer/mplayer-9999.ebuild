@@ -568,7 +568,7 @@ src_configure() {
 	use video_cards_vesa || myconf+=" --disable-vesa"
 	use vidix || myconf+=" --disable-vidix-pcidb"
 	use xscreensaver || myconf+=" --disable-xss"
-	use xvmc && myconf+="--enable-xvmc --with-xvmclib=XvMCW"
+	use xvmc && myconf+=" --enable-xvmc --with-xvmclib=XvMCW"
 
 	############################
 	# OSX (aqua) configuration #
