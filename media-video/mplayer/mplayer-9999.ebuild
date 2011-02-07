@@ -666,7 +666,6 @@ src_install() {
 	insinto /etc/mplayer
 	newins "${S}/etc/example.conf" mplayer.conf || die
 	cat >> "${ED}/etc/mplayer/mplayer.conf" << _EOF_
-	doins "${S}/etc/input.conf"
 # Config options can be section specific, global
 # options should go in the default section
 [default]
