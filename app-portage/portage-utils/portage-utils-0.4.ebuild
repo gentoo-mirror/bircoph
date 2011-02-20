@@ -2,6 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/app-portage/portage-utils/portage-utils-0.4.ebuild,v 1.1 2010/06/08 05:49:29 vapier Exp $
 
+EAPI=3
 inherit eutils flag-o-matic toolchain-funcs
 
 DESCRIPTION="small and fast portage helper tools written in C"
@@ -13,14 +14,15 @@ SLOT="0"
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~m68k ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~sparc-fbsd ~x86-fbsd"
 IUSE="static"
 
-PATCHES=(
-	"${FILESDIR}/qlop.patch"
-)
 
 src_unpack() {
 	unpack ${A}
 	cd "${S}"
 	sed -i -e 's:\[\[:[:' -e 's:\]\]:]:' Makefile
+}
+
+src_prepare() {
+	epatch "${FILESDIR}/qlop.patch"
 }
 
 src_compile() {
