@@ -1,0 +1,41 @@
+--- portage-utils-0.4.orig/qlop.c	2011-01-08 10:18:20.689702996 +0100
++++ portage-utils-0.4/qlop.c	2011-01-08 10:17:55.609703010 +0100
+@@ -149,6 +149,8 @@
+ 
+ 			if (matched) {
+ 				while ((fgets(buf[0], sizeof(buf[0]), fp)) != NULL) {
++					if (strstr(buf[0], pkg) == NULL)
++						continue;
+ 					if ((p = strchr(buf[0], '\n')) != NULL)
+ 						*p = 0;
+ 					if ((p = strchr(buf[0], ':')) == NULL)
+@@ -177,6 +179,29 @@
+ 						count++;
+ 						break;
+ 					}
++					else if ((strncmp(buf[1], ">>> emerge (", 12)) == 0) {
++						snprintf(ep, BUFSIZ, "completed %s", &buf[1][4]);
++						matched = 0;
++						if ((p = strchr(buf[1], ')')) == NULL)
++							continue;
++						*p = 0;
++						strcpy(buf[0], p + 1);
++						rmspace(buf[0]);
++						if ((p = strchr(buf[0], ' ')) == NULL)
++							continue;
++						*p = 0;
++						if ((atom = atom_explode(buf[0])) == NULL)
++							continue;
++						if (*cat) {
++							if ((strcmp(cat, atom->CATEGORY) == 0) && (strcmp(pkg, atom->PN) == 0))
++								matched = 1;
++						} else if (strcmp(pkg, atom->PN) == 0)
++							matched = 1;
++						if (matched == 0)
++							break;
++						else
++							t[0] = t[1];
++					}
+ 				}
+ 			}
+ 			atom_implode(atom);
