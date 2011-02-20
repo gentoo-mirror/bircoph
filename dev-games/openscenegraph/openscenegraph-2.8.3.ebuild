@@ -86,6 +86,7 @@ DOCS=(AUTHORS.txt ChangeLog NEWS.txt)
 
 PATCHES=(
 	"${FILESDIR}/${P}-cmake.patch"
+	"${FILESDIR}/${P}-ffmpeg.patch"
 )
 
 src_configure() {

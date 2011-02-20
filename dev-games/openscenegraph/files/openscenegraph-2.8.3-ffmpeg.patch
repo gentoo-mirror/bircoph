@@ -1,0 +1,29 @@
+Prevent avcodec.h from redefining SampleFormat.
+
+Without this patch, the SampleFormat token will be redefined to
+AVSampleFormat even if it occurs in some other scope. One example is
+osg::AudioStream::SampleFormat, which the preprocessor turns into
+osg::AudioStream::AVSampleFormat, causing compiler errors like this:
+error: ‘AVSampleFormat’ in class ‘osg::AudioStream’ does not name a type
+
+Looking at the code in ffmpeg, this patch should become unnecessary
+once LIBAVCODEC_VERSION_MAJOR turns 53.
+
+2011-02-04 Martin von Gagern
+
+References:
+http://bugs.gentoo.org/347481
+http://git.ffmpeg.org/?p=ffmpeg.git;a=commitdiff;h=262d1c5d2206467809fd81d841d09ad70cc8ba13
+
+Index: OpenSceneGraph-2.8.3/src/osgPlugins/ffmpeg/FFmpegHeaders.hpp
+===================================================================
+--- OpenSceneGraph-2.8.3.orig/src/osgPlugins/ffmpeg/FFmpegHeaders.hpp
++++ OpenSceneGraph-2.8.3/src/osgPlugins/ffmpeg/FFmpegHeaders.hpp
+@@ -6,6 +6,7 @@
+ extern "C"
+ {
+ #define __STDC_CONSTANT_MACROS
++#define FF_API_OLD_SAMPLE_FMT 0
+ #include <errno.h>    // for error codes defined in avformat.h
+ #include <stdint.h>
+ #include <avcodec.h>
