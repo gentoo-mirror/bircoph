@@ -1,6 +1,6 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/media-libs/win32codecs/win32codecs-20071007-r4.ebuild,v 1.1 2008/10/29 17:02:03 beandog Exp $
+# $Header: /var/cvsroot/gentoo-x86/media-libs/win32codecs/win32codecs-20071007-r4.ebuild,v 1.4 2010/01/08 06:47:49 abcd Exp $
 
 inherit multilib
 
@@ -9,8 +9,10 @@ SRC_URI="mirror://mplayer/releases/codecs/all-${PV}.tar.bz2"
 HOMEPAGE="http://www.mplayerhq.hu/"
 LICENSE="as-is"
 SLOT="0"
-KEYWORDS="-* ~amd64 ~x86 ~x86-fbsd"
+KEYWORDS="-* ~amd64 x86 ~x86-fbsd ~x86-freebsd ~x86-linux"
 IUSE="real"
+
+RDEPEND="real? ( =virtual/libstdc++-3.3* )"
 
 S="${WORKDIR}/all-${PV}"
 
@@ -24,32 +26,32 @@ pkg_setup() {
 }
 
 src_install() {
-	# see #83221
-	insopts -m0644
-	dodir /usr/$(get_libdir)/win32
+	use prefix || EPREFIX=
+
+	insinto /usr/$(get_libdir)/win32
+	doins *.dll *.ax *.xa *.acm *.vwp *.drv *.DLL *.qtx *.qts || die "Failed to install win32 codecs"
 
 	if use real
 	then
-		dodir /usr/$(get_libdir)/real
 		insinto /usr/$(get_libdir)/real
-		doins *so.6.0
+		doins *so.6.0 || die "Failed to install realplayer codecs"
 
 		# copy newly introduced codecs from realplayer10
 		# see the ChangeLog online
-		doins *.so
+		doins *.so || die "Failed to install realplayer10 codecs"
 
 		# fix bug #80321
-		ln -s "${D}"/usr/$(get_libdir)/real/* "${D}"/usr/$(get_libdir)/win32/
+		local x
+		for x in *so.6.0 *.so; do
+			dosym ../real/$x /usr/$(get_libdir)/win32 || die "Failed to make symlink to $x"
+		done
 	fi
-
-	insinto /usr/$(get_libdir)/win32
-
-	doins *.dll *.ax *.xa *.acm *.vwp *.drv *.DLL *.qtx *.qts
 
 	dodoc README
 
-	dodir /etc/revdep-rebuild
-	cat - > "${D}/etc/revdep-rebuild/50win32codecs" <<EOF
-SEARCH_DIRS_MASK="/usr/$(get_libdir)/real /usr/$(get_libdir)/win32"
+	cat > "${T}/50${PN}" <<EOF
+SEARCH_DIRS_MASK="${EPREFIX}/usr/$(get_libdir)/real ${EPREFIX}/usr/$(get_libdir)/win32"
 EOF
+	insinto /etc/revdep-rebuild
+	doins "${T}/50${PN}"
 }
