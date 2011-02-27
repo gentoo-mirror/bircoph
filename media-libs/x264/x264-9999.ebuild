@@ -47,7 +47,7 @@ src_configure() {
 		--disable-lavf \
 		--disable-swscale \
 		--disable-gpac \
-		$(use_enable threads pthread) \
+		$(use threads || echo "--disable-thread") \
 		--enable-pic \
 		--enable-shared \
 		--extra-asflags="${ASFLAGS}" \
