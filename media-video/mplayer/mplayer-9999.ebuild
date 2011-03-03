@@ -590,9 +590,11 @@ src_configure() {
 	myconf="--cc=$(tc-getCC)
 		--host-cc=$(tc-getBUILD_CC)
 		--prefix=${EPREFIX}/usr
-		--confdir=${EPREFIX}/etc/mplayer
-		--datadir=${EPREFIX}/usr/share/mplayer
+		--bindir=${EPREFIX}/usr/bin
 		--libdir=${EPREFIX}/usr/$(get_libdir)
+		--confdir=${EPREFIX}/etc/mplayer
+		--datadir=${EPREFIX}/usr/share/mplayer${namesuf}
+		--mandir=${EPREFIX}/usr/share/man
 		${myconf}"
 
 	CFLAGS="${CFLAGS}" ./configure ${myconf} || die "configure died"
@@ -622,12 +624,8 @@ src_compile() {
 src_install() {
 	local i
 
-	emake prefix="${ED}/usr" \
-		BINDIR="${ED}/usr/bin" \
-		LIBDIR="${ED}/usr/$(get_libdir)" \
-		CONFDIR="${ED}/etc/mplayer" \
-		DATADIR="${ED}/usr/share/mplayer" \
-		MANDIR="${ED}/usr/share/man" \
+	emake \
+		DESTDIR="${D}" \
 		INSTALLSTRIP="" \
 		install || die "emake install failed"
 

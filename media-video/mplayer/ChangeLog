@@ -6,6 +6,10 @@
 # Advanced overlay ebuild is meant to be in sync with portage one,
 # provide additional features and eventually send some of them upstream.
 
+  03 Mar 2010; Andrew Savchenko <bircoph@gmail.com> ChangeLog.portage,
+  mplayer-9999.ebuild:
+  Sync with portage ebuild. Minor fixes.
+
   07 Feb 2010; Andrew Savchenko <bircoph@gmail.com> ChangeLog.portage,
   mplayer-9999.ebuild:
   Sync with portage ebuild.
