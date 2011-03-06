@@ -12,7 +12,7 @@ EGIT_REPO_URI="git://anongit.freedesktop.org/~mareko/libtxc_dxtn"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS=""
 IUSE=""
 
 RESTRICT="bindist"
