@@ -19,8 +19,6 @@ DEPEND="amd64? ( >=dev-lang/yasm-0.6.2 )
 	x86? ( >=dev-lang/yasm-0.6.2 )
 	x86-fbsd? ( >=dev-lang/yasm-0.6.2 )"
 
-S=${WORKDIR}/${MY_P}
-
 src_unpack() {
 	git_src_unpack
 }
