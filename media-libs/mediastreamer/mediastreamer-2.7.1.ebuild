@@ -7,7 +7,7 @@ EAPI="3"
 inherit eutils autotools multilib
 
 DESCRIPTION="Mediastreaming library for telephony application"
-HOMEPAGE="http://www.linphone.org/index.php/eng/code_review/mediastreamer2"
+HOMEPAGE="http://www.linphone.org"
 SRC_URI="mirror://nongnu/linphone/${PN}/${P}.tar.gz"
 
 LICENSE="GPL-2"
