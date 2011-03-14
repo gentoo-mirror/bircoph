@@ -4,11 +4,9 @@
 
 EAPI=2
 DESCRIPTION="Allows streaming video from a hacked TiVo running vserver"
-HOMEPAGE="http://armory.nicewarrior.org/projects/vstream-client/"
-SRC_URI="http://armory.nicewarrior.org/mirror.php?path=vstream-client/${P}.tar.gz&mirror=download -> ${P}.tar.gz"
+HOMEPAGE="http://code.google.com/p/vstream-client/"
+SRC_URI="http://vstream-client.googlecode.com/files/${P}.tar.bz2"
 
-# License needs too be confirmed. (was forked from tivo-mplayer project
-# which was forked from mplayer which is licensed under GPL-2...)
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~x86 ~amd64"
