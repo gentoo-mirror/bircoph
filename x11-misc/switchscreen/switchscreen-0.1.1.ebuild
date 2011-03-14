@@ -7,8 +7,8 @@ EAPI=2
 inherit eutils
 
 DESCRIPTION="Utility for switching between multiple X screens"
-HOMEPAGE="http://users.tkk.fi/spniskan/switchscreen/"
-SRC_URI="http://users.tkk.fi/spniskan/switchscreen/${P}.tar.gz"
+HOMEPAGE="http://sampo.kapsi.fi/switchscreen/"
+SRC_URI="http://sampo.kapsi.fi/switchscreen/${P}.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~x86"
