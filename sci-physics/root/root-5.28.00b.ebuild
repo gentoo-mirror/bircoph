@@ -148,7 +148,7 @@ src_configure() {
 	# the configure script is not the standard autotools
 	./configure \
 		--prefix="${EPREFIX}"/usr \
-		--etcdir="${EPREFIX}"/etc \
+		--etcdir="${EPREFIX}"/etc/root \
 		--libdir="${EPREFIX}"/usr/$(get_libdir)/${PN} \
 		--docdir="${EPREFIX}"/usr/share/doc/${PF} \
 		--tutdir="${EPREFIX}"/usr/share/doc/${PF}/examples/tutorials \
