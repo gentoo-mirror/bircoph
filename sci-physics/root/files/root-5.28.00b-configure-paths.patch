@@ -1,0 +1,23 @@
+diff -Naur root.orig/configure root/configure
+--- root.orig/configure	2011-03-16 19:28:58.489975526 +0300
++++ root/configure	2011-03-16 19:29:15.347643997 +0300
+@@ -2726,8 +2726,8 @@
+     check_header "libpq-fe.h" "$pgsqlincdir" \
+         $PGSQL ${PGSQL:+$PGSQL/include} \
+         ${finkdir:+$finkdir/include} \
+-        /usr/include /usr/local/include /usr/local/pgsql/include \
+-        /usr/include/pgsql /usr/include/postgresql \
++        /usr/include/postgresql /usr/include /usr/local/include \
++        /usr/local/pgsql/include /usr/include/pgsql \
+         /usr/include/postgresql/8.0 /usr/pgsql/include \
+         /usr/local/include/pgsql /usr/local/include/postgresql \
+         /usr/include/postgresql/8.0 /usr/pgsql /usr/local/pgsql \
+@@ -2823,7 +2823,7 @@
+         check_library "libiodbc libodbc odbc32" "$enable_shared" "$odbclibdir" \
+             $ODBC ${ODBC:+$ODBC/lib} $ODBCLIBDIR \
+             ${finkdir:+$finkdir/lib} \
+-            /usr/local/lib /usr/lib
++            /usr/local/lib /usr/lib /usr/include/iodbc
+         odbclib=$found_lib
+         odbclibdir=$found_dir
+ 
