@@ -4,8 +4,13 @@
 
 EAPI=4
 
-EGIT_REPO_URI="git://git.ffmpeg.org/ffmpeg.git"
+# libav fork
+#EGIT_REPO_URI="git://git.libav.org/libav.git"
+#EGIT_PROJECT="libav"
+# ffmpeg (main?)
+EGIT_REPO_URI="git://git.videolan.org/ffmpeg.git"
 EGIT_PROJECT="ffmpeg"
+
 ESVN_REPO_URI="svn://svn.mplayerhq.hu/mplayer/trunk"
 [[ ${PV} = *9999* ]] && SVN_ECLASS="subversion git" || SVN_ECLASS=""
 
@@ -634,12 +639,12 @@ src_install() {
 	docinto tech/
 	dodoc DOCS/tech/{*.txt,MAINTAINERS,mpsub.sub,playtree,TODO,wishlist} || die
 	docinto TOOLS/
-	dodoc TOOLS/* || die
+	dodoc -r TOOLS/* || die
 	if use real; then
 		docinto tech/realcodecs/
 		dodoc DOCS/tech/realcodecs/* || die
-		docinto TOOLS/realcodecs/
-		dodoc TOOLS/realcodecs/* || die
+	else
+		rm -rf "${ED}/usr/share/doc/${P}/TOOLS/realcodecs"
 	fi
 	docinto tech/mirrors/
 	dodoc DOCS/tech/mirrors/* || die

@@ -6,6 +6,23 @@
 # Advanced overlay ebuild is meant to be in sync with portage one,
 # provide additional features and eventually send some of them upstream.
 
+  18 Mar 2010; Andrew Savchenko <bircoph@gmail.com> ChangeLog.portage,
+  mplayer-9999.ebuild:
+  Old and good ffmpeg repository is dead now...
+
+  I tend to use libav fork of ffmpeg as git repository, but for now
+  it doesn't even compile. And I'm not really sure which form to
+  choose: on the one hand, it looks like libav will get better
+  support from mplayer developers; on the other hand ffmpeg repo
+  looks like more active. Of course, anyone is free to select
+  between ffmpeg and libav git repositories. Maybe USE flag should
+  be used for this selection?
+
+  Really, I have all this bikeshed, people should work together,
+  not play in holy wars.
+
+  Fix installation for realcodecs docs and EAPI=4.
+
   03 Mar 2010; Andrew Savchenko <bircoph@gmail.com> ChangeLog.portage,
   mplayer-9999.ebuild:
   Sync with portage ebuild. Minor fixes.
