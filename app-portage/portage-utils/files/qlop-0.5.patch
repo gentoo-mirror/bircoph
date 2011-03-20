@@ -1,0 +1,50 @@
+--- portage-utils-0.5/qlop.c	2011-03-17 04:58:17.000000000 +0100
++++ portage-utils-0.5_mine/qlop.c	2011-03-20 14:09:56.008479007 +0100
+@@ -88,11 +88,11 @@
+ {
+ 	FILE *fp;
+ 	char cat[126], buf[2][BUFSIZ];
+-	char *pkg, *p, *q;
++	char *pkg, *p;
+ 	char ep[BUFSIZ];
+ 	unsigned long count, merge_time;
+ 	time_t t[2];
+-	depend_atom *atom;
++	depend_atom *atom, *atom2;
+ 	unsigned int parallel_emerge;
+ 
+ 	t[0] = t[1] = 0UL;
+@@ -183,17 +183,29 @@
+ 					 * emerge the same package
+ 					 */
+ 					if (strncmp(buf[1], ">>> emerge (", 12) == 0 && parallel_emerge > 0) {
+-						p = strchr(buf[1], ')');
+-						q = strchr(ep, ')');
+-						if (!p || !q)
++						if ((p = strchr(buf[1], ')')) == NULL)
++							continue;
++						strcpy(buf[0], p + 1);
++						rmspace(buf[0]);
++						if ((p = strchr(buf[0], ' ')) == NULL)
++							continue;
++						*p = 0;
++						if ((atom2 = atom_explode(buf[0])) == NULL)
+ 							continue;
+ 
+-						if (!strcmp(p, q)) {
++						if (0 == strcmp(atom->CATEGORY, atom2->CATEGORY) && 0 == strcmp(atom->PN, atom2->PN)) {
++							atom_implode(atom);
++							atom=atom2;
++							atom2=0;
++							t[0] = t[1];
+ 							parallel_emerge--;
+ 							/* update the main emerge reference data */
+ 							snprintf(ep, BUFSIZ, "completed %s", &buf[1][4]);
+ 							continue;
+ 						}
++						else {
++							atom_implode(atom2);
++						}
+ 					}
+ 
+ 					if (strncmp(&buf[1][4], ep, BUFSIZ) == 0) {
