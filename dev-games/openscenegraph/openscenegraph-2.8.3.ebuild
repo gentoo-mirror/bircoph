@@ -32,7 +32,7 @@ RDEPEND="
 	virtual/opengl
 	curl? ( net-misc/curl )
 	examples? (
-		fltk? ( x11-libs/fltk:1.1[opengl] )
+		fltk? ( x11-libs/fltk:1[opengl] )
 		fox? ( x11-libs/fox:1.6[opengl] )
 		glut? ( media-libs/freeglut )
 		gtk? ( x11-libs/gtkglext )
