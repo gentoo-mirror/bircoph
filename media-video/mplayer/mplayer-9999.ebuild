@@ -4,11 +4,7 @@
 
 EAPI=4
 
-# libav fork
-#EGIT_REPO_URI="git://git.libav.org/libav.git"
-#EGIT_PROJECT="libav"
-# ffmpeg (main?)
-EGIT_REPO_URI="git://git.videolan.org/ffmpeg.git"
+EGIT_REPO_URI="git://git.libav.org/libav.git"
 EGIT_PROJECT="ffmpeg"
 
 ESVN_REPO_URI="svn://svn.mplayerhq.hu/mplayer/trunk"
@@ -61,7 +57,7 @@ X_RDEPS="
 	x11-libs/libXext
 	x11-libs/libXxf86vm
 "
-[[ ${PV} == *9999* ]] && RDEPEND+=" external-ffmpeg? ( media-video/ffmpeg )"
+[[ ${PV} == *9999* ]] && RDEPEND+=" external-ffmpeg? ( virtual/ffmpeg )"
 # Rar: althrought -gpl version is nice, it cant do most functions normal rars can
 #	nemesi? ( net-libs/libnemesi )
 RDEPEND+="

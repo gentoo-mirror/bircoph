@@ -6,6 +6,12 @@
 # Advanced overlay ebuild is meant to be in sync with portage one,
 # provide additional features and eventually send some of them upstream.
 
+  27 Mar 2010; Andrew Savchenko <bircoph@gmail.com> mplayer-9999.ebuild:
+  Use libav as main ffmpeg fork.
+  Sync with upstream, but do not revert REQURIDE_USE for now (no
+  good reason for this).
+
+  Old and good ffmpeg repository is dead now...
   18 Mar 2010; Andrew Savchenko <bircoph@gmail.com> ChangeLog.portage,
   mplayer-9999.ebuild:
   Old and good ffmpeg repository is dead now...
