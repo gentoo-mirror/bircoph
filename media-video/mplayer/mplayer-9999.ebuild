@@ -5,8 +5,7 @@
 EAPI=4
 
 EGIT_REPO_URI="git://git.libav.org/libav.git"
-EGIT_PROJECT="ffmpeg"
-
+EGIT_PROJECT="libav" # git eclass sets it to PN otherwise
 ESVN_REPO_URI="svn://svn.mplayerhq.hu/mplayer/trunk"
 [[ ${PV} = *9999* ]] && SVN_ECLASS="subversion git" || SVN_ECLASS=""
 
