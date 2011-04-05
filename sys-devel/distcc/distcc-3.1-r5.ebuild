@@ -23,11 +23,11 @@ RDEPEND="dev-libs/popt
 	gnome? (
 		>=gnome-base/libgnome-2
 		>=gnome-base/libgnomeui-2
-		>=x11-libs/gtk+-2
+		x11-libs/gtk+:2
 		x11-libs/pango
 	)
 	gtk? (
-		>=x11-libs/gtk+-2
+		x11-libs/gtk+:2
 	)"
 DEPEND="${RDEPEND}
 	dev-util/pkgconfig"
