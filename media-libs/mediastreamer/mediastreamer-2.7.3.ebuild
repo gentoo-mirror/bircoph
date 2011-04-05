@@ -24,7 +24,7 @@ RDEPEND=">=net-libs/ortp-0.16.2
 	pulseaudio? ( >=media-sound/pulseaudio-0.9.21 )
 	speex? ( >=media-libs/speex-1.2_beta3 )
 	video? ( media-libs/libsdl[video,X]
-		media-video/ffmpeg
+		virtual/ffmpeg
 		theora? ( media-libs/libtheora )
 		v4l2? ( media-libs/libv4l
 			sys-kernel/linux-headers )
