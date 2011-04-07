@@ -1,0 +1,22 @@
+--- LVM2.2.02.84/configure.orig	2011-03-31 11:09:19.611004133 +0200
++++ LVM2.2.02.84/configure	2011-03-31 11:09:45.077004131 +0200
+@@ -8799,7 +8799,7 @@
+ { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_udev_udev_queue_get_udev_is_active" >&5
+ $as_echo "$ac_cv_lib_udev_udev_queue_get_udev_is_active" >&6; }
+ if test "x$ac_cv_lib_udev_udev_queue_get_udev_is_active" = x""yes; then :
+-  UDEV_PC="libudev"; UDEV_LIBS="-ludev"
++  UDEV_PC="libudev"; UDEV_LIBS="-ludev -lrt"
+ else
+   as_fn_error $? "bailing out... libudev library is required" "$LINENO" 5
+ fi
+--- LVM2.2.02.84/configure.in.orig	2011-03-31 11:09:31.772007075 +0200
++++ LVM2.2.02.84/configure.in	2011-03-31 11:10:01.668001174 +0200
+@@ -804,7 +804,7 @@
+ 
+ if test x$UDEV_SYNC = xyes; then
+ 	AC_CHECK_LIB(udev, udev_queue_get_udev_is_active,
+-		     [UDEV_PC="libudev"; UDEV_LIBS="-ludev"],
++		     [UDEV_PC="libudev"; UDEV_LIBS="-ludev -lrt"],
+ 		     [AC_MSG_ERROR([bailing out... libudev library is required])])
+ 	AC_DEFINE([UDEV_SYNC_SUPPORT], 1, [Define to 1 to enable synchronisation with udev processing.])
+ fi
