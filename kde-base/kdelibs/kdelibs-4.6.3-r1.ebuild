@@ -1,6 +1,6 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/kde-base/kdelibs/kdelibs-4.6.2-r3.ebuild,v 1.1 2011/05/01 22:47:43 dilfridge Exp $
+# $Header: /var/cvsroot/gentoo-x86/kde-base/kdelibs/kdelibs-4.6.3-r1.ebuild,v 1.3 2011/05/10 19:48:48 dilfridge Exp $
 
 EAPI=4
 
@@ -128,15 +128,11 @@ add_blocker plasma-workspace '<4.3.75'
 PATCHES=(
 	"${FILESDIR}/dist/01_gentoo_set_xdg_menu_prefix.patch"
 	"${FILESDIR}/dist/02_gentoo_append_xdg_config_dirs-1.patch"
-#	"${FILESDIR}/${PN}-4.5.73-module-suffix.patch" - FIXME what is this and why is it needed?
-#	"${FILESDIR}/${PN}-4.4.66-macos-unbundle.patch" - FIXME needs to be ported, also see above
-#	"${FILESDIR}/${PN}-4.3.3-klauncher_kioslave.patch" - FIXME is this really needed? if so, please upstream it
-#	"${FILESDIR}/${PN}-4.5.74-klauncher_mac.patch" - FIXME read above
 	"${FILESDIR}/${PN}-4.5.90-mimetypes.patch"
 	"${FILESDIR}/${PN}-4.4.90-xslt.patch"
-	"${FILESDIR}/${PN}-4.6.0-kateacc.patch"
 	"${FILESDIR}/${PN}-4.6.2-nonepomuk.patch"
 	"${FILESDIR}/${PN}-4.6.3-no_suid_kdeinit.patch"
+	"${FILESDIR}/${PN}-4.6.3-use_QWeakPointer.patch"
 )
 
 pkg_pretend() {
@@ -307,6 +303,16 @@ pkg_postinst() {
 		einfo "to include 'mdns', e.g.:"
 		einfo "	hosts: files mdns dns"
 		echo
+	fi
+
+	if has_version 'net-libs/libproxy'; then
+		echo
+		elog "You have net-libs/libproxy installed. This may lead to serious problems, e.g."
+		elog "not being able to log in. We used to prohibit that combination via a blocker,"
+		elog "however the blocker has been removed because of popular request. Now everyone"
+		elog "may shoot himself in the foot as much as he wants."
+		ewarn "If you encounter timeouts and/or hangs, please have a look at bug 365479,"
+		ewarn "https://bugs.gentoo.org/show_bug.cgi?id=365479"
 	fi
 
 	elog "Your homedir is set to \${HOME}/${HME}"

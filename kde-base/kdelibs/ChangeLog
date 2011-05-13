@@ -1,6 +1,193 @@
 # ChangeLog for kde-base/kdelibs
 # Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
-# $Header: /var/cvsroot/gentoo-x86/kde-base/kdelibs/ChangeLog,v 1.719 2011/02/27 20:48:57 dilfridge Exp $
+# $Header: /var/cvsroot/gentoo-x86/kde-base/kdelibs/ChangeLog,v 1.758 2011/05/10 19:48:48 dilfridge Exp $
+
+  10 May 2011; Andreas K. Huettel <dilfridge@gentoo.org>
+  kdelibs-4.6.2-r3.ebuild, kdelibs-4.6.3-r1.ebuild:
+  Added ewarn message if libproxy is present
+
+  10 May 2011; Theo Chatzimichos <tampakrap@gentoo.org>
+  kdelibs-4.6.2-r3.ebuild, kdelibs-4.6.3-r1.ebuild:
+  Remove glib-networking blocker per popular demand
+
+  09 May 2011; Markos Chandras <hwoarang@gentoo.org> kdelibs-4.6.2-r3.ebuild:
+  Stable on amd64 wrt bug #354033
+
+*kdelibs-4.6.3-r1 (09 May 2011)
+
+  09 May 2011; Tomáš Chvátal <scarabeus@gentoo.org> -kdelibs-4.6.3.ebuild,
+  +kdelibs-4.6.3-r1.ebuild, +files/kdelibs-4.6.3-use_QWeakPointer.patch:
+  Apply upstream patch to fix plasma crash when removing icons from systray.
+  Thanks to Ian (thev00d00) for the pointer.
+
+  09 May 2011; Thomas Kahle <tomka@gentoo.org> kdelibs-4.6.2-r3.ebuild:
+  x86 stable per bug 354033
+
+  08 May 2011; Andreas K. Huettel <dilfridge@gentoo.org> kdelibs-4.6.3.ebuild:
+  Only block glib-networking[libproxy] for a try
+
+*kdelibs-4.6.3 (07 May 2011)
+
+  07 May 2011; Tomáš Chvátal <scarabeus@gentoo.org> +kdelibs-4.6.3.ebuild:
+  Version bump KDE SC 4.6.3
+
+  04 May 2011; Andreas K. Huettel <dilfridge@gentoo.org>
+  kdelibs-4.6.2-r3.ebuild:
+  Add blocker for net-libs/glib-networking to work around bug 365637; the
+  exact problem is still unclear.
+
+  04 May 2011; Tomáš Chvátal <scarabeus@gentoo.org>
+  -files/kdelibs-4.5.2-open-https.patch,
+  -files/kdelibs-4.5.5-cve20111168.patch,
+  -files/kdelibs-4.5.73-module-suffix.patch,
+  -files/kdelibs-4.5.74-klauncher_mac.patch,
+  -files/kdelibs-4.6.0-hostname.patch, -files/kdelibs-4.6.0-logoutcrash.patch,
+  -files/kdelibs-4.6.1-cve20111168.patch, -files/kdelibs-4.6.1-sslproxy.patch:
+  old
+
+  03 May 2011; Andreas K. Huettel <dilfridge@gentoo.org>
+  kdelibs-4.6.2-r3.ebuild:
+  Added postinstall message about upgrade guide
+
+*kdelibs-4.6.2-r3 (01 May 2011)
+
+  01 May 2011; Andreas K. Huettel <dilfridge@gentoo.org>
+  -kdelibs-4.6.2-r2.ebuild, +kdelibs-4.6.2-r3.ebuild,
+  +files/kdelibs-4.6.3-no_suid_kdeinit.patch:
+  Do not install start_kdeinit setuid, bug 365633
+
+  01 May 2011; Tomáš Chvátal <scarabeus@gentoo.org> kdelibs-4.6.2-r2.ebuild:
+  Add pkg_pretend check for gcc. Just moves the functionality from eclass to
+  the pkg. Technically it is sync from overlay so it bumped eapi and removed
+  useless dies.
+
+  18 Apr 2011; Andreas K. Huettel <dilfridge@gentoo.org>
+  kdelibs-4.6.2-r2.ebuild:
+  Now properly concatenate QT_PLUGIN_PATH
+
+  18 Apr 2011; Andreas K. Huettel <dilfridge@gentoo.org>
+  kdelibs-4.6.2-r2.ebuild:
+  Just overwrite the previous value of QT_PLUGIN_PATH, qt-4.7.2 does not
+  even set it anymore anyway
+
+  18 Apr 2011; Tomáš Chvátal <scarabeus@gentoo.org>
+  -kdelibs-4.4.5-r3.ebuild, -kdelibs-4.6.2-r1.ebuild:
+  old
+
+  11 Apr 2011; Andreas K. Huettel <dilfridge@gentoo.org>
+  kdelibs-4.6.2-r2.ebuild, +files/kdelibs-4.6.2-armlinking.patch:
+  Disable fatal linker warnings for all kde apps on arm only to make things
+  build, bug 336209
+
+  11 Apr 2011; Joseph Jezak <josejx@gentoo.org> kdelibs-4.4.5-r4.ebuild:
+  Marked ppc stable for bug #361015.
+
+*kdelibs-4.6.2-r2 (10 Apr 2011)
+
+  10 Apr 2011; Andreas K. Huettel <dilfridge@gentoo.org>
+  +kdelibs-4.6.2-r2.ebuild:
+  Set QT_PLUGIN_PATH, fixes bug 358299
+
+  08 Apr 2011; Andreas K. Huettel <dilfridge@gentoo.org>
+  -kdelibs-4.4.5.ebuild, -kdelibs-4.4.5-r1.ebuild, -kdelibs-4.4.5-r2.ebuild:
+  Cleanup
+
+  07 Apr 2011; Andreas K. Huettel <dilfridge@gentoo.org>
+  kdelibs-4.6.2-r1.ebuild:
+  Added missing dependency on x11-libs/libXScrnSaver, bug 362521
+
+*kdelibs-4.6.2-r1 (07 Apr 2011)
+
+  07 Apr 2011; Andreas K. Huettel <dilfridge@gentoo.org>
+  -kdelibs-4.6.2.ebuild, +kdelibs-4.6.2-r1.ebuild,
+  -files/kdelibs-4.6.2-safestrigi.patch:
+  Remove safestrigi patch, since it breaks tags in dolphin, bug 362513
+
+  07 Apr 2011; Andreas K. Huettel <dilfridge@gentoo.org>
+  kdelibs-4.6.2.ebuild, +files/kdelibs-4.6.2-nonepomuk.patch:
+  Fix build without semantik-desktop, bug 361637
+
+*kdelibs-4.6.2 (06 Apr 2011)
+
+  06 Apr 2011; Tomáš Chvátal <scarabeus@gentoo.org> -kdelibs-4.5.5.ebuild,
+  -kdelibs-4.6.0-r1.ebuild, -kdelibs-4.6.1.ebuild, -kdelibs-4.6.1-r1.ebuild,
+  -kdelibs-4.6.1-r2.ebuild, +kdelibs-4.6.2.ebuild,
+  +files/kdelibs-4.6.2-safestrigi.patch:
+  Version bump KDE SC 4.6.2
+
+  04 Apr 2011; Thomas Kahle <tomka@gentoo.org> kdelibs-4.4.5-r4.ebuild:
+  x86 stable per bug 361015
+
+  29 Mar 2011; Christoph Mende <angelos@gentoo.org> kdelibs-4.4.5-r4.ebuild:
+  Stable on amd64 wrt bug #361015
+
+  28 Mar 2011; Andreas K. Huettel <dilfridge@gentoo.org>
+  kdelibs-4.4.5-r4.ebuild:
+  Adding keywords after build test
+
+*kdelibs-4.6.1-r2 (27 Mar 2011)
+
+  27 Mar 2011; Andreas K. Huettel <dilfridge@gentoo.org>
+  +kdelibs-4.6.1-r2.ebuild:
+  Revision bump: added security patch from upstream, CVE-2011-1168
+
+*kdelibs-4.4.5-r4 (27 Mar 2011)
+
+  27 Mar 2011; Andreas K. Huettel <dilfridge@gentoo.org>
+  +kdelibs-4.4.5-r4.ebuild, +files/kdelibs-4.4.5-cve20111168.patch,
+  +files/kdelibs-4.5.5-cve20111168.patch,
+  +files/kdelibs-4.6.1-cve20111168.patch:
+  Revision bump: added untested security patch from upstream, CVE-2011-1168
+
+  26 Mar 2011; Andreas K. Huettel <dilfridge@gentoo.org>
+  kdelibs-4.4.5.ebuild, kdelibs-4.4.5-r1.ebuild, kdelibs-4.4.5-r2.ebuild,
+  kdelibs-4.4.5-r3.ebuild, kdelibs-4.5.5.ebuild, kdelibs-4.6.0-r1.ebuild,
+  kdelibs-4.6.1.ebuild, kdelibs-4.6.1-r1.ebuild:
+  Adapt phonon dependency for package move
+
+  13 Mar 2011; Kacper Kowalik <xarthisius@gentoo.org> kdelibs-4.4.5-r3.ebuild:
+  ppc stable wrt #358025
+
+  11 Mar 2011; Thomas Kahle <tomka@gentoo.org> kdelibs-4.4.5-r3.ebuild:
+  x86 stable per bug 358025
+
+  10 Mar 2011; Markos Chandras <hwoarang@gentoo.org> kdelibs-4.4.5-r3.ebuild:
+  Stable on amd64 wrt bug #358025
+
+  10 Mar 2011; Andreas K. Huettel <dilfridge@gentoo.org>
+  kdelibs-4.4.5-r3.ebuild:
+  Keywords added, thanks to Poly-C for testing
+
+  10 Mar 2011; Lars Wendler <polynomial-c@gentoo.org>
+  files/kdelibs-4.4.5-hostname.patch:
+  Added fixed 4.4.5-hostname.patch (with kind permission from tampakrap).
+
+*kdelibs-4.4.5-r3 (09 Mar 2011)
+
+  09 Mar 2011; Andreas K. Huettel <dilfridge@gentoo.org>
+  +kdelibs-4.4.5-r3.ebuild, +files/kdelibs-4.4.5-hostname.patch,
+  +files/kdelibs-4.6.0-hostname.patch:
+  Added kdelibs-4.4.5-r3 to address security bug 358025. Without keywords so
+  far since I cannot even build test it.
+
+  05 Mar 2011; Andreas K. Huettel <dilfridge@gentoo.org>
+  kdelibs-4.6.1-r1.ebuild:
+  Make kfmclient or xdg-utils PDEPEND instead
+
+  05 Mar 2011; Andreas K. Huettel <dilfridge@gentoo.org>
+  kdelibs-4.6.1-r1.ebuild:
+  Added kfmclient or xdg-utils RDEPEND, bug 300592
+
+*kdelibs-4.6.1-r1 (05 Mar 2011)
+
+  05 Mar 2011; Andreas K. Huettel <dilfridge@gentoo.org>
+  +kdelibs-4.6.1-r1.ebuild, +files/kdelibs-4.6.1-sslproxy.patch:
+  Add upstream patch fixing ssl proxy connections, bug 331029
+
+*kdelibs-4.6.1 (04 Mar 2011)
+
+  04 Mar 2011; Alexey Shvetsov <alexxy@gentoo.org> +kdelibs-4.6.1.ebuild:
+  Version bump KDE SC 4.6.1
 
   27 Feb 2011; Andreas K. Huettel <dilfridge@gentoo.org>
   kdelibs-4.6.0-r1.ebuild, +files/kdelibs-4.6.0-kateacc.patch:
