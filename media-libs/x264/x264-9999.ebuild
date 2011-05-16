@@ -23,11 +23,6 @@ src_unpack() {
 	git_src_unpack
 }
 
-src_prepare() {
-	epatch "${FILESDIR}"/${PN}-nostrip.patch \
-		"${FILESDIR}"/${PN}-onlylib.patch
-}
-
 src_configure() {
 	tc-export CC
 
