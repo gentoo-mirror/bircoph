@@ -42,12 +42,14 @@ src_configure() {
 		--prefix=/usr \
 		--libdir=/usr/$(get_libdir) \
 		--disable-avs \
+		--disable-cli \
 		--disable-lavf \
 		--disable-swscale \
 		--disable-gpac \
 		$(use threads || echo "--disable-thread") \
 		--enable-pic \
 		--enable-shared \
+		--enable-static \
 		--extra-asflags="${ASFLAGS}" \
 		--extra-cflags="${CFLAGS}" \
 		--extra-ldflags="${LDFLAGS}" \
