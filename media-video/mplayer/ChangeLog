@@ -6,13 +6,17 @@
 # Advanced overlay ebuild is meant to be in sync with portage one,
 # provide additional features and eventually send some of them upstream.
 
-  27 Mar 2010; Andrew Savchenko <bircoph@gmail.com> mplayer-9999.ebuild:
+  19 May 2011; Andrew Savchenko <bircoph@gmail.com> mplayer-9999.ebuild:
+  Make selection between bundled libav and ffmpeg switchable via
+  libav use flag. Left libav as default
+
+  27 Mar 2011; Andrew Savchenko <bircoph@gmail.com> mplayer-9999.ebuild:
   Use libav as main ffmpeg fork.
   Sync with upstream, but do not revert REQURIDE_USE for now (no
   good reason for this).
 
   Old and good ffmpeg repository is dead now...
-  18 Mar 2010; Andrew Savchenko <bircoph@gmail.com> ChangeLog.portage,
+  18 Mar 2011; Andrew Savchenko <bircoph@gmail.com> ChangeLog.portage,
   mplayer-9999.ebuild:
   Old and good ffmpeg repository is dead now...
 
@@ -29,20 +33,20 @@
 
   Fix installation for realcodecs docs and EAPI=4.
 
-  03 Mar 2010; Andrew Savchenko <bircoph@gmail.com> ChangeLog.portage,
+  03 Mar 2011; Andrew Savchenko <bircoph@gmail.com> ChangeLog.portage,
   mplayer-9999.ebuild:
   Sync with portage ebuild. Minor fixes.
 
-  07 Feb 2010; Andrew Savchenko <bircoph@gmail.com> ChangeLog.portage,
+  07 Feb 2011; Andrew Savchenko <bircoph@gmail.com> ChangeLog.portage,
   mplayer-9999.ebuild:
   Sync with portage ebuild.
   Use ffmpeg git.
 
-  17 Jan 2010; Andrew Savchenko <bircoph@gmail.com> ChangeLog.portage,
+  17 Jan 2011; Andrew Savchenko <bircoph@gmail.com> ChangeLog.portage,
   mplayer-9999.ebuild:
   Sync with portage ebuild.
 
-  15 Jan 2010; Andrew Savchenko <bircoph@gmail.com> ChangeLog.portage,
+  15 Jan 2011; Andrew Savchenko <bircoph@gmail.com> ChangeLog.portage,
   mplayer-9999.ebuild:
   Sync with portage ebuild:
   - internal faad2 copy is gone.

@@ -4,8 +4,6 @@
 
 EAPI=4
 
-EGIT_REPO_URI="git://git.libav.org/libav.git"
-EGIT_PROJECT="libav" # git eclass sets it to PN otherwise
 ESVN_REPO_URI="svn://svn.mplayerhq.hu/mplayer/trunk"
 [[ ${PV} = *9999* ]] && SVN_ECLASS="subversion git" || SVN_ECLASS=""
 
@@ -18,13 +16,21 @@ IUSE="3dnow 3dnowext +a52 aalib +alsa altivec aqua +ass bidi bindist bl bluray
 bs2b cddb +cdio cdparanoia cpudetection custom-cpuopts debug dga +dirac
 directfb doc +dts +dv dvb +dvd +dvdnav dxr3 +enca +encode esd +faac +faad fbcon
 ftp gif ggi gsm +iconv ipv6 jack joystick jpeg jpeg2k kernel_linux ladspa
-libcaca libmpeg2 lirc +live lzo mad md5sum +mmx mmxext mng +mp3 mpg123 nas nemesi
+libcaca libmpeg2 +libav lirc +live lzo mad md5sum +mmx mmxext mng +mp3 mpg123 nas nemesi
 +network nut openal amr +opengl +osdmenu oss png pnm pulseaudio pvr +quicktime
 radio +rar +real +rtc rtmp samba +shm +schroedinger sdl +speex sse sse2 ssse3 svga svga-helper
 tga +theora tivo +tremor +truetype +toolame +twolame +unicode v4l v4l2 vdpau vidix
 +vorbis vpx win32codecs +X +x264 xanim xinerama +xscreensaver +xv +xvid xvmc
 zoran"
 [[ ${PV} == *9999* ]] && IUSE+=" external-ffmpeg"
+
+if use libav; then
+	EGIT_REPO_URI="git://git.libav.org/libav.git"
+	EGIT_PROJECT="libav" # git eclass sets it to PN otherwise
+else
+	EGIT_REPO_URI="git://git.videolan.org/ffmpeg.git"
+	EGIT_PROJECT="ffmpeg" # git eclass sets it to PN otherwise
+fi
 
 VIDEO_CARDS="s3virge mga tdfx vesa"
 for x in ${VIDEO_CARDS}; do
