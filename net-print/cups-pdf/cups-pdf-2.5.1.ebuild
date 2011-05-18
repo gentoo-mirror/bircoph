@@ -4,7 +4,7 @@
 
 EAPI=4
 
-inherit eutils toolchain-funcs
+inherit toolchain-funcs
 
 DESCRIPTION="Provides a virtual printer for CUPS to produce PDF files."
 HOMEPAGE="http://www.cups-pdf.de/"
@@ -19,10 +19,6 @@ DEPEND="net-print/cups
 	app-text/ghostscript-gpl"
 RDEPEND="${DEPEND}"
 
-src_prepare() {
-	epatch "${FILESDIR}/${P}-perms.patch"
-}
-
 src_compile() {
 	cd "${S}"/src
 	$(tc-getCC) ${CFLAGS} ${LDFLAGS} -o ${PN} ${PN}.c || die "Compilation failed."
@@ -30,6 +26,7 @@ src_compile() {
 
 src_install () {
 	exeinto /usr/libexec/cups/backend
+	exeopts -m0700
 	doexe src/cups-pdf
 
 	insinto /usr/share/cups/model
