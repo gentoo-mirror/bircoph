@@ -1,6 +1,6 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/media-gfx/sane-backends/sane-backends-1.0.22.ebuild,v 1.1 2011/05/08 19:35:19 flameeyes Exp $
+# $Header: /var/cvsroot/gentoo-x86/media-gfx/sane-backends/sane-backends-1.0.22-r1.ebuild,v 1.1 2011/05/19 22:53:48 voyageur Exp $
 
 EAPI="4"
 
@@ -139,10 +139,7 @@ pkg_setup() {
 	enewgroup scanner
 }
 
-src_unpack() {
-	unpack ${A}
-	cd "${S}"
-
+src_prepare() {
 	cat >> backend/dll.conf.in <<-EOF
 	# Add support for the HP-specific backend.  Needs net-print/hplip installed.
 	hpaio
@@ -150,7 +147,10 @@ src_unpack() {
 	epkowa
 	EOF
 	#epatch "${DISTDIR}/${P}-i18n.patch"
+
 	epatch "${FILESDIR}/${P}-v4l.patch"
+	# Bug #368083
+	epatch "${FILESDIR}"/${P}-xerox_mfp-usb.patch
 }
 
 src_configure() {
