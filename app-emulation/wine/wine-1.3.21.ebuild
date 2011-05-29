@@ -214,9 +214,11 @@ src_install() {
 		rm "${D}"/usr/bin/{wine{dump,maker},function_grep.pl} "${D}"/usr/share/man/man1/wine{dump,maker}.1 || die
 	fi
 
-	# only users in the wine group may be able to use it
-	fowners -R :wine /usr/{bin,lib}/*
-	fperms -R o-rwx,g-w /usr/{bin,lib}/*
+	# for all bins and libs disable world access and group write access
+	# only users from wine group may be able to use it
+	local filelist=$( find "${D}"/usr/{bin,lib} -type f | gawk -v path="${D}" '{ gsub("^"path,""); print $0 }')
+	fowners :wine ${filelist} || die "chown failed"
+	fperms -R o-rwx,g-w ${filelist} || die "chmod failed"
 }
 
 pkg_postinst() {
