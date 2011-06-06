@@ -1,0 +1,19 @@
+diff -ru xorg-server-1.10.1/dix/window.c xorg-server-1.10.1-new/dix/window.c
+--- xorg-server-1.10.1/dix/window.c	2011-02-25 04:27:25.000000000 +0100
++++ xorg-server-1.10.1-new/dix/window.c	2011-05-15 15:15:03.912919996 +0200
+@@ -474,6 +474,7 @@
+         pWin->background.pixel = pScreen->whitePixel;
+         backFlag |= CWBackPixmap;
+     } else {
++	pWin->backgroundState = BackgroundPixel;
+ 	if (whiteRoot)
+             pWin->background.pixel = pScreen->whitePixel;
+         else
+@@ -972,6 +973,7 @@
+     else if (party_like_its_1989)
+ 	MakeRootTile(pWin);
+     else {
++	pWin->backgroundState = BackgroundPixel;
+ 	if (whiteRoot)
+ 	    pWin->background.pixel = pScreen->whitePixel;
+ 	else
