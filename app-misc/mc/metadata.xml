@@ -6,12 +6,6 @@
   <email>slyfox@inbox.ru</email>
 </maintainer>
 <use>
-  <flag name='background'>Add support for background jobs</flag>
-  <flag name='editor'>Add support for mcedit (some people don't use it)</flag>
-  <flag name='ext2undel'>Add support for undelete feature on ext2fs</flag>
-  <flag name='gpm'>Add mouse support in terminal (gmp daemon)</flag>
-  <flag name='network'>Add support for network related code</flag>
-  <flag name='vfs'>Add support for mc virtual filesystem</flag>
-  <flag name='charset'>Add support for charset selection in panel mode, viewer, editor</flag>
+  <flag name="edit">Build mcedit application</flag>
 </use>
 </pkgmetadata>
