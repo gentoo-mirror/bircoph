@@ -1,10 +1,10 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2010 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/media-video/kino/kino-1.3.3.ebuild,v 1.7 2011/03/23 08:36:47 radhermit Exp $
+# $Header: /var/cvsroot/gentoo-x86/media-video/kino/kino-1.3.3.ebuild,v 1.6 2010/01/20 21:15:41 ranger Exp $
 
-EAPI=1
+EAPI="4"
 
-inherit eutils linux-info
+inherit eutils
 
 DESCRIPTION="Kino is a non-linear DV editor for GNU/Linux"
 HOMEPAGE="http://www.kinodv.org/"
@@ -26,7 +26,7 @@ IUSE="alsa dvdr gpac lame gstreamer quicktime sox vorbis"
 # Optional dependency on cinelerra-cvs (as a replacement for libquicktime)
 # dropped because kino may run with it but won't build anymore.
 
-CDEPEND=">=x11-libs/gtk+-2.6.0:2
+CDEPEND=">=x11-libs/gtk+-2.6.0
 	>=gnome-base/libglade-2.5.0
 	>=dev-libs/glib-2
 	x11-libs/libXv
@@ -39,11 +39,11 @@ CDEPEND=">=x11-libs/gtk+-2.6.0:2
 	media-libs/libiec61883
 	media-libs/libv4l
 	alsa? ( >=media-libs/alsa-lib-1.0.9 )
-	>=media-video/ffmpeg-0.4.9_p20080326
+	virtual/ffmpeg
 	quicktime? ( >=media-libs/libquicktime-0.9.5 )"
 DEPEND="${CDEPEND}
 	dev-util/intltool"
-RDEPEND="${CDEPEND}
+CDEPEND="${DEPEND}
 	media-video/mjpegtools
 	media-sound/rawrec
 	dvdr? ( media-video/dvdauthor
@@ -54,31 +54,22 @@ RDEPEND="${CDEPEND}
 	sox? ( media-sound/sox )
 	vorbis? ( media-sound/vorbis-tools )"
 
-src_unpack() {
-	unpack ${A}
-	cd "${S}"
-
-	# Fix to link with --as-needed
-	sed -i -e 's:LIBS="-lXext:LIBS="-lXext -lX11:' configure || die "sed failed"
-
+src_prepare() {
 	# Deactivating automagic alsa configuration, bug #134725
 	if ! use alsa ; then
 		sed -i -e "s:HAVE_ALSA 1:HAVE_ALSA 0:" configure || die "sed failed"
 	fi
 
 	# Fix bug #169590
+	# https://sourceforge.net/tracker/?func=detail&aid=3304495&group_id=14103&atid=314103
 	sed -i \
 		-e '/\$(LIBQUICKTIME_LIBS) \\/d' \
 		-e '/^[[:space:]]*\$(SRC_LIBS)/ a\
 	\$(LIBQUICKTIME_LIBS) \\' \
 		src/Makefile.in || die "sed failed"
 
-	# Fix bug #172687
-	sed -i \
-		-e 's/^install-exec-local:/install-exec-local: install-binPROGRAMS/' \
-		src/Makefile.in || die "sed failed"
-
 	# Fix test failure discovered in bug #193947
+	# https://sourceforge.net/tracker/?func=detail&aid=3304499&group_id=14103&atid=314103
 	sed -i -e '$a\
 \
 ffmpeg/libavcodec/ps2/idct_mmi.c\
@@ -92,31 +83,20 @@ src/page_bttv.cc' po/POTFILES.in || die "sed failed"
 
 	sed -i -e 's:^#include <quicktime.h>:#include <lqt/quicktime.h>:' \
 		src/filehandler.h || die "sed failed"
-
-	# Fix compilation with gcc-4.3, see bug #215160
-	sed -i -e '/C++ includes/ a\
-#include <algorithm>' src/playlist.cc || die "sed failed"
-
-	epatch "${FILESDIR}/${P}-avutil.patch"
-
-	# fix build with new kernels without v4l1, see bug #361705
-	kernel_is -ge 2 6 38 && epatch "${FILESDIR}/${P}-v4l1.patch"
+	epatch "${FILESDIR}/${P}-v4l1.patch"
 }
 
-src_compile() {
+src_configure() {
 	econf \
 		--disable-dependency-tracking \
 		--disable-local-ffmpeg \
 		$(use_enable quicktime) \
 		$(use_with sparc dv1394) \
-		CPPFLAGS="-I${ROOT}usr/include/libavcodec -I${ROOT}usr/include/libavformat -I${ROOT}usr/include/libswscale" \
-		|| die "Configuration failed"
-	emake || die "Compilation failed"
+		CPPFLAGS="-I${ROOT}usr/include/libavcodec -I${ROOT}usr/include/libavformat -I${ROOT}usr/include/libswscale"
 }
 
 src_install() {
-	emake DESTDIR="${D}" install || die "Installation failed"
+	emake DESTDIR="${D}" install
 	dodoc AUTHORS BUGS ChangeLog NEWS README* TODO
-	# Fix bug #177378
-	fowners root:root -R /usr/share/kino/help
+	fowners root:root -R /usr/share/kino/help #177378
 }
