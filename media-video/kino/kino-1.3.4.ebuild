@@ -83,7 +83,7 @@ src/page_bttv.cc' po/POTFILES.in || die "sed failed"
 
 	sed -i -e 's:^#include <quicktime.h>:#include <lqt/quicktime.h>:' \
 		src/filehandler.h || die "sed failed"
-	epatch "${FILESDIR}/${P}-v4l1.patch"
+	epatch "${FILESDIR}/${PN}-1.3.3-v4l1.patch"
 }
 
 src_configure() {
