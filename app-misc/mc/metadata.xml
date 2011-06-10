@@ -3,7 +3,8 @@
 <pkgmetadata>
 <herd>no-herd</herd>
 <maintainer>
-  <email>slyfox@inbox.ru</email>
+  <email>bircoph@gmail.com</email>
+  <name>Andrew Savchenko</name>
 </maintainer>
 <use>
   <flag name="edit">Build mcedit application</flag>
