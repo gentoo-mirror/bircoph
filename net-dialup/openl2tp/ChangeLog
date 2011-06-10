@@ -2,6 +2,18 @@
 # Copyright 2000-2011 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+*openl2tp-1.8-r3.ebuild (10 Jun 2011)
+
+  10 Jun 2011; Andrew Savchenko <bircoph@gmail.com> 
+  +openl2tp-1.8-r3.ebuild, +files/openl2tp-1.8-pppd-2.patch,
+  +files/openl2tp-1.8-clientip_as_ipparam.patch,
+  +files/openl2tp-1.8-optionsfile.patch,
+  +files/openl2tp-1.8-parallelbuild.patch,
+  files/openl2tp-1.8-setkey.patch:
+  Use patches from Jaco Kroon to add new functionality and update
+  ebuild based on his valuable suggestions.
+  See bug 195461 for details.
+
 *openl2tp-1.8-r2.ebuild (21 Jan 2011)
 
   21 Jan 2011; Andrew Savchenko <bircoph@gmail.com> 
