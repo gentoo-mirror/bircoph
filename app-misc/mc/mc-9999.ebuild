@@ -4,7 +4,7 @@
 
 EAPI=4
 
-inherit autotools git-2
+inherit git-2
 
 DESCRIPTION="GNU Midnight Commander is a text based file manager"
 HOMEPAGE="http://midnight-commander.org"
@@ -39,7 +39,7 @@ DEPEND="${RDEPEND}
 DEPEND="${DEPEND} dev-vcs/cvs"
 
 src_prepare() {
-	eautoreconf
+	./autogen.sh
 }
 
 src_configure() {
