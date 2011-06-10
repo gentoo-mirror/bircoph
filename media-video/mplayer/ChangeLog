@@ -6,6 +6,10 @@
 # Advanced overlay ebuild is meant to be in sync with portage one,
 # provide additional features and eventually send some of them upstream.
 
+  06 Jun 2011; Andrew Savchenko <bircoph@gmail.com> mplayer-9999.ebuild:
+  Sync with portage ebuild, but do not unbundle ffmpeg due to both
+  performance and stability reasons. Deselect libav as default.
+
   19 May 2011; Andrew Savchenko <bircoph@gmail.com> mplayer-9999.ebuild:
   Make selection between bundled libav and ffmpeg switchable via
   libav use flag. Left libav as default
