@@ -13,6 +13,7 @@ SRC_URI="ftp://ftp.openl2tp.org/releases/${P}.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
+IUSE=""
 
 DEPEND=">=dev-libs/libnl-1.0"
 RDEPEND="${DEPEND}"

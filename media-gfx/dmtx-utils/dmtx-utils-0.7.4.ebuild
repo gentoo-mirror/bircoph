@@ -11,6 +11,7 @@ SRC_URI="mirror://sourceforge/libdmtx/${P}.tar.bz2"
 LICENSE="LGPL-2.1"
 SLOT="0"
 KEYWORDS="~x86"
+IUSE=""
 
 RDEPEND="
 	>=media-gfx/imagemagick-6.2.4
