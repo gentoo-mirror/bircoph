@@ -4,7 +4,7 @@
 
 EAPI=4
 
-inherit base eutils linux-info
+inherit base linux-info
 
 DESCRIPTION="Userspace tools for kernel L2TP implementation."
 HOMEPAGE="http://openl2tp.sourceforge.net"
