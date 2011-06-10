@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/app-portage/portage-utils/portage-utils-0.5.ebuild,v 1.1 2011/03/17 04:08:37 vapier Exp $
 
-EAPI="3"
+EAPI="4"
 
 inherit eutils flag-o-matic toolchain-funcs
 
@@ -27,7 +27,6 @@ src_compile() {
 
 src_install() {
 	emake install DESTDIR="${D}" || die
-	prepalldocs
 
 	exeinto /etc/portage/bin
 	doexe "${FILESDIR}"/post_sync || die

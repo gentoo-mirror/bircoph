@@ -4,7 +4,7 @@
 
 EAPI=3
 
-inherit autotools autotools-utils git multilib
+inherit autotools autotools-utils git-2 multilib
 
 DESCRIPTION="Helper library for	S3TC texture (de)compression"
 HOMEPAGE="http://cgit.freedesktop.org/~mareko/libtxc_dxtn/"
@@ -16,10 +16,6 @@ KEYWORDS=""
 IUSE=""
 
 RESTRICT="bindist"
-
-src_unpack() {
-	git_src_unpack
-}
 
 foreachabi() {
 	local ABI

@@ -3,7 +3,7 @@
 # $Header: /var/cvsroot/gentoo-x86/net-libs/libnemesi/libnemesi-0.6.ebuild,v 1.1 2009/10/27 12:45:51 ssuominen Exp $
 
 EAPI=2
-inherit autotools git multilib
+inherit autotools git-2 multilib
 
 DESCRIPTION="a RTSP/RTP client library"
 HOMEPAGE="http://lscube.org/projects/libnemesi/"
@@ -16,10 +16,6 @@ IUSE="examples ipv6 +sctp"
 
 DEPEND=">=net-libs/netembryo-0.0.9[sctp?]"
 RDEPEND=${DEPEND}
-
-src_unpack() {
-	git_src_unpack
-}
 
 src_prepare() {
 	eautoreconf

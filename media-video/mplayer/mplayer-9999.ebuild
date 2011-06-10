@@ -5,7 +5,7 @@
 EAPI=4
 
 ESVN_REPO_URI="svn://svn.mplayerhq.hu/mplayer/trunk"
-[[ ${PV} = *9999* ]] && SVN_ECLASS="subversion git" || SVN_ECLASS=""
+[[ ${PV} = *9999* ]] && SVN_ECLASS="subversion git-2" || SVN_ECLASS=""
 
 inherit toolchain-funcs eutils flag-o-matic multilib base ${SVN_ECLASS}
 
@@ -284,7 +284,7 @@ src_unpack() {
 		subversion_src_unpack
 		cd "${WORKDIR}"
 		rm -rf "${WORKDIR}/${P}/ffmpeg/"
-		( S="${WORKDIR}/${P}/ffmpeg/" git_src_unpack )
+		( S="${WORKDIR}/${P}/ffmpeg/" git-2_src_unpack )
 	else
 		unpack ${A}
 	fi

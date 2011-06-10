@@ -8,7 +8,7 @@ inherit eutils flag-o-matic multilib
 
 if [[ ${PV} == "9999" ]] ; then
 	EGIT_REPO_URI="git://source.winehq.org/git/wine.git"
-	inherit git autotools
+	inherit autotools git-2
 	SRC_URI=""
 	#KEYWORDS=""
 else
@@ -102,18 +102,10 @@ DEPEND="${RDEPEND}
 
 pkg_setup() {
 	enewgroup wine
-}
 
-src_unpack() {
 	if use win64 ; then
 		[[ $(( $(gcc-major-version) * 100 + $(gcc-minor-version) )) -lt 404 ]] \
 			&& die "you need gcc-4.4+ to build 64bit wine"
-	fi
-
-	if [[ ${PV} == "9999" ]] ; then
-		git_src_unpack
-	else
-		unpack ${MY_P}.tar.bz2
 	fi
 }
 
