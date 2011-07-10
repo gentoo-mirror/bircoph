@@ -41,7 +41,6 @@ CDEPEND="app-arch/xz-utils
 	virtual/jpeg
 	x11-libs/libX11
 	x11-libs/libXext
-	x11-libs/libXft
 	x11-libs/libXpm
 	|| ( >=media-libs/libafterimage-1.20 >=x11-wm/afterstep-2.2.11 )
 	afs? ( net-fs/openafs )
@@ -72,6 +71,7 @@ CDEPEND="app-arch/xz-utils
 	ruby? ( dev-lang/ruby
 			dev-ruby/rubygems )
 	ssl? ( dev-libs/openssl )
+	xft? ( x11-libs/libXft )
 	xml? ( dev-libs/libxml2 )"
 
 DEPEND="${CDEPEND}
