@@ -23,7 +23,7 @@ SRC_URI="ftp://root.cern.ch/${PN}/${PN}_v${PV}.source.tar.gz
 SLOT="0"
 LICENSE="LGPL-2.1"
 KEYWORDS="~amd64 ~x86"
-IUSE="afs avahi clarens doc emacs examples fits fftw graphviz kerberos ldap
+IUSE="+X afs avahi clarens doc emacs examples fits fftw graphviz kerberos ldap
 	llvm +math mpi mysql ncurses odbc +opengl openmp oracle postgres pythia6
 	pythia8	python +reflex ruby qt4 ssl xft xml xinetd xrootd"
 
@@ -31,18 +31,27 @@ CDEPEND="app-arch/xz-utils
 	>=dev-lang/cfortran-4.4-r2
 	dev-libs/libpcre
 	media-libs/freetype
-	media-libs/ftgl
 	media-libs/giflib
-	media-libs/glew
 	media-libs/libpng
 	media-libs/tiff
 	sys-apps/shadow
 	sys-libs/zlib
 	virtual/jpeg
-	x11-libs/libX11
-	x11-libs/libXext
-	x11-libs/libXpm
-	|| ( >=media-libs/libafterimage-1.20 >=x11-wm/afterstep-2.2.11 )
+	X? (
+		media-libs/ftgl
+		media-libs/glew
+		x11-libs/libX11
+		x11-libs/libXext
+		x11-libs/libXpm
+		|| ( >=media-libs/libafterimage-1.20 >=x11-wm/afterstep-2.2.11 )
+		opengl? ( virtual/opengl virtual/glu x11-libs/gl2ps )
+		qt4? ( x11-libs/qt-gui:4
+			x11-libs/qt-opengl:4
+			x11-libs/qt-qt3support:4
+			x11-libs/qt-svg:4
+			x11-libs/qt-webkit:4
+			x11-libs/qt-xmlpatterns:4 )
+		xft? ( x11-libs/libXft ) )
 	afs? ( net-fs/openafs )
 	avahi? ( net-dns/avahi )
 	clarens? ( dev-libs/xmlrpc-c )
@@ -57,21 +66,13 @@ CDEPEND="app-arch/xz-utils
 	mysql? ( virtual/mysql )
 	ncurses? ( sys-libs/ncurses )
 	odbc? ( || ( dev-db/libiodbc dev-db/unixODBC ) )
-	opengl? ( virtual/opengl virtual/glu x11-libs/gl2ps )
 	oracle? ( dev-db/oracle-instantclient-basic )
 	postgres? ( dev-db/postgresql-base )
 	pythia6? ( sci-physics/pythia:6 )
 	pythia8? ( sci-physics/pythia:8 )
-	qt4? ( x11-libs/qt-gui:4
-		x11-libs/qt-opengl:4
-		x11-libs/qt-qt3support:4
-		x11-libs/qt-svg:4
-		x11-libs/qt-webkit:4
-		x11-libs/qt-xmlpatterns:4 )
 	ruby? ( dev-lang/ruby
 			dev-ruby/rubygems )
 	ssl? ( dev-libs/openssl )
-	xft? ( x11-libs/libXft )
 	xml? ( dev-libs/libxml2 )"
 
 DEPEND="${CDEPEND}
@@ -182,7 +183,6 @@ src_configure() {
 		--disable-builtin-zlib \
 		--disable-builtin-lzma \
 		--disable-rpath \
-		--enable-asimage \
 		--enable-astiff \
 		--enable-exceptions	\
 		--enable-explicitlink \
@@ -194,6 +194,8 @@ src_configure() {
 		--enable-table \
 		--fail-on-missing \
 		--with-afs-shared=yes \
+		$(use_enable X x11) \
+		$(use_enable X asimage) \
 		$(use_enable afs) \
 		$(use_enable avahi bonjour) \
 		$(use_enable clarens) \
