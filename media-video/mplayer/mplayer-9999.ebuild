@@ -614,7 +614,7 @@ src_compile() {
 		local ALLOWED_LINGUAS="cs de en es fr hu it pl ru zh_CN"
 		local BUILT_DOCS=""
 		for i in ${LINGUAS} ; do
-			hasq ${i} ${ALLOWED_LINGUAS} && BUILT_DOCS+=" ${i}"
+			has ${i} ${ALLOWED_LINGUAS} && BUILT_DOCS+=" ${i}"
 		done
 		if [[ -z $BUILT_DOCS ]]; then
 			emake -j1 -C DOCS/xml html-chunked || die "Failed to generate html docs"
