@@ -6,7 +6,6 @@ app-portage
 dev-python
 dev-util
 games-strategy
-kde-base
 media-gfx
 media-libs
 media-sound
@@ -18,6 +17,5 @@ net-libs
 net-misc
 sys-apps
 sys-devel
-x11-base
 x11-libs
 x11-misc
