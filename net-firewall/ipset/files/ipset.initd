@@ -5,15 +5,15 @@
 
 opts="save"
 
-ipset_bin="/usr/sbin/ipset"
-
-depend() {
+depend()
+{
     before iptables ip6tables
     use logger
 }
 
-checkconfig() {
-    if [[ ! -f ${IPSET_SAVE} ]] ; then
+checkconfig()
+{
+    if [ ! -f ${IPSET_SAVE} ] ; then
         eerror "Not starting ${SVCNAME}. First create some rules then run:"
         eerror "/etc/init.d/${SVCNAME} save"
         return 1
@@ -21,34 +21,35 @@ checkconfig() {
     return 0
 }
 
-start() {
+start()
+{
     checkconfig || return 1
     ebegin "Loading ipset session'"
-    ${ipset_bin} restore < "${IPSET_SAVE}"
+    ipset restore < "${IPSET_SAVE}"
     eend $?
 }
 
-stop() {
-    service_started iptables && {
-        eerror "Can't stop while iptables is running"
+stop()
+{
+    if ! ipset list | gawk '{ if ($1 == "References:") cnt+=$2 }
+    END{ if (cnt > 0) exit 1 }'; then
+        eerror "ipset is in use, can't stop"
         return 1
-    }
-    service_started ip6tables && {
-        eerror "Can't stop while ip6tables is running"
-        return 1
-    }
-    if [[ "${SAVE_ON_STOP}" = "yes" ]] ; then
+    fi
+
+    if [ "${SAVE_ON_STOP}" == "yes" ] ; then
         save || return 1
     fi
     ebegin "Removing kernel IP sets"
-    ${ipset_bin} destroy
+    ipset destroy
     eend $?
 }
 
-save() {
+save()
+{
     ebegin "Saving ipset session"
     touch "${IPSET_SAVE}"
     chmod 0600 "${IPSET_SAVE}"
-    ${ipset_bin} save > "${IPSET_SAVE}"
+    ipset save > "${IPSET_SAVE}"
     eend $?
 }
