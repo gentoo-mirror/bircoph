@@ -1,18 +1,17 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/app-misc/mc/mc-4.7.5.2.ebuild,v 1.1 2011/04/12 13:54:22 wired Exp $
+# $Header: /var/cvsroot/gentoo-x86/app-misc/mc/mc-4.7.5.3.ebuild,v 1.2 2011/08/14 19:59:14 grobian Exp $
 
 EAPI=4
 
-inherit git-2
+inherit base flag-o-matic git-2
 
 DESCRIPTION="GNU Midnight Commander is a text based file manager"
-HOMEPAGE="http://midnight-commander.org"
+HOMEPAGE="http://www.midnight-commander.org"
 EGIT_REPO_URI="git://midnight-commander.org/git/mc.git"
 
 LICENSE="GPL-2"
 SLOT="0"
-
 KEYWORDS=""
 
 IUSE="+edit gpm +ncurses nls samba slang X"
@@ -35,9 +34,6 @@ DEPEND="${RDEPEND}
 	dev-util/pkgconfig
 	nls? ( sys-devel/gettext )"
 
-# needed only for SCM source tree (autopoint uses it)
-DEPEND="${DEPEND} dev-vcs/cvs"
-
 src_prepare() {
 	./autogen.sh
 }
@@ -45,6 +41,7 @@ src_prepare() {
 src_configure() {
 	local myscreen=ncurses
 	use slang && myscreen=slang
+	[[ ${CHOST} == *-solaris* ]] && append-ldflags "-lnsl -lsocket"
 
 	econf \
 		--disable-dependency-tracking \
