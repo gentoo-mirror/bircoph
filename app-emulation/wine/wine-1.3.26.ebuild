@@ -8,12 +8,11 @@ inherit eutils flag-o-matic multilib
 
 if [[ ${PV} == "9999" ]] ; then
 	EGIT_REPO_URI="git://source.winehq.org/git/wine.git"
-	inherit autotools git-2
+	inherit git-2
 	SRC_URI=""
 	#KEYWORDS=""
 else
 	AUTOTOOLS_AUTO_DEPEND="no"
-	inherit autotools
 	MY_P="${PN}-${PV/_/-}"
 	SRC_URI="mirror://sourceforge/${PN}/${MY_P}.tar.bz2"
 	KEYWORDS="-* ~amd64 ~x86 ~x86-fbsd"
