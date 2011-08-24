@@ -8,7 +8,7 @@ inherit base flag-o-matic git-2
 
 DESCRIPTION="GNU Midnight Commander is a text based file manager"
 HOMEPAGE="http://www.midnight-commander.org"
-EGIT_REPO_URI="git://midnight-commander.org/git/mc.git"
+EGIT_REPO_URI="git://repo.or.cz/midnight-commander.git"
 
 LICENSE="GPL-2"
 SLOT="0"
