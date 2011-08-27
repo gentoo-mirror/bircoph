@@ -53,6 +53,9 @@ src_prepare() {
 		-e 's:png_set_gray_1_2_4_to_8:png_set_expand_gray_1_2_4_to_8:' \
 		png.c || die
 
+	# One of the previous patches screws up a bracket...
+	epatch "${FILESDIR}"/${P}-bracket.patch
+
 	chmod +x configure
 	eautoreconf
 }
