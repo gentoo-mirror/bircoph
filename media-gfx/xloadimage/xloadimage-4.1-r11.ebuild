@@ -49,6 +49,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/${P}-unaligned-access.patch
 	epatch "${FILESDIR}"/${P}-ldflags_and_exit.patch
 
+	epatch "${FILESDIR}"/${P}-libpng15.patch
 	sed -i \
 		-e 's:png_set_gray_1_2_4_to_8:png_set_expand_gray_1_2_4_to_8:' \
 		png.c || die
