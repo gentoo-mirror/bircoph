@@ -37,8 +37,7 @@ src_configure() {
 		$(use_with ffmpeg) \
 		$(use_with mysql) \
 		$(use_with postgres pgsql) \
-		--without-optimizecpu \
-		${hack}
+		--without-optimizecpu
 }
 
 src_install() {
@@ -52,7 +51,7 @@ src_install() {
 
 	dohtml *.html
 
-	newinitd "${FILESDIR}"/motion.initd motion
+	newinitd "${FILESDIR}"/motion.initd-r2 motion
 	newconfd "${FILESDIR}"/motion.confd motion
 
 	mv -vf "${D}"/etc/motion{-dist,}.conf || die

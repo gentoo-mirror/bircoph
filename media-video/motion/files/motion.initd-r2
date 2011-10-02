@@ -1,9 +1,17 @@
 #!/sbin/runscript
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/media-video/motion/files/motion.init-r1,v 1.2 2011/05/19 18:51:26 ssuominen Exp $
+# $Header: /var/cvsroot/gentoo-x86/media-video/motion/files/motion.initd-r2,v 1.1 2011/10/02 18:48:35 ssuominen Exp $
 
-opts="${opts} reload"
+extra_started_commands="reload"
+
+_create_motion_run_dir() {
+	local dir="/var/run/motion"
+	if ! [ -d "$dir" ]; then
+		mkdir -p -m750 "$dir"
+		chown ${MOTION_USER}:${MOTION_GROUP} "$dir"
+	fi
+}
 
 depend() {
 	need modules
@@ -11,8 +19,10 @@ depend() {
 }
 
 start() {
+	_create_motion_run_dir
+
 	ebegin "Starting motion detection"
-	start-stop-daemon --start -c ${MOTION_USER} -g ${MOTION_GROUP} --quiet --exec /usr/bin/motion
+	start-stop-daemon --start -u ${MOTION_USER} -g ${MOTION_GROUP} --quiet --exec /usr/bin/motion
 	eend $?
 }
 
