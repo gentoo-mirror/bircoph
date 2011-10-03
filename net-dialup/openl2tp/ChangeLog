@@ -1,6 +1,20 @@
-# ChangeLog for dev-util/symlookup
-# Copyright 2000-2011 Gentoo Foundation; Distributed under the GPL v2
+# ChangeLog for net-dialup/openl2tp
+# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
+
+*openl2tp-1.8-r4 (03 Oct 2011)
+
+  03 Oct 2011; Andrew Savchenko <bircoph@gmail.com>
+  +files/examples/client.openl2tpd.conf, +files/examples/server.openl2tpd.conf,
+  +files/examples/server.options.openl2tpd,
+  +files/examples/server-radius.openl2tpd.conf, -files/openl2tpd.conf.sample,
+  files/openl2tpd.confd, +openl2tp-1.8-r4.ebuild:
+  net-dialup/ppp-2.4.5-r1 is now stable, so support for
+  <net-dialup/ppp-2.4.5 is dropped, there is no need to build pppd
+  modules now, pppd flag is removed.
+  Fix and simplify examples installation using EAPI-4.
+  Add server config example for setup using radius auth, thanks for
+  xaionaro; add an ordinary server config sample provided by cilly.
 
 *openl2tp-1.8-r3.ebuild (10 Jun 2011)
 
