@@ -35,7 +35,7 @@ src_unpack() {
 	epatch "${FILESDIR}"/${PN}-1.9.25-linux2.6.28.patch
 	epatch "${FILESDIR}"/${PN}-1.9.25-glibc210.patch #274305
 	epatch "${FILESDIR}"/${PN}-1.9.25-linux2.6.36.patch
-	epatch "${FILESDIR}"/${PN}-1.9.25-linux2.6.39.patch #274947
+	sed -i -e '/linux\/smp_lock.h/d' kernel/svgalib_helper/main.c || die
 }
 
 src_compile() {
