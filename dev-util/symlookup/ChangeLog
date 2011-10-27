@@ -1,6 +1,12 @@
 # ChangeLog for dev-util/symlookup
-# Copyright 2000-2010 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
+
+*symlookup-0.5.2 (27 Oct 2011)
+
+  27 Oct 2011; Andrew Savchenko <bircoph@gmail.com> -symlookup-0.5.1.ebuild,
+  +symlookup-0.5.2.ebuild:
+  symlookup: version bump
 
 *symlookup-0.5.1 (12 Oct 2010)
 
