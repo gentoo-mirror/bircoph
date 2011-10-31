@@ -2,7 +2,6 @@ app-cdr
 app-emulation
 app-i18n
 app-misc
-app-portage
 app-text
 dev-python
 dev-util
