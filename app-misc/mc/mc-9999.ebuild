@@ -10,11 +10,11 @@ DESCRIPTION="GNU Midnight Commander is a text based file manager"
 HOMEPAGE="http://www.midnight-commander.org"
 EGIT_REPO_URI="git://repo.or.cz/midnight-commander.git"
 
-LICENSE="GPL-2"
+LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS=""
 
-IUSE="+edit gpm +ncurses nls samba slang X"
+IUSE="+edit gpm +ncurses nls samba slang test X"
 
 REQUIRED_USE="^^ ( ncurses slang )"
 
@@ -32,7 +32,9 @@ RDEPEND=">=dev-libs/glib-2.8:2
 DEPEND="${RDEPEND}
 	app-arch/xz-utils
 	dev-util/pkgconfig
-	nls? ( sys-devel/gettext )"
+	nls? ( sys-devel/gettext )
+	test? ( dev-libs/check )
+	"
 
 src_prepare() {
 	./autogen.sh
@@ -53,7 +55,8 @@ src_configure() {
 		$(use_enable samba vfs-smb) \
 		$(use_with gpm gpm-mouse) \
 		--with-screen=${myscreen} \
-		$(use_with edit)
+		$(use_with edit) \
+		$(use_enable test tests)
 }
 
 src_install() {
