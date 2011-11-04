@@ -1,0 +1,10 @@
+--- authforce-0.9.9/src/http.c.orig	2007-05-14 02:54:20.000000000 +0400
++++ authforce-0.9.9/src/http.c	2011-11-05 02:30:17.672417535 +0400
+@@ -7,7 +7,6 @@
+ #include <time.h>
+ #ifdef USE_CURL
+ #include <curl/curl.h>
+-#include <curl/types.h>
+ #include <curl/easy.h>
+ #endif /* USE_CURL */
+ #ifdef MEMWATCH
