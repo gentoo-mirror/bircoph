@@ -11,7 +11,7 @@ HOMEPAGE="http://sampo.kapsi.fi/switchscreen/"
 SRC_URI="http://sampo.kapsi.fi/switchscreen/${P}.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~x86"
+KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 DEPEND="x11-libs/libX11"
