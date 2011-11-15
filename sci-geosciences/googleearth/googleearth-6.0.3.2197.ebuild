@@ -181,12 +181,16 @@ pkg_postinst() {
 	fdo-mime_desktop_database_update
 	fdo-mime_mime_database_update
 
-	elog "The qt-bundled flag is now enabled by default due to crashes on startup with system Qt."
-	elog "Testing and reporting outcome with/without the flag is welcome (bug #319813)."
-	elog "If it crashes in both cases, disabling tips is reported to help (bug #354281)."
+	ewarn "The qt-bundled flag is now enabled by default due to crashes on startup with system Qt."
+	ewarn "Testing and reporting outcome with/without the flag is welcome (bug #319813)."
+	ewarn "If it crashes in both cases, disabling tips is reported to help (bug #354281)."
+	ewarn "If it still crashes with tips disabled, remove /etc/fonts/conf.d/65-fonts-persian.conf"
 
 	ewarn
 	ewarn "You must be in the earth group in order to be able to use earth."
-	ewarn "It is recommended to use a separate user for running googleearth in order"
-	ewarn "to improve security by isolation."
+	ewarn "It is recommended to use a separate user for running googleearth in order to improve" 
+	ewarn "security by isolation."
+
+	ewarn
+	ewarn "To use hardware OpenGL acceleration, be sure googleearth user is in video group."
 }
