@@ -1,6 +1,19 @@
 # ChangeLog for app-misc/mc
 # Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
-# $Header: /var/cvsroot/gentoo-x86/app-misc/mc/ChangeLog,v 1.227 2011/10/21 16:29:53 slyfox Exp $
+# $Header: /var/cvsroot/gentoo-x86/app-misc/mc/ChangeLog,v 1.230 2011/11/11 13:23:20 naota Exp $
+
+  11 Nov 2011; Naohiro Aota <naota@gentoo.org> mc-4.7.5.3.ebuild,
+  mc-4.7.5.5.ebuild, mc-4.8.0.ebuild, mc-4.8.0-r1.ebuild:
+  Apply Bug #376943 fix to all related ebuilds
+
+  08 Nov 2011; Naohiro Aota <naota@gentoo.org> mc-4.7.5.2.ebuild:
+  Install cons.saver only on Linux. Bug #376943
+
+*mc-4.8.0-r1 (01 Nov 2011)
+
+  01 Nov 2011; Alex Alexander <wired@gentoo.org> +mc-4.8.0-r1.ebuild,
+  metadata.xml:
+  new use flag: mclib. install NEWS file, bug 389143
 
   21 Oct 2011; Sergei Trofimovich <slyfox@gentoo.org> metadata.xml:
   Added myself to maintainers.
