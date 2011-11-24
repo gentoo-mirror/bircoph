@@ -19,7 +19,7 @@ else
 	S=${WORKDIR}/${MY_P}
 fi
 
-GV="1.2.0"
+GV="1.4"
 DESCRIPTION="free implementation of Windows(tm) on Unix"
 HOMEPAGE="http://www.winehq.org/"
 SRC_URI="${SRC_URI}
@@ -132,7 +132,7 @@ do_configure() {
 		$(use_with jpeg) \
 		$(use_with ldap) \
 		$(use_with mp3 mpg123) \
-		$(use_with nls gettextpo) \
+		$(use_with nls gettext) \
 		$(use_with openal) \
 		$(use_with opencl) \
 		$(use_with opengl) \
