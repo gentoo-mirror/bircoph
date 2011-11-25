@@ -188,7 +188,7 @@ pkg_postinst() {
 
 	ewarn
 	ewarn "You must be in the earth group in order to be able to use earth."
-	ewarn "It is recommended to use a separate user for running googleearth in order to improve" 
+	ewarn "It is recommended to use a separate user for running googleearth in order to improve"
 	ewarn "security by isolation."
 
 	ewarn

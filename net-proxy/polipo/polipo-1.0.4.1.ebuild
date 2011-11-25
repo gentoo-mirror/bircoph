@@ -15,6 +15,7 @@ KEYWORDS="amd64 x86"
 IUSE=""
 
 DEPEND="sys-apps/texinfo"
+RDEPEND=""
 
 PATCHES=( "${FILESDIR}/${P}-dns.patch" )
 
