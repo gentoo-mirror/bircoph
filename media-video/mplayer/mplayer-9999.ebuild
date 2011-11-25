@@ -19,7 +19,7 @@ ftp gif ggi gsm +iconv ipv6 jack joystick jpeg jpeg2k kernel_linux ladspa
 libcaca libmpeg2 libav lirc +live lzo mad md5sum +mmx mmxext mng +mp3 mpg123 nas nemesi
 +network nut openal amr +opengl +osdmenu oss png pnm pulseaudio pvr +quicktime
 radio +rar +real +rtc rtmp samba +shm +schroedinger sdl +speex sse sse2 ssse3 svga svga-helper
-tga +theora tivo +tremor +truetype +toolame +twolame +unicode v4l v4l2 vdpau vidix
+tga +theora tivo +tremor +truetype +toolame +twolame +unicode v4l vdpau vidix
 +vorbis vpx win32codecs +X +x264 xanim xinerama +xscreensaver +xv +xvid xvmc
 zoran"
 [[ ${PV} == *9999* ]] && IUSE+=" external-ffmpeg"
@@ -395,12 +395,13 @@ src_configure() {
 	myconf+=" --disable-tv-bsdbt848"
 	# broken upstream, won't work with recent kernels
 	myconf+=" --disable-ivtv"
-	if { use dvb || use v4l || use v4l2 || use pvr || use radio; }; then
+	# gone since linux-headers-2.6.38
+	myconf+=" --disable-tv-v4l1"
+	if { use dvb || use v4l || use pvr || use radio; }; then
 		use dvb || myconf+=" --disable-dvb"
 		use pvr || myconf+=" --disable-pvr"
-		use v4l || myconf+=" --disable-tv-v4l1"
-		use v4l2 || myconf+=" --disable-tv-v4l2"
-		if use radio && { use dvb || use v4l || use v4l2; }; then
+		use v4l || myconf+=" --disable-tv-v4l2"
+		if use radio && { use dvb || use v4l; }; then
 			myconf+="
 				--enable-radio
 				$(use_enable encode radio-capture)
@@ -414,7 +415,6 @@ src_configure() {
 	else
 		myconf+="
 			--disable-tv
-			--disable-tv-v4l1
 			--disable-tv-v4l2
 			--disable-radio
 			--disable-radio-v4l2
@@ -617,10 +617,10 @@ src_compile() {
 			has ${i} ${ALLOWED_LINGUAS} && BUILT_DOCS+=" ${i}"
 		done
 		if [[ -z $BUILT_DOCS ]]; then
-			emake -j1 -C DOCS/xml html-chunked || die "Failed to generate html docs"
+			emake -j1 -C DOCS/xml html-chunked
 		else
 			for i in ${BUILT_DOCS}; do
-				emake -j1 -C DOCS/xml html-chunked-${i} || die "Failed to generate html docs for ${i}"
+				emake -j1 -C DOCS/xml html-chunked-${i}
 			done
 		fi
 	fi
@@ -632,26 +632,26 @@ src_install() {
 	emake \
 		DESTDIR="${D}" \
 		INSTALLSTRIP="" \
-		install || die "emake install failed"
+		install
 
-	dodoc AUTHORS Changelog Copyright README etc/codecs.conf || die
+	dodoc AUTHORS Changelog Copyright README etc/codecs.conf
 
 	docinto tech/
-	dodoc DOCS/tech/{*.txt,MAINTAINERS,mpsub.sub,playtree,TODO,wishlist} || die
+	dodoc DOCS/tech/{*.txt,MAINTAINERS,mpsub.sub,playtree,TODO,wishlist}
 	docinto TOOLS/
-	dodoc -r TOOLS/* || die
+	dodoc -r TOOLS/*
 	if use real; then
 		docinto tech/realcodecs/
-		dodoc DOCS/tech/realcodecs/* || die
+		dodoc DOCS/tech/realcodecs/*
 	else
 		rm -rf "${ED}/usr/share/doc/${P}/TOOLS/realcodecs"
 	fi
 	docinto tech/mirrors/
-	dodoc DOCS/tech/mirrors/* || die
+	dodoc DOCS/tech/mirrors/*
 
 	if use doc; then
 		docinto html/
-		dohtml -r "${S}"/DOCS/HTML/* || die
+		dohtml -r "${S}"/DOCS/HTML/*
 	fi
 
 	if ! use ass && ! use truetype; then
@@ -667,15 +667,15 @@ src_install() {
 	fi
 
 	insinto /etc/mplayer
-	newins "${S}/etc/example.conf" mplayer.conf || die
+	newins "${S}/etc/example.conf" mplayer.conf
 	cat >> "${ED}/etc/mplayer/mplayer.conf" << _EOF_
 # Config options can be section specific, global
 # options should go in the default section
 [default]
 _EOF_
-	doins "${S}/etc/input.conf" || die
+	doins "${S}/etc/input.conf"
 	if use osdmenu; then
-		doins "${S}/etc/menu.conf" || die
+		doins "${S}/etc/menu.conf"
 	fi
 
 	if use ass || use truetype; then
@@ -694,7 +694,7 @@ _EOF_
 	fi
 
 	dosym ../../../etc/mplayer/mplayer.conf /usr/share/mplayer/mplayer.conf
-	newbin "${S}/TOOLS/midentify.sh" midentify || die
+	newbin "${S}/TOOLS/midentify.sh" midentify
 }
 
 pkg_preinst() {
