@@ -617,10 +617,10 @@ src_compile() {
 			has ${i} ${ALLOWED_LINGUAS} && BUILT_DOCS+=" ${i}"
 		done
 		if [[ -z $BUILT_DOCS ]]; then
-			emake -j1 -C DOCS/xml html-chunked
+			emake -j1 html-chunked
 		else
 			for i in ${BUILT_DOCS}; do
-				emake -j1 -C DOCS/xml html-chunked-${i}
+				emake -j1 html-chunked-${i}
 			done
 		fi
 	fi
