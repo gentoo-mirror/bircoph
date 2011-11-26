@@ -37,9 +37,10 @@ DEPEND="${RDEPEND}
 	test? ( dev-libs/check )
 	"
 
-PATCHES=( "${FILESDIR}/mc-keybinding.patch" )
+PATCHES=( "${FILESDIR}/${PN}-keybinding.patch" )
 
 src_prepare() {
+	default_src_prepare
 	./autogen.sh
 }
 
