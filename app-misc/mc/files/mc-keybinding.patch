@@ -1,0 +1,48 @@
+diff --git a/lib/mcconfig.h b/lib/mcconfig.h
+index ff3abce..37246a3 100644
+--- a/lib/mcconfig.h
++++ b/lib/mcconfig.h
+@@ -68,6 +68,8 @@ int *mc_config_get_int_list (mc_config_t *, const gchar *, const gchar *, gsize
+ 
+ void mc_config_set_string_raw (mc_config_t *, const gchar *, const gchar *, const gchar *);
+ 
++void mc_config_set_string_raw_value (mc_config_t *, const gchar *, const gchar *, const gchar *);
++
+ void mc_config_set_string (const mc_config_t *, const gchar *, const gchar *, const gchar *);
+ 
+ void mc_config_set_bool (mc_config_t *, const gchar *, const gchar *, gboolean);
+diff --git a/lib/mcconfig/set.c b/lib/mcconfig/set.c
+index 9678d28..6dc5397 100644
+--- a/lib/mcconfig/set.c
++++ b/lib/mcconfig/set.c
+@@ -77,6 +77,16 @@ mc_config_set_string_raw (mc_config_t * mc_config, const gchar * group,
+     g_key_file_set_string (mc_config->handle, group, param, value);
+ }
+ 
++void
++mc_config_set_string_raw_value (mc_config_t * mc_config, const gchar * group,
++                             const gchar * param, const gchar * value)
++{
++    if (!mc_config || !group || !param || !value)
++        return;
++
++    g_key_file_set_value (mc_config->handle, group, param, value);
++}
++
+ /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+ 
+ void
+--- a/src/learn.c
++++ b/src/learn.c
+@@ -371,9 +371,9 @@ learn_save (void)
+         {
+             profile_changed = 1;
+ 
+-            esc_str = strutils_escape (learnkeys[i].sequence, -1, ";", TRUE);
++            esc_str = strutils_escape (learnkeys[i].sequence, -1, ";\\", TRUE);
+ 
+-            mc_config_set_string_raw (mc_main_config, section, key_name_conv_tab[i].name, esc_str);
++            mc_config_set_string_raw_value (mc_main_config, section, key_name_conv_tab[i].name, esc_str);
+ 
+             g_free (esc_str);
+         }
