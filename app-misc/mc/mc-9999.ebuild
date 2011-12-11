@@ -63,7 +63,7 @@ src_configure() {
 
 src_install() {
 	emake DESTDIR="${D}" install || die
-	dodoc AUTHORS README NEWS
+	dodoc AUTHORS doc/{FAQ,NEWS,README}
 
 	# fix bug #334383
 	if use kernel_linux &&[[ ${EUID} == 0 ]] ; then
