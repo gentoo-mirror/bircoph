@@ -4,7 +4,7 @@
 
 EAPI=4
 
-inherit base eutils flag-o-matic git-2
+inherit base flag-o-matic git-2
 
 DESCRIPTION="GNU Midnight Commander is a text based file manager"
 HOMEPAGE="http://www.midnight-commander.org"
@@ -38,7 +38,6 @@ DEPEND="${RDEPEND}
 	"
 
 src_prepare() {
-	epatch "${FILESDIR}/${PN}-keybinding.patch"
 	./autogen.sh
 }
 
