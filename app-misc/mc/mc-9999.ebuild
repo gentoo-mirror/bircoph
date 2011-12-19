@@ -1,6 +1,6 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/app-misc/mc/mc-4.7.5.3.ebuild,v 1.2 2011/08/14 19:59:14 grobian Exp $
+# $Header: /var/cvsroot/gentoo-x86/app-misc/mc/mc-4.8.1-r1.ebuild,v 1.2 2011/12/16 13:17:35 wired Exp $
 
 EAPI=4
 
@@ -8,14 +8,12 @@ inherit base flag-o-matic git-2
 
 DESCRIPTION="GNU Midnight Commander is a text based file manager"
 HOMEPAGE="http://www.midnight-commander.org"
-#EGIT_REPO_URI="git://repo.or.cz/midnight-commander.git"
 EGIT_REPO_URI="git://midnight-commander.org/git/mc.git"
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS=""
-
-IUSE="+edit gpm mclib +ncurses nls samba slang test X"
+KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~x86-fbsd ~x86-interix ~amd64-linux ~ppc-macos ~x64-macos ~x86-macos ~sparc-solaris ~sparc64-solaris ~x86-solaris"
+IUSE="+edit gpm mclib +ncurses nls samba slang test X +xdg"
 
 REQUIRED_USE="^^ ( ncurses slang )"
 
@@ -46,6 +44,9 @@ src_configure() {
 	use slang && myscreen=slang
 	[[ ${CHOST} == *-solaris* ]] && append-ldflags "-lnsl -lsocket"
 
+	local homedir=".mc"
+	use xdg && homedir="XDG"
+
 	econf \
 		--disable-dependency-tracking \
 		$(use_enable nls) \
@@ -58,7 +59,8 @@ src_configure() {
 		--with-screen=${myscreen} \
 		$(use_with edit) \
 		$(use_enable mclib) \
-		$(use_enable test tests)
+		$(use_enable test tests) \
+		--with-homedir=${homedir}
 }
 
 src_install() {
@@ -66,7 +68,7 @@ src_install() {
 	dodoc AUTHORS doc/{FAQ,NEWS,README}
 
 	# fix bug #334383
-	if use kernel_linux &&[[ ${EUID} == 0 ]] ; then
+	if use kernel_linux && [[ ${EUID} == 0 ]] ; then
 		fowners root:tty /usr/libexec/mc/cons.saver ||
 			die "setting cons.saver's owner failed"
 		fperms g+s /usr/libexec/mc/cons.saver ||
