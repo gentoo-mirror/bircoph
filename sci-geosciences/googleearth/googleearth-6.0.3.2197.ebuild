@@ -21,7 +21,7 @@ IUSE="mdns-bundled +qt-bundled"
 
 GCC_NEEDED="4.2"
 
-RDEPEND=">=sys-devel/gcc-${GCC_NEEDED}[-nocxx]
+RDEPEND="|| ( >=sys-devel/gcc-${GCC_NEEDED}[cxx] >=sys-devel/gcc-${GCC_NEEDED}[-nocxx] )
 	x86? (
 		media-libs/fontconfig
 		media-libs/freetype
