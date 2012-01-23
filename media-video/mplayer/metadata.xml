@@ -14,7 +14,6 @@
 	<flag name="bs2b">Enable Bauer stereophonic-to-binaural headphone filter</flag>
 	<flag name="cdio">Use libcdio for CD support (instead of cdparanoia)</flag>
 	<flag name="cpudetection">Enables runtime CPU detection (useful for bindist, compatibility on other CPUs)</flag>
-	<flag name="custom-cpuopts">Fine-tune custom CPU optimizations (UNSUPPORTED)</flag>
 	<flag name="dirac">Enable Dirac video support (an advanced royalty-free video compression format) via the reference library: dirac.</flag>
 	<flag name="dvdnav">Use forked libdvdnav, navigate menus in GUIs</flag>
 	<flag name="dxr3">Enable DXR3/H+ video output</flag>
