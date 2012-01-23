@@ -13,7 +13,7 @@ inherit toolchain-funcs eutils flag-o-matic multilib base ${SVN_ECLASS}
 [[ ${PV} != *9999* ]] && MPLAYER_REVISION=SVN-r32598
 
 IUSE="3dnow 3dnowext +a52 aalib +alsa altivec aqua +ass bidi bindist bl bluray
-bs2b cddb +cdio cdparanoia cpudetection custom-cpuopts debug dga +dirac
+bs2b cddb +cdio cdparanoia cpudetection debug dga +dirac
 directfb doc +dts +dv dvb +dvd +dvdnav dxr3 +enca +encode +faac +faad fbcon
 ftp gif ggi gsm +iconv ipv6 jack joystick jpeg jpeg2k kernel_linux ladspa
 libcaca libmpeg2 libav lirc +live lzo mad md5sum +mmx mmxext mng +mp3 mpg123 nas nemesi
@@ -62,7 +62,7 @@ X_RDEPS="
 	x11-libs/libXext
 	x11-libs/libXxf86vm
 "
-[[ ${PV} == *9999* ]] && RDEPEND+=" external-ffmpeg? ( virtual/ffmpeg )"
+[[ ${PV} == *9999* ]] && RDEPEND+=" external-ffmpeg? ( >=virtual/ffmpeg-0.9.1 )"
 # Rar: althrought -gpl version is nice, it cant do most functions normal rars can
 #	nemesi? ( net-libs/libnemesi )
 RDEPEND+="
@@ -96,7 +96,7 @@ RDEPEND+="
 	amr? ( !bindist? ( media-libs/opencore-amr ) )
 	ass? ( ${FONT_RDEPS} >=media-libs/libass-0.9.10[enca?] )
 	bidi? ( dev-libs/fribidi )
-	bluray? ( media-libs/libbluray )
+	bluray? ( >=media-libs/libbluray-0.2.1 )
 	bs2b? ( media-libs/libbs2b )
 	cdio? ( dev-libs/libcdio )
 	cdparanoia? ( !cdio? ( media-sound/cdparanoia ) )
@@ -206,7 +206,7 @@ fi
 REQUIRED_USE="bindist? ( !amr !faac !win32codecs )
 	cdio? ( !cdparanoia !cddb )
 	dvdnav? ( dvd )
-	ass? ( iconv truetype )
+	ass? ( truetype )
 	truetype? ( iconv )
 	unicode? ( iconv )
 	vorbis? ( tremor )
@@ -219,14 +219,6 @@ for x in ${uses}; do
 		${x}? ( encode )
 	"
 done
-# cpu options needs custom-cpuopts enabled
-# but since it is not so fatal we rather ignore them
-#uses="3dnow 3dnowext altivec mmx mmxext shm sse sse2 ssse3"
-#for x in ${uses}; do
-#	REQUIRED_USE+="
-#		${x}? ( custom-cpuopts )
-#	"
-#done
 # xorg options require X useflag enabled
 uses="dga dxr3 ggi opengl osdmenu vdpau vidix xinerama xscreensaver xv xvmc"
 for x in ${uses}; do
@@ -258,23 +250,6 @@ pkg_setup() {
 		ewarn "You won't need this turned on if you are only building"
 		ewarn "mplayer for this system. Also, if your compile fails, try"
 		ewarn "disabling this use flag."
-	fi
-
-	if use custom-cpuopts; then
-		ewarn
-		ewarn "You are using the custom-cpuopts flag which will"
-		ewarn "specifically allow you to enable / disable certain"
-		ewarn "CPU optimizations."
-		ewarn
-		ewarn "Most desktop users won't need this functionality, but it"
-		ewarn "is included for corner cases like cross-compiling and"
-		ewarn "certain profiles. If unsure, disable this flag and MPlayer"
-		ewarn "will automatically detect and use your available CPU"
-		ewarn "optimizations."
-		ewarn
-		ewarn "Using this flag means your build is unsupported, so"
-		ewarn "please make sure your CPU optimization use flags (3dnow"
-		ewarn "3dnowext mmx mmxext sse sse2 ssse3) are properly set."
 	fi
 }
 
@@ -534,16 +509,10 @@ src_configure() {
 	# Platform specific flags, hardcoded on amd64 (see below)
 	use cpudetection && myconf+=" --enable-runtime-cpudetection"
 
-	# Turning off CPU optimizations usually will break the build.
-	# However, this use flag, if enabled, will allow users to completely
-	# specify which ones to use. If disabled, mplayer will automatically
-	# enable all CPU optimizations that the host build supports.
-	if use custom-cpuopts; then
-		uses="3dnow 3dnowext altivec mmx mmxext shm sse sse2 ssse3"
-		for i in ${uses}; do
-			myconf+=" $(use_enable ${i})"
-		done
-	fi
+	uses="3dnow 3dnowext altivec mmx mmxext shm sse sse2 ssse3"
+	for i in ${uses}; do
+		myconf+=" $(use_enable ${i})"
+	done
 
 	use debug && myconf+=" --enable-debug=3"
 
