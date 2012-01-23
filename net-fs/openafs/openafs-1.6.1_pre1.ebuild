@@ -31,7 +31,7 @@ S="${WORKDIR}/${MY_P}"
 src_prepare() {
 	EPATCH_EXCLUDE="012_all_kbuild.patch" \
 	EPATCH_SUFFIX="patch" \
-	epatch "${WORKDIR}"/gentoo/patches \
+	epatch "${WORKDIR}"/gentoo/patches
 	epatch "${FILESDIR}/${PN}-1.6.0-afsauthent-symbols.patch"
 
 	# packaging is f-ed up, so we can't run automake (i.e. eautoreconf)
