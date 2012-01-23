@@ -1,4 +1,4 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/media-video/mplayer/mplayer-9999.ebuild,v 1.91 2011/01/30 21:08:15 scarabeus Exp $
 
@@ -14,7 +14,7 @@ inherit toolchain-funcs eutils flag-o-matic multilib base ${SVN_ECLASS}
 
 IUSE="3dnow 3dnowext +a52 aalib +alsa altivec aqua +ass bidi bindist bl bluray
 bs2b cddb +cdio cdparanoia cpudetection custom-cpuopts debug dga +dirac
-directfb doc +dts +dv dvb +dvd +dvdnav dxr3 +enca +encode esd +faac +faad fbcon
+directfb doc +dts +dv dvb +dvd +dvdnav dxr3 +enca +encode +faac +faad fbcon
 ftp gif ggi gsm +iconv ipv6 jack joystick jpeg jpeg2k kernel_linux ladspa
 libcaca libmpeg2 libav lirc +live lzo mad md5sum +mmx mmxext mng +mp3 mpg123 nas nemesi
 +network nut openal amr +opengl +osdmenu oss png pnm pulseaudio pvr +quicktime
@@ -117,7 +117,6 @@ RDEPEND+="
 		x264? ( >=media-libs/x264-0.0.20100423 )
 		xvid? ( media-libs/xvid )
 	)
-	esd? ( media-sound/esound )
 	enca? ( app-i18n/enca )
 	faad? ( media-libs/faad2 )
 	gif? ( media-libs/giflib )
@@ -520,7 +519,9 @@ src_configure() {
 	################
 	# Audio Output #
 	################
-	uses="alsa esd jack ladspa nas openal"
+	# esound is outdated and removed from portage
+	myconf+=" --disable-esd"
+	uses="alsa jack ladspa nas openal"
 	for i in ${uses}; do
 		use ${i} || myconf+=" --disable-${i}"
 	done
