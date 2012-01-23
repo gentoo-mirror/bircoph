@@ -7,6 +7,10 @@
 # provide additional features and eventually send some of them upstream.
 
   23 Jan 2012; Andrew Savchenko <bircoph@gmail.com> mplayer-9999.ebuild:
+  Update and simplify dependencies.
+  Inspired and based on changes from the main portage tree.
+
+  23 Jan 2012; Andrew Savchenko <bircoph@gmail.com> mplayer-9999.ebuild:
   Twolame and toolame are mutually exclusive. Prefer the former one.
 
   23 Jan 2012; Andrew Savchenko <bircoph@gmail.com> mplayer-9999.ebuild:

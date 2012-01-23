@@ -69,56 +69,35 @@ RDEPEND+="
 	sys-libs/ncurses
 	app-arch/bzip2
 	sys-libs/zlib
-	!bindist? (
-		x86? (
-			win32codecs? ( media-libs/win32codecs )
-		)
-	)
-	X? (
-		${X_RDEPS}
-		dga? ( x11-libs/libXxf86dga )
-		ggi? (
-			media-libs/libggi
-			media-libs/libggiwmh
-		)
-		opengl? ( virtual/opengl )
-		vdpau? ( x11-libs/libvdpau )
-		xinerama? ( x11-libs/libXinerama )
-		xscreensaver? ( x11-libs/libXScrnSaver )
-		xv? (
-			x11-libs/libXv
-			xvmc? ( x11-libs/libXvMC )
-		)
-	)
 	a52? ( media-libs/a52dec )
 	aalib? ( media-libs/aalib )
 	alsa? ( media-libs/alsa-lib )
-	amr? ( !bindist? ( media-libs/opencore-amr ) )
+	amr? ( media-libs/opencore-amr )
 	ass? ( ${FONT_RDEPS} >=media-libs/libass-0.9.10[enca?] )
 	bidi? ( dev-libs/fribidi )
 	bluray? ( >=media-libs/libbluray-0.2.1 )
 	bs2b? ( media-libs/libbs2b )
 	cdio? ( dev-libs/libcdio )
 	cdparanoia? ( !cdio? ( media-sound/cdparanoia ) )
+	dga? ( x11-libs/libXxf86dga )
 	dirac? ( media-video/dirac )
 	directfb? ( dev-libs/DirectFB )
 	dts? ( media-libs/libdca )
 	dv? ( media-libs/libdv )
 	dvb? ( media-tv/linuxtv-dvb-headers )
-	dvd? (
-		>=media-libs/libdvdread-4.1.3
-		dvdnav? ( >=media-libs/libdvdnav-4.1.3 )
-	)
+	dvd? ( >=media-libs/libdvdread-4.1.3 )
+	dvdnav? ( >=media-libs/libdvdnav-4.1.3 )
 	encode? (
 		toolame? ( media-sound/toolame )
 		twolame? ( media-sound/twolame )
-		faac? ( !bindist? ( media-libs/faac ) )
+		faac? ( media-libs/faac )
 		mp3? ( media-sound/lame )
 		x264? ( >=media-libs/x264-0.0.20100423 )
 		xvid? ( media-libs/xvid )
 	)
 	enca? ( app-i18n/enca )
 	faad? ( media-libs/faad2 )
+	ggi? ( media-libs/libggi media-libs/libggiwmh )
 	gif? ( media-libs/giflib )
 	gsm? ( media-sound/gsm )
 	iconv? ( virtual/libiconv )
@@ -138,6 +117,7 @@ RDEPEND+="
 	nemesi? ( net-libs/libnemesi )
 	nut? ( >=media-libs/libnut-661 )
 	openal? ( media-libs/openal )
+	opengl? ( virtual/opengl )
 	png? ( media-libs/libpng )
 	pnm? ( media-libs/netpbm )
 	pulseaudio? ( media-sound/pulseaudio )
@@ -159,9 +139,16 @@ RDEPEND+="
 	theora? ( media-libs/libtheora[encode?] )
 	tivo? ( media-libs/vstream-client )
 	truetype? ( ${FONT_RDEPS} )
+	vdpau? ( x11-libs/libvdpau )
 	vorbis? ( media-libs/libvorbis )
 	vpx? ( media-libs/libvpx )
+	X? ( ${X_RDEPS} )
+	x86? ( win32codecs? ( media-libs/win32codecs ) )
 	xanim? ( media-video/xanim )
+	xinerama? ( x11-libs/libXinerama )
+	xscreensaver? ( x11-libs/libXScrnSaver )
+	xv? ( x11-libs/libXv )
+	xvmc? ( x11-libs/libXvMC )
 "
 
 X_DEPS="
@@ -171,13 +158,11 @@ X_DEPS="
 ASM_DEP="dev-lang/yasm"
 DEPEND="${RDEPEND}
 	dev-util/pkgconfig
-	X? (
-		${X_DEPS}
-		dga? ( x11-proto/xf86dgaproto )
-		dxr3? ( media-video/em8300-libraries )
-		xinerama? ( x11-proto/xineramaproto )
-		xscreensaver? ( x11-proto/scrnsaverproto )
-	)
+	dga? ( x11-proto/xf86dgaproto )
+	dxr3? ( media-video/em8300-libraries )
+	X? ( ${X_DEPS} )
+	xinerama? ( x11-proto/xineramaproto )
+	xscreensaver? ( x11-proto/scrnsaverproto )
 	amd64? ( ${ASM_DEP} )
 	doc? (
 		dev-libs/libxslt app-text/docbook-xml-dtd
