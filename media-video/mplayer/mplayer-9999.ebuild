@@ -19,7 +19,7 @@ ftp gif ggi gsm +iconv ipv6 jack joystick jpeg jpeg2k kernel_linux ladspa
 libcaca libmpeg2 libav lirc +live lzo mad md5sum +mmx mmxext mng +mp3 mpg123 nas nemesi
 +network nut openal amr +opengl +osdmenu oss png pnm pulseaudio pvr +quicktime
 radio +rar +real +rtc rtmp samba +shm +schroedinger sdl +speex sse sse2 ssse3 svga svga-helper
-tga +theora tivo +tremor +truetype +toolame +twolame +unicode v4l vdpau vidix
+tga +theora tivo +tremor +truetype toolame +twolame +unicode v4l vdpau vidix
 +vorbis vpx win32codecs +X +x264 xanim xinerama +xscreensaver +xv +xvid xvmc
 zoran"
 [[ ${PV} == *9999* ]] && IUSE+=" external-ffmpeg"
@@ -110,7 +110,7 @@ RDEPEND+="
 		dvdnav? ( >=media-libs/libdvdnav-4.1.3 )
 	)
 	encode? (
-		!twolame? ( toolame? ( media-sound/toolame ) )
+		toolame? ( media-sound/toolame )
 		twolame? ( media-sound/twolame )
 		faac? ( !bindist? ( media-libs/faac ) )
 		mp3? ( media-sound/lame )
@@ -207,6 +207,8 @@ REQUIRED_USE="bindist? ( !amr !faac !win32codecs )
 	cdio? ( !cdparanoia !cddb )
 	dvdnav? ( dvd )
 	ass? ( truetype )
+	toolame? ( !twolame )
+	twolame? ( !toolame )
 	truetype? ( iconv )
 	unicode? ( iconv )
 	vorbis? ( tremor )
