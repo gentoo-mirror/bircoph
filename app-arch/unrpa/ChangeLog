@@ -1,0 +1,10 @@
+# ChangeLog for app-arch/unrpa
+# Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+*unrpa-9999 (05 Feb 2012)
+
+  05 Feb 2012; Andrew Savchenko <bircoph@gmail.com> +unrpa-9999.ebuild,
+  +metadata.xml:
+  Initial ebuild based on public git repo.
+
