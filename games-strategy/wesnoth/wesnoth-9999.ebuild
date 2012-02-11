@@ -1,6 +1,6 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/games-strategy/wesnoth/wesnoth-1.8.1.ebuild,v 1.1 2010/05/01 16:33:25 mr_bones_ Exp $
+# $Header: /var/cvsroot/gentoo-x86/games-strategy/wesnoth/wesnoth-1.10.ebuild,v 1.1 2012/01/23 18:41:53 mr_bones_ Exp $
 
 EAPI=2
 inherit cmake-utils eutils multilib toolchain-funcs flag-o-matic games subversion
@@ -13,7 +13,7 @@ ESVN_PROJECT="wesnoth"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS=""
-IUSE="dbus dedicated doc nls server tinygui"
+IUSE="dbus dedicated doc nls server"
 
 RDEPEND=">=media-libs/libsdl-1.2.7[video,X]
 	media-libs/sdl-net
@@ -23,7 +23,7 @@ RDEPEND=">=media-libs/libsdl-1.2.7[video,X]
 	!dedicated? (
 		dbus? ( sys-apps/dbus )
 	)
-	>=dev-libs/boost-1.35
+	>=dev-libs/boost-1.36
 	sys-libs/zlib
 	x11-libs/pango
 	dev-lang/lua
@@ -31,14 +31,6 @@ RDEPEND=">=media-libs/libsdl-1.2.7[video,X]
 	virtual/libintl"
 DEPEND="${RDEPEND}
 	dev-util/pkgconfig
-	!dedicated? (
-		tinygui? (
-			|| (
-				media-gfx/imagemagick[jpeg,png]
-				media-gfx/graphicsmagick[imagemagick,jpeg,png]
-			)
-		)
-	)
 	sys-devel/gettext"
 
 src_unpack() {
@@ -62,7 +54,7 @@ src_prepare() {
 			|| die "sed failed"
 	fi
 	# how do I hate boost? Let me count the ways...
-	local boost_ver=$(best_version ">=dev-libs/boost-1.35")
+	local boost_ver=$(best_version ">=dev-libs/boost-1.36")
 
 	boost_ver=${boost_ver/*boost-/}
 	boost_ver=${boost_ver%.*}
@@ -75,6 +67,9 @@ src_prepare() {
 		-L/usr/$(get_libdir)/boost-${boost_ver}
 	export BOOST_INCLUDEDIR="/usr/include/boost-${boost_ver}"
 	export BOOST_LIBRARYDIR="/usr/$(get_libdir)/boost-${boost_ver}"
+
+	epatch "${FILESDIR}"/${P}-xdg-path-fix.patch
+
 	# I really like the old picture, not the new one.
 	cp "${FILESDIR}/${PN}-icon-music.png" "${S}/images/icons/icon-music.png"
 }
@@ -104,12 +99,10 @@ src_configure() {
 		$(cmake-utils_use_enable !dedicated ENABLE_DESKTOP_ENTRY)
 		$(cmake-utils_use_enable nls NLS)
 		$(cmake-utils_use_enable dbus NOTIFICATIONS)
-		"-DGUI=$(use tinygui && echo tiny || echo normal)"
 		"-DCMAKE_VERBOSE_MAKEFILE=TRUE"
 		"-DENABLE_FRIBIDI=FALSE"
 		"-DENABLE_STRICT_COMPILATION=FALSE"
 		"-DCMAKE_INSTALL_PREFIX=${GAMES_PREFIX}"
-		"-DPREFERENCES_DIR=.wesnoth"
 		"-DDATAROOTDIR=${GAMES_DATADIR}"
 		"-DBINDIR=${GAMES_BINDIR}"
 		"-DICONDIR=/usr/share/pixmaps"
