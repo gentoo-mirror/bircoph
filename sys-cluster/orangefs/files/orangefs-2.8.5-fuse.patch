@@ -1,0 +1,11 @@
+--- orangefs-2.8.5/Makefile.in.orig	2012-02-16 21:22:49.000000000 +0400
++++ orangefs-2.8.5/Makefile.in	2012-02-18 15:44:25.279448042 +0400
+@@ -1190,7 +1190,7 @@
+ endif
+ 
+ ifdef BUILD_FUSE
+-	install -m 755 $(FUSE) $(prefix)/bin
++	install -m 755 $(FUSE) $(bindir)
+ endif
+ 
+ 	# install any development tools built

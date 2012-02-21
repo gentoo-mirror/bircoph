@@ -1,0 +1,19 @@
+--- orangefs-2.8.5/Makefile.in.orig	2012-02-16 16:09:37.000000000 +0400
++++ orangefs-2.8.5/Makefile.in	2012-02-16 21:22:49.842571105 +0400
+@@ -318,12 +318,15 @@
+ # server side flow protocol connecting BMI with NCAC cache
+ SERVERCFLAGS += -D__STATIC_FLOWPROTO_BMI_CACHE__
+ 
+-SERVERLIBS = -lpvfs2-server @LIBS@ @DB_LIB@ -lpthread 
++SERVERLIBS = -lpvfs2-server @LIBS@ @DB_LIB@
+ 
+ ifdef NEEDS_LIBRT 
+ 	SERVERLIBS += -lrt
+ endif
+ 
++# must be after -lrt because -lrt may use -lpthread
++SERVERLIBS += -lpthread 
++
+ # you can optionally disable thread safety support in the client
+ # though it's not recommended unless *required*.
+ #
