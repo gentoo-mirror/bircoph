@@ -1,0 +1,17 @@
+# ChangeLog for sys-cluster/orangefs
+# Copyright 2000-2012 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+*orangefs-2.8.5.ebuild (21 Feb 2012)
+
+  21 Feb 2012; Andrew Savchenko <bircoph@gmail.com>
+  +orangefs-2.8.5.ebuild, +metadata.xml,
+  +files/orangefs-2.8.5-fuse.patch,
+  +files/orangefs-2.8.5-split-kernapps.patch,
+  +files/orangefs-2.8.5-static-server.patch,
+  +files/orangefs-2.8.5-vis.patch,
+  +files/pvfs2-client-conf.d, +files/pvfs2-client-init.d,
+  +files/pvfs2-server-conf.d, +fiels/pvfs2-server-init.d:
+  This ebuild is vaguely based on the ebuild for pvfs2 which was once
+  in the portage. Major changes were made to accomodate new features
+  and behaviour.

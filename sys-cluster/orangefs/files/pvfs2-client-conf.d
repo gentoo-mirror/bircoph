@@ -1,5 +1,5 @@
 # Extra arguments to supply to the pvfs2-client daemon
-#PVFS2_CLIENT_ARGS="-L /var/log/pvfs2-client.log"
+PVFS2_CLIENT_ARGS="-L /var/log/pvfs2/client.log"
 
 # Location of the pvfs2-client binaries.  Defaults are shown
 PVFS2_CLIENT="/usr/sbin/pvfs2-client"
