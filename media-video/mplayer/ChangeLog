@@ -6,6 +6,14 @@
 # Advanced overlay ebuild is meant to be in sync with portage one,
 # provide additional features and eventually send some of them upstream.
 
+  29 Feb 2012; Andrew Savchenko <bircoph@gmail.com> -portage/ChangeLog-2008,
+  mplayer-9999.ebuild, -portage/ChangeLog, metadata.xml:
+  mplayer: sync with portage
+
+  Remove portage aux directory.
+  To simplify further diffs with tree use sources.gentoo.org:
+  http://sources.gentoo.org/cgi-bin/viewvc.cgi/gentoo-x86/media-video/mplayer/
+
   23 Jan 2012; Andrew Savchenko <bircoph@gmail.com> mplayer-9999.ebuild:
   Ebuild simplifications, cosmetics and minor changes from main tree
   ebuild.

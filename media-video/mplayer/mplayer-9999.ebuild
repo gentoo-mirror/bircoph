@@ -14,7 +14,7 @@ inherit toolchain-funcs eutils flag-o-matic multilib base ${SVN_ECLASS}
 
 IUSE="3dnow 3dnowext +a52 aalib +alsa altivec aqua +ass bidi bindist bl bluray
 bs2b cddb +cdio cdparanoia cpudetection debug dga +dirac
-directfb doc +dts +dv dvb +dvd +dvdnav dxr3 +enca +encode +faac +faad fbcon
+directfb doc +dts +dv dvb +dvd +dvdnav dxr3 +enca +encode -external-ffmpeg +faac +faad fbcon
 ftp gif ggi gsm +iconv ipv6 jack joystick jpeg jpeg2k kernel_linux ladspa
 libcaca libmpeg2 libav lirc +live lzo mad md5sum +mmx mmxext mng +mp3 mpg123 nas nemesi
 +network nut openal amr +opengl +osdmenu oss png pnm pulseaudio pvr +quicktime
@@ -22,7 +22,6 @@ radio +rar +real +rtc rtmp samba +shm +schroedinger sdl +speex sse sse2 ssse3 sv
 tga +theora tivo +tremor +truetype toolame +twolame +unicode v4l vdpau vidix
 +vorbis vpx win32codecs +X +x264 xanim xinerama +xscreensaver +xv +xvid xvmc
 zoran"
-[[ ${PV} == *9999* ]] && IUSE+=" external-ffmpeg"
 
 if use libav; then
 	EGIT_REPO_URI="git://git.libav.org/libav.git"
@@ -62,7 +61,6 @@ X_RDEPS="
 	x11-libs/libXext
 	x11-libs/libXxf86vm
 "
-[[ ${PV} == *9999* ]] && RDEPEND+=" external-ffmpeg? ( >=virtual/ffmpeg-0.9.1 )"
 # Rar: althrought -gpl version is nice, it cant do most functions normal rars can
 #	nemesi? ( net-libs/libnemesi )
 RDEPEND+="
@@ -84,7 +82,7 @@ RDEPEND+="
 	directfb? ( dev-libs/DirectFB )
 	dts? ( media-libs/libdca )
 	dv? ( media-libs/libdv )
-	dvb? ( media-tv/linuxtv-dvb-headers )
+	dvb? ( virtual/linuxtv-dvb-headers )
 	dvd? ( >=media-libs/libdvdread-4.1.3 )
 	dvdnav? ( >=media-libs/libdvdnav-4.1.3 )
 	encode? (
@@ -96,6 +94,7 @@ RDEPEND+="
 		xvid? ( media-libs/xvid )
 	)
 	enca? ( app-i18n/enca )
+	external-ffmpeg? ( >virtual/ffmpeg-0.10 )
 	faad? ( media-libs/faad2 )
 	ggi? ( media-libs/libggi media-libs/libggiwmh )
 	gif? ( media-libs/giflib )
