@@ -4,7 +4,7 @@
 
 EAPI=2
 
-inherit eutils fdo-mime versionator toolchain-funcs
+inherit eutils unpacker fdo-mime versionator toolchain-funcs
 
 DESCRIPTION="A 3D interface to the planet"
 HOMEPAGE="http://earth.google.com/"
