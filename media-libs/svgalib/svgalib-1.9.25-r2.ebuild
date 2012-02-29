@@ -1,8 +1,8 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/media-libs/svgalib/svgalib-1.9.25-r1.ebuild,v 1.2 2010/03/04 09:41:47 fauli Exp $
+# $Header: /var/cvsroot/gentoo-x86/media-libs/svgalib/svgalib-1.9.25-r1.ebuild,v 1.4 2011/10/03 17:01:40 mr_bones_ Exp $
 
-EAPI=1
+EAPI="4"
 
 inherit eutils flag-o-matic toolchain-funcs linux-mod
 
@@ -26,16 +26,15 @@ pkg_setup() {
 	BUILD_PARAMS="KDIR=${KV_OUT_DIR}"
 }
 
-src_unpack() {
-	unpack ${A}
-	cd "${S}"
+src_prepare() {
 	epatch "${FILESDIR}"/${PN}-1.9.25-linux2.6.patch
 	epatch "${FILESDIR}"/${PN}-1.9.19-pic.patch #51698
 	epatch "${FILESDIR}"/${PN}-1.9.25-build.patch
 	epatch "${FILESDIR}"/${PN}-1.9.25-linux2.6.28.patch
 	epatch "${FILESDIR}"/${PN}-1.9.25-glibc210.patch #274305
-	epatch "${FILESDIR}"/${PN}-1.9.25-linux2.6.36.patch # 344663
-	epatch "${FILESDIR}"/${PN}-1.9.25-vga_getmodenumber.patch # 402831
+	epatch "${FILESDIR}"/${PN}-1.9.25-linux2.6.36-r1.patch
+	epatch "${FILESDIR}"/${PN}-1.9.25-segfault.patch
+	epatch "${FILESDIR}"/${PN}-1.9.25-build2.patch
 	sed -i -e '/linux\/smp_lock.h/d' kernel/svgalib_helper/main.c || die
 }
 
@@ -45,29 +44,29 @@ src_compile() {
 	export CC=$(tc-getCC)
 
 	# First build static
-	make OPTIMIZE="${CFLAGS}" static || die "Failed to build static libraries!"
+	emake OPTIMIZE="${CFLAGS}" static || die "Failed to build static libraries!"
 	# Then build shared ...
-	make OPTIMIZE="${CFLAGS}" shared || die "Failed to build shared libraries!"
+	emake OPTIMIZE="${CFLAGS}" shared || die "Failed to build shared libraries!"
 	# Missing in some cases ...
 	ln -s libvga.so.${PV} sharedlib/libvga.so
 	# Build lrmi and tools ...
-	make OPTIMIZE="${CFLAGS}" LDFLAGS="-L../sharedlib" \
+	emake OPTIMIZE="${CFLAGS}" LDFLAGS+=" -L../sharedlib" \
 		textutils lrmi utils \
 		|| die "Failed to build libraries and utils!"
 	# Build the gl stuff tpp
-	make OPTIMIZE="${CFLAGS}" -C gl || die "Failed to build gl!"
-	make OPTIMIZE="${CFLAGS}" -C gl libvgagl.so.${PV} \
+	emake OPTIMIZE="${CFLAGS}" -C gl || die "Failed to build gl!"
+	emake OPTIMIZE="${CFLAGS}" -C gl libvgagl.so.${PV} \
 		|| die "Failed to build libvgagl.so.${PV}!"
 	# Missing in some cases ...
 	ln -s libvgagl.so.${PV} sharedlib/libvgagl.so
-	make OPTIMIZE="${CFLAGS}" -C src libvga.so.${PV} \
+	emake OPTIMIZE="${CFLAGS}" -C src libvga.so.${PV} \
 		|| die "Failed to build libvga.so.${PV}!"
 	cp -pPR src/libvga.so.${PV} sharedlib/
 	# Build threeDKit ...
-	make OPTIMIZE="${CFLAGS}" LDFLAGS='-L../sharedlib' \
+	emake OPTIMIZE="${CFLAGS}" LDFLAGS+=" -L../sharedlib" \
 		-C threeDKit lib3dkit.a || die "Failed to build threeDKit!"
 	# Build demo's ...
-	make OPTIMIZE="${CFLAGS} -I../gl" LDFLAGS='-L../sharedlib' \
+	emake OPTIMIZE="${CFLAGS} -I../gl" LDFLAGS+=" -L../sharedlib" \
 		demoprogs || die "Failed to build demoprogs!"
 
 	! use build && use kernel-helper && linux-mod_src_compile
