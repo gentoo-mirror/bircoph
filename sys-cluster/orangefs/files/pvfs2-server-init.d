@@ -12,7 +12,8 @@ else
     PVFS2_CONF_DEFAULT="/etc/pvfs2/fs.conf"
 fi
 PVFS2_CONF=${PVFS2_CONF:-${PVFS2_CONF_DEFAULT}}
-PVFS2_SERVER=${PVFS2_SERVER:-/usr/sbin/pvfs2-server}
+PVFS2_SERVER=${PVFS2_SERVER:-"/usr/sbin/pvfs2-server"}
+PVFS2_START_TIMEOUT=1000
 
 depend() {
     after localmount netmount nfsmount dns
@@ -38,15 +39,6 @@ checkconfig() {
     fi
         return 1
     fi
-    
-    # server will not start if is not able to create logfile
-    local logfile=$(gawk '($1 == "LogFile") { print $2 }' "${PVFS2_CONF}")
-    if [[ -z "${logfile}" ]]; then
-        eerror "Config file is invalid: it must contain LogFile parameter"
-        return 1
-    fi
-    local logdir=$(dirname "${logfile}")
-    [[ -d "${logdir}" ]] || ( mkdir -p "${logdir}" || return 1 )
 }
 
 start() {
@@ -63,11 +55,11 @@ start() {
         rc=$?
     fi
 
-    einfo "starting ${PVFS2_SERVER} -p ${PVFS2_PID} ${PVFS2_OPTIONS} ${PVFS2_CONF}"
     if [[ ${rc} -eq 0 ]]; then 
-        start-stop-daemon -b --start --quiet \
+        start-stop-daemon --start \
             --pidfile "${PVFS2_PID}" \
             --exec "${PVFS2_SERVER}" \
+            --wait "${PVFS2_START_TIMEOUT}" \
             -- -p "${PVFS2_PID}" ${PVFS2_OPTIONS} "${PVFS2_CONF}"
         rc=$?
     fi

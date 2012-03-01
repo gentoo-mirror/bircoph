@@ -30,6 +30,7 @@ RDEPEND="${CDEPEND}
 	modules? ( sys-apps/module-init-tools )
 "
 DEPEND="${CDEPEND}
+	dev-util/pkgconfig
 	>=sys-devel/autoconf-2.59
 	sys-devel/bison
 	sys-devel/flex
@@ -72,6 +73,9 @@ src_prepare() {
 
 	# Fix sandbox violation during pvfs2fuse install
 	epatch "${FILESDIR}"/${P}-fuse.patch
+
+	# Allow data layout control (proposed by upstream)
+	epatch "${FILESDIR}"/${P}-layout.patch
 
 	# Change defalt server logfile location to more appropriate value
 	# used by init script.
@@ -155,6 +159,8 @@ src_install() {
 	newinitd "${FILESDIR}"/pvfs2-client-init.d pvfs2-client
 	newconfd "${FILESDIR}"/pvfs2-client-conf.d pvfs2-client
 
+	keepdir /var/log/pvfs2
+
 	dodoc AUTHORS CREDITS ChangeLog INSTALL README
 
 	if use doc; then
@@ -205,11 +211,10 @@ pkg_postinst() {
 	elog
 	elog "6) To use configured and created partition aside from starting "
 	elog "pvfs2-server you should either provide an /etc/fstab or /etc/pvfs2tab"
-	elog "entry (recommended) like:"
+	elog "entry like:"
 	elog "tcp://testhost:3334/pvfs2-fs /mnt/pvfs2 pvfs2 defaults,noauto 0 0"
-	elog "or mount partition specifying full paths prior to usage even with"
-	elog "PVFS2 libraries without kernel VFS. The same applies for ROMIO I/O"
-	elog "interface."
+	elog "or mount partition specifying full paths prior to usage, even if you"
+	elog "want to use PVFS2 libraries or ROMIO interface without kernel VFS."
 }
 
 pkg_config() {
