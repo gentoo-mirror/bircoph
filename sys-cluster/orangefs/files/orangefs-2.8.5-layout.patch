@@ -4,7 +4,7 @@
      int32_t directio_thread_num;
      int32_t directio_ops_per_queue;
      int32_t directio_timeout;
-+    
++
 +    /* Specify default data layout: none, random, round-robin (default) */
 +    int default_layout;
  } filesystem_configuration_s;
@@ -29,7 +29,7 @@
 +     *
 +     * none - PVFS_SYS_LAYOUT_NONE:
 +     * servers are selected in the order listed  in the configuration
-+     * starting with the first one; 
++     * starting with the first one;
 +     *
 +     * random - PVFS_SYS_LAYOUT_RANDOM:
 +     * servers are selected in random order but no server is used twice;
@@ -53,7 +53,7 @@
 +DOTCONF_CB(get_default_layout)
 +{
 +    struct filesystem_configuration_s *fs_conf = NULL;
-+    struct server_configuration_s *config_s = 
++    struct server_configuration_s *config_s =
 +        (struct server_configuration_s *)cmd->context;
 +
 +    fs_conf = (struct filesystem_configuration_s *)

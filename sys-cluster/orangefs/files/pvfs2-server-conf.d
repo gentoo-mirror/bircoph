@@ -2,11 +2,8 @@
 # to that config file.
 #PVFS2_FS_CONF="/etc/pvfs/fs.conf"
 
-# The server will record its PID in this file using the -p argument.
-#PVFS2_PIDFILE=/var/run/pvfs2.pid
-
 # Additional options
-PVFS2_OPTIONS=""
+#PVFS2_OPTIONS=""
 
 # Automatically call pvfs2-server with --mkfs if the first call to
 # start the daemon fails.  Off by default as this does mess with

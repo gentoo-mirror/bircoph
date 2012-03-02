@@ -183,6 +183,7 @@ src_install() {
 pkg_postinst() {
 	linux-mod_pkg_postinst || die
 	local f="$(source "${ROOT}"etc/conf.d/pvfs2-server; echo ${PVFS2_FS_CONF})"
+	elog
 	elog "OrangeFS is a PVFS2 successor and uses a unified configuration file."
 	elog
 	elog "1) If you have configuration files from an earlier PVFS2 versions,"
@@ -211,10 +212,13 @@ pkg_postinst() {
 	elog
 	elog "6) To use configured and created partition aside from starting "
 	elog "pvfs2-server you should either provide an /etc/fstab or /etc/pvfs2tab"
-	elog "entry like:"
-	elog "tcp://testhost:3334/pvfs2-fs /mnt/pvfs2 pvfs2 defaults,noauto 0 0"
+	elog "entry like (please note recommended intr option):"
+	elog "tcp://testhost:3334/pvfs2-fs /mnt/pvfs2 pvfs2 defaults,intr 0 0"
 	elog "or mount partition specifying full paths prior to usage, even if you"
 	elog "want to use PVFS2 libraries or ROMIO interface without kernel VFS."
+	elog
+	elog "7) If you want to disable automount on client startup, use noauto"
+	elog "option for appropriate fstab or pvfstab entries."
 }
 
 pkg_config() {
