@@ -14,7 +14,6 @@ fi
 PVFS2_PID=${PVFS2_PID:-${PVFS2_PID_DEFAULT}}
 PVFS2_CONF=${PVFS2_CONF:-${PVFS2_CONF_DEFAULT}}
 PVFS2_SERVER=${PVFS2_SERVER:-"/usr/sbin/pvfs2-server"}
-PVFS2_START_TIMEOUT=${PVFS2_START_TIMEOUT:-1000}
 PVFS2_AUTO_MKFS=${PVFS2_AUTO_MKFS:-0}
 
 depend() {
@@ -61,7 +60,7 @@ start() {
     ebegin "Starting PVFS2 server"
 
     # Check if filesystem already exists.
-    local stream=$(find "${data}" -type d -name bstreams)
+    local stream=$(find -O3 "${data}" -mindepth 2 -maxdepth 2 -type d -name bstreams)
     # both data and metadata are ok
     if [[ -f "${meta}/collections.db" && -n "${stream}" ]]; then
         rc=0;
@@ -86,10 +85,7 @@ start() {
     fi
 
     if [[ ${rc} -eq 0 ]]; then
-        start-stop-daemon --start \
-            --pidfile "${PVFS2_PID}" \
-            --exec "${PVFS2_SERVER}" \
-            --wait "${PVFS2_START_TIMEOUT}" \
+        start-stop-daemon --start --exec ${PVFS2_SERVER} \
             -- -p "${PVFS2_PID}" ${PVFS2_OPTIONS} "${PVFS2_CONF}"
         rc=$?
     fi
@@ -99,9 +95,17 @@ start() {
 }
 
 stop() {
+    local rc
     ebegin "Stopping PVFS2 server"
     start-stop-daemon --stop  --quiet --pidfile "${PVFS2_PID}"
-    eend
+    rc=$?
+
+    # pvfs2-server doesn't clean shm on stop
+    for i in $(ipcs -m | gawk '($6 == "0" && $3 == "root") {print $2}'); do
+        ipcrm -m $i;
+    done
+
+    eend ${rc}
 }
 
 restart() {

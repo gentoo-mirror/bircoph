@@ -1,22 +1,42 @@
---- src/common/misc/server-config.h.orig	2012-01-26 18:59:23.000000000 +0400
-+++ src/common/misc/server-config.h	2012-02-27 20:34:49.440571787 +0400
-@@ -122,6 +122,9 @@
-     int32_t directio_thread_num;
-     int32_t directio_ops_per_queue;
-     int32_t directio_timeout;
-+
-+    /* Specify default data layout: none, random, round-robin (default) */
-+    int default_layout;
- } filesystem_configuration_s;
+diff -Naur orangefs-2.8.5-pre_layout/src/client/sysint/sys-create.sm orangefs-2.8.5/src/client/sysint/sys-create.sm
+--- orangefs-2.8.5-pre_layout/src/client/sysint/sys-create.sm	2012-01-26 18:59:23.000000000 +0400
++++ orangefs-2.8.5/src/client/sysint/sys-create.sm	2012-03-04 17:09:48.429854276 +0400
+@@ -144,6 +144,8 @@
+     PVFS_error ret = -PVFS_EINVAL;
+     PINT_smcb *smcb = NULL;
+     PINT_client_sm *sm_p = NULL;
++    struct server_configuration_s *server_config = NULL;
++    enum PVFS_sys_layout_algorithm layout_algo = PVFS_SYS_LAYOUT_ROUND_ROBIN;
  
- typedef struct distribution_param_configuration_s
---- src/common/misc/server-config.c.orig	2012-01-26 18:59:23.000000000 +0400
-+++ src/common/misc/server-config.c	2012-02-27 20:41:51.029128439 +0400
+     gossip_debug(GOSSIP_CLIENT_DEBUG, "PVFS_isys_create entered\n");
+ 
+@@ -242,7 +244,17 @@
+     }
+     else
+     {
+-        sm_p->u.create.layout.algorithm = PVFS_SYS_LAYOUT_ROUND_ROBIN;
++        sm_p->object_ref = parent_ref;
++        /* get default filesystem layout */
++        server_config = PINT_get_server_config_struct(sm_p->parent_ref.fs_id);
++        if (server_config)
++        {
++            layout_algo = server_config->default_layout_algo;
++            /* Release the server config mutex */
++            PINT_put_server_config_struct(server_config);
++        }
++
++        sm_p->u.create.layout.algorithm = layout_algo;
+     }
+ 
+     sm_p->object_ref = parent_ref;
+diff -Naur orangefs-2.8.5-pre_layout/src/common/misc/server-config.c orangefs-2.8.5/src/common/misc/server-config.c
+--- orangefs-2.8.5-pre_layout/src/common/misc/server-config.c	2012-01-26 18:59:23.000000000 +0400
++++ orangefs-2.8.5/src/common/misc/server-config.c	2012-03-04 19:06:42.738217796 +0400
 @@ -125,6 +125,7 @@
  static DOTCONF_CB(directio_thread_num);
  static DOTCONF_CB(directio_ops_per_queue);
  static DOTCONF_CB(directio_timeout);
-+static DOTCONF_CB(get_default_layout);
++static DOTCONF_CB(get_default_layout_algo);
  
  static FUNC_ERRORHANDLER(errorhandler);
  const char *contextchecker(command_t *cmd, unsigned long mask);
@@ -40,43 +60,38 @@
 +     *
 +     * PVFS_SYS_LAYOUT_LIST is currently not supported as a default value;
 +     * */
-+    {"DefaultLayout", ARG_STR, get_default_layout, NULL,
-+        CTX_FILESYSTEM, "round-robin"},
++    {"LayoutAlgo", ARG_STR, get_default_layout_algo, NULL,
++        CTX_DEFAULTS, "round-robin"},
 +
      LAST_OPTION
  };
  
-@@ -3012,6 +3032,38 @@
+@@ -3012,6 +3032,33 @@
      return NULL;
  }
  
-+DOTCONF_CB(get_default_layout)
++DOTCONF_CB(get_default_layout_algo)
 +{
-+    struct filesystem_configuration_s *fs_conf = NULL;
 +    struct server_configuration_s *config_s =
 +        (struct server_configuration_s *)cmd->context;
 +
-+    fs_conf = (struct filesystem_configuration_s *)
-+        PINT_llist_head(config_s->file_systems);
-+    assert(fs_conf);
-+
-+    int *layout = &fs_conf->default_layout;
++    enum PVFS_sys_layout_algorithm *algo = &config_s->default_layout_algo;
 +
 +    if(!strcmp(cmd->data.str, "round-robin"))
 +    {
-+        *layout = PVFS_SYS_LAYOUT_ROUND_ROBIN;
++        *algo = PVFS_SYS_LAYOUT_ROUND_ROBIN;
 +    }
 +    else if(!strcmp(cmd->data.str, "random"))
 +    {
-+        *layout = PVFS_SYS_LAYOUT_RANDOM;
++        *algo = PVFS_SYS_LAYOUT_RANDOM;
 +    }
 +    else if(!strcmp(cmd->data.str, "none"))
 +    {
-+        *layout = PVFS_SYS_LAYOUT_NONE;
++        *algo = PVFS_SYS_LAYOUT_NONE;
 +    }
 +    else
 +    {
-+        return "Error unknown DefaultLayout option, valid values are:\n"
++        return "Error unknown LayoutAlgo option, valid values are:\n"
 +               "none, random, round-robin\n";
 +    }
 +    return NULL;
@@ -85,33 +100,16 @@
  /*
   * Function: PINT_config_release
   *
---- src/client/sysint/sys-create.sm.orig	2012-01-26 18:59:23.000000000 +0400
-+++ src/client/sysint/sys-create.sm	2012-02-27 20:31:50.000273510 +0400
-@@ -144,6 +144,8 @@
-     PVFS_error ret = -PVFS_EINVAL;
-     PINT_smcb *smcb = NULL;
-     PINT_client_sm *sm_p = NULL;
-+    struct server_configuration_s *server_config = NULL;
-+    struct filesystem_configuration_s* cur_fs = NULL;
- 
-     gossip_debug(GOSSIP_CLIENT_DEBUG, "PVFS_isys_create entered\n");
- 
-@@ -242,7 +244,17 @@
-     }
-     else
-     {
--        sm_p->u.create.layout.algorithm = PVFS_SYS_LAYOUT_ROUND_ROBIN;
-+        /* get default filesystem layout */
-+        server_config = PINT_get_server_config_struct(parent_ref.fs_id);
-+        cur_fs = PINT_config_find_fs_id(server_config, parent_ref.fs_id);
+diff -Naur orangefs-2.8.5-pre_layout/src/common/misc/server-config.h orangefs-2.8.5/src/common/misc/server-config.h
+--- orangefs-2.8.5-pre_layout/src/common/misc/server-config.h	2012-01-26 18:59:23.000000000 +0400
++++ orangefs-2.8.5/src/common/misc/server-config.h	2012-03-04 16:19:41.918832526 +0400
+@@ -201,6 +201,9 @@
+                                      * be configurable.
+                                      */
+     int trove_method;
 +
-+        if (!cur_fs)
-+        {
-+            gossip_err("invalid (unknown) fs id specified\n");
-+            return ret;
-+        }
-+
-+        sm_p->u.create.layout.algorithm = cur_fs->default_layout;
-     }
++    enum PVFS_sys_layout_algorithm default_layout_algo; /* Default data layout algorithm:
++                                                           none, random, round-robin (default) */
+     void *private_data;
+ } server_configuration_s;
  
-     sm_p->object_ref = parent_ref;

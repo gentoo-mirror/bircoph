@@ -2,6 +2,19 @@
 # Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  05 Mar 2012; Andrew Savchenko <bircoph@gmail.com>
+  files/orangefs-2.8.5-layout.patch, files/pvfs2-client-conf.d,
+  files/pvfs2-client-init.d, files/pvfs2-server-conf.d,
+  files/pvfs2-server-init.d, files/orangefs-2.8.5-static-server.patch:
+  orangefs: further fixes and improvements
+
+  - Fix layout patch, move alogorithm control option to the Defaults
+  section as LayoutAlgo.
+  - Clear shm after server shutdown.
+  - Simplify init scripts; wait option for server is needed no
+  longer.
+  - Remove trailing spaces in patches.
+
   02 Mar 2012; Andrew Savchenko <bircoph@gmail.com> orangefs-2.8.5.ebuild,
   files/pvfs2-server-conf.d, files/pvfs2-server-init.d,
   files/orangefs-2.8.5-layout.patch, files/orangefs-2.8.5-static-server.patch:

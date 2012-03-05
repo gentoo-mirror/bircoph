@@ -1,22 +1,22 @@
 #!/sbin/runscript
-# Copyright 1999-2007 Gentoo Foundation
+# Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/sys-cluster/pvfs2/files/Attic/pvfs2-client-init.d-2.7.0,v 1.2 2011/07/15 13:57:08 xarthisius dead $
 
+PVFS2_CLIENT_PID=${PVFS2_CLIENT_PID:-"/var/run/pvfs2-client.pid"}
+PVFS2_CLIENT=${PVFS2_CLIENT:-"/usr/sbin/pvfs2-client"}
+PVFS2_CLIENT_CORE=${PVFS2_CLIENT_CORE:-"/usr/sbin/pvfs2-client-core"}
+PVFS2_CLIENT_LOG=${PVFS2_CLIENT_LOG:-"/var/log/pvfs2/client.log"}
 
 depend() {
-    need net
-    need localmount
+    after pvfs2-server fuse
     before pbs_mom
-    after pvfs2-server
+    need net localmount
 }
 
 checkconfig() {
-    local piddir=$(dirname ${PVFS2_CLIENT_PIDFILE})
-    if [ ! -d "${piddir}" ]; then
-        ewarn "Creating ${piddir}"
-        mkdir -p ${piddir} || return 1
-    fi
+    local piddir=$(dirname ${PVFS2_CLIENT_PID})
+    [[ -d "${piddir}" ]] || ( mkdir -p "${piddir}" || return 1 )
 }
 
 start() {
