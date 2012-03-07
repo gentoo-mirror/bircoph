@@ -8,4 +8,7 @@
 # Automatically call pvfs2-server with --mkfs if the first call to
 # start the daemon fails.  Off by default as this does mess with
 # the local filesystem to prepare the directory for pvfs2-server.
-#PVFS2_AUTO_MKFS=0
+#PVFS2_AUTO_MKFS="no"
+
+# How long to wait server for start up
+#PVFS2_STARTUP_WAIT=1000

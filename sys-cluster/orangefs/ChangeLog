@@ -2,6 +2,18 @@
 # Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  07 Mar 2012; Andrew Savchenko <bircoph@gmail.com> files/pvfs2-client-conf.d,
+  files/pvfs2-client-init.d, files/pvfs2-server-init.d, orangefs-2.8.5.ebuild,
+  files/pvfs2-server-conf.d:
+  Implement basic client daemon and mounter init script.
+  Some minor fixes in server script.
+
+  07 Mar 2012; Andrew Savchenko <bircoph@gmail.com> files/pvfs2-server-conf.d,
+  files/pvfs2-server-init.d, orangefs-2.8.5.ebuild:
+  Restore the wait option. The server still may fail after a fork.
+  Server options must be used on mkfs stage too, especially this
+  concerns -a option and multiserver setup.
+
   05 Mar 2012; Andrew Savchenko <bircoph@gmail.com>
   files/orangefs-2.8.5-layout.patch, files/pvfs2-client-conf.d,
   files/pvfs2-client-init.d, files/pvfs2-server-conf.d,

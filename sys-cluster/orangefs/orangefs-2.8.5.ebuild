@@ -205,7 +205,9 @@ pkg_postinst() {
 	elog "Example:"
 	elog "  cd /etc/init.d"
 	elog "  ln -s pvfs2-server pvfs2-server.foo"
-	elog "You can now treat pvfs2-server.foo like any other service"
+	elog "You can now treat pvfs2-server.foo like any other service, but you"
+	elog "must manually change config and daemon arguments for multisevrer"
+	elog "configuration as described in PVFS2 FAQ."
 	elog
 	elog "5) OrangeFS supports ROMIO I/O. You should build your MPI package"
 	elog "with USE=romio in order to use it."

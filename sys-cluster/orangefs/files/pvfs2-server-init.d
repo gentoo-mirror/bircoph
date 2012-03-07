@@ -14,7 +14,8 @@ fi
 PVFS2_PID=${PVFS2_PID:-${PVFS2_PID_DEFAULT}}
 PVFS2_CONF=${PVFS2_CONF:-${PVFS2_CONF_DEFAULT}}
 PVFS2_SERVER=${PVFS2_SERVER:-"/usr/sbin/pvfs2-server"}
-PVFS2_AUTO_MKFS=${PVFS2_AUTO_MKFS:-0}
+PVFS2_AUTO_MKFS=${PVFS2_AUTO_MKFS:-"no"}
+PVFS2_STARTUP_WAIT=${PVFS2_STARTUP_WAIT:-1000}
 
 depend() {
     after localmount netmount nfsmount dns
@@ -60,19 +61,21 @@ start() {
     ebegin "Starting PVFS2 server"
 
     # Check if filesystem already exists.
-    local stream=$(find -O3 "${data}" -mindepth 2 -maxdepth 2 -type d -name bstreams)
+    local stream=""
+    [[ -d "${data}" ]] &&
+        stream=$(find -O3 "${data}" -mindepth 2 -maxdepth 2 -type d -name bstreams)
     # both data and metadata are ok
     if [[ -f "${meta}/collections.db" && -n "${stream}" ]]; then
         rc=0;
     # both data and metadata are missing
     elif [[ ! -f "${meta}/collections.db" && -z "${stream}" ]]; then
-        if [[ ${PVFS2_AUTO_MKFS} -ne 0 ]]; then
+        if yesno ${PVFS2_AUTO_MKFS}; then
             ewarn "Initializing the file system storage with --mkfs"
-            "${PVFS2_SERVER}" --mkfs "${PVFS2_CONF}"
+            "${PVFS2_SERVER}" ${PVFS2_OPTIONS} --mkfs "${PVFS2_CONF}"
         rc=$?
         else
             eerror "PVFS2 filesystem was not created."
-            eerror "Set PVFS2_AUTO_MKFS=1 in the conf.d file to create it automatically,"
+            eerror "Set PVFS2_AUTO_MKFS=\"yes\" in the conf.d file to create it automatically,"
             eerror "or create it manually using ${PVFS2_SERVER} --mkfs ${PVFS2_CONF}"
             return 1
         fi
@@ -85,24 +88,27 @@ start() {
     fi
 
     if [[ ${rc} -eq 0 ]]; then
-        start-stop-daemon --start --exec ${PVFS2_SERVER} \
+        start-stop-daemon --start \
+            --exec ${PVFS2_SERVER} --wait ${PVFS2_STARTUP_WAIT} \
             -- -p "${PVFS2_PID}" ${PVFS2_OPTIONS} "${PVFS2_CONF}"
         rc=$?
     fi
-    eend ${rc}
 
     unset data meta
+
+    [[ ${rc} -ne 0 ]] && return 1
+    eend ${rc}
 }
 
 stop() {
-    local rc
+    local rc i
     ebegin "Stopping PVFS2 server"
     start-stop-daemon --stop  --quiet --pidfile "${PVFS2_PID}"
     rc=$?
 
     # pvfs2-server doesn't clean shm on stop
     for i in $(ipcs -m | gawk '($6 == "0" && $3 == "root") {print $2}'); do
-        ipcrm -m $i;
+        ipcrm -m ${i};
     done
 
     eend ${rc}
