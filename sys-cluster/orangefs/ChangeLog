@@ -2,6 +2,13 @@
 # Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  08 Mar 2012; Andrew Savchenko <bircoph@gmail.com> files/pvfs2-server-conf.d,
+  orangefs-2.8.5.ebuild:
+  Install client initd/confd scripts only with USE="modules". Without
+  kernel modules pvfs2-client is useless.
+  Make postinstall memo shorter and more informational.
+  Tune server config file descriptions a bit.
+
   07 Mar 2012; Andrew Savchenko <bircoph@gmail.com> files/pvfs2-client-conf.d,
   files/pvfs2-client-init.d, files/pvfs2-server-init.d, orangefs-2.8.5.ebuild,
   files/pvfs2-server-conf.d:

@@ -149,15 +149,15 @@ src_install() {
 	if use modules; then
 		linux-mod_src_install || die
 		emake DESTDIR="${D}" kernapps_install
+
+		newinitd "${FILESDIR}"/pvfs2-client-init.d pvfs2-client
+		newconfd "${FILESDIR}"/pvfs2-client-conf.d pvfs2-client
 	fi
 
 	if use server; then
 	    newinitd "${FILESDIR}"/pvfs2-server-init.d pvfs2-server
 	    newconfd "${FILESDIR}"/pvfs2-server-conf.d pvfs2-server
 	fi
-
-	newinitd "${FILESDIR}"/pvfs2-client-init.d pvfs2-client
-	newconfd "${FILESDIR}"/pvfs2-client-conf.d pvfs2-client
 
 	keepdir /var/log/pvfs2
 
@@ -183,28 +183,23 @@ src_install() {
 pkg_postinst() {
 	linux-mod_pkg_postinst || die
 	local f="$(source "${ROOT}"etc/conf.d/pvfs2-server; echo ${PVFS2_FS_CONF})"
-	elog
+
 	elog "OrangeFS is a PVFS2 successor and uses a unified configuration file."
 	elog
 	elog "1) If you have configuration files from an earlier PVFS2 versions,"
-	elog "use the provided:"
-	elog "${ROOT}usr/bin/pvfs2-config-convert"
+	elog "use the provided: ${ROOT}usr/bin/pvfs2-config-convert"
 	elog "to automatically update to the newer configuration scheme."
 	elog
 	elog "2) Use emerge --config orangefs to create new configuration files."
 	elog
 	elog "3) If the storage space has not been previously created, either set"
-	elog "PVFS2_AUTO_MKFS=1 in ${ROOT}etc/conf.d/pvfs2-server or run:"
+	elog "PVFS2_AUTO_MKFS=\"yes\" in ${ROOT}etc/conf.d/pvfs2-server or run:"
 	elog "${ROOT}usr/sbin/pvfs2-server --mkfs ${f}"
 	elog
 	elog "4) orangefs pvfs2-server init script can now be multiplexed."
 	elog "The default init script forces /etc/pvfs2/fs.conf to exist."
-	elog "If you symlink the init script to another one, say pvfs2-server.foo"
+	elog "If you symlink the init script to another one, say pvfs2-server.foo,"
 	elog "then that uses /etc/pvfs2/foo.fs.conf instead."
-	elog
-	elog "Example:"
-	elog "  cd /etc/init.d"
-	elog "  ln -s pvfs2-server pvfs2-server.foo"
 	elog "You can now treat pvfs2-server.foo like any other service, but you"
 	elog "must manually change config and daemon arguments for multisevrer"
 	elog "configuration as described in PVFS2 FAQ."
@@ -212,15 +207,23 @@ pkg_postinst() {
 	elog "5) OrangeFS supports ROMIO I/O. You should build your MPI package"
 	elog "with USE=romio in order to use it."
 	elog
-	elog "6) To use configured and created partition aside from starting "
-	elog "pvfs2-server you should either provide an /etc/fstab or /etc/pvfs2tab"
-	elog "entry like (please note recommended intr option):"
-	elog "tcp://testhost:3334/pvfs2-fs /mnt/pvfs2 pvfs2 defaults,intr 0 0"
-	elog "or mount partition specifying full paths prior to usage, even if you"
-	elog "want to use PVFS2 libraries or ROMIO interface without kernel VFS."
+	if use modules; then
+		elog "6) To use prepared PVFS2 you must provide an /etc/fstab entry like:"
+		elog "tcp://testhost:3334/pvfs2-fs /mnt/pvfs2 pvfs2 defaults,intr 0 0"
+		elog "and then start pvfs2-client; please note recommended intr option."
+		elog "This fstab entry is mandatory for any client usage, including ROMIO."
+	else
+		ewarn "6) Without modules support you wouldn't be able to use pvfs2-client and mount"
+		ewarn "partitions using kernel VFS. You are still able to use ROMIO I/O, though."
+	fi
+	if use fuse; then
+		elog
+		elog "Alternatively you may use pvfs2fuse FUSE client to mount PVFS2 partitions."
+		elog "Be warned it is limited in functionality, e.g. you wouldn't be able to chmod."
+	fi
 	elog
 	elog "7) If you want to disable automount on client startup, use noauto"
-	elog "option for appropriate fstab or pvfstab entries."
+	elog "option for appropriate fstab entries."
 }
 
 pkg_config() {
