@@ -2,6 +2,14 @@
 # Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  11 Mar 2012; Andrew Savchenko <bircoph@gmail.com> files/pvfs2-client-conf.d,
+  files/pvfs2-client-init.d, files/pvfs2-server-init.d:
+  Add the following abilities to the client server script:
+  1) Optional check for server(s) availability.
+  2) Optional forceful unmount with an attempt to work as cleanly as
+  possible.
+  Use checkpath runscript function.
+
   08 Mar 2012; Andrew Savchenko <bircoph@gmail.com> files/pvfs2-server-conf.d,
   orangefs-2.8.5.ebuild:
   Install client initd/confd scripts only with USE="modules". Without

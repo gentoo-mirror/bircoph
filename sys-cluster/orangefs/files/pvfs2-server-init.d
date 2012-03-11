@@ -25,7 +25,7 @@ depend() {
 checkconfig() {
     # server will not create pyid directory itself
     local piddir=$(dirname "${PVFS2_PID}")
-    [[ -d "${piddir}" ]] || ( mkdir -p "${piddir}" || return 1 )
+    checkpath -d "${piddir}"
 
     # check for config file
     if ! [[ -r "${PVFS2_CONF}" ]]; then

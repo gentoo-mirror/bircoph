@@ -6,9 +6,13 @@
 PVFS2_CLIENT_PID=${PVFS2_CLIENT_PID:-"/var/run/pvfs2-client.pid"}
 PVFS2_CLIENT=${PVFS2_CLIENT:-"/usr/sbin/pvfs2-client"}
 PVFS2_CLIENT_CORE=${PVFS2_CLIENT_CORE:-"/usr/sbin/pvfs2-client-core"}
+PVFS2_CLIENT_PING=${PVFS2_CLIENT_PING:-"/usr/bin/pvfs2-ping"}
 PVFS2_CLIENT_LOG=${PVFS2_CLIENT_LOG:-"/var/log/pvfs2/client.log"}
 PVFS2_CLIENT_FSTAB=${PVFS2_CLIENT_FSTAB:-"/etc/fstab"}
 PVFS2_CLIENT_UNLOAD_MODULE=${PVFS2_CLIENT_UNLOAD_MODULE:-"yes"}
+PVFS2_CLIENT_CHECK_SERVERS=${PVFS2_CLIENT_CHECK_SERVERS:-"yes"}
+PVFS2_CLIENT_CHECK_MAX_FAILURE=${PVFS2_CLIENT_CHECK_MAX_FAILURE:-5}
+PVFS2_CLIENT_FORCE_UMOUNT=${PVFS2_CLIENT_FORCE_UMOUNT:-"no"}
 
 depend() {
     after pvfs2-server
@@ -18,7 +22,7 @@ depend() {
 
 start() {
     local piddir=$(dirname "${PVFS2_CLIENT_PID}")
-    [[ -d "${piddir}" ]] || ( mkdir -p "${piddir}" || return 1 )
+    checkpath -d "${piddir}"
 
     if ! grep -qs pvfs2 /proc/filesystems; then
         ebegin "Loading pvfs2 kernel module"
@@ -44,6 +48,12 @@ start() {
     else
         # grep all pvfs2 entries save for noauto
         for mp in $(gawk '($3 == "pvfs2" && !index($4, "noauto")) { print $2 }' /etc/fstab); do
+            if yesno "${PVFS2_CLIENT_CHECK_SERVERS}"; then
+                for ((i=0; i<${PVFS2_CLIENT_CHECK_MAX_FAILURE}; i++)); do
+                    "${PVFS2_CLIENT_PING}" -m "${mp}" >/dev/null 2>&1 && break
+                    ewarn "servers for ${mp} are not ready, retrying"
+                done
+            fi
             mount "${mp}" || { eerror "Failed to mount ${mp}"; rc=1; }
         done
     fi
@@ -53,7 +63,7 @@ start() {
 }
 
 stop() {
-    local mp rc=0
+    local mp rc=0 lrc=0 list
     ebegin "Unmounting pvfs2 filesystems"
     if ! [[ -r "/etc/mtab" ]]; then
         error "/etc/mtab is not readable."
@@ -61,7 +71,35 @@ stop() {
     else
         # grep all pvfs2 entries save for noauto
         for mp in $(gawk '($3 == "pvfs2") { print $2 }' /etc/mtab); do
-            umount "${mp}" || { eerror "Failed to umount ${mp}"; rc=1; }
+            umount "${mp}"
+            lrc=$?
+            if [[ ${lrc} -ne 0 ]]; then
+                if yesno "${PVFS2_CLIENT_FORCE_UMOUNT}"; then
+                    ewarn "Normal ${mp} unmount failed. Forcing..."
+                    list=$(lsof -nt /mnt/cluster)
+                    umount -l "${mp}"
+                    # soft kill
+                    if [[ -n ${list} ]]; then
+                        kill ${list}
+                        sleep 1
+                        # hard kill hanged ones
+                        ps ${list} >/dev/null && kill -9 ${list}
+                        sleep 0.5
+                        # if some processes are still hang
+                        if ps ${list} >/dev/null; then
+                            eerror "${mp} was not completely unmounted!"
+                            eerror "leftover processes: ${list}"
+                            rc=1
+                        else
+                            lrc=0
+                        fi
+                    fi
+                    [[ ${lrc} -eq 0 ]] && ewarn "${mp} was forcefully unmounted"
+                else
+                    eerror "Failed to umount ${mp}"
+                    rc=1
+                fi
+            fi
         done
     fi
     eend ${rc}
@@ -71,7 +109,10 @@ stop() {
     start-stop-daemon --stop --pidfile "${PVFS2_CLIENT_PID}"
     eend
 
-    if [[ $? == 0 ]] && yesno ${PVFS2_CLIENT_UNLOAD_MODULE}; then
+    if [[ $? == 0 ]] && yesno "${PVFS2_CLIENT_UNLOAD_MODULE}"; then
+        einfo "Waiting before module unload..."
+        # wait for a while is recommended by pvfs2 guide
+        sleep 1
         ebegin "Unloading pvfs2 kernel module"
         rmmod pvfs2
         eend $? "failed"
