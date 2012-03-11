@@ -12,7 +12,7 @@ SRC_URI="mirror://sourceforge/openl2tp/${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="amd64 x86"
+KEYWORDS="~amd64 ~x86"
 IUSE="+client doc +examples rpc server -stats"
 
 REQUIRED_USE="|| ( client server )"
@@ -86,7 +86,7 @@ src_install() {
 		dodoc -r ipsec
 	fi
 
-	newinitd "${FILESDIR}"/openl2tpd.initd openl2tpd
+	newinitd "${FILESDIR}"/openl2tpd.initd-2 openl2tpd
 	# init.d script is quite different for RPC and non-RPC versions.
 	use rpc || sed -i s/userpc=\"yes\"/userpc=\"no\"/ "${D}/etc/init.d/openl2tpd" || die "sed failed"
 	newconfd "${FILESDIR}"/openl2tpd.confd openl2tpd
