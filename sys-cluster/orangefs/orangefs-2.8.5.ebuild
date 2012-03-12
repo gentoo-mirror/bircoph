@@ -13,7 +13,8 @@ LICENSE="LGPL-2.1"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="+aio apidocs debug doc examples fuse gtk infiniband memtrace +mmap
-+modules open-mx secure +sendfile +server ssl static +tcp +threads valgrind"
++modules open-mx secure +sendfile +server ssl static static-libs +tcp +threads
+valgrind"
 
 CDEPEND="
 	dev-lang/perl
@@ -22,8 +23,8 @@ CDEPEND="
 	fuse? ( sys-fs/fuse )
 	gtk? ( x11-libs/gtk+:2 )
 	infiniband? ( sys-infiniband/openib )
-	open-mx? ( sys-cluster/open-mx )
-	ssl? ( dev-libs/openssl )
+	open-mx? ( sys-cluster/open-mx[static-libs?] )
+	ssl? ( dev-libs/openssl[static-libs?] )
 	valgrind? ( dev-util/valgrind )
 "
 RDEPEND="${CDEPEND}
@@ -43,12 +44,14 @@ DEPEND="${CDEPEND}
 # apidocs needs docs to be build first;
 # memtrace and valgrind witout debug info will be a pain;
 # if both Myrinet and TCP interfaces are enabled in BMI, 5 sec delays will
-# occur, though, at lest one of them must be enabled
+# occur, though, at lest one of them must be enabled;
+# static flag affects only server, so it must depend on it;
 REQUIRED_USE="
 	aio? ( modules )
 	apidocs? ( doc )
 	sendfile? ( modules )
 	memtrace? ( debug )
+	static? ( server static-libs )
 	tcp? ( !infiniband !open-mx )
 	valgrind? ( debug )
 	|| ( infiniband open-mx tcp )
@@ -107,7 +110,6 @@ src_configure() {
 		--disable-redhat24 \
 		--enable-epoll \
 	    --enable-shared \
-		--enable-thread-safety \
 		--enable-verbose-build \
 	    --sysconfdir="${EPREFIX}"/etc/pvfs2 \
 	    $(use_enable aio kernel-aio) \
@@ -119,8 +121,8 @@ src_configure() {
 	    $(use_enable secure trusted-connections) \
 	    $(use_enable sendfile kernel-sendfile) \
 	    $(use_enable server) \
-	    $(use_enable static) \
 	    $(use_enable static static-server) \
+	    $(use_enable static-libs static) \
 	    $(use_with infiniband openib "${EPREFIX}"/usr/) \
 	    $(use_with memtrace mtrace) \
 	    $(use_with open-mx mx "${EPREFIX}"/usr/) \

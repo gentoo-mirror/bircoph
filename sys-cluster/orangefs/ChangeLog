@@ -2,6 +2,16 @@
 # Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  12 Mar 2012; Andrew Savchenko <bircoph@gmail.com> orangefs-2.8.5.ebuild:
+  Separate static library and binary dependencies, this adds new
+  static-libs USE flag. With USE="static-libs" it is now required
+  openssl and open-mx to use the same flag, otherwise build will
+  fail.
+
+  Remove --enable-thread-safe flag. Safe threads are enabled by
+  default and configure doesn't handle --enable part of this option
+  actually causing it to be disabled.
+
   12 Mar 2012; Andrew Savchenko <bircoph@gmail.com> files/pvfs2-client-conf.d,
   files/pvfs2-client-init.d, files/pvfs2-server-init.d, orangefs-2.8.5.ebuild,
   files/pvfs2-server-conf.d:
