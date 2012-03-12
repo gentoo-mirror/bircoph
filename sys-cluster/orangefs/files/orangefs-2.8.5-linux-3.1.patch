@@ -1,0 +1,120 @@
+--- orangefs-2.8.5/src/kernel/linux-2.6/acl.c	2012-01-26 15:59:22.000000000 +0100
++++ orangefs-2.8.5p1//src/kernel/linux-2.6/acl.c	2012-03-07 15:34:22.331930001 +0100
+@@ -279,7 +279,7 @@
+             name = PVFS2_XATTR_NAME_ACL_ACCESS;
+             if (acl) 
+             {
+-                mode_t mode = inode->i_mode;
++                umode_t mode = inode->i_mode;
+                 /* can we represent this with the UNIXy permission bits? */
+                 error = posix_acl_equiv_mode(acl, &mode);
+                 /* uh oh some error.. */
+@@ -603,8 +603,9 @@
+     }
+     if (get_acl_flag(inode) == 1 && acl)
+     {
+-        struct posix_acl *clone;
+-        mode_t mode;
++        /* struct posix_acl *clone;
++        mode_t mode; */
++        umode_t mode = inode->i_mode;
+ 
+         if (S_ISDIR(inode->i_mode)) 
+         {
+@@ -616,15 +617,16 @@
+                 goto cleanup;
+             }
+         }
+-        clone = posix_acl_clone(acl, GFP_KERNEL);
++        /* clone = posix_acl_clone(acl, GFP_KERNEL); 
+         error = -ENOMEM;
+         if (!clone) {
+             gossip_err("posix_acl_clone failed with ENOMEM\n");
+             ClearModeFlag(pvfs2_inode);
+             goto cleanup;
+-        }
+-        mode = inode->i_mode;
+-        error = posix_acl_create_masq(clone, &mode);
++        } */
++        /* mode = inode->i_mode;
++        error = posix_acl_create_masq(clone, &mode); */
++        error = posix_acl_create(&acl, GFP_KERNEL, &mode);
+         if (error >= 0)
+         {
+             gossip_debug(GOSSIP_ACL_DEBUG, "posix_acl_create_masq changed mode "
+@@ -641,11 +643,12 @@
+              */
+             if (error > 0)
+             {
+-                error = pvfs2_set_acl(inode, ACL_TYPE_ACCESS, clone);
++                error = pvfs2_set_acl(inode, ACL_TYPE_ACCESS, acl);
+                 gossip_debug(GOSSIP_ACL_DEBUG, "pvfs2_set_acl (access) returned %d\n", error);
+             }
+         }
+-        posix_acl_release(clone);
++        /* posix_acl_release(clone); */
++        posix_acl_release(acl);
+     }
+     /* If mode of the inode was changed, then do a forcible ->setattr */
+     if (ModeFlag(pvfs2_inode))
+@@ -664,7 +667,8 @@
+  */
+ int pvfs2_acl_chmod(struct inode *inode)
+ {
+-    struct posix_acl *acl, *clone;
++    /* struct posix_acl *acl, *clone; */
++    struct posix_acl *acl;
+     int error;
+ 
+     if (get_acl_flag(inode) == 0)
+@@ -691,22 +695,23 @@
+         error = 0;
+         goto out;
+     }
+-    clone = posix_acl_clone(acl, GFP_KERNEL);
+-    posix_acl_release(acl);
+-    if (!clone)
++    /* clone = posix_acl_clone(acl, GFP_KERNEL);    
++    posix_acl_release(acl); */
++    /*if (!clone)
+     {
+         gossip_err("pvfs2_acl_chmod failed with ENOMEM\n");
+         error = -ENOMEM;
+         goto out;
+-    }
+-    error = posix_acl_chmod_masq(clone, inode->i_mode);
++    } */
++
++    error = posix_acl_chmod(&acl, GFP_KERNEL, inode->i_mode);
+     if (!error)
+     {
+-        error = pvfs2_set_acl(inode, ACL_TYPE_ACCESS, clone);
++        error = pvfs2_set_acl(inode, ACL_TYPE_ACCESS, acl);
+         gossip_debug(GOSSIP_ACL_DEBUG, "pvfs2_acl_chmod: pvfs2 set acl "
+                 "(access) returned %d\n", error);
+     }
+-    posix_acl_release(clone);
++    posix_acl_release(acl);
+ out:
+     return error;
+ }
+@@ -763,11 +768,16 @@
+ #ifdef HAVE_GENERIC_PERMISSION
+     int ret;
+ 
+-    ret = generic_permission(inode, mask, 
++    /* see include/linux/fs.h : kernel 2.6 3 params, 
++     * 3.0 4 params, 3.1 and 3.2 2 params */
++    ret = generic_permission(inode, mask 
+ #ifdef HAVE_FOUR_PARAM_GENERIC_PERMISSION
+-                             0,
++                             ,0
+ #endif /* HAVE_FOUR_PARAM_GENERIC_PERMISSION */ 
+-                             pvfs2_check_acl);
++#ifdef HAVE_THREE_PARAM_GENERIC_PERMISSION
++                             ,pvfs2_check_acl
++#endif /* HAVE_THREE_PARAM_GENERIC_PERMISSION */
++                             );
+     if (ret != 0)
+     {
+         gossip_debug(GOSSIP_ACL_DEBUG, "pvfs2_permission failed: inode: %llu mask = %o"

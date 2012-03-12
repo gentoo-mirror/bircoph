@@ -80,6 +80,10 @@ src_prepare() {
 	# Allow data layout control (proposed by upstream)
 	epatch "${FILESDIR}"/${P}-layout.patch
 
+	# Upstream support for linux-3.1/3.2 (will broke older kernels)
+	[[ ${KV_MAJOR} -eq 3 && ${KV_MINOR} -ge 1 ]] &&
+	epatch "${FILESDIR}"/${P}-linux-3.1.patch
+
 	# Change defalt server logfile location to more appropriate value
 	# used by init script.
 	sed -i "s%/tmp/pvfs2-server.log%/var/log/pvfs2/server.log%g" \
