@@ -9,5 +9,13 @@
 # start the daemon fails.
 #PVFS2_AUTO_MKFS="no"
 
-# How long to wait server for start up
+# How long to wait server for start up (in milliseconds)
 #PVFS2_STARTUP_WAIT=1000
+
+# By default on normal stop server will refuse to accept any new
+# requests, but will not shutdown until all pending requests are
+# completed.
+# You may force shutdown after some timeout using this option.
+# Set timeout to zero or empty value to disable forced shutdown.
+# Value is in seconds.
+#PVFS2_FORCED_UMOUNT_TIMEOUT=""

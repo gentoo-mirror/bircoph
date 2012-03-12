@@ -11,13 +11,12 @@
 # Allows to unload pvfs2 kernel module on stop
 #PVFS2_CLIENT_UNLOAD_MODULE="yes"
 
-# Check if all servers are ready.
-#PVFS2_CLIENT_CHECK_SERVERS="yes"
-
-# If servers check above is enabled, this option determines how
-# many times to run pvfs2-ping check before giving up on a mount
-# point. Single pvfs2-ping run takes about 10 seconds if server is
-# unavailable.
+# Determines how many times to run pvfs2-ping check before giving
+# up on a mount point. Single pvfs2-ping run takes about 10 seconds
+# if server is unavailable.
+#
+# If you want to disable this feature, unset the following variable
+# or set it to zero value.
 #PVFS2_CLIENT_CHECK_MAX_FAILURE=5
 
 # If file system is in use, forces its umount in the following steps:
@@ -26,4 +25,7 @@
 # 3) Wait for 1 second.
 # 4) Send SIGKILL to all processes (using pvfs2 in question).
 # Then continue stop procedures as usual.
+#
+# This may damage your system if some critical processes are using
+# mounted pvfs2. Be careful!
 #PVFS2_CLIENT_FORCE_UMOUNT="no"

@@ -224,6 +224,10 @@ pkg_postinst() {
 	elog
 	elog "7) If you want to disable automount on client startup, use noauto"
 	elog "option for appropriate fstab entries."
+	elog
+	elog "8) You may synchronize client and server startup through enire cluster"
+	elog "if all clients and servers are running Gentoo. See conf.d for server check,"
+	elog "forced umount and forced shutdown options."
 }
 
 pkg_config() {

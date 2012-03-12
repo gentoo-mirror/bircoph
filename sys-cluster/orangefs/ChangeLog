@@ -2,6 +2,11 @@
 # Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  12 Mar 2012; Andrew Savchenko <bircoph@gmail.com> files/pvfs2-client-conf.d,
+  files/pvfs2-client-init.d, files/pvfs2-server-init.d, orangefs-2.8.5.ebuild,
+  files/pvfs2-server-conf.d:
+  Implement forced umount/shutdown as safe as possible.
+
   11 Mar 2012; Andrew Savchenko <bircoph@gmail.com> files/pvfs2-client-conf.d,
   files/pvfs2-client-init.d, files/pvfs2-server-init.d:
   Add the following abilities to the client server script:

@@ -16,6 +16,7 @@ PVFS2_CONF=${PVFS2_CONF:-${PVFS2_CONF_DEFAULT}}
 PVFS2_SERVER=${PVFS2_SERVER:-"/usr/sbin/pvfs2-server"}
 PVFS2_AUTO_MKFS=${PVFS2_AUTO_MKFS:-"no"}
 PVFS2_STARTUP_WAIT=${PVFS2_STARTUP_WAIT:-1000}
+PVFS2_FORCED_UMOUNT_TIMEOUT=${PVFS2_FORCED_UMOUNT_TIMEOUT:-""}
 
 depend() {
     after localmount netmount nfsmount dns
@@ -101,9 +102,14 @@ start() {
 }
 
 stop() {
-    local rc i
+    local rc i retry=""
     ebegin "Stopping PVFS2 server"
-    start-stop-daemon --stop  --quiet --pidfile "${PVFS2_PID}"
+
+    [[ -n ${PVFS2_FORCED_UMOUNT_TIMEOUT} &&
+    ${PVFS2_FORCED_UMOUNT_TIMEOUT} -gt 0 ]] &&
+    retry="--retry SIGTERM/${PVFS2_FORCED_UMOUNT_TIMEOUT} SIGKILL/5"
+
+    start-stop-daemon --stop --quiet --pidfile "${PVFS2_PID}" ${retry}
     rc=$?
 
     # pvfs2-server doesn't clean shm on stop
@@ -111,11 +117,10 @@ stop() {
         ipcrm -m ${i};
     done
 
-    eend ${rc}
-}
+    if [[ ${RC_CMD} == "restart" ]]; then
+        einfo "sleepinng for cluster to calm down"
+        sleep 2
+    fi
 
-restart() {
-    svc_stop
-    sleep 2
-    svc_start
+    eend ${rc}
 }
