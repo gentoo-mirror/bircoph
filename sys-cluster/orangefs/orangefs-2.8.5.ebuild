@@ -75,7 +75,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/${P}-static-server.patch
 
 	# Fix sandbox violation during pvfs2fuse install
-	epatch "${FILESDIR}"/${P}-fuse.patch
+	epatch "${FILESDIR}"/${P}-fuse-install.patch
 
 	# Allow data layout control (proposed by upstream)
 	epatch "${FILESDIR}"/${P}-layout.patch
@@ -83,6 +83,9 @@ src_prepare() {
 	# Upstream support for linux-3.1/3.2 (will broke older kernels)
 	[[ ${KV_MAJOR} -eq 3 && ${KV_MINOR} -ge 1 ]] &&
 	epatch "${FILESDIR}"/${P}-linux-3.1.patch
+
+	# Fix chmod failure by upstream
+	epatch "${FILESDIR}"/${P}-fuse-perms.patch
 
 	# Change defalt server logfile location to more appropriate value
 	# used by init script.
