@@ -1,0 +1,41 @@
+#!/sbin/runscript
+# Copyright 1999-2011 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# $Header: /var/cvsroot/gentoo-x86/sys-process/acct/files/acct.initd,v 1.3 2011/10/20 05:07:52 vapier Exp $
+
+extra_started_commands="reload report"
+
+depend() {
+	need localmount
+}
+
+checkconfig() {
+	export ACCT_LOG=${ACCT_LOG:-/var/account/pacct}
+	if [[ ! -e ${ACCT_LOG} ]] ; then
+		touch "${ACCT_LOG}"
+		chmod 600 "${ACCT_LOG}"
+	fi
+	return 0
+}
+
+reload() {
+	accton "${ACCT_LOG}" >/dev/null
+}
+
+start() {
+	checkconfig || return 1
+
+	ebegin "Starting accounting"
+        reload
+	eend $?
+}
+
+stop() {
+	ebegin "Stopping accounting"
+	accton off >/dev/null
+	eend $?
+}
+
+report() {
+	sa ${REPORT_OPTS} "${ACCT_LOG}"
+}
