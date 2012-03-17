@@ -227,8 +227,8 @@ pkg_postinst() {
 	fi
 	if use fuse; then
 		elog
-		elog "Alternatively you may use pvfs2fuse FUSE client to mount PVFS2 partitions."
-		elog "Be warned it is limited in functionality, e.g. you wouldn't be able to chmod."
+		elog "Alternatively you may use pvfs2fuse FUSE client to mount PVFS2 partitions:"
+		elog "pvfs2fuse -o allow_other,fs_spec='tcp://testhost:3334/pvfs2-fs' /mnt/pvfs2"
 	fi
 	elog
 	elog "7) If you want to disable automount on client startup, use noauto"

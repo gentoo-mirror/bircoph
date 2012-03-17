@@ -2,6 +2,9 @@
 # Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  17 Mar 2012; Andrew Savchenko <bircoph@gmail.com> orangefs-2.8.5.ebuild:
+  Fuse is now fixed, thus change postinstall message.
+
   13 Mar 2012; Andrew Savchenko <bircoph@gmail.com> orangefs-2.8.5.ebuild,
   -files/orangefs-2.8.5-fuse.patch, +files/orangefs-2.8.5-fuse-install.patch,
   +files/orangefs-2.8.5-fuse-perms.patch:
