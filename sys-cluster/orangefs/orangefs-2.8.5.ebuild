@@ -61,6 +61,7 @@ BUILD_TARGETS="just_kmod"
 MODULE_NAMES="pvfs2(fs::src/kernel/linux-2.6)"
 
 pkg_setup() {
+	linux-mod_pkg_setup
 	if use modules && kernel_is -ge 3 3; then
 		eerror "Sorry, linux kernels >= 3.3 are not support yet."
 		eerror "You may disable modules use flag and use fuse client to mount filesystem."
