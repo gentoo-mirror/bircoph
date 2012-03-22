@@ -80,9 +80,13 @@ src_prepare() {
 	# Allow data layout control (proposed by upstream)
 	epatch "${FILESDIR}"/${P}-layout.patch
 
-	# Upstream support for linux-3.1/3.2 (will broke older kernels)
-	[[ ${KV_MAJOR} -eq 3 && ${KV_MINOR} -ge 1 ]] &&
+	# Upstream support for linux-3.1 (will broke older kernels)
+	[[ ${KV_MAJOR} -eq 3 && ${KV_MINOR} -eq 1 ]] &&
 	epatch "${FILESDIR}"/${P}-linux-3.1.patch
+
+	# Upstream support for linux-3.2+ (will broke older kernels)
+	[[ ${KV_MAJOR} -eq 3 && ${KV_MINOR} -ge 1 ]] &&
+	epatch "${FILESDIR}"/${P}-linux-3.2.patch
 
 	# Fix chmod failure by upstream
 	epatch "${FILESDIR}"/${P}-fuse-perms.patch
