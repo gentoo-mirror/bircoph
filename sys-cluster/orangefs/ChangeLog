@@ -2,6 +2,11 @@
 # Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  22 Mar 2012; Andrew Savchenko <bircoph@gmail.com> orangefs-2.8.5.ebuild:
+  orangefs: warn about still unsupported 3.3 kernel
+
+  ...and provide suggestions how to overcome this.
+
   22 Mar 2012; Andrew Savchenko <bircoph@gmail.com> orangefs-2.8.5.ebuild,
   +files/orangefs-2.8.5-linux-3.2.patch:
   Add upstream support for 3.2+ kernels.

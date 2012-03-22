@@ -60,6 +60,15 @@ REQUIRED_USE="
 BUILD_TARGETS="just_kmod"
 MODULE_NAMES="pvfs2(fs::src/kernel/linux-2.6)"
 
+pkg_setup() {
+	if use modules && kernel_is -ge 3 3; then
+		eerror "Sorry, linux kernels >= 3.3 are not support yet."
+		eerror "You may disable modules use flag and use fuse client to mount filesystem."
+		eerror "PVFS2 server and ROMIO I/O API are still available too."
+		return 1
+	fi
+}
+
 src_prepare() {
 	# Upstream doesn't seem to want to apply this which makes
 	# sense as it probably only matters to us.  Simple patch
@@ -81,12 +90,10 @@ src_prepare() {
 	epatch "${FILESDIR}"/${P}-layout.patch
 
 	# Upstream support for linux-3.1 (will broke older kernels)
-	[[ ${KV_MAJOR} -eq 3 && ${KV_MINOR} -eq 1 ]] &&
-	epatch "${FILESDIR}"/${P}-linux-3.1.patch
+	kernel_is 3 1 && epatch "${FILESDIR}"/${P}-linux-3.1.patch
 
 	# Upstream support for linux-3.2+ (will broke older kernels)
-	[[ ${KV_MAJOR} -eq 3 && ${KV_MINOR} -ge 2 ]] &&
-	epatch "${FILESDIR}"/${P}-linux-3.2.patch
+	kernel_is 3 2 && epatch "${FILESDIR}"/${P}-linux-3.2.patch
 
 	# Fix chmod failure by upstream
 	epatch "${FILESDIR}"/${P}-fuse-perms.patch
