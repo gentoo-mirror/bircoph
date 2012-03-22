@@ -2,6 +2,11 @@
 # Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  22 Mar 2012; Andrew Savchenko <bircoph@gmail.com>
+  files/orangefs-2.8.5-linux-3.1.patch:
+  Updage kernel patch to new upstream version supporting 3.2 and
+  later kernels as well.
+
   17 Mar 2012; Andrew Savchenko <bircoph@gmail.com> orangefs-2.8.5.ebuild:
   Fuse is now fixed, thus change postinstall message.
 
