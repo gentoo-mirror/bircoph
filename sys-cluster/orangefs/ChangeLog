@@ -2,6 +2,11 @@
 # Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  23 Mar 2012; Andrew Savchenko <bircoph@gmail.com> files/pvfs2-client-conf.d,
+  files/pvfs2-client-init.d, files/pvfs2-server-conf.d,
+  files/pvfs2-server-init.d:
+  Add nice and ionice (for server only) control levels.
+
   22 Mar 2012; Andrew Savchenko <bircoph@gmail.com> orangefs-2.8.5.ebuild:
   orangefs: warn about still unsupported 3.3 kernel
 

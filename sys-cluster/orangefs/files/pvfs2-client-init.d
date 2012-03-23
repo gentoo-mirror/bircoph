@@ -12,6 +12,7 @@ PVFS2_CLIENT_FSTAB=${PVFS2_CLIENT_FSTAB:-"/etc/fstab"}
 PVFS2_CLIENT_UNLOAD_MODULE=${PVFS2_CLIENT_UNLOAD_MODULE:-"yes"}
 PVFS2_CLIENT_CHECK_MAX_FAILURE=${PVFS2_CLIENT_CHECK_MAX_FAILURE:-5}
 PVFS2_CLIENT_FORCE_UMOUNT=${PVFS2_CLIENT_FORCE_UMOUNT:-"no"}
+PVFS2_CLIENT_NICE=${PVFS2_CLIENT_NICE:-""}
 
 depend() {
     after pvfs2-server
@@ -30,11 +31,14 @@ start() {
         [[ $? -ne 0 ]] && return 1
     fi
 
+    local pvfs2_client_nice=""
+    [[ -n "${PVFS2_CLIENT_NICE}" ]] && pvfs2_client_nice="--nice ${PVFS2_CLIENT_NICE}"
+
     ebegin "Starting pvfs2-client"
     # Don't fork the client so we can get the pid with s-s-d.
     start-stop-daemon --start --quiet --background \
         --make-pidfile --pidfile "${PVFS2_CLIENT_PID}" \
-        --exec "${PVFS2_CLIENT}" \
+        --exec "${PVFS2_CLIENT}" ${pvfs2_client_nice} \
         -- -f -p "${PVFS2_CLIENT_CORE}" -L "${PVFS2_CLIENT_LOG}" \
         ${PVFS2_CLIENT_ARGS}
     eend $?

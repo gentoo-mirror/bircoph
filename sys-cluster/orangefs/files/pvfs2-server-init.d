@@ -17,6 +17,8 @@ PVFS2_SERVER=${PVFS2_SERVER:-"/usr/sbin/pvfs2-server"}
 PVFS2_AUTO_MKFS=${PVFS2_AUTO_MKFS:-"no"}
 PVFS2_STARTUP_WAIT=${PVFS2_STARTUP_WAIT:-1000}
 PVFS2_FORCED_UMOUNT_TIMEOUT=${PVFS2_FORCED_UMOUNT_TIMEOUT:-""}
+PVFS2_NICE=${PVFS2_NICE:-""}
+PVFS2_IONICE=${PVFS2_IONICE:-""}
 
 depend() {
     after localmount netmount nfsmount dns
@@ -88,9 +90,14 @@ start() {
         return 1
     fi
 
+    local pvfs2_nice="" pvfs2_ionice=""
+    [[ -n "${PVFS2_NICE}" ]] && pvfs2_nice="--nice ${PVFS2_NICE}"
+    [[ -n "${PVFS2_IONICE}" ]] && pvfs2_ionice="--ionice ${PVFS2_IONICE}"
+
     if [[ ${rc} -eq 0 ]]; then
         start-stop-daemon --start \
             --exec ${PVFS2_SERVER} --wait ${PVFS2_STARTUP_WAIT} \
+            ${pvfs2_nice} ${pvfs2_ionice} \
             -- -p "${PVFS2_PID}" ${PVFS2_OPTIONS} "${PVFS2_CONF}"
         rc=$?
     fi

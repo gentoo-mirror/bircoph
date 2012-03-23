@@ -19,3 +19,9 @@
 # Set timeout to zero or empty value to disable forced shutdown.
 # Value is in seconds.
 #PVFS2_FORCED_UMOUNT_TIMEOUT=""
+
+# Nice priority of the server
+#PVFS2_NICE=""
+
+# Ionice priority of the server (class[:data]).
+#PVFS2_IONICE=""

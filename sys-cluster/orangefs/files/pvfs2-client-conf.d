@@ -29,3 +29,6 @@
 # This may damage your system if some critical processes are using
 # mounted pvfs2. Be careful!
 #PVFS2_CLIENT_FORCE_UMOUNT="no"
+
+# Nice priority of the client
+#PVFS2_CLIENT_NICE=""
