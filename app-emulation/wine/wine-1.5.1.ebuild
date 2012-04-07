@@ -1,10 +1,10 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/app-emulation/wine/wine-1.3.26.ebuild,v 1.5 2011/08/20 19:23:56 vapier Exp $
+# $Header: /var/cvsroot/gentoo-x86/app-emulation/wine/wine-1.4_rc5.ebuild,v 1.2 2012/02/28 01:31:09 vapier Exp $
 
-EAPI="2"
+EAPI="4"
 
-inherit autotools eutils flag-o-matic multilib
+inherit autotools eutils flag-o-matic multilib pax-utils
 
 if [[ ${PV} == "9999" ]] ; then
 	EGIT_REPO_URI="git://source.winehq.org/git/wine.git"
@@ -12,14 +12,13 @@ if [[ ${PV} == "9999" ]] ; then
 	SRC_URI=""
 	#KEYWORDS=""
 else
-	AUTOTOOLS_AUTO_DEPEND="no"
 	MY_P="${PN}-${PV/_/-}"
 	SRC_URI="mirror://sourceforge/${PN}/${MY_P}.tar.bz2"
 	KEYWORDS="-* ~amd64 ~x86 ~x86-fbsd"
 	S=${WORKDIR}/${MY_P}
 fi
 
-GV="1.4"
+GV="1.5"
 DESCRIPTION="free implementation of Windows(tm) on Unix"
 HOMEPAGE="http://www.winehq.org/"
 SRC_URI="${SRC_URI}
@@ -30,7 +29,8 @@ SRC_URI="${SRC_URI}
 
 LICENSE="LGPL-2.1"
 SLOT="0"
-IUSE="alsa capi cups custom-cflags fontconfig +gecko gnutls gphoto2 gsm gstreamer hardened jpeg lcms ldap mp3 ncurses nls openal opencl +opengl +oss +perl png prelink samba scanner selinux ssl test +threads +truetype udisks v4l +win32 +win64 +X xcomposite xinerama xml"
+IUSE="alsa capi cups custom-cflags elibc_glibc fontconfig +gecko gnutls gphoto2 gsm gstreamer hardened jpeg lcms ldap mp3 ncurses nls odbc openal opencl +opengl +oss +perl png prelink samba scanner selinux ssl test +threads +truetype udisks v4l +win32 +win64 +X xcomposite xinerama xml"
+REQUIRED_USE="elibc_glibc? ( threads )" #286560
 RESTRICT="test" #72375
 
 MLIB_DEPS="amd64? (
@@ -39,8 +39,11 @@ MLIB_DEPS="amd64? (
 		>=app-emulation/emul-linux-x86-xlibs-2.1
 		>=app-emulation/emul-linux-x86-soundlibs-2.1
 	)
+	mp3? ( app-emulation/emul-linux-x86-soundlibs )
+	odbc? ( app-emulation/emul-linux-x86-db )
 	openal? ( app-emulation/emul-linux-x86-sdl )
 	opengl? ( app-emulation/emul-linux-x86-opengl )
+	scanner? ( app-emulation/emul-linux-x86-medialibs )
 	v4l? ( app-emulation/emul-linux-x86-medialibs )
 	app-emulation/emul-linux-x86-baselibs
 	>=sys-kernel/linux-headers-2.6
@@ -69,7 +72,7 @@ RDEPEND="truetype? ( >=media-libs/freetype-2.0.0 media-fonts/corefonts )
 	xinerama? ( x11-libs/libXinerama )
 	alsa? ( media-libs/alsa-lib )
 	cups? ( net-print/cups )
-	opencl? ( x11-drivers/nvidia-drivers >=dev-util/nvidia-cuda-toolkit-3.1 )
+	opencl? ( virtual/opencl )
 	opengl? ( virtual/opengl )
 	gsm? ( media-sound/gsm )
 	jpeg? ( virtual/jpeg )
@@ -77,6 +80,7 @@ RDEPEND="truetype? ( >=media-libs/freetype-2.0.0 media-fonts/corefonts )
 	lcms? ( =media-libs/lcms-1* )
 	mp3? ( >=media-sound/mpg123-1.5.0 )
 	nls? ( sys-devel/gettext )
+	odbc? ( dev-db/unixODBC )
 	samba? ( >=net-fs/samba-3.0.25 )
 	selinux? ( sec-policy/selinux-wine )
 	xml? ( dev-libs/libxml2 dev-libs/libxslt )
@@ -95,6 +99,7 @@ DEPEND="${RDEPEND}
 	)
 	xinerama? ( x11-proto/xineramaproto )
 	!hardened? ( prelink? ( sys-devel/prelink ) )
+	dev-util/pkgconfig
 	virtual/yacc
 	sys-devel/flex"
 
@@ -104,6 +109,11 @@ pkg_setup() {
 	if use win64 ; then
 		[[ $(( $(gcc-major-version) * 100 + $(gcc-minor-version) )) -lt 404 ]] \
 			&& die "you need gcc-4.4+ to build 64bit wine"
+	fi
+
+	if use win32 && use opencl; then
+		[[ x$(eselect opencl show) = "xintel" ]] &&
+			die "Cannot build wine[opencl,win32]: intel-ocl-sdk is 64-bit only" # 403947
 	fi
 }
 
@@ -158,7 +168,7 @@ do_configure() {
 		$(use_with xml xslt) \
 		$2
 
-	emake -j1 depend || die "depend"
+	emake -j1 depend
 
 	popd >/dev/null
 }
@@ -180,7 +190,7 @@ src_compile() {
 	for b in 64 32 ; do
 		local builddir="${WORKDIR}/wine${b}"
 		[[ -d ${builddir} ]] || continue
-		emake -C "${builddir}" all || die
+		emake -C "${builddir}" all
 	done
 }
 
@@ -189,28 +199,36 @@ src_install() {
 	for b in 64 32 ; do
 		local builddir="${WORKDIR}/wine${b}"
 		[[ -d ${builddir} ]] || continue
-		emake -C "${builddir}" install DESTDIR="${D}" || die
+		emake -C "${builddir}" install DESTDIR="${D}"
 	done
 	dodoc ANNOUNCE AUTHORS README
 	if use gecko ; then
 		insinto /usr/share/wine/gecko
-		doins "${DISTDIR}"/wine_gecko-${GV}-x86.msi || die
-		use win64 && { doins "${DISTDIR}"/wine_gecko-${GV}-x86_64.msi || die ; }
+		doins "${DISTDIR}"/wine_gecko-${GV}-x86.msi
+		use win64 && doins "${DISTDIR}"/wine_gecko-${GV}-x86_64.msi
 	fi
 	if ! use perl ; then
-		rm "${D}"/usr/bin/{wine{dump,maker},function_grep.pl} "${D}"/usr/share/man/man1/wine{dump,maker}.1 || die
+		rm "${D}"usr/bin/{wine{dump,maker},function_grep.pl} "${D}"usr/share/man/man1/wine{dump,maker}.1 || die
+	fi
+
+	if use win32 || ! use win64; then
+		pax-mark psmr "${D}"usr/bin/wine{,-preloader} #255055
+	fi
+	use win64 && pax-mark psmr "${D}"usr/bin/wine64{,-preloader}
+
+	if use win64 && ! use win32; then
+		dosym /usr/bin/wine{64,} # 404331
+		dosym /usr/bin/wine{64,}-preloader
 	fi
 
 	# for all bins and libs disable world access and group write access
 	# only users from wine group may be able to use it
 	local filelist=$( find "${D}"/usr/{bin,lib} -type f | gawk -v path="${D}" '{ gsub("^"path,""); print $0 }')
-	fowners :wine ${filelist} || die "chown failed"
-	fperms -R o-rwx,g-w ${filelist} || die "chmod failed"
+	fowners :wine ${filelist}
+	fperms -R o-rwx,g-w ${filelist}
 }
 
 pkg_postinst() {
-	paxctl -psmr "${ROOT}"/usr/bin/wine{,-preloader} 2>/dev/null #255055
-
 	ewarn "You must be in the wine group in order to be able to use wine."
 	ewarn "It is recommended to use a separate user for running wine in order"
 	ewarn "to improve security by isolation. See Risks section in the wine FAQ:"
