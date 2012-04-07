@@ -94,7 +94,7 @@ RDEPEND+="
 		xvid? ( media-libs/xvid )
 	)
 	enca? ( app-i18n/enca )
-	external-ffmpeg? ( >virtual/ffmpeg-0.10 )
+	external-ffmpeg? ( >virtual/ffmpeg-0.10.2 )
 	faad? ( media-libs/faad2 )
 	ggi? ( media-libs/libggi media-libs/libggiwmh )
 	gif? ( media-libs/giflib )
@@ -544,6 +544,7 @@ src_configure() {
 		use external-ffmpeg && myconf+=" --disable-ffmpeg_a"
 	fi
 
+	tc-export PKG_CONFIG
 	./configure \
 		--cc="$(tc-getCC)" \
 		--host-cc="$(tc-getBUILD_CC)" \
