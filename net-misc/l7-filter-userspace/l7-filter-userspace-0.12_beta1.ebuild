@@ -1,10 +1,10 @@
-# Copyright 1999-2010 Gentoo Foundation
+# Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/net-misc/l7-filter-userspace/l7-filter-userspace-0.11.ebuild,v 1.2 2010/07/18 02:47:57 dragonheart Exp $
+# $Header: /var/cvsroot/gentoo-x86/net-misc/l7-filter-userspace/l7-filter-userspace-0.11.ebuild,v 1.3 2012/03/03 15:31:46 pacho Exp $
 
-EAPI="4"
+EAPI=4
 
-inherit versionator
+inherit eutils versionator
 
 MY_P="${PN}-$(replace_version_separator 2 '-')"
 
