@@ -2,6 +2,9 @@
 # Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  07 Apr 2012; Andrew Savchenko <bircoph@gmail.com> files/pvfs2-client-init.d:
+  Skip commented out entries.
+
   23 Mar 2012; Andrew Savchenko <bircoph@gmail.com> files/pvfs2-client-conf.d,
   files/pvfs2-client-init.d, files/pvfs2-server-conf.d,
   files/pvfs2-server-init.d:

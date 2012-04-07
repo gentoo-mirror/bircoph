@@ -50,7 +50,9 @@ start() {
         rc=1
     else
         # grep all pvfs2 entries save for noauto
-        for mp in $(gawk '($3 == "pvfs2" && !index($4, "noauto")) { print $2 }' /etc/fstab); do
+        for mp in $(gawk '
+        ($3 == "pvfs2" && !index($4, "noauto") && index($1, "#")!=1) { print $2 }
+        ' /etc/fstab); do
             if [[ -n ${PVFS2_CLIENT_CHECK_MAX_FAILURE} ]]; then
                 for ((i=0; i<${PVFS2_CLIENT_CHECK_MAX_FAILURE}; i++)); do
                     "${PVFS2_CLIENT_PING}" -m "${mp}" >/dev/null 2>&1 && break
