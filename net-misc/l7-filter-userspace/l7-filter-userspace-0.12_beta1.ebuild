@@ -9,7 +9,7 @@ inherit versionator
 MY_P="${PN}-$(replace_version_separator 2 '-')"
 
 DESCRIPTION="Userspace utilities for layer 7 iptables QoS"
-HOMEPAGE="http://l7-filter.sourceforge.net"
+HOMEPAGE="http://l7-filter.clearfoundation.com/"
 SRC_URI="http://download.clearfoundation.com/l7-filter/${MY_P}.tar.gz"
 
 LICENSE="GPL-2"
