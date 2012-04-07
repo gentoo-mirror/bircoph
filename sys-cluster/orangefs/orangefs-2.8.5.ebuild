@@ -28,7 +28,7 @@ CDEPEND="
 	valgrind? ( dev-util/valgrind )
 "
 RDEPEND="${CDEPEND}
-	modules? ( sys-apps/module-init-tools )
+	modules? ( virtual/modutils )
 "
 DEPEND="${CDEPEND}
 	dev-util/pkgconfig
