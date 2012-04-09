@@ -1,5 +1,6 @@
 app-arch
 app-emulation
+app-text
 app-vim
 dev-python
 dev-util
@@ -19,5 +20,6 @@ sci-geosciences
 sys-apps
 sys-cluster
 sys-devel
+sys-power
 x11-libs
 x11-misc
