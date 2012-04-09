@@ -1,9 +1,9 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/sys-power/nut/nut-2.6.2.ebuild,v 1.1 2011/11/07 23:28:29 robbat2 Exp $
 
 EAPI=2
-inherit autotools bash-completion eutils fixheadtails multilib
+inherit autotools bash-completion-r1 eutils fixheadtails multilib
 
 MY_P=${P/_/-}
 
@@ -166,7 +166,7 @@ src_install() {
 		doins scripts/hotplug/nut-usbups.hotplug
 	fi
 
-	dobashcompletion "${S}"/scripts/misc/nut.bash_completion
+	newbashcomp "${S}"/scripts/misc/nut.bash_completion ${PN}
 }
 
 pkg_postinst() {
