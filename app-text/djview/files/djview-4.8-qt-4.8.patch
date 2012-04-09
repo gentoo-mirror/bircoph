@@ -1,0 +1,35 @@
+--- src/qdjvuwidget.cpp	2011-08-17 16:24:20.000000000 +0200
++++ src/qdjvuwidget.cpp	2012-01-30 14:46:23.313892954 +0100
+@@ -153,7 +153,7 @@
+ }
+ 
+ template<class T> static inline void 
+-swap(T& x, T& y)
++swap_data(T& x, T& y)
+ {
+   T tmp;
+   tmp = x;
+@@ -173,11 +173,11 @@
+       /* Sort v[lo], v[m], v[hi] by insertion */
+       m = (lo+hi)/2;
+       if (v[lo]>v[m])
+-        swap(v[lo],v[m]);
++        swap_data(v[lo],v[m]);
+       if (v[m]>v[hi]) {
+-        swap(v[m],v[hi]);
++        swap_data(v[m],v[hi]);
+         if (v[lo]>v[m])
+-          swap(v[lo],v[m]);
++          swap_data(v[lo],v[m]);
+       }
+       /* Extract pivot, place sentinel */
+       pivot = v[m];
+@@ -191,7 +191,7 @@
+       do ++l; while (v[l]<pivot);
+       do --h; while (v[h]>pivot);
+       if (l < h) { 
+-        swap(v[l],v[h]); 
++        swap_data(v[l],v[h]); 
+         goto loop; 
+       }
+       /* Finish up */
