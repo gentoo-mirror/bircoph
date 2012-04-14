@@ -2,6 +2,14 @@
 # Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  14 Apr 2012; Andrew Savchenko <bircoph@gmail.com> orangefs-2.8.5.ebuild,
+  +files/README.Gentoo, metadata.xml:
+  1) Add kmod-threads flag to control experimental threads support
+  in a kernel helper code independently of global threads flag.
+  2) Sendfile is now disabled by default as it is designed for large
+  files serving only and hurts general performance.
+  3) Move most elog messages to a separate documentation file.
+
   07 Apr 2012; Andrew Savchenko <bircoph@gmail.com> orangefs-2.8.5.ebuild:
   Switch to virtual/modutils.
 

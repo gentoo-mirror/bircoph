@@ -12,9 +12,9 @@ SRC_URI="http://orangefs.org/downloads/2.8.5/source/${P}.tar.gz"
 LICENSE="LGPL-2.1"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="+aio apidocs debug doc examples fuse gtk infiniband memtrace +mmap
-+modules open-mx secure +sendfile +server ssl static static-libs +tcp +threads
-valgrind"
+IUSE="+aio apidocs debug doc examples fuse gtk infiniband kmod-threads
+memtrace +mmap +modules open-mx secure -sendfile +server ssl static static-libs
++tcp +threads valgrind"
 
 CDEPEND="
 	dev-lang/perl
@@ -42,6 +42,7 @@ DEPEND="${CDEPEND}
 
 # aio and sendfile are only meaningful for kernel module;
 # apidocs needs docs to be build first;
+# kernel threads obviously needs kernel module and threads
 # memtrace and valgrind witout debug info will be a pain;
 # if both Myrinet and TCP interfaces are enabled in BMI, 5 sec delays will
 # occur, though, at lest one of them must be enabled;
@@ -50,6 +51,7 @@ REQUIRED_USE="
 	aio? ( modules )
 	apidocs? ( doc )
 	sendfile? ( modules )
+	kmod-threads? ( modules threads )
 	memtrace? ( debug )
 	static? ( server static-libs )
 	tcp? ( !infiniband !open-mx )
@@ -114,7 +116,6 @@ src_configure() {
 	local myconf=""
 
 	use threads && use aio || myconf+=" --disable-aio-threaded-callbacks"
-	use threads && use modules && myconf+=" --enable-threaded-kmod-helper"
 
 	# fast mode disables optimizations
 	use debug && myconf+=" --disable-fast --with-berkdb-debug" \
@@ -137,6 +138,7 @@ src_configure() {
 	    $(use_enable fuse) \
 	    $(use_enable gtk karma) \
 	    $(use_enable mmap mmap-racache) \
+	    $(use_enable kmod-threads threaded-kmod-helper) \
 	    $(use_enable secure trusted-connections) \
 	    $(use_enable sendfile kernel-sendfile) \
 	    $(use_enable server) \
@@ -182,7 +184,7 @@ src_install() {
 
 	keepdir /var/log/pvfs2
 
-	dodoc AUTHORS CREDITS ChangeLog INSTALL README
+	dodoc AUTHORS CREDITS ChangeLog INSTALL README "${FILESDIR}/README.Gentoo"
 
 	if use doc; then
 		dodoc doc/{coding/,}*.{pdf,txt} doc/random/*.pdf \
@@ -203,52 +205,23 @@ src_install() {
 
 pkg_postinst() {
 	linux-mod_pkg_postinst || die
-	local f="$(source "${ROOT}"etc/conf.d/pvfs2-server; echo ${PVFS2_FS_CONF})"
 
-	elog "OrangeFS is a PVFS2 successor and uses a unified configuration file."
-	elog
-	elog "1) If you have configuration files from an earlier PVFS2 versions,"
-	elog "use the provided: ${ROOT}usr/bin/pvfs2-config-convert"
-	elog "to automatically update to the newer configuration scheme."
-	elog
-	elog "2) Use emerge --config orangefs to create new configuration files."
-	elog
-	elog "3) If the storage space has not been previously created, either set"
-	elog "PVFS2_AUTO_MKFS=\"yes\" in ${ROOT}etc/conf.d/pvfs2-server or run:"
-	elog "${ROOT}usr/sbin/pvfs2-server --mkfs ${f}"
-	elog
-	elog "4) orangefs pvfs2-server init script can now be multiplexed."
-	elog "The default init script forces /etc/pvfs2/fs.conf to exist."
-	elog "If you symlink the init script to another one, say pvfs2-server.foo,"
-	elog "then that uses /etc/pvfs2/foo.fs.conf instead."
-	elog "You can now treat pvfs2-server.foo like any other service, but you"
-	elog "must manually change config and daemon arguments for multisevrer"
-	elog "configuration as described in PVFS2 FAQ."
-	elog
-	elog "5) OrangeFS supports ROMIO I/O. You should build your MPI package"
-	elog "with USE=romio in order to use it."
-	elog
-	if use modules; then
-		elog "6) To use prepared PVFS2 you must provide an /etc/fstab entry like:"
-		elog "tcp://testhost:3334/pvfs2-fs /mnt/pvfs2 pvfs2 defaults,intr 0 0"
-		elog "and then start pvfs2-client; please note recommended intr option."
-		elog "This fstab entry is mandatory for any client usage, including ROMIO."
-	else
-		ewarn "6) Without modules support you wouldn't be able to use pvfs2-client and mount"
-		ewarn "partitions using kernel VFS. You are still able to use ROMIO I/O, though."
+	ewarn "Plese read ${ROOT}usr/share/doc/${PF}/README.Gentoo documentation carefully!"
+	ewarn "It contains very important usage information and known issues."
+	if ! use modules; then
+		ewarn
+		ewarn "Without modules support you wouldn't be able to use pvfs2-client and mount"
+		ewarn "partitions using kernel VFS. Though, you are still able to use libpvfs2,"
+		ewarn "ROMIO interface, and FUSE client (if fuse use flag is enabled)."
 	fi
-	if use fuse; then
-		elog
-		elog "Alternatively you may use pvfs2fuse FUSE client to mount PVFS2 partitions:"
-		elog "pvfs2fuse -o allow_other,fs_spec='tcp://testhost:3334/pvfs2-fs' /mnt/pvfs2"
+	if use modules && kernel_is -ge 3 1; then
+		ewarn
+		ewarn "ACL support for 3.1 and 3.2 kernels is known to have bugs."
 	fi
-	elog
-	elog "7) If you want to disable automount on client startup, use noauto"
-	elog "option for appropriate fstab entries."
-	elog
-	elog "8) You may synchronize client and server startup through enire cluster"
-	elog "if all clients and servers are running Gentoo. See conf.d for server check,"
-	elog "forced umount and forced shutdown options."
+	if use sendfile; then
+		ewarn
+		ewarn "With sendfile enabled performance will be degraded for non-large files."
+	fi
 }
 
 pkg_config() {
@@ -264,9 +237,6 @@ pkg_config() {
 		read s
 	fi
 	einfo "Creating unified configuration file"
-	ewarn "WARNING: OrangeFS is picky about hostnames.  Make sure you use the"
-	ewarn "correct shortname for all nodes and have name resolution for these"
-	ewarn "shortnames correctly configured on all nodes."
 	[ ! -d "${ROOT}$(dirname "${f}")" ] && mkdir -p "${ROOT}$(dirname "${f}")"
 	"${ROOT}"usr/bin/pvfs2-genconfig "${f}"
 }
