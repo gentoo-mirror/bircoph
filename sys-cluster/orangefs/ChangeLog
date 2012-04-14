@@ -3,6 +3,10 @@
 # $Header: $
 
   14 Apr 2012; Andrew Savchenko <bircoph@gmail.com> orangefs-2.8.5.ebuild,
+  files/README.Gentoo:
+  Keep sendfile undefined by default.
+
+  14 Apr 2012; Andrew Savchenko <bircoph@gmail.com> orangefs-2.8.5.ebuild,
   +files/README.Gentoo, metadata.xml:
   1) Add kmod-threads flag to control experimental threads support
   in a kernel helper code independently of global threads flag.

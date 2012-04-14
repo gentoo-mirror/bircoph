@@ -104,7 +104,8 @@ use acl mount option on these kernels.
 
 Sendfile support is disabled by default for a reason. If you do not
 plan to use Apache on OrangeFS or serve large files predominatingly, 
-keep it disable, or you will hurt filesystem performance.
+keep it disable, or this may hurt filesystem performance. Your
+mileage may vary, of course.
 
 If file or directory are removed while in use, they may become
 stale files causing I/O error on any attempt to access or remove

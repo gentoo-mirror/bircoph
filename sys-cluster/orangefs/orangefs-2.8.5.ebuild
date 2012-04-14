@@ -13,7 +13,7 @@ LICENSE="LGPL-2.1"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="+aio apidocs debug doc examples fuse gtk infiniband kmod-threads
-memtrace +mmap +modules open-mx secure -sendfile +server ssl static static-libs
+memtrace +mmap +modules open-mx secure sendfile +server ssl static static-libs
 +tcp +threads valgrind"
 
 CDEPEND="
@@ -220,7 +220,7 @@ pkg_postinst() {
 	fi
 	if use sendfile; then
 		ewarn
-		ewarn "With sendfile enabled performance will be degraded for non-large files."
+		ewarn "With sendfile enabled performance will be degraded for small access patterns."
 	fi
 }
 
