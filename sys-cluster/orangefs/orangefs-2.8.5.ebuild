@@ -22,7 +22,7 @@ CDEPEND="
 	virtual/perl-Math-BigInt
 	fuse? ( sys-fs/fuse )
 	gtk? ( x11-libs/gtk+:2 )
-	infiniband? ( sys-infiniband/openib )
+	infiniband? ( sys-infiniband/ofed )
 	open-mx? ( sys-cluster/open-mx[static-libs?] )
 	ssl? ( dev-libs/openssl[static-libs?] )
 	valgrind? ( dev-util/valgrind )
