@@ -71,7 +71,7 @@ src_install() {
 	dodoc dox/README
 	doman dox/netpipe.1
 
-	use utils && bin/*
+	use utils && dobin bin/*
 
 	use doc && dodoc dox/{netpipe_paper.ps,np_cluster2002.pdf,np_euro.pdf}
 	if use examples; then
