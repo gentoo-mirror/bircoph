@@ -2,8 +2,8 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
 <maintainer>
-	<email>jsbronder@gentoo.org</email>
-	<name>jsbronder@gentoo.org</name>
+	<email>bircoph@gmail.com</email>
+	<name>Andrew Savchenko</name>
 </maintainer>
 <longdescription lang="en">
 	Orange File System is a branch of the Parallel Virtual File System. Like
