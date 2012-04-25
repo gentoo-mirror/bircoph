@@ -2,6 +2,12 @@
 # Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+*netpipe-3.7.1-r1 (25 Apr 2012)
+
+  25 Apr 2012; Andrew Savchenko <bircoph@gmail.com> -netpipe-3.7.1.ebuild,
+  +netpipe-3.7.1-r1.ebuild:
+  Build mpi2 module as well when MPI is requested.
+
   24 Apr 2012; Andrew Savchenko <bircoph@gmail.com> netpipe-3.7.1.ebuild:
   Fix utils installation.
 

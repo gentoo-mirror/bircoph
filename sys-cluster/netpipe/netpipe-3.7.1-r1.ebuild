@@ -52,7 +52,7 @@ src_configure() {
 	# no configure script, create list of make targets
 	make_targets=""
 	use memcpy			 && make_targets+="memcpy "
-	use mpi				 && make_targets+="mpi "
+	use mpi				 && make_targets+="mpi mpi2 "
 	use infiniband		 && make_targets+="ibv "
 	use sctp			 && make_targets+="sctp "
 	use sctp && use ipv6 && make_targets+="sctp6 "
