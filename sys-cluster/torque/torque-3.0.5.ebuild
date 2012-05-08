@@ -71,6 +71,7 @@ pkg_setup() {
 
 src_prepare() {
 	epatch "${FILESDIR}/${P}-cpusets.patch"
+	epatch "${FILESDIR}/${P}-write_pid.patch"
 	# as-needed fix, libutils.a needs librt.
 	sed -i 's,^\(LDADD = .*\)$(MOMLIBS) $(PBS_LIBS),\1$(PBS_LIBS) $(MOMLIBS),' \
 		src/resmom/Makefile.am || die
