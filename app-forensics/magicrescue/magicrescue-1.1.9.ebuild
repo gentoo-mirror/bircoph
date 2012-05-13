@@ -15,7 +15,7 @@ SLOT="0"
 KEYWORDS="amd64 ~ppc x86"
 IUSE=""
 
-DEPEND="|| ( sys-libs/gdbm sys-libs/db )"
+DEPEND="|| ( sys-libs/gdbm[berkdb] sys-libs/db )"
 RDEPEND="${DEPEND}"
 
 src_prepare() {
