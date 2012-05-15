@@ -37,6 +37,8 @@ DEPEND="${RDEPEND}
 IUSE_LINGUAS=" fr it de ja es pl cs nl sv pt_BR hu ru zh_CN"
 IUSE="${IUSE} ${IUSE_LINGUAS// / linguas_}"
 
+DOCS="AUTHORS BUGS ChangeLog NEWS README README.arm TODO"
+
 pkg_setup() {
 	if ! use gtk && ! use ncurses ; then
 		ewarn "gtk and ncurses are disabled."
@@ -88,7 +90,6 @@ src_configure() {
 }
 
 src_install() {
-	emake DESTDIR="${D}" install
-	dodoc AUTHORS BUGS ChangeLog NEWS README README.arm TODO
+	emake DESTDIR="${D}" pkgdocdir="/usr/share/doc/${PF}" install # 415161
 	pax-mark m "${ED}usr/bin/linphone"
 }
