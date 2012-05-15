@@ -14,7 +14,7 @@ LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64 ~ppc x86 ~x86-macos"
 # TODO: run-time test for ipv6: does it need mediastreamer[ipv6]?
-IUSE="doc gtk ipv6 ncurses nls ssl video"
+IUSE="doc gsm-nonstandard gtk ipv6 ncurses nls ssl video"
 
 RDEPEND=">=media-libs/mediastreamer-2.8.2[video?,ipv6?]
 	>=net-libs/libeXosip-3.0.2
@@ -25,6 +25,7 @@ RDEPEND=">=media-libs/mediastreamer-2.8.2[video?,ipv6?]
 		>=gnome-base/libglade-2.4.0:2.0
 		>=x11-libs/gtk+-2.4.0:2
 		x11-libs/libnotify )
+	gsm-nonstandard? ( >=media-libs/mediastreamer-2.8.2[gsm] )
 	ncurses? ( sys-libs/readline
 		sys-libs/ncurses )
 	ssl? ( dev-libs/openssl )"
@@ -80,6 +81,7 @@ src_configure() {
 		--enable-external-mediastreamer \
 		--disable-truespeech \
 		$(use_enable doc manual) \
+		$(use_enable gsm-nonstandard nonstandard-gsm) \
 		$(use_enable gtk gtk_ui) \
 		$(use_enable ipv6) \
 		$(use_enable ncurses console_ui) \
