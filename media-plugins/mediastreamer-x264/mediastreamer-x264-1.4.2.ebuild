@@ -21,7 +21,8 @@ DEPEND=">=media-libs/mediastreamer-2.7.0
 	>=media-libs/x264-0.0.20100118
 	virtual/ffmpeg"
 RDEPEND="${DEPEND}
-	media-libs/mediastreamer[video]"
+	media-libs/mediastreamer[video]
+	virtual/pkgconfig"
 
 S=${WORKDIR}/${MY_P}
 
