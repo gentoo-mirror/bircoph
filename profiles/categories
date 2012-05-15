@@ -18,6 +18,7 @@ net-ftp
 net-libs
 net-misc
 net-proxy
+net-voip
 sci-geosciences
 sys-apps
 sys-cluster
