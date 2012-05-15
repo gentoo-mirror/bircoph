@@ -21,7 +21,8 @@ DOCS=( AUTHORS ChangeLog NEWS README )
 
 DEPEND=">=net-libs/ortp-0.16.0
 	>=media-libs/mediastreamer-2.0.0"
-RDEPEND="${DEPEND}"
+RDEPEND="${DEPEND}
+	virtual/pkgconfig"
 
 S="${WORKDIR}/${MY_P}"
 
@@ -33,11 +34,7 @@ src_prepare(){
 
 src_configure(){
 	econf \
+		--disable-static \
 		--disable-strict \
 		--libdir="${EPREFIX}/usr/$(get_libdir)"
-}
-
-src_install(){
-	default
-	find "${ED}" -name '*.la' -exec rm -f {} +
 }
