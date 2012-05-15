@@ -9,6 +9,5 @@
   </maintainer>
   <use>
 	  <flag name='srtp'>Add support for Secure RTP</flag>
-	  <flag name='zrtp'>Add support for ZRTP protocol</flag>
   </use>
 </pkgmetadata>
