@@ -13,8 +13,6 @@ Think of Wine as a compatibility layer for running Windows programs. Wine does n
 	<flag name='gecko'>Add support for the Gecko engine when using iexplore</flag>
 	<flag name='opencl'>Enable OpenCL support</flag>
 	<flag name='perl'>Install helpers written in perl (winedump/winemaker)</flag>
-	<flag name='prelink'>User <pkg>sys-devel/prelink</pkg> to fix wine binary for some
-		crappy win programs requiring fixed library offsets</flag>
 	<flag name='samba'>Add support for NTLM auth. see
 		http://wiki.winehq.org/NtlmAuthSetupGuide and
 		http://wiki.winehq.org/NtlmSigningAndSealing</flag>
