@@ -27,7 +27,7 @@ RDEPEND="cgi? ( >=media-libs/gd-2[png] )
 	>=sys-fs/udev-114"
 DEPEND="$RDEPEND
 	>=sys-apps/sed-4
-	dev-util/pkgconfig"
+	virtual/pkgconfig"
 
 S=${WORKDIR}/${MY_P}
 

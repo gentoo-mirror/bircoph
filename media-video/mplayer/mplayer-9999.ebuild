@@ -156,7 +156,7 @@ X_DEPS="
 "
 ASM_DEP="dev-lang/yasm"
 DEPEND="${RDEPEND}
-	dev-util/pkgconfig
+	virtual/pkgconfig
 	dga? ( x11-proto/xf86dgaproto )
 	dxr3? ( media-video/em8300-libraries )
 	X? ( ${X_DEPS} )

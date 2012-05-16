@@ -31,7 +31,7 @@ RDEPEND="${CDEPEND}
 	modules? ( virtual/modutils )
 "
 DEPEND="${CDEPEND}
-	dev-util/pkgconfig
+	virtual/pkgconfig
 	>=sys-devel/autoconf-2.59
 	sys-devel/bison
 	sys-devel/flex

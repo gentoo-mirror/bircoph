@@ -30,7 +30,7 @@ RDEPEND="dev-libs/popt
 		x11-libs/gtk+:2
 	)"
 DEPEND="${RDEPEND}
-	dev-util/pkgconfig"
+	virtual/pkgconfig"
 RDEPEND="${RDEPEND}
 	!net-misc/pump
 	>=sys-devel/gcc-config-1.4.1
