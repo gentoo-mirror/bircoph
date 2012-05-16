@@ -30,7 +30,7 @@ RDEPEND=">=media-libs/libsdl-1.2.7[video,X]
 	media-libs/fontconfig
 	virtual/libintl"
 DEPEND="${RDEPEND}
-	dev-util/pkgconfig
+	virtual/pkgconfig
 	sys-devel/gettext"
 
 src_unpack() {
