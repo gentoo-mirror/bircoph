@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/sci-geosciences/googleearth/googleearth-6.2.1.6014-r1.ebuild,v 1.3 2012/03/10 07:50:46 caster Exp $
+# $Header: /var/cvsroot/gentoo-x86/sci-geosciences/googleearth/googleearth-6.2.2.6613.ebuild,v 1.4 2012/05/09 01:07:18 zmedico Exp $
 
 EAPI="4"
 
@@ -17,10 +17,11 @@ SRC_URI="x86? ( http://dl.google.com/dl/earth/client/current/google-earth-stable
 LICENSE="googleearth GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-RESTRICT="binchecks mirror strip"
+RESTRICT="mirror strip"
 IUSE="mdns-bundled +qt-bundled"
 
 GCC_NEEDED="4.2"
+QA_PREBUILT="*"
 
 RDEPEND="|| ( >=sys-devel/gcc-${GCC_NEEDED}[cxx] >=sys-devel/gcc-${GCC_NEEDED}[-nocxx] )
 	x86? (
@@ -107,6 +108,20 @@ src_prepare() {
 	# we have no ld-lsb.so.3 symlink
 	# thanks to Nathan Phillip Brink <ohnobinki@ohnopublishing.net> for suggesting patchelf
 	patchelf --set-interpreter /lib/ld-linux.so.2 ${PN}-bin || die "patchelf failed"
+
+	# Set RPATH for preserve-libs handling (bug #265372).
+	local x
+	for x in * ; do
+		# Use \x7fELF header to separate ELF executables and libraries
+		[[ -f ${x} && $(od -t x1 -N 4 "${x}") == *"7f 45 4c 46"* ]] || continue
+		patchelf --set-rpath '$ORIGIN' "${x}" || \
+			die "patchelf failed on ${x}"
+	done
+	for x in plugins/imageformats/*.so ; do
+		[[ -f ${x} ]] || continue
+		patchelf --set-rpath /opt/${PN} "${x}" || \
+			die "patchelf failed on ${x}"
+	done
 }
 
 src_install() {
