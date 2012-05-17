@@ -9,7 +9,7 @@ inherit eutils autotools multilib
 MY_PN="mssilk"
 SDK_FILE="SILK_SDK_SRC_v1.0.8.zip" # please update silk version on bumps!
 
-DESCRIPTION="Backported G729 implementation for Linphone"
+DESCRIPTION="SILK (skype codec) implementation for Linphone"
 HOMEPAGE="http://www.linphone.org"
 SRC_URI="mirror://nongnu/linphone/plugins/sources/${MY_PN}-${PV}.tar.gz
 http://developer.skype.com/silk/${SDK_FILE}"
