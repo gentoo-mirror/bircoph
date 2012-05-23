@@ -23,6 +23,7 @@ sci-geosciences
 sys-apps
 sys-cluster
 sys-devel
+sys-kernel
 sys-power
 x11-libs
 x11-misc
