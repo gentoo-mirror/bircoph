@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/net-ftp/vsftpd/vsftpd-2.3.5.ebuild,v 1.1 2012/01/08 14:11:40 hwoarang Exp $
+# $Header: /var/cvsroot/gentoo-x86/net-ftp/vsftpd/vsftpd-3.0.0.ebuild,v 1.2 2012/05/13 10:57:37 swift Exp $
 
 EAPI="4"
 
@@ -12,7 +12,7 @@ SRC_URI="http://security.appspot.com/downloads/${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~x86-fbsd"
+KEYWORDS="~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~x86-fbsd"
 IUSE="caps pam tcpd ssl selinux xinetd"
 
 DEPEND="caps? ( >=sys-libs/libcap-2 )
@@ -21,19 +21,16 @@ DEPEND="caps? ( >=sys-libs/libcap-2 )
 	ssl? ( >=dev-libs/openssl-0.9.7d )"
 RDEPEND="${DEPEND}
 	net-ftp/ftpbase
-	selinux? ( sec-policy/selinux-ftpd )
+	selinux? ( sec-policy/selinux-ftp )
 	xinetd? ( sys-apps/xinetd )"
 
 src_prepare() {
-
-	# as-needed patch. Bug #335977
-	epatch "${FILESDIR}/${PN}-2.3.2-as-needed.patch"
 
 	# kerberos patch. bug #335980
 	epatch "${FILESDIR}/${PN}-2.3.2-kerberos.patch"
 
 	# Patch the source, config and the manpage to use /etc/vsftpd/
-	epatch "${FILESDIR}/${P}-gentoo.patch"
+	epatch "${FILESDIR}/${PN}-2.3.5-gentoo.patch"
 
 	# Fix building without the libcap
 	epatch "${FILESDIR}/${PN}-2.1.0-caps.patch"
@@ -54,12 +51,15 @@ src_prepare() {
 
 	# Let portage control stripping
 	sed -i '/^LINK[[:space:]]*=[[:space:]]*/ s/-Wl,-s//' Makefile || die
+
+	#Bug #335977
+	epatch "${FILESDIR}"/${P}-Makefile.patch
 }
 
 src_compile() {
-	emake \
-		CFLAGS="${CFLAGS}" \
-		CC="$(tc-getCC)"
+	CFLAGS="${CFLAGS}" \
+	CC="$(tc-getCC)" \
+	emake
 }
 
 src_install() {
