@@ -1,0 +1,125 @@
+diff -Naur distcc-3.2rc1/src/compile.c distcc-3.2rc1.new/src/compile.c
+--- distcc-3.2rc1/src/compile.c	2011-04-05 22:58:58.000000000 +0400
++++ distcc-3.2rc1.new/src/compile.c	2012-05-23 10:20:17.069363983 +0400
+@@ -379,7 +379,7 @@
+ 
+     /* We don't do any redirection of file descriptors when running locally,
+      * so if for example cpp is being used in a pipeline we should be fine. */
+-    if ((ret = dcc_spawn_child(argv, &pid, NULL, NULL, NULL)) != 0)
++    if ((ret = dcc_spawn_child(argv, &pid, NULL, NULL, NULL, 1)) != 0)
+         return ret;
+ 
+     if ((ret = dcc_collect_child("cc", pid, &status, timeout_null_fd)))
+diff -Naur distcc-3.2rc1/src/cpp.c distcc-3.2rc1.new/src/cpp.c
+--- distcc-3.2rc1/src/cpp.c	2008-12-03 00:50:24.000000000 +0300
++++ distcc-3.2rc1.new/src/cpp.c	2012-05-23 10:20:17.069363983 +0400
+@@ -97,5 +97,5 @@
+     /* FIXME: cpp_argv is leaked */
+ 
+     return dcc_spawn_child(cpp_argv, cpp_pid,
+-                           "/dev/null", *cpp_fname, NULL);
++                           "/dev/null", *cpp_fname, NULL, 1);
+ }
+diff -Naur distcc-3.2rc1/src/exec.c distcc-3.2rc1.new/src/exec.c
+--- distcc-3.2rc1/src/exec.c	2011-04-05 22:58:58.000000000 +0400
++++ distcc-3.2rc1.new/src/exec.c	2012-05-23 10:29:50.225179904 +0400
+@@ -80,10 +80,11 @@
+ static void dcc_inside_child(char **argv,
+                              const char *stdin_file,
+                              const char *stdout_file,
+-                             const char *stderr_file) NORETURN;
++                             const char *stderr_file,
++                             const char local) NORETURN;
+ 
+ 
+-static void dcc_execvp(char **argv) NORETURN;
++static void dcc_execvp(char **argv, const char local) NORETURN;
+ 
+ void dcc_note_execution(struct dcc_hostdef *host, char **argv)
+ {
+@@ -242,12 +243,20 @@
+  *
+  * Does not return, either execs the compiler in place, or exits with
+  * a message.
++ *
++ * local -- determines compile host type, on remote targets
++ * special crosscompile-friendly check must be done, but on local
++ * targets it will broke things
++ *
+  **/
+-static void dcc_execvp(char **argv)
++static void dcc_execvp(char **argv, const char local)
+ {
+     char *slash;
+ 
+-    execvp(argv[0], argv);
++    /* do not exectute full path mindlessly, this breaks
++     * cross-compilation for names like gcc, g++, etc */
++    if (local || argv[0][0] != '/')
++        execvp(argv[0], argv);
+ 
+     /* If we're still running, the program was not found on the path.  One
+      * thing that might have happened here is that the client sent an absolute
+@@ -290,7 +299,8 @@
+ static void dcc_inside_child(char **argv,
+                              const char *stdin_file,
+                              const char *stdout_file,
+-                             const char *stderr_file)
++                             const char *stderr_file,
++                             const char local)
+ {
+     int ret;
+ 
+@@ -334,7 +344,7 @@
+     if ((ret = dcc_redirect_fds(stdin_file, stdout_file, stderr_file)))
+         goto fail;
+ 
+-    dcc_execvp(argv);
++    dcc_execvp(argv, local);
+ 
+     ret = EXIT_DISTCC_FAILED;
+ 
+@@ -378,7 +388,8 @@
+ int dcc_spawn_child(char **argv, pid_t *pidptr,
+                     const char *stdin_file,
+                     const char *stdout_file,
+-                    const char *stderr_file)
++                    const char *stderr_file,
++                    const char local)
+ {
+     pid_t pid;
+ 
+@@ -400,7 +411,7 @@
+             if (dcc_new_pgrp() != 0)
+                 rs_trace("Unable to start a new group\n");
+         }
+-        dcc_inside_child(argv, stdin_file, stdout_file, stderr_file);
++        dcc_inside_child(argv, stdin_file, stdout_file, stderr_file, local);
+         /* !! NEVER RETURN FROM HERE !! */
+     } else {
+         *pidptr = pid;
+diff -Naur distcc-3.2rc1/src/exec.h distcc-3.2rc1.new/src/exec.h
+--- distcc-3.2rc1/src/exec.h	2008-12-03 00:50:24.000000000 +0300
++++ distcc-3.2rc1.new/src/exec.h	2012-05-23 10:20:17.069363983 +0400
+@@ -30,7 +30,8 @@
+                      const char *stderr_file);
+ 
+ int dcc_spawn_child(char **argv, pid_t *pidptr,
+-                    const char *, const char *, const char *);
++                    const char *, const char *, const char *,
++                    const char local);
+ 
+ /* if in_fd is timeout_null_fd, means this parameter is not used */
+ int dcc_collect_child(const char *what, pid_t pid,
+diff -Naur distcc-3.2rc1/src/serve.c distcc-3.2rc1.new/src/serve.c
+--- distcc-3.2rc1/src/serve.c	2011-04-06 00:53:20.000000000 +0400
++++ distcc-3.2rc1.new/src/serve.c	2012-05-23 10:20:17.069363983 +0400
+@@ -679,7 +679,7 @@
+         goto out_cleanup;
+ 
+     if ((compile_ret = dcc_spawn_child(argv, &cc_pid,
+-                                       "/dev/null", out_fname, err_fname))
++                                       "/dev/null", out_fname, err_fname, 0))
+         || (compile_ret = dcc_collect_child("cc", cc_pid, &status, in_fd))) {
+         /* We didn't get around to finding a wait status from the actual
+          * compiler */
