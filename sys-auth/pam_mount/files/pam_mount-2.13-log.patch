@@ -1,0 +1,12 @@
+diff --git a/src/rdconf1.c b/src/rdconf1.c
+index e8ccd2d..827d36a 100644
+--- a/src/rdconf1.c
++++ b/src/rdconf1.c
+@@ -340,6 +340,7 @@ void initconfig(struct config *config)
+ 	char options_require[] = "nosuid,nodev";
+ 
+ 	memset(config, 0, sizeof(*config));
++	ehd_logctl(EHD_LOGFT_DEBUG, EHD_LOG_SET);
+ 	config->debug      = true;
+ 	config->mkmntpoint = true;
+ 
