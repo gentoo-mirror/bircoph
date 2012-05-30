@@ -68,8 +68,6 @@ src_prepare() {
 	export BOOST_INCLUDEDIR="/usr/include/boost-${boost_ver}"
 	export BOOST_LIBRARYDIR="/usr/$(get_libdir)/boost-${boost_ver}"
 
-	epatch "${FILESDIR}"/${PN}-1.10-xdg-path-fix.patch
-
 	# I really like the old picture, not the new one.
 	cp "${FILESDIR}/${PN}-icon-music.png" "${S}/images/icons/icon-music.png"
 }
