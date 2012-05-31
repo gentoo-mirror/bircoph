@@ -1,11 +1,11 @@
 0) General.
 
-Orange FS is a branch of the Parallel Virtual File System (PVFS2).
+OrangeFS is a branch of the Parallel Virtual File System (PVFS2).
 Like PVFS2, OrangeFS is a parallel file system designed for use on
 high end computing (HEC) systems that provides very high
 performance access to disk storage for parallel applications. This
 is not general I/O filesystem, it doesn't support sockets, pipes or
-locks; it is designed for parrallel operations with performance in
+locks; it is designed for parallel operations with performance in
 mind.
 
 1) Upgrade.
@@ -32,7 +32,7 @@ The default init script forces /etc/pvfs2/fs.conf to exist.
 If you symlink the init script to another one, say pvfs2-server.foo,
 then that uses /etc/pvfs2/foo.fs.conf instead.
 You can now treat pvfs2-server.foo like any other service, but you
-must manually change config and daemon arguments for multisevrer
+must manually change config and daemon arguments for multiserver
 configuration as described in PVFS2 FAQ.
 
 WARNING: OrangeFS is picky about hostnames. Make sure you use the
@@ -59,7 +59,7 @@ OrangeFS may be used in any of the following ways:
 
 a) Kernel VFS interface.
 
-USE="modules" flag is required for this case. Then configure server
+USE="modules" flag is required for this case. Afterwards configure server
 and client as described above, start your servers. Afterwards just
 start pvfs2-client, any found pvfs2 entries will be mounted. If you
 want to disable automount on client startup, use noauto option for
@@ -73,12 +73,20 @@ if use fuse; then
 Currently all kernels up to 3.2.x are supported.
 
 b) FUSE client.
+USE="modules" flag is required for this case
 You may use pvfs2fuse FUSE client to mount PVFS2 partitions:
 
     pvfs2fuse -o allow_other,fs_spec='tcp://testhost:3334/pvfs2-fs' /mnt/pvfs2
 
 FUSE client is similar in functionality to the kernel VFS
 interface, but is less tested and may have some security issues.
+
+You can use pvfs2fuse instead of pvfs2-client to automount
+partitions using pvfs2-client init script. This behaviour is
+controlled by PVFS2_CLIENT_USE_KERNEL option in the conf.d file.
+Please note, that fuse client options are not compatible with
+kernel module, you must provide them in PVFS2_CLIENT_FUSE_OPTIONS
+array. See conf.d file for details.
 
 c) Userspace library.
 
