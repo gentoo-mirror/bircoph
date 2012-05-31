@@ -88,6 +88,8 @@ Please note, that fuse client options are not compatible with
 kernel module, you must provide them in PVFS2_CLIENT_FUSE_OPTIONS
 array. See conf.d file for details.
 
+Please not that you cannot use both interfaces for init script.
+
 c) Userspace library.
 
 You may use userspace library (libpvfs2) to access filesystem

@@ -2,6 +2,10 @@
 # Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  31 May 2012; Andrew Savchenko <bircoph@gmail.com> files/README.Gentoo,
+  files/pvfs2-client-conf.d, files/pvfs2-client-init.d:
+  Add support for pvfs2fuse as pvfs2-client replacement.
+
   23 Apr 2012; Andrew Savchenko <bircoph@gmail.com> orangefs-2.8.5.ebuild:
   orangefs: update infiniband dependency
 
