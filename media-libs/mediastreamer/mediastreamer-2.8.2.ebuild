@@ -4,7 +4,7 @@
 
 EAPI="4"
 
-inherit autotools multilib
+inherit autotools eutils multilib
 
 DESCRIPTION="Mediastreaming library for telephony application"
 HOMEPAGE="http://www.linphone.org/"
@@ -66,7 +66,8 @@ src_prepare() {
 	sed -i -e "s:\(doc_htmldir=\).*:\1\$(htmldir):" help/Makefile.am \
 		|| die "patching help/Makefile.am failed"
 
-	epatch "${FILESDIR}/${P}-v4l-automagic.patch"
+	epatch "${FILESDIR}/${P}-v4l-automagic.patch" \
+		   "${FILESDIR}/${P}-autopoint.patch"
 
 	# linux/videodev.h dropped in 2.6.38
 	sed -i -e 's:linux/videodev.h ::' configure.ac || die
