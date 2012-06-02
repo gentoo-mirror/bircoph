@@ -44,3 +44,12 @@ src_prepare() {
 src_configure() {
 	econf --libdir="${EPREFIX}/usr/$(get_libdir)"
 }
+
+src_install() {
+	default
+	# strip .la file for statically linked skype sdk
+	sed -i 's/-lSKP_SILK_SDK//' \
+		"${ED}usr/$(get_libdir)/mediastreamer/plugins/libmssilk.la" || die "sed failed"
+	sed -r -i 's%-L[[:alnum:]/._-]*SILK_SDK_SRC[[:alnum:]/._-]*%%' libmssilk.la \
+		"${ED}usr/$(get_libdir)/mediastreamer/plugins/libmssilk.la" || die "sed failed"
+}
