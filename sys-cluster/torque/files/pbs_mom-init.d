@@ -24,6 +24,14 @@ checkconfig() {
 start() {
     checkconfig || return 1
 
+    # check for a stale lock file, otherwise pbs_mom may fail to
+    # start, see unicluster # 75 bug
+    local utime unchtime
+    utime=$( gawk -F "[ .]" '{ print $1 }' /proc/uptime) 
+    unchtime=$(( $(date +%s) - $(stat -c %Y ${PBS_SERVER_HOME}/mom_priv/mom.lock) ))
+    [[ -f ${PBS_SERVER_HOME}/torque/mom_priv/mom.lock ]] &&
+    [[ "$utime" -lt "$unchtime" ]] && rm ${PBS_SERVER_HOME}/mom_priv/mom.lock
+
     ebegin "Starting Torque pbs_mom"
     local extra_args=""
     if [ -n "${PBS_MOM_LOG}" ]; then
