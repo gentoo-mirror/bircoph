@@ -119,7 +119,7 @@ src_install() {
 	dodoc Driver-programming-HOWTO add_driver svgalib.lsm \
 		README.{joystick,keymap,multi-monitor,patching,vesa}
 	# avoid installation of a broken symlink
-	cp "../lrmi-0.6m/README" "${ED}usr/share/doc/${PF}/txt/README.lrmi"
+	newdoc ../lrmi-0.6m/README README.lrmi
 }
 
 pkg_postinst() {
