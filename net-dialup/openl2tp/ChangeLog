@@ -2,6 +2,10 @@
 # Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  23 Jun 2012; Andrew Savchenko <bircoph@gmail.com> -openl2tp-1.8-r4.ebuild,
+  openl2tp-1.8-r5.ebuild:
+  Purge old. Stabilize r5.
+
 *openl2tp-1.8-r5 (11 Mar 2012)
 
   11 Mar 2012; Andrew Savchenko <bircoph@gmail.com> +openl2tp-1.8-r5.ebuild,
