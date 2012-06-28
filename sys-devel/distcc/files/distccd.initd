@@ -18,6 +18,7 @@ start() {
 
 	# Load PATH and GCC_SPECS from gcc-config, bug #262773
 	eval "$(gcc-config -E)"
+        export PATH="@DCCPATH@${PATH}"
 
 	start-stop-daemon --start --quiet --exec "${DISTCCD_EXEC}" --user distcc -- \
 		--daemon --pid-file "${DISTCCD_PIDFILE}" \

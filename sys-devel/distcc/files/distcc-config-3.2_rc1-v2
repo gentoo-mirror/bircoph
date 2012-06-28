@@ -14,6 +14,8 @@ options=[
 	'--set-log',
 	'--update-masquerade',
 	'--update-masquerade-with-crossdev',
+	'--update-masquerade-with-cc32_64',
+	'--generate-cmdlist',
 	'--help',
 	'--get-env',
 	'--set-env'
@@ -22,16 +24,17 @@ options=[
 tmpcmdline=sys.argv[1:]
 cmdline=[]
 
-eprefix = '@EPREFIX@'
+eprefix = '/'
 bindir = os.path.join(eprefix, 'usr', 'bin')
 sbindir = os.path.join(eprefix, 'usr', 'sbin')
-libdir = os.path.join(eprefix, '@libdir@')
+libdir = os.path.join(eprefix, '/usr/lib')
 sysconfdir = os.path.join(eprefix, 'etc')
 
 gcc_config = os.path.join(bindir, 'gcc-config')
 env_update = os.path.join(sbindir, 'env-update')
 envfile = os.path.join(sysconfdir, 'env.d', '02distcc')
 default_distcc_dir = os.path.join(sysconfdir, 'distcc')
+cmdlist_file = os.path.join(default_distcc_dir, 'commands.allow')
 hostfile = os.path.join(default_distcc_dir, 'hosts')
 distcc_path = os.path.join(bindir, 'distcc')
 dccc_dir = os.path.join(libdir, 'distcc', 'bin')
@@ -53,6 +56,11 @@ def isroot(ret=0):
 		retval = 1
 	return retval
 
+def run_env_update():
+	subprocess.Popen(env_update, shell=True)
+	print('If you want to use these new settings in an existing shell,')
+	print('you need to "source /etc/profile" to get the changes.')
+
 def writeenv(var,value):
 	isroot()
 	distcc_env    = []
@@ -63,9 +71,7 @@ def writeenv(var,value):
 			distcc_env[i] = var+'="'+value+'"\n'
 		distcc_env_new.write(distcc_env[i])
 	#print('Set %s to: %s ' % (var,value))
-	subprocess.Popen(env_update, shell=True)
-	print('If you want to use these new settings in an existing shell,')
-	print('you need to "source /etc/profile" to get the changes.')
+        run_env_update()
 
 def readenv(var):
 	distcc_env = open(envfile, 'r').read()
@@ -75,8 +81,19 @@ def readenv(var):
 	else:
 		print(var,'not set.')
 
-def installlink(chost='', version=''):
+def installlink(chost='', version='', cc_arch=''):
 	for file in ['gcc', 'cc', 'c++', 'g++']:
+                if cc_arch == '':
+                        src_path = distcc_path
+                else:
+                        if chost == '':
+                                if file == 'cc':
+                                        src_path = 'gcc'
+                                else:
+                                        src_path = os.path.join(bindir, cc_arch+'-pc-linux-gnu-'+file)
+                        else:
+                                src_path = file
+
 		if not chost == '':
 			file = '%s-%s' % (chost,file)
 		if not version == '':
@@ -85,11 +102,20 @@ def installlink(chost='', version=''):
 		if os.path.exists(os.path.join(bindir,file)):
 			if not os.path.exists(path):
 				print('Creating %s symlink...' % (path))
-				os.symlink(distcc_path,path)
+				os.symlink(src_path,path)
 			#else:
 			#	print('Already exists. Skipping...')
 
-def installlinks():
+def loopcc_links(chost, version, cc_arch):
+        installlink(chost, '', cc_arch)
+        installlink(chost, version, cc_arch)
+
+def loopcc_cmdlist(chost, version, cmdlist):
+	for name in ['gcc', 'c++', 'g++']:
+		cmdlist.append('%s-%s' % (chost, name))
+		cmdlist.append('%s-%s-%s' % (chost, name, version))
+
+def loopcc(cb, cc_arch=''):
 	p = subprocess.Popen([gcc_config+" -C -l"], shell=True, stdout=subprocess.PIPE)
 	lines = p.stdout.read().rstrip().split('\n')
 	for line in lines:
@@ -98,13 +124,17 @@ def installlinks():
 			matches = re.match("(.*)-(.*)", columns[1])
 			chost = matches.group(1)
 			version = matches.group(2)
-			installlink(chost)
-			installlink(chost, version)
+                        cb(chost, version, cc_arch)
+
+def installlinks(cc_arch=''):
+        loopcc(loopcc_links, cc_arch)
 
 def uninstalllinks():
 	for root, dirs, files in os.walk(dccc_dir):
 		for file in files:
-			os.remove(os.path.join(root, file))
+                        path = os.path.join(root, file)
+                        if os.path.islink(path):
+			        os.remove(path)
 
 def createdistccdir(dir):
 	if not os.path.exists(dir):
@@ -158,6 +188,41 @@ elif '--update-masquerade-with-crossdev' in tmpcmdline:
 	uninstalllinks()
 	print('Creating symlinks...')
 	installlinks()
+elif '--update-masquerade-with-cc32_64' in tmpcmdline:
+	isroot()
+        arch_curr = os.uname()[4]
+        arch_supp = set(['i686', 'amd64'])
+        if not arch_curr in arch_supp:
+                print('Architecure %s is not supported for cross-compilation i68<->amd64 setup' % (arch))
+	        sys.exit(1)
+
+        # normal setup
+	uninstalllinks()
+	print('Creating symlinks for host arch...')
+        createdistccdir(dccc_dir)
+	installlink()
+	installlinks()
+
+        # cross-compile helpers
+        cc_arch = (arch_supp - set([arch_curr])).pop()
+        dccc_dir = os.path.join(libdir, 'distcc', 'bin-'+cc_arch)
+	uninstalllinks()
+	print('Creating symlinks for cross-compile arch...')
+        createdistccdir(dccc_dir)
+	installlink('', '', arch_curr)
+	installlinks(arch_curr)
+elif '--generate-cmdlist' in tmpcmdline:
+        isroot()
+        # standard compilers list
+	cmdlist = ['gcc', 'cc', 'c++', 'g++']
+        # arch-specific compilers list
+        loopcc(loopcc_cmdlist, cmdlist)
+
+        cmdfile = open(cmdlist_file, 'w')
+        for name in sorted(set(cmdlist)):
+		cmdfile.write(name + "\n")
+
+        run_env_update()
 elif '--get-env' in tmpcmdline:
 	if len(tmpcmdline) == 1:
 		print(open(envfile, 'r').read().rstrip())
@@ -179,3 +244,5 @@ else:
 	print('       %s --set-env VARIABLE VALUE | --get-env [VARIABLE]' % (cmd))
 	print('       %s --update-masquerade' % (cmd))
 	print('       %s --update-masquerade-with-crossdev' % (cmd))
+	print('       %s --update-masquerade-with-cc32_64' % (cmd))
+	print('       %s --generate-cmdlist' % (cmd))

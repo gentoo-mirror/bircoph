@@ -10,7 +10,9 @@
 		machines on a network.
 	</longdescription>
 	<use>
+		<flag name="cc32_64">Enable second distcc server to crosscompile amd64 on x86 host or vice versa depending on your host architecture </flag>
 		<flag name="crossdev">Enable support for <pkg>sys-devel/crossdev</pkg></flag>
 		<flag name="gssapi">Enable support for <pkg>net-libs/libgssglue</pkg></flag>
+		<flag name="secure">Limit the list of allowed commands by the list of installed compilers. Otherwise crafted client may execute arbitrary command on a server host with distcc user id</flag>
 	</use>
 </pkgmetadata>
