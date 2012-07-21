@@ -87,7 +87,10 @@ def installlink(chost='', version='', cc_arch=''):
                         src_path = distcc_path
                 else:
                         if chost == '':
-                                src_path = 'gcc'
+                                if file == 'cc':
+                                        src_path = 'gcc'
+                                else:
+                                        src_path = os.path.join(bindir, cc_arch+'-pc-linux-gnu-'+file)
                         else:
                                 src_path = file
 
