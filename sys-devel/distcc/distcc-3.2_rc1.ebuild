@@ -242,7 +242,6 @@ pkg_postinst() {
 
 	ewarn "On gcc version bump please do not forget to update distcc setup."
 	ewarn "You may do this by running emerge --config distcc"
-	ewarn
 }
 
 pkg_postrm() {
