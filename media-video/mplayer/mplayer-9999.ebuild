@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/media-video/mplayer/mplayer-9999.ebuild,v 1.91 2011/01/30 21:08:15 scarabeus Exp $
+# $Header: /var/cvsroot/gentoo-x86/media-video/mplayer/mplayer-9999.ebuild,v 1.133 2012/06/21 08:10:42 yngwin Exp $
 
 EAPI=4
 
@@ -12,12 +12,12 @@ inherit toolchain-funcs eutils flag-o-matic multilib base ${SVN_ECLASS}
 # BUMP ME PLZ, NO COOKIES OTHERWISE
 [[ ${PV} != *9999* ]] && MPLAYER_REVISION=SVN-r32598
 
-IUSE="3dnow 3dnowext +a52 aalib +alsa altivec aqua +ass bidi bindist bl bluray
+IUSE="3dnow 3dnowext +a52 aalib +alsa altivec amr aqua bidi bindist bl bluray
 bs2b cddb +cdio cdparanoia cpudetection debug dga +dirac
-directfb doc +dts +dv dvb +dvd +dvdnav dxr3 +enca +encode -external-ffmpeg +faac +faad fbcon
+directfb doc +dts +dv dvb +dvd +dvdnav dxr3 +enca +encode -external-ffmpeg faac +faad fbcon
 ftp gif ggi gsm +iconv ipv6 jack joystick jpeg jpeg2k kernel_linux ladspa
-libcaca libmpeg2 libav lirc +live lzo mad md5sum +mmx mmxext mng +mp3 mpg123 nas nemesi
-+network nut openal amr +opengl +osdmenu oss png pnm pulseaudio pvr +quicktime
++libass libcaca libmpeg2 libav lirc +live lzo mad md5sum +mmx mmxext mng +mp3 mpg123 nas nemesi
++network nut openal +opengl +osdmenu oss png pnm pulseaudio pvr +quicktime
 radio +rar +real +rtc rtmp samba +shm +schroedinger sdl +speex sse sse2 ssse3 svga svga-helper
 tga +theora tivo +tremor +truetype toolame +twolame +unicode v4l vdpau vidix
 +vorbis vpx win32codecs +X +x264 xanim xinerama +xscreensaver +xv +xvid xvmc
@@ -71,7 +71,7 @@ RDEPEND+="
 	aalib? ( media-libs/aalib )
 	alsa? ( media-libs/alsa-lib )
 	amr? ( media-libs/opencore-amr )
-	ass? ( ${FONT_RDEPS} >=media-libs/libass-0.9.10[enca?] )
+	libass? ( ${FONT_RDEPS} >=media-libs/libass-0.9.10[enca?] )
 	bidi? ( dev-libs/fribidi )
 	bluray? ( >=media-libs/libbluray-0.2.1 )
 	bs2b? ( media-libs/libbs2b )
@@ -94,7 +94,7 @@ RDEPEND+="
 		xvid? ( media-libs/xvid )
 	)
 	enca? ( app-i18n/enca )
-	external-ffmpeg? ( >virtual/ffmpeg-0.10.2 )
+	external-ffmpeg? ( >=media-video/ffmpeg-0.11.1 )
 	faad? ( media-libs/faad2 )
 	ggi? ( media-libs/libggi media-libs/libggiwmh )
 	gif? ( media-libs/giflib )
@@ -190,7 +190,7 @@ fi
 REQUIRED_USE="bindist? ( !amr !faac !win32codecs )
 	cdio? ( !cdparanoia !cddb )
 	dvdnav? ( dvd )
-	ass? ( truetype )
+	libass? ( truetype )
 	toolame? ( !twolame )
 	twolame? ( !toolame )
 	truetype? ( iconv )
@@ -297,10 +297,11 @@ src_configure() {
 		$(use_enable network networking)
 		$(use_enable joystick)
 	"
-	uses="ass bl bluray enca ftp nemesi rtc svga"
+	uses="bl bluray enca ftp nemesi rtc svga"
 	for i in ${uses}; do
 		use ${i} || myconf+=" --disable-${i}"
 	done
+	use libass || myconf+=" --disable-ass"
 	use bidi || myconf+=" --disable-fribidi"
 	use ipv6 || myconf+=" --disable-inet6"
 	use nut || myconf+=" --disable-libnut"
