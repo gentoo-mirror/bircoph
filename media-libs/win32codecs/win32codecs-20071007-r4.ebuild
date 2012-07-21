@@ -9,7 +9,7 @@ SRC_URI="mirror://mplayer/releases/codecs/all-${PV}.tar.bz2"
 HOMEPAGE="http://www.mplayerhq.hu/"
 LICENSE="as-is"
 SLOT="0"
-KEYWORDS="-* ~amd64 x86 ~x86-fbsd ~x86-freebsd ~x86-linux"
+KEYWORDS="-* ~amd64 ~amd64-fbsd x86 ~x86-fbsd ~x86-freebsd ~x86-linux"
 IUSE="real"
 
 RDEPEND="real? ( =virtual/libstdc++-3.3* )"
