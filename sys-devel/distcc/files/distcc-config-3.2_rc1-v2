@@ -3,7 +3,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/sys-devel/distcc/files/distcc-config-3.2_rc1,v 1.1 2011/10/28 05:41:06 matsuu Exp $
 
-import os, re, signal, subprocess, sys
+import os, re, signal, subprocess, sys, fnmatch
 
 options=[
 	'--get-hosts',
@@ -92,7 +92,8 @@ def installlink(chost='', version='', cc_arch=''):
                                 else:
                                         src_path = os.path.join(bindir, cc_arch+'-pc-linux-gnu-'+file)
                         else:
-                                src_path = file
+                                src_path = distcc_path
+                                src_path_cc = file
 
 		if not chost == '':
                         if cc_arch != '':
@@ -110,7 +111,7 @@ def installlink(chost='', version='', cc_arch=''):
                                 if cc_arch != '' and chost != '':
                                         path = os.path.join(dccc_dir,file2)
                                         print('Creating %s symlink...' % (path))
-                                        os.symlink(src_path,path)
+                                        os.symlink(src_path_cc,path)
 
 def installlinks(cc_arch=''):
 	installlink('', '', cc_arch)
@@ -209,7 +210,7 @@ elif '--generate-cmdlist' in tmpcmdline:
         names = []
         # search for files in the root distcc dir
         for root, dirs, files in os.walk(os.path.join(libdir, 'distcc')):
-                for f in files:
+                for f in fnmatch.filter(files,"[!.]*"):
                         names.append(f)
         
         cmdfile = open(cmdlist_file, 'w')
