@@ -22,6 +22,7 @@ DEPEND="${RDEPEND}
 src_prepare() {
 	epatch "${FILESDIR}"/${PN}-0.9-metalog-conf.patch
 	epatch "${FILESDIR}"/${PN}-2-postrotate.patch
+	epatch "${FILESDIR}"/${P}-no-gets.patch #426632
 }
 
 src_configure() {
