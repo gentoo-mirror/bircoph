@@ -147,6 +147,11 @@ src_compile() {
 src_install() {
 	emake DESTDIR="${D}" install
 
+	if use cc32_64 && use amd64; then
+		exeinto "${DCCC_PATH}-i686"
+		doexe "${S}/bin-i686/"{c++,g++,gcc}
+	fi
+
 	newinitd "${T}/distccd.initd" distccd
 	newconfd "${T}/distccd.confd" distccd
 	if use cc32_64; then
@@ -193,11 +198,6 @@ src_install() {
 	if use xinetd; then
 		insinto /etc/xinetd.d || die
 		newins "doc/example/xinetd" distcc
-	fi
-
-	if use cc32_64 && use amd64; then
-		into "${DCCC_PATH}-i686"
-		dobin "${S}/bin-i686/"{c++,g++,gcc}
 	fi
 
 	rm -r "${ED}/etc/default" || die
