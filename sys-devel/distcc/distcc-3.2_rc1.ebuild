@@ -56,6 +56,11 @@ pkg_setup() {
 	enewuser distcc 240 -1 -1 daemon
 	python_set_active_version 2
 	python_pkg_setup
+
+    if use cc32_64; then
+            use x86 && arch="x86_64"
+            use amd64 && arch="i686"
+    fi
 }
 
 src_prepare() {
@@ -63,11 +68,11 @@ src_prepare() {
 	# bug #253786
 	epatch "${FILESDIR}/${PN}-3.0-fix-fortify.patch"
 	# bug #255188
-	epatch "${FILESDIR}/${PN}-3.2_rc1-freedesktop.patch"
+	epatch "${FILESDIR}/${P}-freedesktop.patch"
 	# bug #258364
-	epatch "${FILESDIR}/${PN}-3.2_rc1-python.patch"
+	epatch "${FILESDIR}/${P}-python.patch"
 	# for net-libs/libgssglue
-	epatch "${FILESDIR}/${PN}-3.2_rc1-gssapi.patch"
+	epatch "${FILESDIR}/${P}-gssapi.patch"
 	# for cross-compiling
 	epatch "${FILESDIR}/${P}-crosscompile.patch"
 
