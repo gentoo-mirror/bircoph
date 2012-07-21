@@ -56,11 +56,6 @@ pkg_setup() {
 	enewuser distcc 240 -1 -1 daemon
 	python_set_active_version 2
 	python_pkg_setup
-
-	if use cc32_64; then
-		use x86 && arch="amd64"
-		use amd64 && arch="x86"
-	fi
 }
 
 src_prepare() {
@@ -154,7 +149,7 @@ src_install() {
 
 	if use cc32_64 && use amd64; then
 		insinto "${DCCC_PATH}-i686"
-		doins "${S}/{c++,g++,gcc}"
+		dobin "${S}/bin-i686/"{c++,g++,gcc}
 	fi
 
 	newinitd "${T}/distccd.initd" distccd
