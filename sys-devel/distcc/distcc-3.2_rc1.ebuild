@@ -121,9 +121,9 @@ src_prepare() {
 	eaclocal -Im4 --output=aclocal.m4
 	eautoconf
 
-	if use cc32_64 && use amd64; then
-		mkdir "${S}/bin-i686"
-		cp "${FILESDIR}"/cc32_64/* "${S}/bin-i686" || die "helper cp failed"
+	if use cc32_64; then
+		mkdir "${S}/bin-${arch}"
+		cp "${FILESDIR}"/cross-${arch}/* "${S}/bin-${arch}" || die "helper cp failed"
 	fi
 }
 
@@ -146,15 +146,15 @@ src_configure() {
 
 src_compile() {
 	default
-	use cc32_64 && use amd64 && emake -C "${S}/bin-i686"
+	use cc32_64 && emake -C "${S}/bin-${arch}"
 }
 
 src_install() {
 	emake DESTDIR="${D}" install
 
-	if use cc32_64 && use amd64; then
-		exeinto "${DCCC_PATH}-i686"
-		doexe "${S}/bin-i686/"{c++,g++,gcc}
+	if use cc32_64 ; then
+		exeinto "${DCCC_PATH}-${arch}"
+		doexe "${S}/bin-${arch}/"{c++,g++,gcc}
 	fi
 
 	newinitd "${T}/distccd.initd" distccd
