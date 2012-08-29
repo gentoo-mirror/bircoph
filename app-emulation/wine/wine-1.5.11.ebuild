@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/app-emulation/wine/wine-1.5.9.ebuild,v 1.1 2012/07/18 08:42:29 tetromino Exp $
+# $Header: /var/cvsroot/gentoo-x86/app-emulation/wine/wine-1.5.11.ebuild,v 1.3 2012/08/23 16:45:20 tetromino Exp $
 
 EAPI="4"
 
@@ -18,7 +18,7 @@ else
 	S=${WORKDIR}/${MY_P}
 fi
 
-GV="1.6"
+GV="1.7"
 MV="0.0.4"
 PULSE_PATCH="winepulse-2012.06.15.patch"
 DESCRIPTION="free implementation of Windows(tm) on Unix"
@@ -33,9 +33,10 @@ SRC_URI="${SRC_URI}
 
 LICENSE="LGPL-2.1"
 SLOT="0"
-IUSE="alsa capi cups custom-cflags elibc_glibc fontconfig +gecko gnutls gphoto2 gsm gstreamer hardened jpeg lcms ldap +mono mp3 ncurses nls odbc openal opencl +opengl +oss +perl png prelink pulseaudio samba scanner selinux ssl test +threads +truetype udisks v4l +win32 +win64 +X xcomposite xinerama xml"
+IUSE="alsa capi cups custom-cflags elibc_glibc fontconfig +gecko gnutls gphoto2 gsm gstreamer hardened jpeg lcms ldap +mono mp3 ncurses nls odbc openal opencl +opengl osmesa +oss +perl png pulseaudio samba scanner selinux ssl test +threads +truetype udisks v4l +win32 +win64 +X xcomposite xinerama xml"
 REQUIRED_USE="elibc_glibc? ( threads )
-	mono? ( || ( win32 !win64 ) )" #286560
+	mono? ( || ( win32 !win64 ) )
+	osmesa? ( opengl )" #286560
 RESTRICT="test" #72375
 
 MLIB_DEPS="amd64? (
@@ -72,7 +73,6 @@ RDEPEND="truetype? ( >=media-libs/freetype-2.0.0 media-fonts/corefonts )
 		x11-libs/libXi
 		x11-libs/libXmu
 		x11-libs/libXxf86vm
-		x11-apps/xmessage
 	)
 	xinerama? ( x11-libs/libXinerama )
 	alsa? ( media-libs/alsa-lib )
@@ -86,6 +86,7 @@ RDEPEND="truetype? ( >=media-libs/freetype-2.0.0 media-fonts/corefonts )
 	mp3? ( >=media-sound/mpg123-1.5.0 )
 	nls? ( sys-devel/gettext )
 	odbc? ( dev-db/unixODBC )
+	osmesa? ( media-libs/mesa[osmesa] )
 	pulseaudio? ( media-sound/pulseaudio )
 	samba? ( >=net-fs/samba-3.0.25 )
 	selinux? ( sec-policy/selinux-wine )
@@ -104,14 +105,12 @@ DEPEND="${RDEPEND}
 		x11-proto/xf86vidmodeproto
 	)
 	xinerama? ( x11-proto/xineramaproto )
-	!hardened? ( prelink? ( sys-devel/prelink ) )
+	!hardened? ( sys-devel/prelink )
 	virtual/pkgconfig
 	virtual/yacc
 	sys-devel/flex"
 
-pkg_setup() {
-	enewgroup wine
-
+src_unpack() {
 	if use win64 ; then
 		[[ $(( $(gcc-major-version) * 100 + $(gcc-minor-version) )) -lt 404 ]] \
 			&& die "you need gcc-4.4+ to build 64bit wine"
@@ -130,10 +129,16 @@ pkg_setup() {
 }
 
 src_prepare() {
+	local md5="$(md5sum server/protocol.def)"
 	epatch "${FILESDIR}"/${PN}-1.1.15-winegcc.patch #260726
 	epatch "${FILESDIR}"/${PN}-1.4_rc2-multilib-portage.patch #395615
+	epatch "${FILESDIR}"/${PN}-1.5.11-osmesa-check.patch #429386
 	epatch "${DISTDIR}/${PULSE_PATCH}" #421365
 	epatch_user #282735
+	if [[ "$(md5sum server/protocol.def)" != "${md5}" ]]; then
+		einfo "server/protocol.def was patched; running tools/make_requests"
+		tools/make_requests || die #432348
+	fi
 	eautoreconf
 	sed -i '/^UPDATE_DESKTOP_DATABASE/s:=.*:=true:' tools/Makefile.in || die
 	sed -i '/^MimeType/d' tools/wine.desktop || die #117785
@@ -143,6 +148,12 @@ do_configure() {
 	local builddir="${WORKDIR}/wine$1"
 	mkdir -p "${builddir}"
 	pushd "${builddir}" >/dev/null
+
+	with_osmesa=$(use_with osmesa)
+	if use osmesa && use amd64 && [[ $1 = 32 ]]; then #430268
+		elog "win32 osmesa support is disabled for now, see bug #430268"
+		with_osmesa=--without-osmesa
+	fi
 
 	ECONF_SOURCE=${S} \
 	econf \
@@ -167,6 +178,7 @@ do_configure() {
 		$(use_with opencl) \
 		$(use_with opengl) \
 		$(use_with ssl openssl) \
+		${with_osmesa} \
 		$(use_with oss) \
 		$(use_with png) \
 		$(use_with threads pthread) \
@@ -238,17 +250,4 @@ src_install() {
 		dosym /usr/bin/wine{64,} # 404331
 		dosym /usr/bin/wine{64,}-preloader
 	fi
-
-	# for all bins and libs disable world access and group write access
-	# only users from wine group may be able to use it
-	local filelist=$( find "${D}"/usr/{bin,lib} -type f | gawk -v path="${D}" '{ gsub("^"path,""); print $0 }')
-	fowners :wine ${filelist}
-	fperms -R o-rwx,g-w ${filelist}
-}
-
-pkg_postinst() {
-	ewarn "You must be in the wine group in order to be able to use wine."
-	ewarn "It is recommended to use a separate user for running wine in order"
-	ewarn "to improve security by isolation. See Risks section in the wine FAQ:"
-	ewarn "http://wiki.winehq.org/FAQ#head-3cb8f054b33a63be30f98a1b6225d74e305a0459"
 }
