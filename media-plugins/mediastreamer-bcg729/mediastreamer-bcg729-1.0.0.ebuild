@@ -19,10 +19,11 @@ IUSE=""
 
 DOCS=( AUTHORS ChangeLog NEWS README )
 
-DEPEND=">=net-libs/ortp-0.16.0
-	>=media-libs/mediastreamer-2.0.0"
-RDEPEND="${DEPEND}
+DEPEND="
+	>=media-libs/mediastreamer-2.0.0
+	>=net-libs/ortp-0.16.0
 	virtual/pkgconfig"
+RDEPEND="${DEPEND}"
 
 S="${WORKDIR}/${MY_P}"
 

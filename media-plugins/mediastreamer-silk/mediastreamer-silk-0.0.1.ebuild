@@ -19,9 +19,9 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="bindist"
 
-DEPEND=">=media-libs/mediastreamer-2.0.0"
-RDEPEND="${DEPEND}
+DEPEND=">=media-libs/mediastreamer-2.0.0
 	virtual/pkgconfig"
+RDEPEND="${DEPEND}"
 
 S="${WORKDIR}/${MY_PN}"
 

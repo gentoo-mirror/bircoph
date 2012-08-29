@@ -19,10 +19,10 @@ IUSE=""
 
 DEPEND=">=media-libs/mediastreamer-2.7.0
 	>=media-libs/x264-0.0.20100118
-	virtual/ffmpeg"
-RDEPEND="${DEPEND}
-	media-libs/mediastreamer[video]
+	virtual/ffmpeg
 	virtual/pkgconfig"
+RDEPEND="${DEPEND}
+	media-libs/mediastreamer[video]"
 
 S=${WORKDIR}/${MY_P}
 
