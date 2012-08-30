@@ -2,6 +2,14 @@
 # Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+*orangefs-2.8.6 (30 Aug 2012)
+
+  30 Aug 2012; Andrew Savchenko <bircoph@gmail.com> +orangefs-2.8.6.ebuild,
+  +files/orangefs-2.8.6-layout.patch, metadata.xml:
+  Update OrangeFS to 2.8.6. Most patches are upstream now.
+  Add support for reset-file-pos configure option. Block with
+  app-pda/orange due to liborange.so conflict for now.
+
   31 May 2012; Andrew Savchenko <bircoph@gmail.com> files/README.Gentoo,
   files/pvfs2-client-conf.d, files/pvfs2-client-init.d:
   Add support for pvfs2fuse as pvfs2-client replacement.

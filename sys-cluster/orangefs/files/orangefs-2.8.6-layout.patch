@@ -1,0 +1,123 @@
+diff -Naur orangefs-2.8.6.p1/src/client/sysint/sys-create.sm orangefs-2.8.6/src/client/sysint/sys-create.sm
+--- orangefs-2.8.6.p1/src/client/sysint/sys-create.sm	2012-04-14 00:23:05.000000000 +0400
++++ orangefs-2.8.6/src/client/sysint/sys-create.sm	2012-08-30 14:34:24.129659209 +0400
+@@ -144,6 +144,8 @@
+     PVFS_error ret = -PVFS_EINVAL;
+     PINT_smcb *smcb = NULL;
+     PINT_client_sm *sm_p = NULL;
++    struct server_configuration_s *server_config = NULL;
++    enum PVFS_sys_layout_algorithm layout_algo = PVFS_SYS_LAYOUT_ROUND_ROBIN;
+ 
+     gossip_debug(GOSSIP_CLIENT_DEBUG, "PVFS_isys_create entered\n");
+ 
+@@ -244,7 +246,17 @@
+     }
+     else
+     {
+-        sm_p->u.create.layout.algorithm = PVFS_SYS_LAYOUT_ROUND_ROBIN;
++        sm_p->object_ref = parent_ref;
++        /* get default filesystem layout */
++        server_config = PINT_get_server_config_struct(sm_p->parent_ref.fs_id);
++        if (server_config)
++        {
++            layout_algo = server_config->default_layout_algo;
++            /* Release the server config mutex */
++            PINT_put_server_config_struct(server_config);
++        }
++
++        sm_p->u.create.layout.algorithm = layout_algo;
+     }
+ 
+     sm_p->object_ref = parent_ref;
+diff -Naur orangefs-2.8.6.p1/src/common/misc/server-config.c orangefs-2.8.6/src/common/misc/server-config.c
+--- orangefs-2.8.6.p1/src/common/misc/server-config.c	2012-06-12 13:08:33.000000000 +0400
++++ orangefs-2.8.6/src/common/misc/server-config.c	2012-08-30 14:47:21.951009424 +0400
+@@ -125,6 +125,7 @@
+ static DOTCONF_CB(directio_thread_num);
+ static DOTCONF_CB(directio_ops_per_queue);
+ static DOTCONF_CB(directio_timeout);
++static DOTCONF_CB(get_default_layout_algo);
+ static DOTCONF_CB(tree_width);
+ static DOTCONF_CB(tree_threshhold);
+ 
+@@ -1028,6 +1029,29 @@
+     {"TreeThreshhold", ARG_INT, tree_threshhold, NULL,
+         CTX_FILESYSTEM, "2"},
+ 
++    /* Specifies the default data layout for a filesystem.
++     * Supported values are:
++     *
++     * none - PVFS_SYS_LAYOUT_NONE:
++     * servers are selected in the order listed  in the configuration
++     * starting with the first one;
++     *
++     * random - PVFS_SYS_LAYOUT_RANDOM:
++     * servers are selected in random order but no server is used twice;
++     *
++     * round-robin - PVFS_SYS_LAYOUT_ROUND_ROBIN (default):
++     * servers are selected in the order listed in the configuration
++     * starting with a random one;
++     *
++     * local - PVFS_SYS_LAYOUT_LOCAL:
++     * puts a file on the server on the same node as the client, if there
++     * is one. Otherwise defaults to round_robin;
++     *
++     * PVFS_SYS_LAYOUT_LIST is currently not supported as a default value;
++     * */
++    {"LayoutAlgo", ARG_STR, get_default_layout_algo, NULL,
++        CTX_DEFAULTS, "round-robin"},
++
+     LAST_OPTION
+ };
+ 
+@@ -3072,6 +3096,37 @@
+     return NULL;
+ }
+ 
++DOTCONF_CB(get_default_layout_algo)
++{
++    struct server_configuration_s *config_s =
++        (struct server_configuration_s *)cmd->context;
++
++    enum PVFS_sys_layout_algorithm *algo = &config_s->default_layout_algo;
++
++    if(!strcmp(cmd->data.str, "round-robin"))
++    {
++        *algo = PVFS_SYS_LAYOUT_ROUND_ROBIN;
++    }
++    else if(!strcmp(cmd->data.str, "random"))
++    {
++        *algo = PVFS_SYS_LAYOUT_RANDOM;
++    }
++    else if(!strcmp(cmd->data.str, "local"))
++    {
++        *algo = PVFS_SYS_LAYOUT_LOCAL;
++    }
++    else if(!strcmp(cmd->data.str, "none"))
++    {
++        *algo = PVFS_SYS_LAYOUT_NONE;
++    }
++    else
++    {
++        return "Error unknown LayoutAlgo option, valid values are:\n"
++               "local, none, random, round-robin\n";
++    }
++    return NULL;
++}
++
+ /*
+  * Function: PINT_config_release
+  *
+diff -Naur orangefs-2.8.6.p1/src/common/misc/server-config.h orangefs-2.8.6/src/common/misc/server-config.h
+--- orangefs-2.8.6.p1/src/common/misc/server-config.h	2012-04-19 18:01:24.000000000 +0400
++++ orangefs-2.8.6/src/common/misc/server-config.h	2012-08-30 14:47:40.867360874 +0400
+@@ -201,6 +201,9 @@
+                                      * be configurable.
+                                      */
+     int trove_method;
++
++    enum PVFS_sys_layout_algorithm default_layout_algo; /* Default data layout algorithm:
++                                                           local, none, random, round-robin (default) */
+     void *private_data;
+     int32_t tree_width;
+     int32_t tree_threshhold;
