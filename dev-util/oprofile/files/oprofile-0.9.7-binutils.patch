@@ -1,0 +1,55 @@
+--- a/libopagent/opagent.c
++++ b/libopagent/opagent.c
+@@ -50,6 +50,7 @@
+  *   See libopagent/Makefile.am for more information.
+  *******************************************************************/
+ 
++#include "config.h"
+ #include <stdio.h>
+ #include <errno.h>
+ #include <string.h>
+
+--- a/libpp/symbol.h
++++ b/libpp/symbol.h
+@@ -12,6 +12,7 @@
+ #ifndef SYMBOL_H
+ #define SYMBOL_H
+ 
++#include "config.h"
+ #include "name_storage.h"
+ #include "growable_vector.h"
+ #include "sparse_array.h"
+
+--- a/opjitconv/debug_line.c
++++ b/opjitconv/debug_line.c
+@@ -8,6 +8,7 @@
+  * @author Philippe Elie
+  */
+ 
++#include "config.h"
+ #include <stdint.h>
+ #include <stdlib.h>
+ #include <string.h>
+
+--- a/opjitconv/opjitconv.h
++++ b/opjitconv/opjitconv.h
+@@ -26,6 +26,7 @@
+ #define OP_JIT_CONV_ALREADY_DONE 5
+ #define OP_JIT_CONV_TMPDIR_NOT_REMOVED 6
+ 
++#include "config.h"
+ #include <bfd.h>
+ #include <stddef.h>
+ #include <sys/stat.h>
+
+--- a/libutil++/bfd_support.h
++++ b/libutil++/bfd_support.h
+@@ -11,6 +11,7 @@
+ #ifndef BFD_SUPPORT_H
+ #define BFD_SUPPORT_H
+ 
++#include "config.h"
+ #include "utility.h"
+ #include "op_types.h"
+ #include "locate_images.h"
+
