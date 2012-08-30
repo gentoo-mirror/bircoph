@@ -83,6 +83,9 @@ src_prepare() {
 	# Allow data layout control (proposed by upstream)
 	epatch "${FILESDIR}"/${P}-layout.patch
 
+	# Fix parallel build deps, sent upstream
+	epatch "${FILESDIR}"/${P}-parallel-make.patch
+
 	# Change defalt server logfile location to more appropriate value
 	# used by init script.
 	sed -i "s%/tmp/pvfs2-server.log%/var/log/pvfs2/server.log%g" \
