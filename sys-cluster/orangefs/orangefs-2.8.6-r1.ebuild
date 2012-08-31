@@ -14,7 +14,8 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="+aio apidocs debug doc examples fuse gtk infiniband kmod-threads memtrace
 +mmap +modules open-mx reset-file-pos secure sendfile +server ssl static
-static-libs +tcp +threads valgrind"
+static-libs +tcp +threads +usrint usrint-cache +usrint-cwd usrint-kmount
+valgrind"
 
 CDEPEND="
 	dev-lang/perl
@@ -51,11 +52,15 @@ DEPEND="${CDEPEND}
 REQUIRED_USE="
 	aio? ( modules )
 	apidocs? ( doc )
-	sendfile? ( modules )
 	kmod-threads? ( modules threads )
 	memtrace? ( debug )
+	reset-file-pos? ( modules )
+	sendfile? ( modules )
 	static? ( server static-libs )
 	tcp? ( !infiniband !open-mx )
+	usrint-cache? ( usrint )
+	usrint-cwd? ( usrint )
+	usrint-kmount? ( usrint )
 	valgrind? ( debug )
 	|| ( infiniband open-mx tcp )
 "
@@ -85,6 +90,9 @@ src_prepare() {
 
 	# Fix parallel build deps, sent upstream
 	epatch "${FILESDIR}"/${P}-parallel-make.patch
+
+	# Fix ucache installation, sent upstream
+	epatch "${FILESDIR}"/${P}-ucache.patch
 
 	# Change defalt server logfile location to more appropriate value
 	# used by init script.
@@ -130,6 +138,10 @@ src_configure() {
 	    $(use_enable server) \
 	    $(use_enable static static-server) \
 	    $(use_enable static-libs static) \
+	    $(use_enable usrint) \
+	    $(use_enable usrint-cache ucache) \
+	    $(use_enable usrint-cwd) \
+	    $(use_enable usrint-kmount) \
 	    $(use_with infiniband openib "${EPREFIX}"/usr/) \
 	    $(use_with memtrace mtrace) \
 	    $(use_with open-mx mx "${EPREFIX}"/usr/) \

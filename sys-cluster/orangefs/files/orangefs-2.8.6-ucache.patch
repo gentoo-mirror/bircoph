@@ -1,0 +1,10 @@
+--- Makefile.in.orig	2012-08-31 01:49:18.000000000 +0400
++++ Makefile.in	2012-08-31 10:30:35.566866909 +0400
+@@ -1260,6 +1260,7 @@
+ 	install -m 755 $(ADMINTOOLS) $(bindir)
+ 	install -m 755 $(USERTOOLS) $(bindir)
+ ifdef BUILD_UCACHE
++	install -d $(sbindir)
+ 	install -m 755 $(UCACHEDTOOLS) $(sbindir)
+ endif
+ 	# for compatibility in case anyone really wants "lsplus"

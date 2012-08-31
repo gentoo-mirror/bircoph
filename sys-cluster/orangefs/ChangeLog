@@ -2,9 +2,17 @@
 # Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+*orangefs-2.8.6-r1 (31 Aug 2012)
+
+  31 Aug 2012; Andrew Savchenko <bircoph@gmail.com> -orangefs-2.8.6.ebuild,
+  +orangefs-2.8.6-r1.ebuild, +files/orangefs-2.8.6-ucache.patch,
+  files/README.Gentoo, metadata.xml:
+  Add build control over user interface libraries and friends.
+  Add ucached and fix its installation.
+
   30 Aug 2012; Andrew Savchenko <bircoph@gmail.com> orangefs-2.8.6.ebuild,
   +files/orangefs-2.8.6-parallel-make.patch:
-  orangefs: fix parallel build in 2.8.6
+  fix parallel build in 2.8.6
 
 *orangefs-2.8.6 (30 Aug 2012)
 

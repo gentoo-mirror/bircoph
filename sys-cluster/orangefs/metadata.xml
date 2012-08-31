@@ -23,6 +23,10 @@
 	<flag name='sendfile'>Enable kernel sendfile support (recommended for serving of large files only)</flag>
 	<flag name='server'>Enable compilation of server code</flag>
 	<flag name='tcp'>Use TCP interface in BMI library (you must use it unless you have Myrinet or InfiniBand available)</flag>
+	<flag name='usrint'>Build user interface libraries</flag>
+	<flag name='usrint-cache'>Build ucached (user interface data cache daemon)</flag>
+	<flag name='usrint-cwd'>Enable current working directory calls in user interface libraries</flag>
+	<flag name='usrint-kmount'>Assume that FS is mounted via kervel VFS in user interface libraries</flag>
 	<flag name='valgrind'>Use <pkg>dev-util/valgrind</pkg> for memory debugging</flag>
 </use>
 </pkgmetadata>

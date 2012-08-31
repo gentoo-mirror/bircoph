@@ -92,8 +92,9 @@ Please not that you cannot use both interfaces for init script.
 
 c) Userspace library.
 
-You may use userspace library (libpvfs2) to access filesystem
-directly from your applications. An overview is available here:
+You may use userspace library (libofs*) to access filesystem
+directly from your applications, USE="usrint" is required to do so.
+An overview is available here:
 http://www.orangefs.org/trac/orangefs/wiki/High%20performance%20user%20interface
 For further details please refer to PVFS documentation.
 
@@ -105,6 +106,13 @@ this feature one needs to build desired MPI implementation with
 USE="romio" flag.
 
 4) Warnings and known issues.
+
+Please change the following USE flags carefully and only if you
+fully understand how they will affect your PVFS2 setup (read
+documentation and the code to do so):
+
+  apidocs, kmod-threads, memtrace, reset-file-pos, sendfile, usrint,
+  usrint-cache, usrint-cwd, usrint-kmount, valgrind.
 
 Kernels >= 3.3 are not yet supported, please use other access
 methods or older kernel.
