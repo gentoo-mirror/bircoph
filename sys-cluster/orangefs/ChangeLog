@@ -3,7 +3,7 @@
 # $Header: $
 
   01 Sep 2012; Andrew Savchenko <bircoph@gmail.com> files/pvfs2-client-conf.d:
-  Fix typo in flag example
+  Fix typo in flag example. Fix ordering in client's conf.d
 
 *orangefs-2.8.6-r2 (01 Sep 2012)
 
