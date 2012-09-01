@@ -2,6 +2,13 @@
 # Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+*orangefs-2.8.6-r2 (01 Sep 2012)
+
+  01 Sep 2012; Andrew Savchenko <bircoph@gmail.com> -orangefs-2.8.6-r1.ebuild,
+  +orangefs-2.8.6-r2.ebuild, -files/orangefs-2.8.6-ucache.patch:
+  Add patch to the latest r9468 snapshot of the stable branch.
+  This fixes a lot of bugs, especially in the userspace library.
+
 *orangefs-2.8.6-r1 (31 Aug 2012)
 
   31 Aug 2012; Andrew Savchenko <bircoph@gmail.com> -orangefs-2.8.6.ebuild,

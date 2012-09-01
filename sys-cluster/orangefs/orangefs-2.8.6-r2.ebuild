@@ -7,7 +7,8 @@ inherit autotools linux-info linux-mod toolchain-funcs
 
 DESCRIPTION="OrangeFS is a branch of PVFS2 cluster filesystem"
 HOMEPAGE="http://www.orangefs.org/"
-SRC_URI="http://orangefs.org/downloads/${PV}/source/${P}.tar.gz"
+SRC_URI="http://orangefs.org/downloads/${PV}/source/${P}.tar.gz
+		 ftp://mirror.mephi.ru/projects/${PN}/${P}-r9468.patch.xz"
 
 LICENSE="LGPL-2.1"
 SLOT="0"
@@ -79,6 +80,9 @@ pkg_setup() {
 }
 
 src_prepare() {
+	# Latest stable patches (including ucached installation fix)
+	epatch "${DISTDIR}"/${P}-r9468.patch.xz
+
 	# Upstream doesn't seem to want to apply this which makes
 	# sense as it probably only matters to us.  Simple patch
 	# to split the installation of the module (which we use
@@ -90,9 +94,6 @@ src_prepare() {
 
 	# Fix parallel build deps, sent upstream
 	epatch "${FILESDIR}"/${P}-parallel-make.patch
-
-	# Fix ucache installation, sent upstream
-	epatch "${FILESDIR}"/${P}-ucache.patch
 
 	# Change defalt server logfile location to more appropriate value
 	# used by init script.
