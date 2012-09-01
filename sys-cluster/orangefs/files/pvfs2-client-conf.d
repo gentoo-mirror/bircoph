@@ -11,7 +11,7 @@
 # By default kernel module is used, change to "no" to use fuse
 # instead, you need to build OrangeFS with USE="fuse" in the latter
 # case, otherwise service will fail
-#PVFS2_CLIENT_USE_FUSE="yes"
+#PVFS2_CLIENT_USE_KERNEL="yes"
 
 ### Common options for both clients ###
 
