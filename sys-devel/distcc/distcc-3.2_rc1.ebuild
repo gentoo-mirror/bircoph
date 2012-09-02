@@ -57,10 +57,10 @@ pkg_setup() {
 	python_set_active_version 2
 	python_pkg_setup
 
-    if use cc32_64; then
-            use x86 && arch="x86_64"
-            use amd64 && arch="i686"
-    fi
+	if use cc32_64; then
+			use x86 && arch="x86_64"
+			use amd64 && arch="i686"
+	fi
 }
 
 src_prepare() {
