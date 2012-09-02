@@ -4,7 +4,7 @@
 
 EAPI="4"
 
-inherit autotools eutils flag-o-matic multilib pax-utils
+inherit autotools eutils flag-o-matic multilib pax-utils user
 
 if [[ ${PV} == "9999" ]] ; then
 	EGIT_REPO_URI="git://source.winehq.org/git/wine.git"
@@ -33,7 +33,7 @@ SRC_URI="${SRC_URI}
 
 LICENSE="LGPL-2.1"
 SLOT="0"
-IUSE="alsa capi cups custom-cflags elibc_glibc fontconfig +gecko gnutls gphoto2 gsm gstreamer hardened jpeg lcms ldap +mono mp3 ncurses nls odbc openal opencl +opengl osmesa +oss +perl png pulseaudio samba scanner selinux ssl test +threads +truetype udisks v4l +win32 +win64 +X xcomposite xinerama xml"
+IUSE="alsa capi cups custom-cflags elibc_glibc fontconfig +gecko gnutls gphoto2 gsm gstreamer hardened jpeg lcms ldap +mono mp3 ncurses nls odbc openal opencl +opengl osmesa +oss +perl png prelink pulseaudio samba scanner selinux ssl test +threads +truetype udisks v4l +win32 +win64 +X xcomposite xinerama xml"
 REQUIRED_USE="elibc_glibc? ( threads )
 	mono? ( || ( win32 !win64 ) )
 	osmesa? ( opengl )" #286560
@@ -105,12 +105,14 @@ DEPEND="${RDEPEND}
 		x11-proto/xf86vidmodeproto
 	)
 	xinerama? ( x11-proto/xineramaproto )
-	!hardened? ( sys-devel/prelink )
+	!hardened? ( prelink? ( sys-devel/prelink ) )
 	virtual/pkgconfig
 	virtual/yacc
 	sys-devel/flex"
 
-src_unpack() {
+pkg_setup() {
+	enewgroup wine
+
 	if use win64 ; then
 		[[ $(( $(gcc-major-version) * 100 + $(gcc-minor-version) )) -lt 404 ]] \
 			&& die "you need gcc-4.4+ to build 64bit wine"
@@ -119,12 +121,6 @@ src_unpack() {
 	if use win32 && use opencl; then
 		[[ x$(eselect opencl show) = "xintel" ]] &&
 			die "Cannot build wine[opencl,win32]: intel-ocl-sdk is 64-bit only" # 403947
-	fi
-
-	if [[ ${PV} == "9999" ]] ; then
-		git-2_src_unpack
-	else
-		unpack ${MY_P}.tar.bz2
 	fi
 }
 
@@ -250,4 +246,17 @@ src_install() {
 		dosym /usr/bin/wine{64,} # 404331
 		dosym /usr/bin/wine{64,}-preloader
 	fi
+
+	# for all bins and libs disable world access and group write access
+	# only users from wine group may be able to use it
+	local filelist=$( find "${D}"/usr/{bin,lib} -type f | gawk -v path="${D}" '{ gsub("^"path,""); print $0 }')
+	fowners :wine ${filelist}
+	fperms -R o-rwx,g-w ${filelist}
+}
+
+pkg_postinst() {
+	ewarn "You must be in the wine group in order to be able to use wine."
+	ewarn "It is recommended to use a separate user for running wine in order"
+	ewarn "to improve security by isolation. See Risks section in the wine FAQ:"
+	ewarn "http://wiki.winehq.org/FAQ#head-3cb8f054b33a63be30f98a1b6225d74e305a0459"
 }

@@ -4,7 +4,7 @@
 
 EAPI="4"
 
-inherit autotools eutils flag-o-matic multilib pax-utils
+inherit autotools eutils flag-o-matic multilib pax-utils user
 
 if [[ ${PV} == "9999" ]] ; then
 	EGIT_REPO_URI="git://source.winehq.org/git/wine.git"
