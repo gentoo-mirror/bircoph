@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/net-proxy/polipo/polipo-1.0.4.1.ebuild,v 1.3 2010/05/31 19:35:27 maekke Exp $
 
-inherit base eutils toolchain-funcs
+inherit base eutils toolchain-funcs user
 
 DESCRIPTION="A caching web proxy"
 HOMEPAGE="http://www.pps.jussieu.fr/~jch/software/polipo/"
