@@ -4,7 +4,7 @@
 
 EAPI="4"
 
-inherit eutils unpacker fdo-mime versionator toolchain-funcs
+inherit eutils unpacker fdo-mime versionator toolchain-funcs user
 
 DESCRIPTION="A 3D interface to the planet"
 HOMEPAGE="http://earth.google.com/"
@@ -39,9 +39,9 @@ RDEPEND="|| ( >=sys-devel/gcc-${GCC_NEEDED}[cxx] >=sys-devel/gcc-${GCC_NEEDED}[-
 		sys-libs/zlib
 		dev-libs/glib:2
 		!qt-bundled? (
-			>=x11-libs/qt-core-4.5.3
-			>=x11-libs/qt-gui-4.5.3
-			>=x11-libs/qt-webkit-4.5.3
+			>=x11-libs/qt-core-4.5.3:4
+			>=x11-libs/qt-gui-4.5.3:4
+			>=x11-libs/qt-webkit-4.5.3:4
 		)
 		net-misc/curl
 		sci-libs/gdal
