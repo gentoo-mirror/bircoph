@@ -17,10 +17,10 @@ SLOT="0"
 KEYWORDS="amd64 ppc ~ppc64 x86"
 IUSE=""
 
-DEPEND=">=media-libs/mediastreamer-2.0.0
-	>=media-libs/opencore-amr-0.1.2
+RDEPEND=">=media-libs/mediastreamer-2.0.0
+	>=media-libs/opencore-amr-0.1.2"
+DEPEND="${RDEPEND}
 	virtual/pkgconfig"
-RDEPEND="${DEPEND}"
 
 S=${WORKDIR}/${MY_P}
 

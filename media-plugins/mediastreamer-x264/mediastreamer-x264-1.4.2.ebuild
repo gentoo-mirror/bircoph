@@ -17,11 +17,12 @@ SLOT="0"
 KEYWORDS="amd64 ppc ~ppc64 x86"
 IUSE=""
 
-DEPEND=">=media-libs/mediastreamer-2.7.0
+CDEPEND=">=media-libs/mediastreamer-2.7.0
 	>=media-libs/x264-0.0.20100118
-	virtual/ffmpeg
+	virtual/ffmpeg"
+DEPEND="${CDEPEND}
 	virtual/pkgconfig"
-RDEPEND="${DEPEND}
+RDEPEND="${CDEPEND}
 	media-libs/mediastreamer[video]"
 
 S=${WORKDIR}/${MY_P}
