@@ -6,6 +6,16 @@
 # Advanced overlay ebuild is meant to be in sync with portage one,
 # provide additional features and eventually send some of them upstream.
 
+  06 Sep 2012; Andrew Savchenko <bircoph@gmail.com>
+  +files/mplayer-live555.patch, +files/mplayer-x86-sse2.patch,
+  mplayer-9999.ebuild, metadata.xml:
+  Fix configure test on recent live libraries.
+  Fix build of bundled ffmpeg on non-SSE2 x86 hosts.
+  Remove USE="libav": due to severe incompatibilities between libav
+  and ffmpeg, mplayer now supports only libav.
+  Remove cdio and cddb mutual block: they may be used at the same
+  time now.
+
   07 Apr 2012; Andrew Savchenko <bircoph@gmail.com> mplayer-9999.ebuild:
   mplayer: sync with portage
 

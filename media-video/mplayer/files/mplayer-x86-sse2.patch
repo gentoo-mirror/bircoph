@@ -1,0 +1,22 @@
+Index: configure
+===================================================================
+--- configure	(revision 35150)
++++ configure	(working copy)
+@@ -8553,7 +8553,7 @@
+ $(ff_config_enable "$arch_all" "$arch" "#" "ARCH")
+ $(ff_config_enable "$subarch_all" "$subarch" "#" "ARCH")
+ $(ff_config_enable "$cpuexts_all" "$cpuexts" "#" "HAVE")
+-$(ff_config_enable "$cpuexts_all" "$cpuexts" "#" "HAVE" "_EXTERNAL")
++$(ff_config_enable "$cpuexts_all" "$cpuexts SSE2" "#" "HAVE" "_EXTERNAL")
+ $(ff_config_enable "$cpuexts_all" "$cpuexts" "#" "HAVE" "_INLINE")
+ 
+ 
+@@ -8958,7 +8958,7 @@
+ echo "%define CONFIG_GPL 1" >> "$TMPS"
+ echo "$(ff_config_enable "$arch_all" "$arch" "%" "ARCH")" >> "$TMPS"
+ echo "$(ff_config_enable "$subarch_all" "$subarch" "%" "ARCH")" >> "$TMPS"
+-echo "$(ff_config_enable "$cpuexts_all" "$cpuexts" "%" "HAVE" "_EXTERNAL")" >> "$TMPS"
++echo "$(ff_config_enable "$cpuexts_all" "$cpuexts SSE2" "%" "HAVE" "_EXTERNAL")" >> "$TMPS"
+ echo "$(ff_config_enable "$yasm_features_all" "$yasm_features" "%" "HAVE")" >> "$TMPS"
+ 
+ cmp -s "$TMPS" ffmpeg/config.asm || mv -f "$TMPS" ffmpeg/config.asm

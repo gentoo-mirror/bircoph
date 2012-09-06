@@ -20,7 +20,6 @@
 	<flag name="external-ffmpeg">Use shared FFmpeg libraries instead of static bundled ones. Discouraged by upstream.</flag>
 	<flag name="faac">Use external faac library for AAC encoding</flag>
 	<flag name="faad">Use external faad library for AAC decoding</flag>
-	<flag name="libav">Use libav instead of ffmpeg.</flag>
 	<flag name="libmpeg2">Build support for mpeg2 over media-libs/libmpeg2 rather than using ffmpeg.</flag>
 	<flag name="live">Enables live.com streaming media support</flag>
 	<flag name="md5sum">Enables md5sum video output</flag>

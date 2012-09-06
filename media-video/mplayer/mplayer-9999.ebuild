@@ -7,7 +7,7 @@ EAPI=4
 ESVN_REPO_URI="svn://svn.mplayerhq.hu/mplayer/trunk"
 [[ ${PV} = *9999* ]] && SVN_ECLASS="subversion git-2" || SVN_ECLASS=""
 
-inherit toolchain-funcs eutils flag-o-matic multilib base ${SVN_ECLASS}
+inherit base eutils flag-o-matic multilib toolchain-funcs ${SVN_ECLASS}
 
 # BUMP ME PLZ, NO COOKIES OTHERWISE
 [[ ${PV} != *9999* ]] && MPLAYER_REVISION=SVN-r32598
@@ -16,20 +16,15 @@ IUSE="3dnow 3dnowext +a52 aalib +alsa altivec amr aqua bidi bindist bl bluray
 bs2b cddb +cdio cdparanoia cpudetection debug dga +dirac
 directfb doc +dts +dv dvb +dvd +dvdnav dxr3 +enca +encode -external-ffmpeg faac +faad fbcon
 ftp gif ggi gsm +iconv ipv6 jack joystick jpeg jpeg2k kernel_linux ladspa
-+libass libcaca libmpeg2 libav lirc +live lzo mad md5sum +mmx mmxext mng +mp3 mpg123 nas nemesi
++libass libcaca libmpeg2 lirc +live lzo mad md5sum +mmx mmxext mng +mp3 mpg123 nas nemesi
 +network nut openal +opengl +osdmenu oss png pnm pulseaudio pvr +quicktime
 radio +rar +real +rtc rtmp samba +shm +schroedinger sdl +speex sse sse2 ssse3 svga svga-helper
 tga +theora tivo +tremor +truetype toolame +twolame +unicode v4l vdpau vidix
 +vorbis vpx win32codecs +X +x264 xanim xinerama +xscreensaver +xv +xvid xvmc
 zoran"
 
-if use libav; then
-	EGIT_REPO_URI="git://git.libav.org/libav.git"
-	EGIT_PROJECT="libav" # git eclass sets it to PN otherwise
-else
-	EGIT_REPO_URI="git://git.videolan.org/ffmpeg.git"
-	EGIT_PROJECT="ffmpeg" # git eclass sets it to PN otherwise
-fi
+EGIT_REPO_URI="git://git.videolan.org/ffmpeg.git"
+EGIT_PROJECT="ffmpeg" # git eclass sets it to PN otherwise
 
 VIDEO_CARDS="s3virge mga tdfx vesa"
 for x in ${VIDEO_CARDS}; do
@@ -188,7 +183,7 @@ fi
 # radio requires oss or alsa backend
 # xvmc requires xvideo support
 REQUIRED_USE="bindist? ( !amr !faac !win32codecs )
-	cdio? ( !cdparanoia !cddb )
+	cdio? ( !cdparanoia )
 	dvdnav? ( dvd )
 	libass? ( truetype )
 	toolame? ( !twolame )
@@ -213,9 +208,6 @@ for x in ${uses}; do
 	"
 done
 unset uses
-
-PATCHES=(
-)
 
 pkg_setup() {
 	if [[ ${PV} == *9999* ]]; then
@@ -270,6 +262,11 @@ src_prepare() {
 	sed -i -e "1c\#!${EPREFIX}/bin/bash" configure version.sh || die
 
 	base_src_prepare
+
+	# fix build on non-sse2 x86 CPUs
+	use x86 && epatch "${FILESDIR}/${PN}-x86-sse2.patch"
+	# fix build with latest live
+	epatch "${FILESDIR}/${PN}-live555.patch"
 }
 
 src_configure() {
