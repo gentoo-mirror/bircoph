@@ -17,7 +17,7 @@ bs2b cddb +cdio cdparanoia cpudetection debug dga +dirac
 directfb doc +dts +dv dvb +dvd +dvdnav dxr3 +enca +encode -external-ffmpeg faac +faad fbcon
 ftp gif ggi gsm +iconv ipv6 jack joystick jpeg jpeg2k kernel_linux ladspa
 +libass libcaca libmpeg2 lirc +live lzo mad md5sum +mmx mmxext mng +mp3 mpg123 nas nemesi
-+network nut openal +opengl +osdmenu oss png pnm pulseaudio pvr +quicktime
++network nut openal +opengl opus +osdmenu oss png pnm pulseaudio pvr +quicktime
 radio +rar +real +rtc rtmp samba +shm +schroedinger sdl +speex sse sse2 ssse3 svga svga-helper
 tga +theora tivo +tremor +truetype toolame +twolame +unicode v4l vdpau vidix
 +vorbis vpx win32codecs +X +x264 xanim xinerama +xscreensaver +xv +xvid xvmc
@@ -112,6 +112,7 @@ RDEPEND+="
 	nut? ( >=media-libs/libnut-661 )
 	openal? ( media-libs/openal )
 	opengl? ( virtual/opengl )
+	opus? ( media-libs/opus )
 	png? ( media-libs/libpng )
 	pnm? ( media-libs/netpbm )
 	pulseaudio? ( media-sound/pulseaudio )
@@ -388,7 +389,7 @@ src_configure() {
 			--disable-mp3lib
 		"
 	fi
-	uses="a52 bs2b dv gsm lzo rtmp"
+	uses="a52 bs2b dv gsm lzo opus rtmp"
 	for i in ${uses}; do
 		use ${i} || myconf+=" --disable-lib${i}"
 	done
