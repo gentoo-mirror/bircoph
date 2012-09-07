@@ -134,6 +134,7 @@ RDEPEND+="
 	tivo? ( media-libs/vstream-client )
 	truetype? ( ${FONT_RDEPS} )
 	vdpau? ( x11-libs/libvdpau )
+	video_cards_vesa? ( sys-libs/libvbe )
 	vorbis? ( media-libs/libvorbis )
 	vpx? ( media-libs/libvpx )
 	X? ( ${X_RDEPS} )
@@ -267,6 +268,8 @@ src_prepare() {
 	use x86 && epatch "${FILESDIR}/${PN}-x86-sse2.patch"
 	# fix build with latest live
 	epatch "${FILESDIR}/${PN}-live555.patch"
+	# change libvbe header location according to Gentoo's libvbe
+	epatch "${FILESDIR}/${PN}-vesa.patch"
 }
 
 src_configure() {

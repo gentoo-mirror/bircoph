@@ -6,6 +6,11 @@
 # Advanced overlay ebuild is meant to be in sync with portage one,
 # provide additional features and eventually send some of them upstream.
 
+  07 Sep 2012; Andrew Savchenko <bircoph@gmail.com> mplayer-9999.ebuild,
+  +files/mplayer-vesa.patch:
+  Finally make VESA available using libvbe from vesautils.
+  It works!
+
   06 Sep 2012; Andrew Savchenko <bircoph@gmail.com>
   +files/mplayer-live555.patch, +files/mplayer-x86-sse2.patch,
   mplayer-9999.ebuild, metadata.xml:

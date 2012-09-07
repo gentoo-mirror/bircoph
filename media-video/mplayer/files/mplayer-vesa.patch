@@ -1,0 +1,39 @@
+Index: libvo/vo_vesa.c
+===================================================================
+--- libvo/vo_vesa.c	(revision 35150)
++++ libvo/vo_vesa.c	(working copy)
+@@ -43,7 +43,7 @@
+ #include <sys/stat.h>
+ #include <fcntl.h>
+ #include <libavutil/common.h>
+-#include <vbe.h>
++#include <libvbe/vbe.h>
+ 
+ #include "video_out.h"
+ #include "video_out_internal.h"
+Index: libvo/gtf.h
+===================================================================
+--- libvo/gtf.h	(revision 35150)
++++ libvo/gtf.h	(working copy)
+@@ -19,7 +19,7 @@
+ #ifndef MPLAYER_GTF_H
+ #define MPLAYER_GTF_H
+ 
+-#include <vbe.h>
++#include <libvbe/vbe.h>
+ 
+ #define GTF_VF 0
+ #define GTF_HF 1
+Index: configure
+===================================================================
+--- configure	(revision 35150)
++++ configure	(working copy)
+@@ -5072,7 +5072,7 @@
+ echocheck "VESA support"
+ if test "$_vesa" = auto ; then
+   _vesa=no
+-  statement_check vbe.h 'vbeInit()' -lvbe -llrmi && _vesa=yes
++  statement_check libvbe/vbe.h 'vbeInit()' -lvbe -llrmi && _vesa=yes
+ fi
+ if test "$_vesa" = yes ; then
+   def_vesa='#define CONFIG_VESA 1'
