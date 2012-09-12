@@ -2,6 +2,12 @@
 # Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+*orangefs-2.8.6-r3 (12 Sep 2012)
+
+  12 Sep 2012; Andrew Savchenko <bircoph@gmail.com> +orangefs-2.8.6-r3.ebuild:
+  Apply a new patch from a stable branch which should fix kernel
+  module bug for kernels > 2.6.38.
+
   01 Sep 2012; Andrew Savchenko <bircoph@gmail.com> files/pvfs2-client-conf.d:
   Fix typo in flag example. Fix ordering in client's conf.d
 
