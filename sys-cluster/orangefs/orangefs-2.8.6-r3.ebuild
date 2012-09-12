@@ -31,7 +31,6 @@ CDEPEND="
 	valgrind? ( dev-util/valgrind )
 "
 RDEPEND="${CDEPEND}
-	!app-pda/orange
 	modules? ( virtual/modutils )
 "
 DEPEND="${CDEPEND}
@@ -77,6 +76,9 @@ pkg_setup() {
 		eerror "You may disable modules use flag and use fuse client to mount filesystem."
 		eerror "PVFS2 server and ROMIO I/O API are still available too."
 		return 1
+	fi
+	if use modules && kernel_is -ge 2 6 38; then
+		ewarn "Kernel module for >= 2.6.38 kernels is terribly buggy, use on your own risk!"
 	fi
 }
 

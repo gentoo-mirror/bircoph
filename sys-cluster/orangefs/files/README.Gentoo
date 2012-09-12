@@ -114,8 +114,8 @@ documentation and the code to do so):
   apidocs, kmod-threads, memtrace, reset-file-pos, sendfile, usrint,
   usrint-cache, usrint-cwd, usrint-kmount, valgrind.
 
-Kernels >= 3.3 are not yet supported, please use other access
-methods or older kernel.
+Kernels >= 3.3 are not yet supported and >= 2.6.38 are terribly
+buggy, please use other access methods or older kernel.
 	 
 ACL support for 3.1 and 3.2 kernels is known to have bugs. Do not
 use acl mount option on these kernels.
