@@ -1,8 +1,8 @@
 #!/sbin/runscript
-# Copyright 1999-2005 Gentoo Foundation
+# Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-. /etc/conf.d/torque 
+. /etc/conf.d/torque
 PBS_SERVER_HOME="$(. /etc/env.d/25torque; echo ${PBS_SERVER_HOME})"
 
 depend() {
@@ -27,10 +27,11 @@ start() {
     # check for a stale lock file, otherwise pbs_mom may fail to
     # start, see unicluster # 75 bug
     local utime unchtime
-    utime=$( gawk -F "[ .]" '{ print $1 }' /proc/uptime) 
-    unchtime=$(( $(date +%s) - $(stat -c %Y ${PBS_SERVER_HOME}/mom_priv/mom.lock) ))
-    [[ -f ${PBS_SERVER_HOME}/torque/mom_priv/mom.lock ]] &&
-    [[ "$utime" -lt "$unchtime" ]] && rm ${PBS_SERVER_HOME}/mom_priv/mom.lock
+    if [[ -f ${PBS_SERVER_HOME}/torque/mom_priv/mom.lock ]]; then
+        utime=$( gawk -F "[ .]" '{ print $1 }' /proc/uptime) 
+        unchtime=$(( $(date +%s) - $(stat -c %Y ${PBS_SERVER_HOME}/mom_priv/mom.lock) ))
+        [[ "$utime" -lt "$unchtime" ]] && rm ${PBS_SERVER_HOME}/mom_priv/mom.lock
+    fi
 
     ebegin "Starting Torque pbs_mom"
     local extra_args=""
