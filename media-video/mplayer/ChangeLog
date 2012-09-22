@@ -6,6 +6,13 @@
 # Advanced overlay ebuild is meant to be in sync with portage one,
 # provide additional features and eventually send some of them upstream.
 
+  22 Sep 2012; Andrew Savchenko <bircoph@gmail.com>
+  -files/mplayer-x86-sse2.patch, files/mplayer-live555.patch,
+  mplayer-9999.ebuild:
+  SSE2 issue is fixed upstream in FFmpeg.
+  Fix live555 detection in a better, non-intrusive way suggested by
+  Carl Eugen Hoyos.
+
   07 Sep 2012; Andrew Savchenko <bircoph@gmail.com> mplayer-9999.ebuild,
   metadata.xml:
   Add libopus decoder support.

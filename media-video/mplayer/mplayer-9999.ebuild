@@ -265,8 +265,6 @@ src_prepare() {
 
 	base_src_prepare
 
-	# fix build on non-sse2 x86 CPUs
-	use x86 && epatch "${FILESDIR}/${PN}-x86-sse2.patch"
 	# fix build with latest live
 	epatch "${FILESDIR}/${PN}-live555.patch"
 	# change libvbe header location according to Gentoo's libvbe
