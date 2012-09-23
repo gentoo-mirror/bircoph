@@ -78,7 +78,10 @@ RDEPEND="truetype? ( >=media-libs/freetype-2.0.0 media-fonts/corefonts )
 	alsa? ( media-libs/alsa-lib )
 	cups? ( net-print/cups )
 	opencl? ( virtual/opencl )
-	opengl? ( virtual/opengl )
+	opengl? (
+		virtual/glu
+		virtual/opengl
+	)
 	gsm? ( media-sound/gsm )
 	jpeg? ( virtual/jpeg )
 	ldap? ( net-nds/openldap )
