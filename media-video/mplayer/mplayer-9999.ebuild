@@ -5,12 +5,8 @@
 EAPI=4
 
 ESVN_REPO_URI="svn://svn.mplayerhq.hu/mplayer/trunk"
-[[ ${PV} = *9999* ]] && SVN_ECLASS="subversion git-2" || SVN_ECLASS=""
 
-inherit base eutils flag-o-matic multilib toolchain-funcs ${SVN_ECLASS}
-
-# BUMP ME PLZ, NO COOKIES OTHERWISE
-[[ ${PV} != *9999* ]] && MPLAYER_REVISION=SVN-r32598
+inherit base eutils flag-o-matic git-2 multilib subversion toolchain-funcs ${SVN_ECLASS}
 
 IUSE="3dnow 3dnowext +a52 aalib +alsa altivec amr aqua bidi bindist bl bluray
 bs2b cddb +cdio cdparanoia cpudetection debug dga +dirac
@@ -36,13 +32,7 @@ FONT_URI="
 	mirror://mplayer/releases/fonts/font-arial-iso-8859-2.tar.bz2
 	mirror://mplayer/releases/fonts/font-arial-cp1250.tar.bz2
 "
-if [[ ${PV} == *9999* ]]; then
-	RELEASE_URI=""
-else
-	RELEASE_URI="mirror://gentoo/${P}.tar.xz"
-fi
-SRC_URI="${RELEASE_URI}
-	!truetype? ( ${FONT_URI} )"
+SRC_URI="!truetype? ( ${FONT_URI} )"
 
 DESCRIPTION="Media Player for Linux"
 HOMEPAGE="http://www.mplayerhq.hu/"
@@ -170,11 +160,7 @@ DEPEND="${RDEPEND}
 
 SLOT="0"
 LICENSE="GPL-2"
-if [[ ${PV} != *9999* ]]; then
-	KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~sparc ~x86 ~x86-fbsd ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~x86-macos ~sparc-solaris ~x86-solaris"
-else
-	KEYWORDS=""
-fi
+KEYWORDS=""
 
 # bindist does not cope with amr codecs (#299405#c6), faac codecs are nonfree, win32codecs are nonfree
 # libcdio support: prefer libcdio over cdparanoia and don't check for cddb w/cdio
@@ -203,22 +189,26 @@ for x in ${uses}; do
 	"
 done
 # xorg options require X useflag enabled
-uses="dga dxr3 ggi opengl osdmenu vdpau vidix xinerama xscreensaver xv xvmc"
+uses="dga dxr3 ggi vdpau vidix xinerama xscreensaver xv"
 for x in ${uses}; do
 	REQUIRED_USE+="
 		${x}? ( X )
 	"
 done
+uses="opengl osdmenu"
+for x in ${uses}; do
+	REQUIRED_USE+="
+		${x}? ( || ( X aqua ) )
+	"
+done
 unset uses
 
 pkg_setup() {
-	if [[ ${PV} == *9999* ]]; then
-		elog
-		elog "This is a live ebuild which installs the latest from upstream's"
-		elog "subversion repository, and is unsupported by Gentoo."
-		elog "Everything but bugs in the ebuild itself will be ignored."
-		elog
-	fi
+	elog
+	elog "This is a live ebuild which installs the latest from upstream's"
+	elog "subversion repository, and is unsupported by Gentoo."
+	elog "Everything but bugs in the ebuild itself will be ignored."
+	elog
 
 	if use cpudetection; then
 		ewarn
@@ -234,14 +224,10 @@ pkg_setup() {
 }
 
 src_unpack() {
-	if [[ ${PV} = *9999* ]]; then
-		subversion_src_unpack
-		cd "${WORKDIR}"
-		rm -rf "${WORKDIR}/${P}/ffmpeg/"
-		( S="${WORKDIR}/${P}/ffmpeg/" git-2_src_unpack )
-	else
-		unpack ${A}
-	fi
+	subversion_src_unpack
+	cd "${WORKDIR}"
+	rm -rf "${WORKDIR}/${P}/ffmpeg/"
+	( S="${WORKDIR}/${P}/ffmpeg/" git-2_src_unpack )
 
 	if ! use truetype; then
 		unpack font-arial-iso-8859-1.tar.bz2 \
@@ -251,14 +237,9 @@ src_unpack() {
 }
 
 src_prepare() {
-	if [[ ${PV} = *9999* ]]; then
-		# Set SVN version manually
-		subversion_wc_info
-		sed -i -e "s/UNKNOWN/${ESVN_WC_REVISION}/" "${S}/version.sh" || die
-	else
-		# Set version #
-		sed -i -e "s/UNKNOWN/${MPLAYER_REVISION}/" "${S}/version.sh" || die
-	fi
+	# Set SVN version manually
+	subversion_wc_info
+	sed -i -e "s/UNKNOWN/${ESVN_WC_REVISION}/" "${S}/version.sh" || die
 
 	# fix path to bash executable in configure scripts
 	sed -i -e "1c\#!${EPREFIX}/bin/bash" configure version.sh || die
@@ -540,9 +521,7 @@ src_configure() {
 	###################
 	# External FFmpeg #
 	###################
-	if [[ ${PV} == *9999* ]]; then
-		use external-ffmpeg && myconf+=" --disable-ffmpeg_a"
-	fi
+	use external-ffmpeg && myconf+=" --disable-ffmpeg_a"
 
 	tc-export PKG_CONFIG
 	./configure \
