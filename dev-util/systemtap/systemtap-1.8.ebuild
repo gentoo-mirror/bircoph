@@ -32,7 +32,6 @@ src_prepare() {
 	sed -i \
 		-e 's:-Werror::g' \
 		configure.ac Makefile.am \
-		grapher/Makefile.am \
 		runtime/staprun/Makefile.am \
 		buildrun.cxx \
 		runtime/bench2/bench.rb \
@@ -43,10 +42,8 @@ src_prepare() {
 		testsuite/systemtap.base/sdt_va_args.exp \
 		testsuite/systemtap.base/sdt_misc.exp \
 		testsuite/systemtap.base/sdt.exp \
-		scripts/kprobes_test/gen_code.py
+		scripts/kprobes_test/gen_code.py || die "Failed to clean up sources"
 	eautoreconf
-	# 417639
-	sed -i 's/GETTEXT_MACRO_VERSION = 0.17/GETTEXT_MACRO_VERSION = 0.18/' po/Makefile.in.in || die "sed failed"
 }
 
 src_configure() {
@@ -58,4 +55,5 @@ src_configure() {
 		--disable-refdocs \
 		--disable-grapher \
 		$(use_enable sqlite)
+		sed -i -e 's/GETTEXT_MACRO_VERSION = 0.17/GETTEXT_MACRO_VERSION = 0.18/' po/Makefile || die "Failed to change gettext version"
 }
