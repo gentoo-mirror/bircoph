@@ -15,6 +15,7 @@ media-video
 net-dialup
 net-dns
 net-ftp
+net-fs
 net-libs
 net-misc
 net-proxy
