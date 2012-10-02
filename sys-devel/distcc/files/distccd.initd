@@ -20,6 +20,7 @@ start() {
 	eval "$(gcc-config -E)"
         export PATH="@DCCPATH@${PATH}"
 
+        LANG=C
 	start-stop-daemon --start --quiet --exec "${DISTCCD_EXEC}" --user distcc -- \
 		--daemon --pid-file "${DISTCCD_PIDFILE}" \
 		${DISTCCD_OPTS}
