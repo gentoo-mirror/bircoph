@@ -2,6 +2,12 @@
 # Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+*orangefs-2.8.6-r4 (03 Oct 2012)
+
+  03 Oct 2012; Andrew Savchenko <bircoph@gmail.com> +orangefs-2.8.6-r4.ebuild:
+  Update stable snapshot to r9510. This should fix kernel deadlock in
+  pvfs2-client introduced in -r3.
+
   12 Sep 2012; Andrew Savchenko <bircoph@gmail.com> orangefs-2.8.6-r3.ebuild,
   files/README.Gentoo:
   Aware of terribly buggy kernel module.
