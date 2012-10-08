@@ -4,7 +4,7 @@
 
 EAPI="4"
 
-inherit flag-o-matic eutils autotools multilib toolchain-funcs versionator pam
+inherit flag-o-matic eutils multilib toolchain-funcs versionator pam
 
 MY_PV=$(delete_version_separator '_')
 MY_P="${PN}-${MY_PV}"
