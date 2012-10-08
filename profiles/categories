@@ -2,6 +2,7 @@ app-admin
 app-arch
 app-emulation
 app-forensics
+app-text
 app-vim
 dev-python
 dev-util
@@ -14,8 +15,8 @@ media-sound
 media-video
 net-dialup
 net-dns
-net-ftp
 net-fs
+net-ftp
 net-libs
 net-misc
 net-proxy
