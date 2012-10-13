@@ -66,11 +66,11 @@ src_configure() {
 src_compile() {
 	# upstream use OPT_CFLAGS for optimizations
 	export OPT_CFLAGS=${CFLAGS}
-	emake ${myconf} || die "emake failed"
+	emake ${myconf}
 }
 
 src_install() {
-	emake ${myconf} DESTDIR="${D}" install || die "emake install failed"
+	emake ${myconf} DESTDIR="${D}" install
 	dodoc CHANGES INSTALL README
 
 	if use examples; then
