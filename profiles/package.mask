@@ -1,0 +1,4 @@
+# Support for poppler-0.20 is currently broken.
+# Fix still requires a lot of time and work,
+# will do this sometime later...
+=app-text/xpdf-poppler-9999
