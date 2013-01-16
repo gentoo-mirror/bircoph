@@ -1,20 +1,28 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/app-emulation/wine/wine-1.5.15-r1.ebuild,v 1.1 2012/10/13 00:19:19 tetromino Exp $
+# $Header: /var/cvsroot/gentoo-x86/app-emulation/wine/wine-1.5.21.ebuild,v 1.1 2013/01/06 03:09:25 tetromino Exp $
 
-EAPI="4"
+EAPI="5"
 
-inherit autotools eutils flag-o-matic multilib pax-utils user
+inherit autotools eutils flag-o-matic gnome2-utils multilib pax-utils user
 
-MY_P="${PN}-${PV/_/-}"
-SRC_URI="mirror://sourceforge/${PN}/Source/${MY_P}.tar.bz2"
-KEYWORDS="-* ~amd64 ~x86 ~x86-fbsd"
-S=${WORKDIR}/${MY_P}
+if [[ ${PV} == "9999" ]] ; then
+	EGIT_REPO_URI="git://source.winehq.org/git/wine.git"
+	inherit git-2
+	SRC_URI=""
+	#KEYWORDS=""
+else
+	MY_P="${PN}-${PV/_/-}"
+	SRC_URI="mirror://sourceforge/${PN}/Source/${MY_P}.tar.bz2"
+	KEYWORDS="-* ~amd64 ~x86 ~x86-fbsd"
+	S=${WORKDIR}/${MY_P}
+fi
 
 GV="1.8"
-MV="0.0.4"
-PULSE_PATCHES="winepulse-patches-1.5.15"
-DESCRIPTION="free implementation of Windows(tm) on Unix"
+MV="0.0.8"
+PULSE_PATCHES="winepulse-patches-1.5.21"
+WINE_GENTOO="wine-gentoo-2012.11.24"
+DESCRIPTION="Free implementation of Windows(tm) on Unix"
 HOMEPAGE="http://www.winehq.org/"
 SRC_URI="${SRC_URI}
 	gecko? (
@@ -22,11 +30,13 @@ SRC_URI="${SRC_URI}
 		win64? ( mirror://sourceforge/${PN}/Wine%20Gecko/${GV}/wine_gecko-${GV}-x86_64.msi )
 	)
 	mono? ( mirror://sourceforge/${PN}/Wine%20Mono/${MV}/wine-mono-${MV}.msi )
-	http://dev.gentoo.org/~tetromino/distfiles/${PN}/${PULSE_PATCHES}.tar.bz2"
+	http://dev.gentoo.org/~tetromino/distfiles/${PN}/${PULSE_PATCHES}.tar.bz2
+	http://dev.gentoo.org/~tetromino/distfiles/${PN}/${WINE_GENTOO}.tar.bz2"
 
 LICENSE="LGPL-2.1"
 SLOT="0"
-IUSE="alsa capi cups custom-cflags elibc_glibc fontconfig +gecko gnutls gphoto2 gsm gstreamer hardened jpeg lcms ldap +mono mp3 ncurses nls odbc openal opencl +opengl osmesa osmesa-multilib +oss +perl png prelink pulseaudio samba scanner selinux ssl test +threads +truetype udisks v4l +win32 +win64 +X xcomposite xinerama xml"
+IUSE="alsa capi cups custom-cflags elibc_glibc fontconfig +gecko gnutls gphoto2 gsm gstreamer jpeg lcms ldap +mono mp3 ncurses nls odbc openal opencl +opengl osmesa +oss +perl png +prelink samba scanner selinux ssl test +threads +truetype udisks v4l +win32 +win64 +X xcomposite xinerama xml"
+[[ ${PV} == "9999" ]] || IUSE="${IUSE} pulseaudio"
 REQUIRED_USE="elibc_glibc? ( threads )
 	mono? ( || ( win32 !win64 ) )
 	osmesa? ( opengl )" #286560
@@ -36,12 +46,13 @@ MLIB_DEPS="amd64? (
 	truetype? ( >=app-emulation/emul-linux-x86-xlibs-2.1 )
 	X? (
 		>=app-emulation/emul-linux-x86-xlibs-2.1
-		>=app-emulation/emul-linux-x86-soundlibs-2.1[pulseaudio(+)?]
+		>=app-emulation/emul-linux-x86-soundlibs-2.1
 	)
 	mp3? ( app-emulation/emul-linux-x86-soundlibs )
 	odbc? ( app-emulation/emul-linux-x86-db )
 	openal? ( app-emulation/emul-linux-x86-sdl )
 	opengl? ( app-emulation/emul-linux-x86-opengl )
+	osmesa? ( >=app-emulation/emul-linux-x86-opengl-20121028 )
 	scanner? ( app-emulation/emul-linux-x86-medialibs )
 	v4l? ( app-emulation/emul-linux-x86-medialibs )
 	app-emulation/emul-linux-x86-baselibs
@@ -51,15 +62,15 @@ RDEPEND="truetype? ( >=media-libs/freetype-2.0.0 media-fonts/corefonts )
 	perl? ( dev-lang/perl dev-perl/XML-Simple )
 	capi? ( net-dialup/capi4k-utils )
 	ncurses? ( >=sys-libs/ncurses-5.2 )
-	fontconfig? ( media-libs/fontconfig )
-	gphoto2? ( media-libs/libgphoto2 )
-	openal? ( media-libs/openal )
+	fontconfig? ( media-libs/fontconfig:= )
+	gphoto2? ( media-libs/libgphoto2:= )
+	openal? ( media-libs/openal:= )
 	udisks? (
 		sys-apps/dbus
 		sys-fs/udisks:2
 	)
-	gnutls? ( net-libs/gnutls )
-	gstreamer? ( media-libs/gstreamer media-libs/gst-plugins-base )
+	gnutls? ( net-libs/gnutls:= )
+	gstreamer? ( media-libs/gstreamer:0.10 media-libs/gst-plugins-base:0.10 )
 	X? (
 		x11-libs/libXcursor
 		x11-libs/libXext
@@ -70,34 +81,35 @@ RDEPEND="truetype? ( >=media-libs/freetype-2.0.0 media-fonts/corefonts )
 	)
 	xinerama? ( x11-libs/libXinerama )
 	alsa? ( media-libs/alsa-lib )
-	cups? ( net-print/cups )
+	cups? ( net-print/cups:= )
 	opencl? ( virtual/opencl )
 	opengl? (
 		virtual/glu
 		virtual/opengl
 	)
-	gsm? ( media-sound/gsm )
-	jpeg? ( virtual/jpeg )
-	ldap? ( net-nds/openldap )
-	lcms? ( =media-libs/lcms-1* )
+	gsm? ( media-sound/gsm:= )
+	jpeg? ( virtual/jpeg:= )
+	ldap? ( net-nds/openldap:= )
+	lcms? ( media-libs/lcms:0= )
 	mp3? ( >=media-sound/mpg123-1.5.0 )
 	nls? ( sys-devel/gettext )
-	odbc? ( dev-db/unixODBC )
+	odbc? ( dev-db/unixODBC:= )
 	osmesa? ( media-libs/mesa[osmesa] )
-	pulseaudio? (
-		media-sound/pulseaudio
-		sys-auth/rtkit
-	)
 	samba? ( >=net-fs/samba-3.0.25 )
 	selinux? ( sec-policy/selinux-wine )
 	xml? ( dev-libs/libxml2 dev-libs/libxslt )
-	scanner? ( media-gfx/sane-backends )
-	ssl? ( dev-libs/openssl )
-	png? ( media-libs/libpng )
+	scanner? ( media-gfx/sane-backends:= )
+	ssl? ( dev-libs/openssl:= )
+	png? ( media-libs/libpng:= )
 	v4l? ( media-libs/libv4l )
 	!win64? ( ${MLIB_DEPS} )
 	win32? ( ${MLIB_DEPS} )
 	xcomposite? ( x11-libs/libXcomposite )"
+[[ ${PV} == "9999" ]] || RDEPEND="${RDEPEND}
+	pulseaudio? (
+		media-sound/pulseaudio
+		sys-auth/rtkit
+	)"
 DEPEND="${RDEPEND}
 	X? (
 		x11-proto/inputproto
@@ -105,7 +117,7 @@ DEPEND="${RDEPEND}
 		x11-proto/xf86vidmodeproto
 	)
 	xinerama? ( x11-proto/xineramaproto )
-	!hardened? ( prelink? ( sys-devel/prelink ) )
+	prelink? ( sys-devel/prelink )
 	virtual/pkgconfig
 	virtual/yacc
 	sys-devel/flex"
@@ -125,16 +137,22 @@ pkg_setup() {
 }
 
 src_unpack() {
-	default
+	if [[ ${PV} == "9999" ]] ; then
+		git-2_src_unpack
+	else
+		unpack ${MY_P}.tar.bz2
+	fi
+
 	unpack "${PULSE_PATCHES}.tar.bz2"
+	unpack "${WINE_GENTOO}.tar.bz2"
 }
 
 src_prepare() {
 	local md5="$(md5sum server/protocol.def)"
 	epatch "${FILESDIR}"/${PN}-1.1.15-winegcc.patch #260726
 	epatch "${FILESDIR}"/${PN}-1.4_rc2-multilib-portage.patch #395615
-	epatch "${FILESDIR}"/${PN}-1.5.11-osmesa-check.patch #429386
-	epatch "../${PULSE_PATCHES}"/*.patch #421365
+	epatch "${FILESDIR}"/${PN}-1.5.17-osmesa-check.patch #429386
+	[[ ${PV} == "9999" ]] || epatch "../${PULSE_PATCHES}"/*.patch #421365
 	epatch_user #282735
 	if [[ "$(md5sum server/protocol.def)" != "${md5}" ]]; then
 		einfo "server/protocol.def was patched; running tools/make_requests"
@@ -150,15 +168,8 @@ do_configure() {
 	mkdir -p "${builddir}"
 	pushd "${builddir}" >/dev/null
 
-	with_osmesa=$(use_with osmesa)
-	if use amd64 && [[ $1 = 32 ]]; then #430268
-		if use osmesa-multilib; then
-			with_osmesa=--with-osmesa
-		else
-			elog "win32 osmesa support is disabled for now, see bug #430268"
-			with_osmesa=--without-osmesa
-		fi
-	fi
+	local usepulse
+	[[ ${PV} == "9999" ]] || usepulse=$(use_with pulseaudio pulse)
 
 	ECONF_SOURCE=${S} \
 	econf \
@@ -183,11 +194,11 @@ do_configure() {
 		$(use_with opencl) \
 		$(use_with opengl) \
 		$(use_with ssl openssl) \
-		${with_osmesa} \
+		$(use_with osmesa) \
 		$(use_with oss) \
 		$(use_with png) \
 		$(use_with threads pthread) \
-		$(use_with pulseaudio pulse) \
+		${usepulse} \
 		$(use_with scanner sane) \
 		$(use_enable test tests) \
 		$(use_with truetype freetype) \
@@ -232,6 +243,7 @@ src_install() {
 		[[ -d ${builddir} ]] || continue
 		emake -C "${builddir}" install DESTDIR="${D}"
 	done
+	emake -C "../${WINE_GENTOO}" install DESTDIR="${D}" EPREFIX="${EPREFIX}"
 	dodoc ANNOUNCE AUTHORS README
 	if use gecko ; then
 		insinto /usr/share/wine/gecko
@@ -263,9 +275,19 @@ src_install() {
 	fperms -R o-rwx,g-w ${filelist}
 }
 
+pkg_preinst() {
+	gnome2_icon_savelist
+}
+
 pkg_postinst() {
+	gnome2_icon_cache_update
+
 	ewarn "You must be in the wine group in order to be able to use wine."
 	ewarn "It is recommended to use a separate user for running wine in order"
 	ewarn "to improve security by isolation. See Risks section in the wine FAQ:"
 	ewarn "http://wiki.winehq.org/FAQ#head-3cb8f054b33a63be30f98a1b6225d74e305a0459"
+}
+
+pkg_postrm() {
+	gnome2_icon_cache_update
 }
