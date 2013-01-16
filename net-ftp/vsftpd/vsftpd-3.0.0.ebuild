@@ -1,4 +1,4 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/net-ftp/vsftpd/vsftpd-3.0.0.ebuild,v 1.2 2012/05/13 10:57:37 swift Exp $
 
