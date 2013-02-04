@@ -5,7 +5,7 @@
 EAPI=4
 inherit autotools linux-info linux-mod toolchain-funcs
 
-REV="9483"
+REV="9510"
 DESCRIPTION="OrangeFS is a branch of PVFS2 cluster filesystem"
 HOMEPAGE="http://www.orangefs.org/"
 SRC_URI="http://orangefs.org/downloads/${PV}/source/${P}.tar.gz
@@ -71,14 +71,12 @@ MODULE_NAMES="pvfs2(fs::src/kernel/linux-2.6)"
 
 pkg_setup() {
 	linux-mod_pkg_setup
-	if use modules && kernel_is -ge 3 3; then
-		eerror "Sorry, linux kernels >= 3.3 are not support yet."
+	if use modules && kernel_is -ge 3 4; then
+		eerror "Sorry, linux kernels >= 3.4 are not support yet."
+		eerror "(Well they are, but you'll have a dead lock.)"
 		eerror "You may disable modules use flag and use fuse client to mount filesystem."
 		eerror "PVFS2 server and ROMIO I/O API are still available too."
 		return 1
-	fi
-	if use modules && kernel_is -ge 2 6 38; then
-		ewarn "Kernel module for >= 2.6.38 kernels is terribly buggy, use on your own risk!"
 	fi
 }
 

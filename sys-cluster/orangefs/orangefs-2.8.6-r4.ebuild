@@ -77,9 +77,6 @@ pkg_setup() {
 		eerror "PVFS2 server and ROMIO I/O API are still available too."
 		return 1
 	fi
-	if use modules && kernel_is -ge 2 6 38; then
-		ewarn "Kernel module for >= 2.6.38 kernels is terribly buggy, use on your own risk!"
-	fi
 }
 
 src_prepare() {
