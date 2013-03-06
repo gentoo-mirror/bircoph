@@ -2,6 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/net-proxy/polipo/polipo-1.0.4.1.ebuild,v 1.3 2010/05/31 19:35:27 maekke Exp $
 
+EAPI="5"
 inherit base eutils toolchain-funcs user
 
 DESCRIPTION="A caching web proxy"
@@ -9,13 +10,13 @@ HOMEPAGE="http://www.pps.jussieu.fr/~jch/software/polipo/"
 SRC_URI="http://www.pps.jussieu.fr/~jch/software/files/${PN}/${P}.tar.gz"
 SRC_URI="http://freehaven.net/~chrisd/${PN}/${P}.tar.gz"
 
-LICENSE="MIT"
+LICENSE="MIT GPL-2"
 SLOT="0"
 KEYWORDS="amd64 x86"
 IUSE=""
 
 DEPEND="sys-apps/texinfo"
-RDEPEND=""
+RDEPEND="${DEPEND}"
 
 PATCHES=( "${FILESDIR}/${P}-dns.patch" )
 
