@@ -13,7 +13,7 @@ SRC_URI="http://www.soft-switch.org/downloads/spandsp/${P/_}.tgz"
 LICENSE="LGPL-2.1"
 SLOT="0"
 KEYWORDS="~amd64 ~ppc ~x86"
-IUSE="doc fixed-point mmx sse sse2 sse3 sse4a ssse3 static-libs"
+IUSE="doc fixed-point mmx sse sse2 sse3 sse41 sse42 sse4a ssse3 static-libs"
 
 RDEPEND="media-libs/tiff"
 DEPEND="${RDEPEND}
@@ -36,6 +36,8 @@ src_configure() {
 		$(use_enable sse) \
 		$(use_enable sse2) \
 		$(use_enable sse3) \
+		$(use_enable sse41 sse4_1) \
+		$(use_enable sse42 sse4_2) \
 		$(use_enable sse4a) \
 		$(use_enable ssse3) \
 		$(use_enable static-libs static)

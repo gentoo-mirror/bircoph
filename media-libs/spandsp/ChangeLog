@@ -1,6 +1,21 @@
 # ChangeLog for media-libs/spandsp
-# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
-# $Header: /var/cvsroot/gentoo-x86/media-libs/spandsp/ChangeLog,v 1.22 2011/02/27 18:55:02 chainsaw Exp $
+# Copyright 1999-2013 Gentoo Foundation; Distributed under the GPL v2
+# $Header: /var/cvsroot/gentoo-x86/media-libs/spandsp/ChangeLog,v 1.25 2013/02/06 23:20:19 mattst88 Exp $
+
+*spandsp-0.0.6_pre21 (06 Feb 2013)
+
+  06 Feb 2013; Matt Turner <mattst88@gentoo.org> +spandsp-0.0.6_pre21.ebuild,
+  -spandsp-0.0.2_pre26.ebuild, -spandsp-0.0.5_pre4.ebuild,
+  -spandsp-0.0.6_pre12.ebuild, -spandsp-0.0.6_pre7.ebuild, metadata.xml,
+  spandsp-0.0.6_pre12-r1.ebuild:
+  Drop old. Bump to 0.0.6_pre21, bug 319377. Drop bogus SSE* USE flags, bug
+  371991.
+
+  17 Dec 2012; Agostino Sarubbo <ago@gentoo.org> spandsp-0.0.6_pre12-r1.ebuild:
+  Add ~ppc64, wrt bug #443964
+
+  17 Dec 2012; Agostino Sarubbo <ago@gentoo.org> spandsp-0.0.6_pre12-r1.ebuild:
+  Add ~ppc, wrt bug #443964
 
   27 Feb 2011; Tony Vroon <chainsaw@gentoo.org> spandsp-0.0.6_pre12-r1.ebuild:
   Mark stable on AMD64 for security bug #352059. Arch testing by Agostino "ago"
@@ -126,4 +141,3 @@
   10 Nov 2004; Gustavo Zacarias <gustavoz@gentoo.org> +metadata.xml,
   +spandsp-0.0.2_pre4.ebuild:
   Initial import of spandsp 0.0.2pre4 for soft fax support in asterisk
-
