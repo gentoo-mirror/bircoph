@@ -1,16 +1,15 @@
 #!/sbin/runscript
 # Copyright 1999-2012 Gentoo Foundation
-# Distributed under the terms of the GNU General Public License v2
+# Distributed under the terms of the Torque 2.5+ License
 
 . /etc/conf.d/torque
 PBS_SERVER_HOME="$(. /etc/env.d/25torque; echo ${PBS_SERVER_HOME})"
 
 depend() {
-    local _need="net"
-    before pbs_sched pbs_mom
+    need net
+    before pbs_sched
+    before pbs_mom
     after logger
-    [ ${PBS_USE_MUNGE} -ne 0 ] && _need="${_need} munged"
-    need ${_need}
 }
 
 checkconfig() {

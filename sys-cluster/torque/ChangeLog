@@ -1,14 +1,46 @@
 # ChangeLog for sys-cluster/torque
-# Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
-# $Header: /var/cvsroot/gentoo-x86/sys-cluster/torque/ChangeLog,v 1.141 2012/04/25 16:43:11 jlec Exp $
+# Copyright 1999-2013 Gentoo Foundation; Distributed under the GPL v2
+# $Header: /var/cvsroot/gentoo-x86/sys-cluster/torque/ChangeLog,v 1.148 2013/01/22 18:44:49 jlec Exp $
 
-  12 Sep 2012; Andrew Savchenko <bircoph@gmail.com> files/pbs_mom-init.d:
-  Fix pbs_mom init script for the case when no lock file is present.
+  22 Jan 2013; Justin Lecher <jlec@gentoo.org> torque-3.0.6-r1.ebuild,
+  +files/torque-3.0.6-tcl8.6.patch:
+  Add fix for dev-lang/tcl-8.6, #453154
 
-*torque-3.0.6 (01 Sep 2012)
+*torque-3.0.6-r1 (16 Jan 2013)
+*torque-2.5.9-r1 (16 Jan 2013)
 
-  01 Sep 2012; Andrew Savchenko <bircoph@gmail.com> +torque-3.0.6.ebuild:
-  Bugfix version bump to 3.0.6.
+  16 Jan 2013; Justin Lecher <jlec@gentoo.org> -torque-2.5.9.ebuild,
+  +torque-2.5.9-r1.ebuild, torque-2.5.12.ebuild, -torque-3.0.6.ebuild,
+  +torque-3.0.6-r1.ebuild:
+  Fix missinterpretation of old ebuild code during transition.
+
+*torque-2.5.12 (10 Jan 2013)
+
+  10 Jan 2013; Justin Lecher <jlec@gentoo.org> torque-2.5.9.ebuild,
+  +files/torque-2.5.9-tcl8.6.patch, +torque-2.5.12.ebuild,
+  +files/torque-2.5.12-tcl8.6.patch:
+  Version Bump and fix for tcl8.6
+
+  13 Dec 2012; Justin Lecher <jlec@gentoo.org> torque-2.5.9.ebuild,
+  torque-3.0.6.ebuild, metadata.xml:
+  Move to EPAI=4 and autotools-utils for conveniened handling of static-libs,
+  #398019
+
+*torque-3.0.6 (02 Nov 2012)
+
+  02 Nov 2012; Justin Bronder <jsbronder@gentoo.org> -torque-3.0.3.ebuild,
+  -torque-3.0.4.ebuild, -torque-3.0.5.ebuild, +torque-3.0.6.ebuild:
+  bump, remove old
+
+  27 Jul 2012; Justin Bronder <jsbronder@gentoo.org> files/pbs_mom-init.d,
+  files/pbs_mom-init.d-munge, files/pbs_sched-init.d, files/pbs_server-init.d,
+  files/pbs_server-init.d-munge, files/torque-env.d:
+  Change init script licenses to Torque-2.5+. Resolves #426160
+
+*torque-3.0.5 (22 Jun 2012)
+
+  22 Jun 2012; Justin Bronder <jsbronder@gentoo.org> +torque-3.0.5.ebuild:
+  bump to 3.0.5 re #400991
 
   25 Apr 2012; Justin Lecher <jlec@gentoo.org> torque-2.3.13.ebuild,
   torque-2.4.16.ebuild, torque-3.0.3.ebuild, torque-3.0.4.ebuild:
