@@ -1,24 +1,25 @@
 # Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/sci-geosciences/googleearth/googleearth-6.2.2.6613.ebuild,v 1.4 2012/05/09 01:07:18 zmedico Exp $
+# $Header: /var/cvsroot/gentoo-x86/sci-geosciences/googleearth/googleearth-7.0.3.8542.ebuild,v 1.2 2013/03/02 23:20:37 hwoarang Exp $
 
-EAPI="4"
+EAPI=5
 
-inherit eutils unpacker fdo-mime versionator toolchain-funcs user
+inherit pax-utils eutils unpacker fdo-mime versionator gnome2-utils toolchain-funcs user
 
 DESCRIPTION="A 3D interface to the planet"
 HOMEPAGE="http://earth.google.com/"
 # no upstream versioning, version determined from help/about
 # incorrect digest means upstream bumped and thus needs version bump
 SRC_URI="x86? ( http://dl.google.com/dl/earth/client/current/google-earth-stable_current_i386.deb
-			-> GoogleEarthLnux-${PV}_i386.deb )
+			-> GoogleEarthLinux-${PV}_i386.deb )
 	amd64? ( http://dl.google.com/dl/earth/client/current/google-earth-stable_current_amd64.deb
-			-> GoogleEarthLinux-${PV}_amd64.deb ) "
+			-> GoogleEarthLinux-${PV}_amd64.deb )
+	http://dev.gentoo.org/~hasufell/distfiles/googleearth-libexpat-2.1.0-novisibility.tar.xz"
 LICENSE="googleearth GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 RESTRICT="mirror strip"
-IUSE="mdns-bundled +qt-bundled"
+IUSE="+system-mdns system-qt"
 
 GCC_NEEDED="4.2"
 QA_PREBUILT="*"
@@ -38,20 +39,20 @@ RDEPEND="|| ( >=sys-devel/gcc-${GCC_NEEDED}[cxx] >=sys-devel/gcc-${GCC_NEEDED}[-
 		x11-libs/libXdmcp
 		sys-libs/zlib
 		dev-libs/glib:2
-		!qt-bundled? (
-			>=x11-libs/qt-core-4.5.3:4
-			>=x11-libs/qt-gui-4.5.3:4
-			>=x11-libs/qt-webkit-4.5.3:4
+		system-qt? (
+			>=dev-qt/qtcore-4.5.3:4
+			>=dev-qt/qtgui-4.5.3:4
+			>=dev-qt/qtwebkit-4.5.3:4
 		)
 		net-misc/curl
 		sci-libs/gdal
-		!mdns-bundled? ( sys-auth/nss-mdns )
+		system-mdns? ( sys-auth/nss-mdns )
 	)
 	amd64? (
 		>=app-emulation/emul-linux-x86-xlibs-20081109
 		>=app-emulation/emul-linux-x86-baselibs-20081109
 		app-emulation/emul-linux-x86-opengl
-		!qt-bundled? (
+		system-qt? (
 			>=app-emulation/emul-linux-x86-qtlibs-20091231-r1
 		)
 	)
@@ -59,7 +60,7 @@ RDEPEND="|| ( >=sys-devel/gcc-${GCC_NEEDED}[cxx] >=sys-devel/gcc-${GCC_NEEDED}[-
 
 DEPEND="dev-util/patchelf"
 
-S="${WORKDIR}/opt/google/earth/free"
+S=${WORKDIR}/opt/google/earth/free
 
 pkg_nofetch() {
 	einfo "Wrong checksum or file size means that Google silently replaced the distfile with a newer version."
@@ -82,16 +83,18 @@ pkg_setup() {
 
 src_unpack() {
 	# default src_unpack fails with deb2targz installed, also this unpacks the data.tar.lzma as well
-	unpack_deb ${A}
+	unpack_deb GoogleEarthLinux-${PV}_$(usex amd64 "amd64" "i386").deb
 
 	cd opt/google/earth/free || die
 
-	if ! use qt-bundled; then
+	unpack googleearth-libexpat-2.1.0-novisibility.tar.xz
+
+	if use system-qt; then
 		rm -v libQt{Core,Gui,Network,WebKit}.so.4 qt.conf || die
-		rm -frv plugins/imageformats || die
+		rm -rv plugins/imageformats || die
 	fi
 	rm -v libcurl.so.4 || die
-	if ! use mdns-bundled; then
+	if use system-mdns; then
 		rm -v libnss_mdns4_minimal.so.2 || die
 	fi
 
@@ -114,37 +117,40 @@ src_prepare() {
 	for x in * ; do
 		# Use \x7fELF header to separate ELF executables and libraries
 		[[ -f ${x} && $(od -t x1 -N 4 "${x}") == *"7f 45 4c 46"* ]] || continue
-		patchelf --set-rpath '$ORIGIN' "${x}" || \
+		patchelf --set-rpath '$ORIGIN' "${x}" ||
 			die "patchelf failed on ${x}"
 	done
 	for x in plugins/imageformats/*.so ; do
 		[[ -f ${x} ]] || continue
-		patchelf --set-rpath /opt/${PN} "${x}" || \
+		patchelf --set-rpath /opt/${PN} "${x}" ||
 			die "patchelf failed on ${x}"
 	done
+
+	epatch "${FILESDIR}"/${P}-desktopfile.patch
 }
 
 src_install() {
-	make_wrapper ${PN} ./${PN} /opt/${PN} . || die "make_wrapper failed"
+	make_wrapper ${PN} ./${PN} /opt/${PN} .
 
 	# install binaries and remove them
 	binaries="${PN} ${PN}-bin *.so *.so.*"
 	exeinto /opt/${PN}
-	doexe ${binaries} || die
-	rm ${binaries}
+	doexe ${binaries}
+	rm ${binaries} || die
 
 	insinto /usr/share/mime/packages
 	doins "${FILESDIR}/${PN}-mimetypes.xml" || die
-	sed "s#/opt/google/earth/free/google-earth#/opt/${PN}/${PN}#" -i google-earth.desktop || die
+
 	domenu google-earth.desktop
+
 	for size in 16 22 24 32 48 64 128 256 ; do
-		insinto /usr/share/icons/hicolor/${size}x${size}/apps
-		newins product_logo_${size}.png google-earth.png
+		newicon -s ${size} product_logo_${size}.png google-earth.png
 	done
-	rm -rf product_logo_* xdg-mime xdg-settings google-earth google-earth.desktop || die
+
+	rm -r product_logo_* xdg-mime xdg-settings google-earth google-earth.desktop || die
 
 	# just copy everything that's left
-	cp -pPR * "${D}"/opt/${PN} || die
+	cp -pPR * "${ED}"/opt/${PN} || die
 
 	# some files are executable and shouldn't
 	fperms -R a-x,a+X /opt/googleearth/resources
@@ -154,15 +160,17 @@ src_install() {
 	local filelist=$( find "${D}"/{opt,/usr/bin} -type f -perm +a+x | gawk -v path="${D}" '{ gsub("^"path,""); print $0 }')
 	fowners :earth ${filelist} || die "chown failed"
 	fperms -R o-rwx,g-w ${filelist} || die "chmod failed"
+
+	pax-mark -m "${ED}/opt/googleearth/googleearth-bin"
+}
+
+pkg_preinst() {
+	gnome2_icon_savelist
 }
 
 pkg_postinst() {
-	fdo-mime_desktop_database_update
-	fdo-mime_mime_database_update
-
-	elog "The qt-bundled flag is now enabled by default due to crashes on startup with system Qt."
-	elog "Testing and reporting outcome with/without the flag is welcome (bug #319813)."
-	elog "If it crashes in both cases, disabling tips is reported to help (bug #354281):"
+	elog "The system-qt flag is disabled by default due to crashes on startup with system Qt."
+	elog "Do not report bugs if you attempt to enable this masked flag."
 	elog ""
 	elog "When you get a crash starting Google Earth, try adding a file ~./config/Google/GoogleEarthPlus.conf"
 	elog "the following options:"
@@ -184,4 +192,14 @@ pkg_postinst() {
 	ewarn "security by isolation."
 	ewarn
 	ewarn "To use hardware OpenGL acceleration, be sure googleearth user is in video group."
+
+	fdo-mime_desktop_database_update
+	fdo-mime_mime_database_update
+	gnome2_icon_cache_update
+}
+
+pkg_postrm() {
+	fdo-mime_desktop_database_update
+	fdo-mime_mime_database_update
+	gnome2_icon_cache_update
 }
