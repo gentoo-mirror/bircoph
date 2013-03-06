@@ -1,24 +1,24 @@
 # Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/net-fs/openafs/openafs-1.6.1-r1.ebuild,v 1.1 2012/09/25 00:13:53 vapier Exp $
+# $Header: /var/cvsroot/gentoo-x86/net-fs/openafs/openafs-1.6.2_pre3.ebuild,v 1.1 2013/01/26 17:37:45 vapier Exp $
 
 EAPI="4"
 
-inherit flag-o-matic eutils multilib toolchain-funcs versionator pam
+inherit flag-o-matic eutils autotools multilib toolchain-funcs versionator pam
 
 MY_PV=$(delete_version_separator '_')
 MY_P="${PN}-${MY_PV}"
-PVER="2"
+PVER="1"
 DESCRIPTION="The OpenAFS distributed file system"
 HOMEPAGE="http://www.openafs.org/"
 # We always d/l the doc tarball as man pages are not USE=doc material
-SRC_URI="http://openafs.org/dl/openafs/${MY_PV}/${MY_P}-src.tar.bz2
-	http://openafs.org/dl/openafs/${MY_PV}/${MY_P}-doc.tar.bz2
+SRC_URI="http://openafs.org/dl/candidate/${MY_PV}/${MY_P}-src.tar.bz2
+	http://openafs.org/dl/candidate/${MY_PV}/${MY_P}-doc.tar.bz2
 	mirror://gentoo/${P}-patches-${PVER}.tar.bz2"
 
-LICENSE="IBM BSD openafs-krb5-a APSL-2 sun-rpc"
+LICENSE="IBM BSD openafs-krb5-a APSL-2"
 SLOT="0"
-KEYWORDS="~amd64 ~sparc ~x86 ~amd64-linux ~x86-linux ~amd64-fbsd ~x86-fbsd"
+KEYWORDS="~amd64 ~sparc ~x86 ~amd64-linux ~x86-linux"
 IUSE="doc kerberos pam"
 
 RDEPEND="~net-fs/openafs-kernel-${PV}
@@ -57,7 +57,7 @@ src_configure() {
 }
 
 src_compile() {
-	emake -j1 all_nolibafs
+	emake all_nolibafs
 }
 
 src_install() {

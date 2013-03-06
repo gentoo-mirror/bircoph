@@ -1,6 +1,28 @@
 # ChangeLog for net-fs/openafs
-# Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
-# $Header: /var/cvsroot/gentoo-x86/net-fs/openafs/ChangeLog,v 1.182 2012/09/25 00:18:43 vapier Exp $
+# Copyright 1999-2013 Gentoo Foundation; Distributed under the GPL v2
+# $Header: /var/cvsroot/gentoo-x86/net-fs/openafs/ChangeLog,v 1.187 2013/01/26 17:37:45 vapier Exp $
+
+*openafs-1.6.2_pre3 (26 Jan 2013)
+
+  26 Jan 2013; Mike Frysinger <vapier@gentoo.org> +openafs-1.6.2_pre3.ebuild,
+  -openafs-1.6.1-r1.ebuild:
+  Version bump #453196 by Andrej Filipcic.
+
+  26 Jan 2013; Mike Frysinger <vapier@gentoo.org> openafs-1.6.1-r2.ebuild:
+  Mark stable #453196 by Andrej Filipcic.
+
+  20 Jan 2013; Ulrich Müller <ulm@gentoo.org> openafs-1.4.14.1.ebuild,
+  openafs-1.6.1.ebuild, openafs-1.6.1-r1.ebuild, openafs-1.6.1-r2.ebuild:
+  Drop sun-rpc from LICENSE, as Sun RPC was relicensed to BSD, bug 448618.
+
+*openafs-1.6.1-r2 (11 Nov 2012)
+
+  11 Nov 2012; Mike Frysinger <vapier@gentoo.org> +openafs-1.6.1-r2.ebuild:
+  Add patches from Andrej Filipcic to fix building with linux-3.6 #437278 by
+  Oliver Freyermuth.
+
+  02 Oct 2012;  <naota@gentoo.org> openafs-1.6.1-r1.ebuild:
+  Drop *-fbsd. #425352
 
   25 Sep 2012; Mike Frysinger <vapier@gentoo.org> -openafs-1.4.14-r1.ebuild,
   -openafs-1.6.0.ebuild, -openafs-1.6.1_pre1.ebuild:
