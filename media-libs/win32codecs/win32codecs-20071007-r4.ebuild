@@ -7,7 +7,7 @@ inherit multilib
 DESCRIPTION="Windows 32-bit binary codecs for video and audio playback support"
 SRC_URI="mirror://mplayer/releases/codecs/all-${PV}.tar.bz2"
 HOMEPAGE="http://www.mplayerhq.hu/"
-LICENSE="as-is"
+LICENSE="HPND"
 SLOT="0"
 KEYWORDS="-* ~amd64 ~amd64-fbsd x86 ~x86-fbsd ~x86-freebsd ~x86-linux"
 IUSE="real"
