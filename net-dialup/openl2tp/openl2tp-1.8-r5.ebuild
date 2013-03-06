@@ -7,7 +7,7 @@ EAPI=4
 inherit base linux-info
 
 DESCRIPTION="Userspace tools for kernel L2TP implementation"
-HOMEPAGE="http://openl2tp.sourceforge.net"
+HOMEPAGE="http://www.openl2tp.org/"
 SRC_URI="mirror://sourceforge/openl2tp/${P}.tar.gz"
 
 LICENSE="GPL-2"
