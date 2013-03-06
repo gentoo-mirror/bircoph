@@ -12,7 +12,7 @@ SRC_URI="http://security.appspot.com/downloads/${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~x86-fbsd"
+KEYWORDS="alpha amd64 arm ~hppa ia64 ppc ppc64 s390 sh sparc x86 ~x86-fbsd"
 IUSE="caps pam tcpd ssl selinux xinetd"
 
 DEPEND="caps? ( >=sys-libs/libcap-2 )
@@ -34,6 +34,9 @@ src_prepare() {
 
 	# Fix building without the libcap
 	epatch "${FILESDIR}/${PN}-2.1.0-caps.patch"
+
+	# Fix building on alpha. Bug #405829
+	epatch "${FILESDIR}/${PN}-3.0.2-alpha.patch"
 
 	# Fix unicode logging
 	epatch "${FILESDIR}/${PN}-2.2.0-logging.patch"
