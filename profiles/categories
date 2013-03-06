@@ -25,7 +25,6 @@ sci-geosciences
 sys-apps
 sys-cluster
 sys-devel
-sys-kernel
 sys-libs
 x11-drivers
 x11-misc
