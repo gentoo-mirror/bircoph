@@ -12,9 +12,9 @@ PVER="1"
 DESCRIPTION="The OpenAFS distributed file system"
 HOMEPAGE="http://www.openafs.org/"
 # We always d/l the doc tarball as man pages are not USE=doc material
-SRC_URI="http://openafs.org/dl/candidate/${MY_PV}/${MY_P}-src.tar.bz2
-	http://openafs.org/dl/candidate/${MY_PV}/${MY_P}-doc.tar.bz2
-	mirror://gentoo/${P}-patches-${PVER}.tar.bz2"
+SRC_URI="http://openafs.org/dl/openafs/${MY_PV}/${MY_P}-src.tar.bz2
+	http://openafs.org/dl/openafs/${MY_PV}/${MY_P}-doc.tar.bz2
+	mirror://gentoo/${PN}-1.6.2_pre3-patches-${PVER}.tar.bz2"
 
 LICENSE="IBM BSD openafs-krb5-a APSL-2"
 SLOT="0"
@@ -100,7 +100,7 @@ src_install() {
 
 	# documentation package
 	if use doc ; then
-		dodoc -r doc/{arch,examples,pdf,protocol,txt}/*
+		find doc/{arch,examples,pdf,protocol,txt}/ -type f -exec dodoc {} \;
 		dohtml -A xml -r doc/{html,xml}/*
 	fi
 
