@@ -2,9 +2,9 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/media-libs/spandsp/spandsp-0.0.6_pre21.ebuild,v 1.1 2013/02/06 23:20:19 mattst88 Exp $
 
-EAPI="2"
+EAPI="5"
 
-inherit multilib versionator
+inherit base multilib versionator
 
 DESCRIPTION="SpanDSP is a library of DSP functions for telephony."
 HOMEPAGE="http://www.soft-switch.org/"
@@ -21,6 +21,8 @@ DEPEND="${RDEPEND}
 		dev-libs/libxslt )"
 
 S=${WORKDIR}/${PN}-$(get_version_component_range 1-3)
+
+PATCHES=( "${FILESDIR}/${P}-sse4x.patch" )
 
 # TODO:
 # there are two tests options: tests and test-data
@@ -44,8 +46,8 @@ src_configure() {
 }
 
 src_install () {
-	emake DESTDIR="${D}" install || die	"emake install failed"
-	dodoc AUTHORS ChangeLog DueDiligence NEWS README || die "dodoc failed"
+	emake DESTDIR="${D}" install
+	dodoc AUTHORS ChangeLog DueDiligence NEWS README
 
 	if ! use static-libs; then
 		# remove useless la file when not installing static lib
@@ -53,6 +55,6 @@ src_install () {
 	fi
 
 	if use doc; then
-		dohtml -r doc/{api/html/*,t38_manual} || die "dohtml failed"
+		dohtml -r doc/{api/html/*,t38_manual}
 	fi
 }
