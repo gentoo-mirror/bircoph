@@ -1,0 +1,13 @@
+--- FreeImage/Source/FreeImage.h.orig	2013-03-10 21:48:08.000000000 +0400
++++ FreeImage/Source/FreeImage.h	2013-03-10 21:48:29.637324387 +0400
+@@ -141,8 +141,10 @@
+ typedef uint16_t WORD;
+ typedef uint32_t DWORD;
+ typedef int32_t LONG;
++#ifndef _LIBRAW_TYPES_H
+ typedef int64_t INT64;
+ typedef uint64_t UINT64;
++#endif
+ #else
+ // MS is not C99 ISO compliant
+ typedef long BOOL;
