@@ -1,0 +1,11 @@
+--- Mesa-9.1/src/gallium/targets/xorg-nouveau/nouveau_xorg.c.orig	2013-02-20 04:26:22.000000000 +0400
++++ Mesa-9.1/src/gallium/targets/xorg-nouveau/nouveau_xorg.c	2013-03-11 21:23:41.639979037 +0400
+@@ -29,7 +29,7 @@
+  */
+ 
+ #include "../../state_trackers/xorg/xorg_winsys.h"
+-#include <nouveau.h>
++#include <libdrm/nouveau.h>
+ #include <dri.h>
+ #include <xf86drmMode.h>
+ 
