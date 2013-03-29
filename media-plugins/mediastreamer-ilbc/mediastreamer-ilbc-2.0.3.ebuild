@@ -20,7 +20,7 @@ IUSE="20ms-frames"
 RDEPEND="dev-libs/ilbc-rfc3951
 	>=media-libs/mediastreamer-2.0.0"
 DEPEND="${RDEPEND}
-	virtual/pkg-config"
+	virtual/pkgconfig"
 
 S=${WORKDIR}/${MY_P}
 
