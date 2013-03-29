@@ -1,10 +1,8 @@
-# Copyright 1999-2013 Gentoo Foundation
+# Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/media-plugins/mediastreamer-x264/mediastreamer-x264-1.4.1.ebuild,v 1.5 2012/04/24 10:13:08 mgorny Exp $
+# $Header: /var/cvsroot/gentoo-x86/media-plugins/mediastreamer-x264/mediastreamer-x264-1.4.2.ebuild,v 1.1 2012/11/19 20:50:10 mgorny Exp $
 
 EAPI="4"
-
-inherit multilib
 
 MY_P="msx264-${PV}"
 
@@ -14,27 +12,19 @@ SRC_URI="mirror://nongnu/linphone/plugins/sources/${MY_P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="amd64 ppc ~ppc64 x86"
+KEYWORDS="~amd64 ~ppc ~ppc64 ~x86"
 IUSE=""
 
-CDEPEND=">=media-libs/mediastreamer-2.7.0
+RDEPEND=">=media-libs/mediastreamer-2.7.0[video]
 	>=media-libs/x264-0.0.20100118
 	virtual/ffmpeg"
-DEPEND="${CDEPEND}
+DEPEND="${RDEPEND}
 	virtual/pkgconfig"
-RDEPEND="${CDEPEND}
-	media-libs/mediastreamer[video]"
 
 S=${WORKDIR}/${MY_P}
 
 src_configure() {
 	# strict: don't want -Werror
 	econf \
-		--libdir=/usr/$(get_libdir) \
 		--disable-strict
-}
-
-src_install() {
-	emake DESTDIR="${D}" install
-	dodoc AUTHORS NEWS README
 }
