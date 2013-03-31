@@ -21,6 +21,7 @@ net-libs
 net-misc
 net-proxy
 sci-geosciences
+sci-visualization
 sys-apps
 sys-cluster
 sys-devel
