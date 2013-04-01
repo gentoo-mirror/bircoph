@@ -2,6 +2,7 @@ app-admin
 app-arch
 app-emulation
 app-forensics
+app-portage
 app-text
 app-vim
 dev-python
