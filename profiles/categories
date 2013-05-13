@@ -19,6 +19,7 @@ net-ftp
 net-libs
 net-misc
 sci-geosciences
+sci-libs
 sci-visualization
 sys-apps
 sys-cluster
