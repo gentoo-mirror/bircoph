@@ -1,0 +1,11 @@
+--- OpenFOAM-2.2.0/etc/bashrc.orig	2013-01-14 12:48:51.000000000 +0400
++++ OpenFOAM-2.2.0/etc/bashrc	2013-05-15 01:14:59.823380532 +0400
+@@ -42,7 +42,7 @@
+ #
+ # Location of the OpenFOAM installation
+ # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-foamInstall=$HOME/$WM_PROJECT
++foamInstall=/usr/lib/$WM_PROJECT
+ # foamInstall=~$WM_PROJECT
+ # foamInstall=/opt/$WM_PROJECT
+ # foamInstall=/usr/local/$WM_PROJECT

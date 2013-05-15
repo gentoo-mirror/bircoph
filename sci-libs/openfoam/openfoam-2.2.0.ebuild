@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/sci-libs/openfoam/openfoam-2.2.0.ebuild,v 1.1 2013/03/11 05:34:35 patrick Exp $
 
-EAPI="2"
+EAPI="5"
 
 inherit eutils versionator multilib toolchain-funcs
 
@@ -52,6 +52,11 @@ pkg_setup() {
 	ewarn
 }
 
+src_prepare() {
+	# bug 428418
+	epatch "${FILESDIR}/${P}-bashrc.patch"
+}
+
 src_configure() {
 	if has_version sys-cluster/mpich2 ; then
 		export WM_MPLIB=MPICH
@@ -98,9 +103,7 @@ src_install() {
 	# not sure if this is useful
 	#doins -r src
 
-	insinto ${INSDIR}/lib
-	doins -r lib/*
-
+	insinto ${INSDIR}
 	insopts -m0755
 	doins -r bin applications platforms wmake
 
