@@ -1,10 +1,10 @@
 # Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/net-ftp/vsftpd/vsftpd-3.0.0.ebuild,v 1.2 2012/05/13 10:57:37 swift Exp $
+# $Header: /var/cvsroot/gentoo-x86/net-ftp/vsftpd/vsftpd-3.0.2-r1.ebuild,v 1.1 2013/04/20 16:51:02 hwoarang Exp $
 
 EAPI="4"
 
-inherit eutils toolchain-funcs
+inherit eutils systemd toolchain-funcs
 
 DESCRIPTION="Very Secure FTP Daemon written with speed, size and security in mind"
 HOMEPAGE="http://vsftpd.beasts.org/"
@@ -12,7 +12,7 @@ SRC_URI="http://security.appspot.com/downloads/${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~x86-fbsd"
+KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~x86-fbsd"
 IUSE="caps pam tcpd ssl selinux xinetd"
 
 DEPEND="caps? ( >=sys-libs/libcap-2 )
@@ -35,6 +35,9 @@ src_prepare() {
 	# Fix building without the libcap
 	epatch "${FILESDIR}/${PN}-2.1.0-caps.patch"
 
+	# Fix building on alpha. Bug #405829
+	epatch "${FILESDIR}/${PN}-3.0.2-alpha.patch"
+
 	# Fix unicode logging
 	epatch "${FILESDIR}/${PN}-2.2.0-logging.patch"
 
@@ -53,7 +56,10 @@ src_prepare() {
 	sed -i '/^LINK[[:space:]]*=[[:space:]]*/ s/-Wl,-s//' Makefile || die
 
 	#Bug #335977
-	epatch "${FILESDIR}"/${P}-Makefile.patch
+	epatch "${FILESDIR}"/${PN}-3.0.0-Makefile.patch
+
+	#Bug #450536
+	epatch "${FILESDIR}"/${P}-remove-legacy-cap.patch
 }
 
 src_compile() {
@@ -92,6 +98,10 @@ src_install() {
 	newinitd "${FILESDIR}/${PN}.init" ${PN}
 
 	keepdir /usr/share/${PN}/empty
+
+	exeinto /usr/libexec
+	doexe "${FILESDIR}/vsftpd-checkconfig.sh"
+	systemd_dounit "${FILESDIR}/${PN}.service"
 }
 
 pkg_preinst() {
