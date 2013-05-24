@@ -3,6 +3,7 @@ app-arch
 app-emulation
 app-text
 app-vim
+dev-db
 dev-python
 dev-tex
 dev-util
