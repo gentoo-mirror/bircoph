@@ -6,7 +6,7 @@ EAPI=2
 inherit flag-o-matic eutils linux-info autotools
 
 DESCRIPTION="Resource manager and queuing system based on OpenPBS"
-HOMEPAGE="http://www.adaptivecomputing.com/products/torque.php"
+HOMEPAGE="http://www.adaptivecomputing.com/products/open-source/torque"
 SRC_URI="http://www.adaptivecomputing.com/resources/downloads/${PN}/${P}.tar.gz"
 
 LICENSE="torque-2.5"
