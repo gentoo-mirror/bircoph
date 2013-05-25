@@ -93,6 +93,7 @@ src_configure() {
 
 	myeconfargs+=(
 		$(use_enable tk gui)
+		$(use_enable tk tcl-qstat)
 		$(use_enable syslog)
 		$(use_enable server)
 		$(use_enable drmaa)
