@@ -26,4 +26,5 @@ sys-apps
 sys-cluster
 sys-devel
 sys-libs
+www-client
 x11-misc
