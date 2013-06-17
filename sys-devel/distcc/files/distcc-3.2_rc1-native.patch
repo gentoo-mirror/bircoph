@@ -79,7 +79,7 @@ diff -Naurd -x '*.swp' -x '*.o' -x '*.d' -x config.h distcc-3.2rc1.orig/src/arg.
      dcc_note_compiled(*input_file, *output_file);
 diff -Naurd -x '*.swp' -x '*.o' -x '*.d' -x config.h distcc-3.2rc1.orig/src/arg_native.c distcc-3.2rc1/src/arg_native.c
 --- distcc-3.2rc1.orig/src/arg_native.c	1970-01-01 03:00:00.000000000 +0300
-+++ distcc-3.2rc1/src/arg_native.c	2013-06-17 05:14:27.704941669 +0400
++++ distcc-3.2rc1/src/arg_native.c	2013-06-18 02:10:22.688183653 +0400
 @@ -0,0 +1,705 @@
 +/* -*- c-file-style: "java"; indent-tabs-mode: nil; tab-width: 4; fill-column: 78 -*-
 + *
@@ -466,6 +466,7 @@ diff -Naurd -x '*.swp' -x '*.o' -x '*.d' -x config.h distcc-3.2rc1.orig/src/arg_
 +dcc_compiler_query_child(const char *name, const int type, const int pipefd[])
 +{
 +    const char *args[8] = {NULL, "-E", "-v", "-", NULL, NULL, NULL, NULL};
++    const char *args_m[3] = {"-march=native", "-mcpu=native", "-mtune=native"};
 +    int argsidx;
 +    int devnull;
 +
@@ -493,11 +494,11 @@ diff -Naurd -x '*.swp' -x '*.o' -x '*.d' -x config.h distcc-3.2rc1.orig/src/arg_
 +    args[0] = basename(name);
 +    argsidx = 4;    // first empty slot;
 +    if (type & DCC_ARG_MARCH)
-+        args[argsidx++] = strdup("-march=native");
++        args[argsidx++] = args_m[0];
 +    if (type & DCC_ARG_MCPU)
-+        args[argsidx++] = strdup("-mcpu=native");
++        args[argsidx++] = args_m[1];
 +    if (type & DCC_ARG_MTUNE)
-+        args[argsidx++] = strdup("-mtune=native");
++        args[argsidx++] = args_m[2];
 +    
 +    if (rs_trace_level >= RS_LOG_INFO)
 +        rs_log_info("running compiler query: %s %s", name, dcc_argv_tostr((char**)args));
@@ -573,10 +574,10 @@ diff -Naurd -x '*.swp' -x '*.o' -x '*.d' -x config.h distcc-3.2rc1.orig/src/arg_
 +        ret = EXIT_DISTCC_FAILED; // in case we'll found nothing
 +        while (getline(&buf, &buf_size, out) != -1) {
 +            // grep for unique pattern
-+            if (!(match = strstr(buf, " -v - ")))
++            if (!(match = strstr(buf, " - ")))
 +                continue;
 +            // convert to argv
-+            ret = dcc_str_to_argv(match + 6, argv, argc);
++            ret = dcc_str_to_argv(match + 3, argv, argc);
 +            break;
 +        }
 +        
@@ -647,13 +648,14 @@ diff -Naurd -x '*.swp' -x '*.o' -x '*.d' -x config.h distcc-3.2rc1.orig/src/arg_
 + * @return dcc standard exit code
 + **/
 +static inline int 
-+dcc_insert_expansion(char ***argv, const char **exp_argv, const int exp_argc,
++dcc_insert_expansion(char ***argv, char ***ret_exp_argv, const int exp_argc,
 +    int *input_idx, int *output_idx)
 +{
 +    char **new_argv;    // buffer for new argv
 +    char **old_argv;    // pointer to old argv
++    char **exp_argv;    // pointer to old argv
 +    char *astr;
-+    const char *a;
++    char *a;
 +    int inserted = 0;   // flag is set if expansion data is already inserted
 +    int i, j, k;
 +
@@ -665,6 +667,7 @@ diff -Naurd -x '*.swp' -x '*.o' -x '*.d' -x config.h distcc-3.2rc1.orig/src/arg_
 +
 +    // generate new argv
 +    old_argv = *argv;
++    exp_argv = *ret_exp_argv;
 +    for (i = j = 0; (a = old_argv[i]); i++) {
 +        if (!strcmp(a, "-march=native") ||
 +            !strcmp(a, "-mtune=native") ||
@@ -673,10 +676,7 @@ diff -Naurd -x '*.swp' -x '*.o' -x '*.d' -x config.h distcc-3.2rc1.orig/src/arg_
 +            if (!inserted) {
 +                for (k = 0; k < exp_argc; k++) {
 +                    // insert expansion in place of native arg
-+                    if ((new_argv[j++] = strdup(exp_argv[k])) == NULL) {
-+                        rs_log_error("failed to duplicate element %d", k);
-+                        return EXIT_OUT_OF_MEMORY;
-+                    }
++                    new_argv[j++] = exp_argv[k];
 +                }
 +                inserted = 1;
 +
@@ -686,7 +686,9 @@ diff -Naurd -x '*.swp' -x '*.o' -x '*.d' -x config.h distcc-3.2rc1.orig/src/arg_
 +                if (*output_idx > i)
 +                    *output_idx += exp_argc - 1;
 +            } else {
-+                // skip argument, recalculate indices
++                // skip argument
++                free(a);
++                // recalculate indices
 +                if (*input_idx > i)
 +                    (*input_idx)--;
 +                if (*output_idx > i)
@@ -696,16 +698,15 @@ diff -Naurd -x '*.swp' -x '*.o' -x '*.d' -x config.h distcc-3.2rc1.orig/src/arg_
 +            }
 +        } else {
 +            // copy all other args untouched
-+            if ((new_argv[j++] = strdup(a)) == NULL) {
-+                rs_log_error("failed to duplicate element %d", j);
-+                return EXIT_OUT_OF_MEMORY;
-+            }
++            new_argv[j++] = a;
 +        }
 +    }
 +    // terminate new argv by NULL element
 +    new_argv[j] = NULL;
 +
-+    dcc_free_argv(*argv);
++    free(*argv);            // clean old arrays, but not their elements
++    free(exp_argv);         // as they are put into new array;
++    *ret_exp_argv = NULL;   // avoid double free later
 +    *argv = new_argv;
 +
 +    // check for log level to avoid useless string manipulations
@@ -776,8 +777,7 @@ diff -Naurd -x '*.swp' -x '*.o' -x '*.d' -x config.h distcc-3.2rc1.orig/src/arg_
 +    }
 +
 +    // Replace native args by found expansion
-+    ret = dcc_insert_expansion(argv, (const char**)exp_argv, exp_argc,
-+        input_idx, output_idx);
++    ret = dcc_insert_expansion(argv, &exp_argv, exp_argc, input_idx, output_idx);
 +
 +cleanup:
 +    free(hash);
