@@ -10,7 +10,7 @@ inherit autotools-utils flag-o-matic linux-info
 
 DESCRIPTION="Resource manager and queuing system based on OpenPBS"
 HOMEPAGE="http://www.adaptivecomputing.com/products/open-source/torque"
-SRC_URI="http://www.adaptivecomputing.com/resources/downloads/${PN}/${P}.tar.gz"
+SRC_URI="http://www.adaptivecomputing.com/index.php?wpfb_dl=190 -> ${P}.tar.gz"
 
 SLOT="0"
 LICENSE="torque-2.5"
@@ -80,6 +80,10 @@ pkg_setup() {
 }
 
 src_prepare() {
+	# Unused and causes breakage when switching from glibc to tirpc.
+	# https://github.com/adaptivecomputing/torque/pull/148
+	sed -i '/rpc\/rpc\.h/d' src/lib/Libnet/net_client.c || die
+
 	# as-needed fix, libutils.a needs librt.
 	sed -i 's,^\(LDADD = .*\)$(MOMLIBS) $(PBS_LIBS),\1$(PBS_LIBS) $(MOMLIBS),' \
 		src/resmom/Makefile.am || die
