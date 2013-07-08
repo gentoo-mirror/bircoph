@@ -1,6 +1,93 @@
 # ChangeLog for app-emulation/wine
 # Copyright 1999-2013 Gentoo Foundation; Distributed under the GPL v2
-# $Header: /var/cvsroot/gentoo-x86/app-emulation/wine/ChangeLog,v 1.458 2013/03/18 03:28:57 tetromino Exp $
+# $Header: /var/cvsroot/gentoo-x86/app-emulation/wine/ChangeLog,v 1.470 2013/06/30 02:27:50 tetromino Exp $
+
+*wine-1.6_rc4 (30 Jun 2013)
+
+  30 Jun 2013; Alexandre Rostovtsev <tetromino@gentoo.org>
+  -wine-1.6_rc1.ebuild, -wine-1.6_rc2.ebuild, +wine-1.6_rc4.ebuild,
+  -files/wine-1.6_rc1-pkg-config.patch:
+  Version bump, see http://www.winehq.org/announce/1.6-rc4 for the
+  announcement. Remove old RCs.
+
+*wine-1.6_rc3 (24 Jun 2013)
+
+  24 Jun 2013; Alexandre Rostovtsev <tetromino@gentoo.org>
+  +wine-1.6_rc3.ebuild, wine-9999.ebuild:
+  Version bump, see http://www.winehq.org/announce/1.6-rc3 for the
+  announcement. Add a high-res wineglass icon as fallback for newly installed
+  Windows shortcuts which don't have an icon of their own (bug #472990, thanks
+  to Pacho Ramos).
+
+  15 Jun 2013; Alexandre Rostovtsev <tetromino@gentoo.org> wine-1.6_rc2.ebuild,
+  wine-9999.ebuild, metadata.xml:
+  Rename mime-handler USE flag to run-exes in order to be more clear about its
+  effects.
+
+*wine-1.6_rc2 (15 Jun 2013)
+
+  15 Jun 2013; Alexandre Rostovtsev <tetromino@gentoo.org>
+  +wine-1.6_rc2.ebuild, wine-9999.ebuild, metadata.xml:
+  Version bump, see http://www.winehq.org/announce/1.6-rc2 for the announcement.
+  CCAS patch shouldn't be needed any more.
+  Make USE flag defaults more sensible (most users want alsa, not oss).
+  Add a mime-handler USE flag (enabled by default) to register wine as the
+  handler for .EXE and .MSI file MIME types, like in most other distros. Users
+  with special security requirements can disable the flag to restore the old
+  Gentoo behavior.
+
+  12 Jun 2013; Alexandre Rostovtsev <tetromino@gentoo.org> wine-1.5.25.ebuild,
+  wine-1.5.26.ebuild, wine-1.5.27.ebuild, wine-1.5.28.ebuild,
+  wine-1.5.29.ebuild, wine-1.5.30.ebuild, wine-1.5.31.ebuild,
+  wine-1.6_rc1.ebuild, wine-9999.ebuild:
+  Avoid crossdev's i686-pc-linux-gnu-pkg-config when building wine32 on amd64
+  (bug #472038, thanks to Dmitry Derevyanko). Update live ebuild's patches.
+
+*wine-1.6_rc1 (11 Jun 2013)
+
+  11 Jun 2013; Alexandre Rostovtsev <tetromino@gentoo.org>
+  +wine-1.6_rc1.ebuild, wine-9999.ebuild, +files/wine-1.6_rc1-pkg-config.patch:
+  Version bump, see http://www.winehq.org/announce/1.6-rc1 for the
+  announcement. Fix pkg-config detection with some combinations of USE flags
+  (bug #470172, thanks to Mike Callahan, Peter et al.)
+
+*wine-1.5.31 (26 May 2013)
+
+  26 May 2013; Alexandre Rostovtsev <tetromino@gentoo.org> wine-1.5.30.ebuild,
+  +wine-1.5.31.ebuild, wine-9999.ebuild, +files/wine-1.5.31-gnutls-3.2.0.patch:
+  Version bump, see http://www.winehq.org/announce/1.5.31 for the announcement.
+  Fix build failure with gnutls-3.2.0 (bug #471077, thanks to Ben Kohler).
+
+  16 May 2013; Alexandre Rostovtsev <tetromino@gentoo.org> wine-1.5.25.ebuild,
+  wine-1.5.26.ebuild, wine-1.5.27.ebuild, wine-1.5.28.ebuild,
+  wine-1.5.29.ebuild, wine-1.5.30.ebuild, wine-9999.ebuild:
+  Require emul-linux-x86-medialibs[development] for gstreamer (bug #462772,
+  thanks to Jan Vesely). Libwine patch is no longer needed for live ebuild (bug
+  #469834, thanks to Murray Colpman).
+
+*wine-1.5.30 (13 May 2013)
+
+  13 May 2013; Alexandre Rostovtsev <tetromino@gentoo.org> +wine-1.5.30.ebuild,
+  wine-9999.ebuild, +files/wine-1.5.30-libwine.patch:
+  Version bump, see http://www.winehq.org/announce/1.5.30 for the announcement
+  (bug #469568). Respect LINGUAS when installing translation resources and man
+  pages (bug #469418, thanks to Roman Žilka).
+
+*wine-1.5.29 (28 Apr 2013)
+
+  28 Apr 2013; Alexandre Rostovtsev <tetromino@gentoo.org> +wine-1.5.29.ebuild:
+  Version bump, see http://www.winehq.org/announce/1.5.29 for the announcement.
+
+*wine-1.5.28 (14 Apr 2013)
+
+  14 Apr 2013; Alexandre Rostovtsev <tetromino@gentoo.org> +wine-1.5.28.ebuild,
+  wine-9999.ebuild:
+  Version bump, see http://www.winehq.org/announce/1.5.28 for the announcement.
+
+*wine-1.5.27 (31 Mar 2013)
+
+  31 Mar 2013; Alexandre Rostovtsev <tetromino@gentoo.org> +wine-1.5.27.ebuild:
+  Version bump, see http://www.winehq.org/announce/1.5.27 for the announcement.
 
 *wine-1.5.26 (18 Mar 2013)
 
