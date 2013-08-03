@@ -1,10 +1,10 @@
 # Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/sci-geosciences/googleearth/googleearth-7.0.3.8542.ebuild,v 1.2 2013/03/02 23:20:37 hwoarang Exp $
+# $Header: /var/cvsroot/gentoo-x86/sci-geosciences/googleearth/googleearth-7.1.1.1580.ebuild,v 1.1 2013/05/19 14:14:09 hasufell Exp $
 
 EAPI=5
 
-inherit pax-utils eutils unpacker fdo-mime versionator gnome2-utils toolchain-funcs user
+inherit pax-utils eutils unpacker fdo-mime gnome2-utils user
 
 DESCRIPTION="A 3D interface to the planet"
 HOMEPAGE="http://earth.google.com/"
@@ -13,51 +13,45 @@ HOMEPAGE="http://earth.google.com/"
 SRC_URI="x86? ( http://dl.google.com/dl/earth/client/current/google-earth-stable_current_i386.deb
 			-> GoogleEarthLinux-${PV}_i386.deb )
 	amd64? ( http://dl.google.com/dl/earth/client/current/google-earth-stable_current_amd64.deb
-			-> GoogleEarthLinux-${PV}_amd64.deb )
-	http://dev.gentoo.org/~hasufell/distfiles/googleearth-libexpat-2.1.0-novisibility.tar.xz"
+			-> GoogleEarthLinux-${PV}_amd64.deb )"
 LICENSE="googleearth GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-RESTRICT="mirror strip"
-IUSE="+system-mdns system-qt"
+RESTRICT="mirror splitdebug"
+IUSE="+bundled-libs"
 
-GCC_NEEDED="4.2"
 QA_PREBUILT="*"
 
-RDEPEND="|| ( >=sys-devel/gcc-${GCC_NEEDED}[cxx] >=sys-devel/gcc-${GCC_NEEDED}[-nocxx] )
-	x86? (
-		media-libs/fontconfig
-		media-libs/freetype
-		virtual/opengl
-		x11-libs/libICE
-		x11-libs/libSM
-		x11-libs/libX11
-		x11-libs/libXi
-		x11-libs/libXext
-		x11-libs/libXrender
-		x11-libs/libXau
-		x11-libs/libXdmcp
-		sys-libs/zlib
-		dev-libs/glib:2
-		system-qt? (
-			>=dev-qt/qtcore-4.5.3:4
-			>=dev-qt/qtgui-4.5.3:4
-			>=dev-qt/qtwebkit-4.5.3:4
-		)
-		net-misc/curl
-		sci-libs/gdal
-		system-mdns? ( sys-auth/nss-mdns )
-	)
-	amd64? (
-		>=app-emulation/emul-linux-x86-xlibs-20081109
-		>=app-emulation/emul-linux-x86-baselibs-20081109
-		app-emulation/emul-linux-x86-opengl
-		system-qt? (
-			>=app-emulation/emul-linux-x86-qtlibs-20091231-r1
-		)
-	)
-	virtual/ttf-fonts"
+# TODO: find a way to unbundle libQt
+# ./googleearth-bin: symbol lookup error: ./libbase.so: undefined symbol: _Z34QBasicAtomicInt_fetchAndAddOrderedPVii
 
+RDEPEND="
+	dev-libs/glib:2
+	dev-libs/nspr
+	media-libs/fontconfig
+	media-libs/freetype
+	net-misc/curl
+	sys-auth/nss-mdns
+	sys-devel/gcc[cxx]
+	sys-libs/zlib
+	virtual/glu
+	virtual/opengl
+	virtual/ttf-fonts
+	x11-libs/libICE
+	x11-libs/libSM
+	x11-libs/libX11
+	x11-libs/libXi
+	x11-libs/libXext
+	x11-libs/libXrender
+	x11-libs/libXau
+	x11-libs/libXdmcp
+	!bundled-libs? (
+		dev-db/sqlite:3
+		dev-libs/expat
+		dev-libs/nss
+		sci-libs/gdal
+		sci-libs/proj
+	)"
 DEPEND="dev-util/patchelf"
 
 S=${WORKDIR}/opt/google/earth/free
@@ -70,14 +64,6 @@ pkg_nofetch() {
 }
 
 pkg_setup() {
-	GCC_VER="$(gcc-version)"
-	if ! version_is_at_least ${GCC_NEEDED} ${GCC_VER}; then
-		ewarn "${PN} needs libraries from gcc-${GCC_NEEDED} or higher to run"
-		ewarn "Your active gcc version is only ${GCC_VER}"
-		ewarn "Please consult the GCC upgrade guide to set a higher version:"
-		ewarn "http://www.gentoo.org/doc/en/gcc-upgrading.xml"
-	fi
-
 	enewgroup earth
 }
 
@@ -85,32 +71,32 @@ src_unpack() {
 	# default src_unpack fails with deb2targz installed, also this unpacks the data.tar.lzma as well
 	unpack_deb GoogleEarthLinux-${PV}_$(usex amd64 "amd64" "i386").deb
 
-	cd opt/google/earth/free || die
-
-	unpack googleearth-libexpat-2.1.0-novisibility.tar.xz
-
-	if use system-qt; then
-		rm -v libQt{Core,Gui,Network,WebKit}.so.4 qt.conf || die
-		rm -rv plugins/imageformats || die
-	fi
-	rm -v libcurl.so.4 || die
-	if use system-mdns; then
-		rm -v libnss_mdns4_minimal.so.2 || die
-	fi
-
-	if use x86; then
-		# no 32 bit libs for gdal
+	if ! use bundled-libs ; then
+		einfo "removing bundled libs"
+		cd opt/google/earth/free || die
+		# sci-libs/gdal
 		rm -v libgdal.so.1 || die
+		# dev-db/sqlite
+		rm -v libsqlite3.so || die
+		# dev-libs/nss
+		rm -v libplc4.so libplds4.so libnspr4.so libnssckbi.so libfreebl3.so \
+			libnssdbm3.so libnss3.so libnssutil3.so libsmime3.so libnsssysinit.so \
+			libsoftokn3.so libssl3.so || die
+		# dev-libs/expat
+		rm -v libexpat.so.1 || die
+		# sci-libs/proj
+		rm -v libproj.so.0 || die
+		# dev-qt/qtcore:4 dev-qt/qtgui:4 dev-qt/qtwebkit:4
+#		rm -v libQt{Core,Gui,Network,WebKit}.so.4 || die
+#		rm -rv plugins/imageformats || die
 	fi
 }
 
 src_prepare() {
-	# bug #262780 is hopefully now solved upstream
-#	epatch "${FILESDIR}/decimal-separator.patch"
-
 	# we have no ld-lsb.so.3 symlink
 	# thanks to Nathan Phillip Brink <ohnobinki@ohnopublishing.net> for suggesting patchelf
-	patchelf --set-interpreter /lib/ld-linux.so.2 ${PN}-bin || die "patchelf failed"
+	einfo "running patchelf"
+	patchelf --set-interpreter /lib/ld-linux$(usex amd64 "-x86-64" "").so.2 ${PN}-bin || die "patchelf failed"
 
 	# Set RPATH for preserve-libs handling (bug #265372).
 	local x
@@ -132,12 +118,6 @@ src_prepare() {
 src_install() {
 	make_wrapper ${PN} ./${PN} /opt/${PN} .
 
-	# install binaries and remove them
-	binaries="${PN} ${PN}-bin *.so *.so.*"
-	exeinto /opt/${PN}
-	doexe ${binaries}
-	rm ${binaries} || die
-
 	insinto /usr/share/mime/packages
 	doins "${FILESDIR}/${PN}-mimetypes.xml" || die
 
@@ -147,13 +127,14 @@ src_install() {
 		newicon -s ${size} product_logo_${size}.png google-earth.png
 	done
 
-	rm -r product_logo_* xdg-mime xdg-settings google-earth google-earth.desktop || die
+	rm -rf xdg-mime xdg-settings google-earth google-earth.desktop product_logo_*
 
-	# just copy everything that's left
-	cp -pPR * "${ED}"/opt/${PN} || die
+	insinto /opt/${PN}
+	doins -r *
 
-	# some files are executable and shouldn't
-	fperms -R a-x,a+X /opt/googleearth/resources
+	fperms +x /opt/${PN}/${PN}{,-bin}
+	cd "${ED}" || die
+	find . -type f -name "*.so.*" -exec fperms +x '{}' +
 
 	# for all bins and libs disable world access and group write access
 	# only users from earth group may be able to use it
@@ -161,7 +142,7 @@ src_install() {
 	fowners :earth ${filelist} || die "chown failed"
 	fperms -R o-rwx,g-w ${filelist} || die "chmod failed"
 
-	pax-mark -m "${ED}/opt/googleearth/googleearth-bin"
+	pax-mark -m "${ED%/}"/opt/${PN}/${PN}-bin
 }
 
 pkg_preinst() {
@@ -169,9 +150,6 @@ pkg_preinst() {
 }
 
 pkg_postinst() {
-	elog "The system-qt flag is disabled by default due to crashes on startup with system Qt."
-	elog "Do not report bugs if you attempt to enable this masked flag."
-	elog ""
 	elog "When you get a crash starting Google Earth, try adding a file ~./config/Google/GoogleEarthPlus.conf"
 	elog "the following options:"
 	elog "lastTip = 4"
