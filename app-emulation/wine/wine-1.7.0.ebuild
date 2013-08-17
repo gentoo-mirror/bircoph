@@ -1,6 +1,6 @@
 # Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/app-emulation/wine/wine-1.6_rc4.ebuild,v 1.1 2013/06/30 02:27:50 tetromino Exp $
+# $Header: /var/cvsroot/gentoo-x86/app-emulation/wine/wine-1.7.0.ebuild,v 1.2 2013/08/05 09:31:06 ssuominen Exp $
 
 EAPI="5"
 
@@ -8,7 +8,7 @@ AUTOTOOLS_AUTORECONF=1
 PLOCALES="ar bg ca cs da de el en en_US eo es fa fi fr he hi hr hu it ja ko lt ml nb_NO nl or pa pl pt_BR pt_PT rm ro ru sk sl sr_RS@cyrillic sr_RS@latin sv te th tr uk wa zh_CN zh_TW"
 PLOCALE_BACKUP="en"
 
-inherit autotools-multilib eutils fdo-mime flag-o-matic gnome2-utils l10n multilib pax-utils toolchain-funcs user virtualx
+inherit autotools-multilib eutils fdo-mime flag-o-matic gnome2-utils l10n multilib pax-utils toolchain-funcs virtualx user
 
 if [[ ${PV} == "9999" ]] ; then
 	EGIT_REPO_URI="git://source.winehq.org/git/wine.git"
@@ -24,7 +24,7 @@ fi
 
 GV="2.21"
 MV="0.0.8"
-PULSE_PATCHES="winepulse-patches-1.6-rc1"
+PULSE_PATCHES="winepulse-patches-1.7.0"
 WINE_GENTOO="wine-gentoo-2013.06.24"
 DESCRIPTION="Free implementation of Windows(tm) on Unix"
 HOMEPAGE="http://www.winehq.org/"
@@ -39,7 +39,7 @@ SRC_URI="${SRC_URI}
 
 LICENSE="LGPL-2.1"
 SLOT="0"
-IUSE="+abi_x86_32 +abi_x86_64 +alsa capi cups custom-cflags elibc_glibc +fontconfig +gecko gphoto2 gsm gstreamer +jpeg lcms ldap +mono mp3 ncurses nls odbc openal opencl +opengl osmesa oss +perl +png +prelink +run-exes samba scanner selinux +ssl test +threads +truetype +udisks v4l +X xcomposite xinerama +xml"
+IUSE="+abi_x86_32 +abi_x86_64 +alsa capi cups custom-cflags dos elibc_glibc +fontconfig +gecko gphoto2 gsm gstreamer +jpeg lcms ldap +mono mp3 ncurses nls odbc openal opencl +opengl osmesa oss +perl +png +prelink +run-exes samba scanner selinux +ssl test +threads +truetype +udisks v4l +X xcomposite xinerama +xml"
 [[ ${PV} == "9999" ]] || IUSE="${IUSE} pulseaudio"
 REQUIRED_USE="|| ( abi_x86_32 abi_x86_64 )
 	test? ( abi_x86_32 )
@@ -51,17 +51,14 @@ REQUIRED_USE="|| ( abi_x86_32 abi_x86_64 )
 # or fail due to Xvfb's opengl limitations.
 RESTRICT="test"
 
-RDEPEND="truetype? ( >=media-libs/freetype-2.0.0 media-fonts/corefonts )
-	perl? ( dev-lang/perl dev-perl/XML-Simple )
+NATIVE_DEPEND="
+	truetype? ( >=media-libs/freetype-2.0.0  )
 	capi? ( net-dialup/capi4k-utils )
 	ncurses? ( >=sys-libs/ncurses-5.2:= )
+	udisks? ( sys-apps/dbus )
 	fontconfig? ( media-libs/fontconfig:= )
 	gphoto2? ( media-libs/libgphoto2:= )
 	openal? ( media-libs/openal:= )
-	udisks? (
-		sys-apps/dbus
-		sys-fs/udisks:2
-	)
 	gstreamer? ( media-libs/gstreamer:0.10 media-libs/gst-plugins-base:0.10 )
 	X? (
 		x11-libs/libXcursor
@@ -80,22 +77,26 @@ RDEPEND="truetype? ( >=media-libs/freetype-2.0.0 media-fonts/corefonts )
 		virtual/opengl
 	)
 	gsm? ( media-sound/gsm:= )
-	jpeg? ( virtual/jpeg:= )
+	jpeg? ( virtual/jpeg:0= )
 	ldap? ( net-nds/openldap:= )
-	lcms? ( media-libs/lcms:0= )
+	lcms? ( media-libs/lcms:2= )
 	mp3? ( >=media-sound/mpg123-1.5.0 )
 	nls? ( sys-devel/gettext )
 	odbc? ( dev-db/unixODBC:= )
 	osmesa? ( media-libs/mesa[osmesa] )
-	samba? ( >=net-fs/samba-3.0.25 )
-	selinux? ( sec-policy/selinux-wine )
 	xml? ( dev-libs/libxml2 dev-libs/libxslt )
 	scanner? ( media-gfx/sane-backends:= )
 	ssl? ( net-libs/gnutls:= )
 	png? ( media-libs/libpng:0= )
 	v4l? ( media-libs/libv4l )
-	xcomposite? ( x11-libs/libXcomposite )
+	xcomposite? ( x11-libs/libXcomposite )"
+[[ ${PV} == "9999" ]] || NATIVE_DEPEND="${NATIVE_DEPEND}
+	pulseaudio? ( media-sound/pulseaudio )"
+
+COMMON_DEPEND="
+	!amd64? ( ${NATIVE_DEPEND} )
 	amd64? (
+		abi_x86_64? ( ${NATIVE_DEPEND} )
 		abi_x86_32? (
 			gstreamer? (
 				app-emulation/emul-linux-x86-gstplugins
@@ -114,15 +115,20 @@ RDEPEND="truetype? ( >=media-libs/freetype-2.0.0 media-fonts/corefonts )
 			scanner? ( app-emulation/emul-linux-x86-medialibs[development] )
 			v4l? ( app-emulation/emul-linux-x86-medialibs[development] )
 			>=app-emulation/emul-linux-x86-baselibs-20130224[development]
-			>=sys-kernel/linux-headers-2.6
 		)
 	)"
+
+RDEPEND="${COMMON_DEPEND}
+	dos? ( games-emulation/dosbox )
+	perl? ( dev-lang/perl dev-perl/XML-Simple )
+	samba? ( >=net-fs/samba-3.0.25 )
+	selinux? ( sec-policy/selinux-wine )
+	truetype? ( media-fonts/corefonts )
+	udisks? ( sys-fs/udisks:2 )"
 [[ ${PV} == "9999" ]] || RDEPEND="${RDEPEND}
-	pulseaudio? (
-		media-sound/pulseaudio
-		sys-auth/rtkit
-	)"
-DEPEND="${RDEPEND}
+	pulseaudio? ( sys-auth/rtkit )"
+
+DEPEND="${COMMON_DEPEND}
 	X? (
 		x11-proto/inputproto
 		x11-proto/xextproto
@@ -130,6 +136,7 @@ DEPEND="${RDEPEND}
 	)
 	xinerama? ( x11-proto/xineramaproto )
 	prelink? ( sys-devel/prelink )
+	>=sys-kernel/linux-headers-2.6
 	virtual/pkgconfig
 	virtual/yacc
 	sys-devel/flex"
@@ -143,7 +150,6 @@ usr/share/applications/wine-winecfg.desktop"
 
 pkg_setup() {
 	enewgroup wine
-
 	if use abi_x86_64; then
 		[[ $(( $(gcc-major-version) * 100 + $(gcc-minor-version) )) -lt 404 ]] \
 			&& die "you need gcc-4.4+ to build 64bit wine"
@@ -166,6 +172,12 @@ src_unpack() {
 	unpack "${WINE_GENTOO}.tar.bz2"
 
 	l10n_find_plocales_changes "${S}/po" "" ".po"
+
+	# for all bins and libs disable world access and group write access
+	# only users from wine group may be able to use it
+	local filelist=$( find "${D}"/usr/{bin,lib} -type f | gawk -v path="${D}" '{ gsub("^"path,""); print $0 }')
+	fowners :wine ${filelist}
+	fperms -R o-rwx,g-w ${filelist}
 }
 
 src_prepare() {
@@ -282,6 +294,11 @@ src_test() {
 
 src_install() {
 	local DOCS=( ANNOUNCE AUTHORS README )
+	add_locale_docs() {
+		local locale_doc="documentation/README.$1"
+		[[ ! -e ${locale_doc} ]] || DOCS=( "${DOCS[@]}" ${locale_doc} )
+	}
+	l10n_for_each_locale_do add_locale_docs
 	autotools-multilib_src_install
 
 	emake -C "../${WINE_GENTOO}" install DESTDIR="${D}" EPREFIX="${EPREFIX}"
@@ -310,12 +327,6 @@ src_install() {
 	for l in de fr pl; do
 		use linguas_${l} || rm -r "${D}"usr/share/man/${l}*
 	done
-
-	# for all bins and libs disable world access and group write access
-	# only users from wine group may be able to use it
-	local filelist=$( find "${D}"/usr/{bin,lib} -type f | gawk -v path="${D}" '{ gsub("^"path,""); print $0 }')
-	fowners :wine ${filelist}
-	fperms -R o-rwx,g-w ${filelist}
 }
 
 pkg_preinst() {
