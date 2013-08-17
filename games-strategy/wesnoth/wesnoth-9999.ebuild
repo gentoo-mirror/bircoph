@@ -17,17 +17,17 @@ IUSE="dbus dedicated doc nls server"
 
 RDEPEND=">=media-libs/libsdl-1.2.7[joystick,video,X]
 	media-libs/sdl-net
-	>=media-libs/sdl-ttf-2.0.8
-	>=media-libs/sdl-mixer-1.2[vorbis]
-	>=media-libs/sdl-image-1.2[jpeg,png]
 	!dedicated? (
+		>=media-libs/sdl-ttf-2.0.8
+		>=media-libs/sdl-mixer-1.2[vorbis]
+		>=media-libs/sdl-image-1.2[jpeg,png]
 		dbus? ( sys-apps/dbus )
+		sys-libs/zlib
+		x11-libs/pango
+		dev-lang/lua
+		media-libs/fontconfig
 	)
 	>=dev-libs/boost-1.36
-	sys-libs/zlib
-	x11-libs/pango
-	dev-lang/lua
-	media-libs/fontconfig
 	virtual/libintl"
 DEPEND="${RDEPEND}
 	virtual/pkgconfig
