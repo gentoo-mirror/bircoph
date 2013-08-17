@@ -172,12 +172,6 @@ src_unpack() {
 	unpack "${WINE_GENTOO}.tar.bz2"
 
 	l10n_find_plocales_changes "${S}/po" "" ".po"
-
-	# for all bins and libs disable world access and group write access
-	# only users from wine group may be able to use it
-	local filelist=$( find "${D}"/usr/{bin,lib} -type f | gawk -v path="${D}" '{ gsub("^"path,""); print $0 }')
-	fowners :wine ${filelist}
-	fperms -R o-rwx,g-w ${filelist}
 }
 
 src_prepare() {
@@ -327,6 +321,12 @@ src_install() {
 	for l in de fr pl; do
 		use linguas_${l} || rm -r "${D}"usr/share/man/${l}*
 	done
+
+	# for all bins and libs disable world access and group write access
+	# only users from wine group may be able to use it
+	local filelist=$( find "${D}"/usr/{bin,lib} -type f | gawk -v path="${D}" '{ gsub("^"path,""); print $0 }')
+	fowners :wine ${filelist}
+	fperms -R o-rwx,g-w ${filelist}
 }
 
 pkg_preinst() {
