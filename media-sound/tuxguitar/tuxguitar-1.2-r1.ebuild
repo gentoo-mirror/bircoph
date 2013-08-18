@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /home/robert/ebuilds/tuxguitar-1.2-r1.ebuild,v 1.2 2009/11/13 16:12:45 robert Exp $
 
-EAPI="2"
+EAPI="5"
 JAVA_PKG_IUSE="source"
 
 inherit eutils java-pkg-2 java-ant-2 toolchain-funcs flag-o-matic fdo-mime gnome2-utils
@@ -61,16 +61,16 @@ src_install() {
 		--java_args "-Xms128m -Xmx128m  -Dtuxguitar.share.path=/usr/share/${PN}/lib/share"
 	# Images and Files
 	insinto /usr/share/${PN}/lib
-	doins -r share || die "doins failed"
+	doins -r share
 	java-pkg_sointo /usr/share/${PN}/lib/lib
 	for plugin in $(list_plugins); do
 		plugin_install $plugin
 	done
-	doman "${S}/misc/${PN}.1" || die "doman failed"
+	doman "${S}/misc/${PN}.1"
 	insinto /usr/share/mime/packages
 	doins "${S}/misc/${PN}.xml"
-	doicon "${S}/misc/${PN}.xpm" || die "doicon failed"
-	domenu "${S}/misc/${PN}.desktop" || die "domenu failed"
+	doicon "${S}/misc/${PN}.xpm"
+	domenu "${S}/misc/${PN}.desktop"
 }
 
 plugin_compile() {
@@ -79,7 +79,7 @@ plugin_compile() {
 	if [[ -d jni ]]; then
 		append-flags $(java-pkg_get-jni-cflags)
 		cd jni || die "\"cd jni\" failed"
-		CC=$(tc-getCC) emake || die "emake failed"
+		CC=$(tc-getCC) emake
 	fi
 }
 
@@ -88,7 +88,7 @@ plugin_install() {
 	local TUXGUITAR_INST_PATH=/usr/share/${PN}/lib
 	local BINARY_NAME=tuxguitar-${1}
 	insinto ${TUXGUITAR_INST_PATH}/share/plugins
-	doins ${BINARY_NAME}.jar || die "doins ${BINARY_NAME}.jar failed"
+	doins ${BINARY_NAME}.jar
 	#TuxGuitar has its own classloader. No need to register the plugins.
 	if [[ -d jni ]]; then
 		java-pkg_doso jni/lib${BINARY_NAME}-jni.so

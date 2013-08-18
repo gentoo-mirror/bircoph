@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI=2
+EAPI=5
 
 inherit eutils
 
@@ -19,10 +19,6 @@ RDEPEND=${DEPEND}
 
 src_prepare() {
 	epatch "${FILESDIR}"/${PN}-Makefile.diff
-}
-
-src_compile() {
-	emake || die "emake failed"
 }
 
 src_install() {

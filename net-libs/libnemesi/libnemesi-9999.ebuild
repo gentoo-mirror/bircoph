@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/net-libs/libnemesi/libnemesi-0.6.ebuild,v 1.1 2009/10/27 12:45:51 ssuominen Exp $
 
-EAPI=2
+EAPI=5
 inherit autotools git-2 multilib
 
 DESCRIPTION="a RTSP/RTP client library"
@@ -28,10 +28,4 @@ src_configure() {
 		$(use_enable examples) \
 		--disable-static \
 		--disable-dependency-tracking
-}
-
-src_install() {
-	emake DESTDIR="${D}" install || die
-	dodoc AUTHORS ChangeLog CodingStyle README TODO
-	find "${D}"usr/$(get_libdir) -name '*.la' -delete
 }

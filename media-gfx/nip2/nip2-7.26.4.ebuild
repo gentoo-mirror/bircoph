@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/media-gfx/nip2/nip2-7.26.4.ebuild,v 1.3 2012/04/05 03:33:33 jdhore Exp $
 
-EAPI=2
+EAPI=5
 inherit eutils autotools fdo-mime gnome2-utils versionator
 
 MY_MAJ_VER=$(get_version_component_range 1-2)
@@ -52,13 +52,13 @@ src_test() {
 }
 
 src_install() {
-	emake DESTDIR="${D}" install || die
-	dodoc AUTHORS ChangeLog NEWS README* || die
+	emake DESTDIR="${D}" install
+	dodoc AUTHORS ChangeLog NEWS README*
 	insinto /usr/share/icons/hicolor/128x128/apps
-	newins share/nip2/data/vips-128.png nip2.png || die
+	newins share/nip2/data/vips-128.png nip2.png
 
-	mv "${D}"/usr/share/doc/${PN}/* "${D}"/usr/share/doc/${PF} || die
-	rmdir "${D}"/usr/share/doc/${PN}/ || die
+	mv "${D}"/usr/share/doc/${PN}/* "${D}"/usr/share/doc/${PF}
+	rmdir "${D}"/usr/share/doc/${PN}/
 	dosym /usr/share/doc/${PF}/html /usr/share/doc/${PN}/
 }
 
