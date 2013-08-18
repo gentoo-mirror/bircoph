@@ -2,11 +2,10 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/net-libs/libnemesi/libnemesi-0.6.ebuild,v 1.1 2009/10/27 12:45:51 ssuominen Exp $
 
-EAPI=4
+EAPI=5
 
-inherit git-2 python
-
-PYTHON_DEPEND="2"
+PYTHON_COMPAT=( python{2_6,2_7} )
+inherit git-2 python-r1
 
 DESCRIPTION="Ren'Py's RPA data file extractor"
 HOMEPAGE="https://github.com/Lattyware/unrpa"
