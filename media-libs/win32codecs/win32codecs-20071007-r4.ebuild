@@ -2,6 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/media-libs/win32codecs/win32codecs-20071007-r4.ebuild,v 1.4 2010/01/08 06:47:49 abcd Exp $
 
+EAPI=5
+
 inherit multilib
 
 DESCRIPTION="Windows 32-bit binary codecs for video and audio playback support"
@@ -9,7 +11,7 @@ SRC_URI="mirror://mplayer/releases/codecs/all-${PV}.tar.bz2"
 HOMEPAGE="http://www.mplayerhq.hu/"
 LICENSE="HPND"
 SLOT="0"
-KEYWORDS="-* ~amd64 ~amd64-fbsd x86 ~x86-fbsd ~x86-freebsd ~x86-linux"
+KEYWORDS="~amd64 x86"
 IUSE="real"
 
 RDEPEND="real? ( =virtual/libstdc++-3.3* )"
@@ -29,21 +31,21 @@ src_install() {
 	use prefix || EPREFIX=
 
 	insinto /usr/$(get_libdir)/win32
-	doins *.dll *.ax *.xa *.acm *.vwp *.drv *.DLL *.qtx *.qts || die "Failed to install win32 codecs"
+	doins *.dll *.ax *.xa *.acm *.vwp *.drv *.DLL *.qtx *.qts
 
 	if use real
 	then
 		insinto /usr/$(get_libdir)/real
-		doins *so.6.0 || die "Failed to install realplayer codecs"
+		doins *so.6.0
 
 		# copy newly introduced codecs from realplayer10
 		# see the ChangeLog online
-		doins *.so || die "Failed to install realplayer10 codecs"
+		doins *.so
 
 		# fix bug #80321
 		local x
 		for x in *so.6.0 *.so; do
-			dosym ../real/$x /usr/$(get_libdir)/win32 || die "Failed to make symlink to $x"
+			dosym ../real/$x /usr/$(get_libdir)/win32
 		done
 	fi
 
