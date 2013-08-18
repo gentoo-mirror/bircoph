@@ -14,9 +14,7 @@ IUSE="ipv6"
 DEPEND="virtual/libc"
 RDEPEND=${DEPEND}
 
-src_unpack() {
-	unpack ${A}
-	cd "${S}"
+src_prepare() {
 	sed -i -e "s:CFLAGS=:CFLAGS+=:" Makefile
 	sed -i -e "s:-o prtunnel:\$\(LDFLAGS\) -o prtunnel:" Makefile
 	use ipv6 || {

@@ -15,9 +15,7 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
 
-src_unpack() {
-	unpack ${A}
-	cd "${S}"
+src_prepare() {
 	epatch "${FILESDIR}"/${P}-build.patch #246734
 	epatch "${FILESDIR}"/${P}-c-cleanup.patch
 	# slight makefile cleanup
@@ -26,10 +24,6 @@ src_unpack() {
 		-e '/^CFLAGS/s,-O2,-Wall -W -Wextra -Wundef -Wendif-labels -Wshadow -Wpointer-arith -Wbad-function-cast -Wcast-qual -Wcast-align -Wwrite-strings -Wconversion -Wsign-compare -Waggregate-return -Wstrict-prototypes -Wredundant-decls -Wunreachable-code -Wlong-long,' \
 		-e '/rm cancd cancd.o/s,rm,rm -f,' \
 		Makefile || die
-}
-
-src_compile() {
-	emake cancd
 }
 
 src_install() {
