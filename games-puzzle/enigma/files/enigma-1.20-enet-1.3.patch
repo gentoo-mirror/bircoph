@@ -1,0 +1,49 @@
+diff -Naurd enigma-1.20.orig/src/client.cc enigma-1.20/src/client.cc
+--- enigma-1.20.orig/src/client.cc	2013-04-01 22:34:01.000000000 +0400
++++ enigma-1.20/src/client.cc	2013-08-18 17:47:02.557896508 +0400
+@@ -144,6 +144,7 @@
+ 
+     m_network_host = enet_host_create (NULL,
+                                        1 /* only allow 1 outgoing connection */,
++                                       2 /* 2 channels are sufficient */,
+                                        57600 / 8 /* 56K modem with 56 Kbps downstream bandwidth */,
+                                        14400 / 8 /* 56K modem with 14 Kbps upstream bandwidth */);
+ 
+@@ -164,7 +165,7 @@
+     sv_address.port = 12345;
+ 
+     /* Initiate the connection, allocating the two channels 0 and 1. */
+-    m_server = enet_host_connect (m_network_host, &sv_address, 2);
++    m_server = enet_host_connect (m_network_host, &sv_address, 2, 57600);
+ 
+     if (m_server == NULL) {
+        fprintf (stderr,
+diff -Naurd enigma-1.20.orig/src/netgame.cc enigma-1.20/src/netgame.cc
+--- enigma-1.20.orig/src/netgame.cc	2013-04-01 22:34:32.000000000 +0400
++++ enigma-1.20/src/netgame.cc	2013-08-18 17:49:07.432897804 +0400
+@@ -155,7 +155,7 @@
+     network_address.host = ENET_HOST_ANY;
+     network_address.port = 12345;
+ 
+-    network_host = enet_host_create (&network_address, 1, 0, 0);
++    network_host = enet_host_create (&network_address, 1, 0, 0, 0);
+     if (network_host == NULL) {
+         fprintf (stderr, 
+                  "SV: An error occurred while trying to create an ENet server host.\n");
+@@ -240,6 +240,7 @@
+     ENetHost *m_network_host;
+     m_network_host = enet_host_create (NULL,
+                                        1 /* only allow 1 outgoing connection */,
++                                       2 /* 2 channels are sufficient */,
+                                        57600 / 8 /* 56K modem with 56 Kbps downstream bandwidth */,
+                                        14400 / 8 /* 56K modem with 14 Kbps upstream bandwidth */);
+ 
+@@ -260,7 +261,7 @@
+ 
+     /* Initiate the connection, allocating the two channels 0 and 1. */
+     int numchannels = 2;
+-    m_server = enet_host_connect (m_network_host, &sv_address, numchannels);
++    m_server = enet_host_connect (m_network_host, &sv_address, numchannels, 57600);
+     
+     if (m_server == NULL) {
+         fprintf (stderr, 
