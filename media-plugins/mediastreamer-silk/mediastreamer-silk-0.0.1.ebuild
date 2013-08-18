@@ -14,7 +14,7 @@ HOMEPAGE="http://www.linphone.org"
 SRC_URI="mirror://nongnu/linphone/plugins/sources/${MY_PN}-${PV}.tar.gz
 http://developer.skype.com/silk/${SDK_FILE}"
 
-LICENSE="GPL-3 as-is"
+LICENSE="GPL-3 SILK-patent-license"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="bindist"
