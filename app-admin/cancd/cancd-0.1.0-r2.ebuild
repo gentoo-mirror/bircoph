@@ -2,6 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/app-admin/cancd/cancd-0.1.0-r2.ebuild,v 1.1 2011/12/31 15:42:32 idl0r Exp $
 
+EAPI=5
+
 inherit eutils
 
 DESCRIPTION="the CA NetConsole Daemon, a daemon to receive output from the Linux netconsole driver"
@@ -27,11 +29,11 @@ src_unpack() {
 }
 
 src_compile() {
-	emake cancd || die "emake failed"
+	emake cancd
 }
 
 src_install() {
-	dosbin cancd || die "dosbin failed"
+	dosbin cancd
 	newinitd "${FILESDIR}"/cancd-init.d cancd
 	newconfd "${FILESDIR}"/cancd-conf.d cancd
 	newinitd "${FILESDIR}"/netconsole-init.d netconsole

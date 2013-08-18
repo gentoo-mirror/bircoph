@@ -2,6 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
+EAPI=5
+
 DESCRIPTION="System error description utility"
 HOMEPAGE="http://strerror.sourceforge.net/"
 SRC_URI="mirror://sourceforge/strerror/${P}.tar.bz2"
@@ -13,12 +15,6 @@ IUSE=""
 DEPEND=">=sys-devel/binutils-2.18"
 RDEPEND=""
 
-src_compile() {
-	econf --disable-strip --enable-cflags \
-		|| die "econf failed"
-	emake || die "emake failed"
-}
-
-src_install() {
-	emake DESTDIR="${D}" install || die "emake install failed"
+src_configure() {
+	econf --disable-strip --enable-cflags
 }

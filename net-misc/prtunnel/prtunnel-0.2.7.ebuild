@@ -2,6 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
+EAPI=5
+
 DESCRIPTION="Tunnels TCP/IP connections in a variety of ways, including through HTTP and SOCKS5 proxy servers"
 HOMEPAGE="http://joshbeam.com/software/prtunnel.php"
 SRC_URI="http://joshbeam.com/files/${P}.tar.gz"
@@ -22,10 +24,6 @@ src_unpack() {
 		sed -i -e "s|direct6\.o:.*||" Makefile
 		sed -i -e "s|direct6.o ||" Makefile
 	}
-}
-
-src_compile() {
-	emake || die "emake failed"
 }
 
 src_install() {
