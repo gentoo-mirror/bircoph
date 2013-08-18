@@ -2,10 +2,10 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI="3"
-SUPPORT_PYTHON_ABIS="1"
+EAPI="5"
 
-inherit distutils eutils
+PYTHON_COMPAT=( python{2_6,2_7,3_2,3_3} )
+inherit distutils-r1 eutils
 
 DESCRIPTION="Program to translate DNS information in BIND format to NSD format"
 HOMEPAGE="http://bind2nsd.sourceforge.net"
