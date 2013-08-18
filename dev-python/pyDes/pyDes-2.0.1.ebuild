@@ -2,10 +2,10 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI="3"
-SUPPORT_PYTHON_ABIS="1"
+EAPI="5"
 
-inherit distutils
+PYTHON_COMPAT=( python{2_6,2_7,3_2,3_3} )
+inherit distutils-r1
 
 DESCRIPTION="Python implementation of DES an Triple-DES algorithms"
 HOMEPAGE="http://twhiteman.netfirms.com/des.html"
