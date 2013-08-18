@@ -2,10 +2,10 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/sys-devel/distcc/distcc-3.2_rc1.ebuild,v 1.5 2013/02/12 09:09:20 armin76 Exp $
 
-EAPI="4"
-PYTHON_DEPEND="2:2.5"
+EAPI="5"
+PYTHON_COMPAT=( python{2_6,2_7} )
 
-inherit autotools eutils fdo-mime flag-o-matic multilib python toolchain-funcs user
+inherit autotools eutils fdo-mime flag-o-matic multilib python-r1 toolchain-funcs user
 
 MY_P="${P/_}"
 DESCRIPTION="a program to distribute compilation of C code across several machines on a network"
