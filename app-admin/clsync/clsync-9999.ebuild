@@ -34,7 +34,9 @@ src_compile() {
 }
 
 src_install() {
-	use examples || export EXAMPLES=""
-	emake COMPRESS_MAN="no" STRIP_BINARY="no" DESTDIR="${D}" install
-	use doc && dohtml -r doc/html
+	EXAMPLES="" COMPRESS_MAN="no" STRIP_BINARY="no" \
+	emake DESTDIR="${D}" install
+	dodoc CONTRIB DEVELOPING README.md
+	use doc && dohtml -r doc/html/*
+	use examples && dodoc -r examples
 }
