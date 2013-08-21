@@ -54,6 +54,6 @@ src_install() {
 	emake DESTDIR="${D}" install
 	use doc && dohtml -r doc/html/*
 	# remove unwanted docs
-	rm "${ED}/usr/share/doc/${PF}/{LICENSE,TODO}" || die
+	rm "${ED}/usr/share/doc/${PF}"/{LICENSE,TODO} || die
 	use examples || rm -r "${ED}/usr/share/doc/${PF}/examples" || die
 }
