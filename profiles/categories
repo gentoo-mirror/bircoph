@@ -1,6 +1,7 @@
 app-admin
 app-arch
 app-emulation
+app-portage
 app-text
 app-vim
 dev-db
