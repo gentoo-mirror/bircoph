@@ -20,7 +20,9 @@ DESCRIPTION="Live sync tool based on inotify, written in GNU C"
 HOMEPAGE="http://ut.mephi.ru/oss"
 LICENSE="GPL-3"
 SLOT="0"
-IUSE="debug doc examples hardened"
+IUSE="debug doc +examples extra-hardened hardened"
+REQUIRED_USE="
+	extra-hardened? ( hardened )"
 
 RDEPEND="dev-libs/glib:2"
 DEPEND="${RDEPEND}
@@ -33,7 +35,13 @@ src_prepare() {
 }
 
 src_configure() {
+	local harden_level=0
+	use hardened && harden_level=1
+	use extra-hardened && harden_level=2
+
 	econf \
+		--docdir="${EPREFIX}/usr/share/doc/${PF}" \
+		--enable-paranoid=${harden_level} \
 		$(use_enable debug)
 }
 
@@ -44,7 +52,8 @@ src_compile() {
 
 src_install() {
 	emake DESTDIR="${D}" install
-	dodoc CONTRIB DEVELOPING README.md
 	use doc && dohtml -r doc/html/*
-	#use examples || rm -r "${ED}/usr/share/doc/${PF}/examples" || die
+	# remove unwanted docs
+	rm "${ED}/usr/share/doc/${PF}/{LICENSE,TODO}" || die
+	use examples || rm -r "${ED}/usr/share/doc/${PF}/examples" || die
 }
