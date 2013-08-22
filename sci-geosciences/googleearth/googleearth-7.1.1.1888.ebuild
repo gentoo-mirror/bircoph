@@ -106,13 +106,18 @@ src_prepare() {
 		patchelf --set-rpath '$ORIGIN' "${x}" ||
 			die "patchelf failed on ${x}"
 	done
+	for x in plugins/*.so ; do
+		[[ -f ${x} ]] || continue
+		patchelf --set-rpath '$ORIGIN/..' "${x}" ||
+			die "patchelf failed on ${x}"
+	done
 	for x in plugins/imageformats/*.so ; do
 		[[ -f ${x} ]] || continue
-		patchelf --set-rpath /opt/${PN} "${x}" ||
+		patchelf --set-rpath '$ORIGIN/../..' "${x}" ||
 			die "patchelf failed on ${x}"
 	done
 
-	epatch "${FILESDIR}"/${P}-desktopfile.patch
+	epatch "${FILESDIR}"/${PN}-${PV%.*}.1871-desktopfile.patch
 }
 
 src_install() {
