@@ -1,0 +1,30 @@
+--- src/org/eclipse/swt/internal/gtk/OS.java.orig	2012-02-08 13:42:04.000000000 +0400
++++ src/org/eclipse/swt/internal/gtk/OS.java	2013-08-25 00:30:25.831823393 +0400
+@@ -2113,6 +2113,16 @@
+ 	}
+ }
+ /** @method flags=dynamic */
++public static final native int /*long*/ _g_file_new_for_commandline_arg(byte[] fileName);
++public static final int /*long*/ g_file_new_for_commandline_arg(byte[] fileName) {
++	lock.lock();
++	try {
++		return _g_file_new_for_commandline_arg(fileName);
++	} finally {
++		lock.unlock();
++	}
++}
++/** @method flags=dynamic */
+ public static final native int /*long*/ _g_file_new_for_uri(byte[] fileName);
+ public static final int /*long*/ g_file_new_for_uri(byte[] fileName) {
+ 	lock.lock();
+--- src/org/eclipse/swt/program/Program.java.orig	2012-02-08 13:42:04.000000000 +0400
++++ src/org/eclipse/swt/program/Program.java	2013-08-25 00:28:53.133421459 +0400
+@@ -954,7 +954,7 @@
+ static boolean gio_launch(String fileName) {
+ 	boolean result = false;
+ 	byte[] fileNameBuffer = Converter.wcsToMbcs (null, fileName, true);
+-	int /*long*/ file = OS.g_file_new_for_path (fileNameBuffer);
++	int /*long*/ file = OS.g_file_new_for_commandline_arg (fileNameBuffer);
+ 	if (file != 0) {
+ 		int /*long*/ uri = OS.g_file_get_uri (file);
+ 		if (uri != 0) {

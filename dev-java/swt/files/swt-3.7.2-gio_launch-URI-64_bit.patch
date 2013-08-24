@@ -1,0 +1,30 @@
+--- a/src/org/eclipse/swt/internal/gtk/OS.java
++++ b/src/org/eclipse/swt/internal/gtk/OS.java
+@@ -2113,6 +2113,16 @@ public static final long /*int*/ g_file_new_for_path(byte[] fileName) {
+ 	}
+ }
+ /** @method flags=dynamic */
++public static final native long /*int*/ _g_file_new_for_commandline_arg(byte[] fileName);
++public static final long /*int*/ g_file_new_for_commandline_arg(byte[] fileName) {
++	lock.lock();
++	try {
++		return _g_file_new_for_commandline_arg(fileName);
++	} finally {
++		lock.unlock();
++	}
++}
++/** @method flags=dynamic */
+ public static final native long /*int*/ _g_file_new_for_uri(byte[] fileName);
+ public static final long /*int*/ g_file_new_for_uri(byte[] fileName) {
+ 	lock.lock();
+--- a/src/org/eclipse/swt/program/Program.java
++++ b/src/org/eclipse/swt/program/Program.java
+@@ -954,7 +954,7 @@ static boolean gio_isExecutable(String fileName) {
+ static boolean gio_launch(String fileName) {
+ 	boolean result = false;
+ 	byte[] fileNameBuffer = Converter.wcsToMbcs (null, fileName, true);
+-	long /*int*/ file = OS.g_file_new_for_path (fileNameBuffer);
++	long /*int*/ file = OS.g_file_new_for_commandline_arg (fileNameBuffer);
+ 	if (file != 0) {
+ 		long /*int*/ uri = OS.g_file_get_uri (file);
+ 		if (uri != 0) {
