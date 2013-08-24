@@ -1,0 +1,13 @@
+--- galaxy-2.2/Makefile.orig	2013-08-23 04:31:28.000000000 +0400
++++ galaxy-2.2/Makefile	2013-08-25 02:04:33.729100733 +0400
+@@ -18,8 +18,8 @@
+ MANDIR = $(PREFIX)/share/man/man1
+ MENUFILE = $(PREFIX)/share/applications/kornelix-$(PROGRAM).desktop
+ 
+-CFLAGS = $(CXXFLAGS) -c `pkg-config --cflags gtk+-3.0`
+-LIBS = `pkg-config --libs gtk+-3.0`
++CFLAGS = $(CXXFLAGS) -c `pkg-config --cflags gtk+-3.0` -pthread
++LIBS = `pkg-config --libs gtk+-3.0` -lpthread
+ 
+ $(PROGRAM): $(PROGRAM).o zfuncs.o
+ 	$(CXX) $(LDFLAGS) $(PROGRAM).o zfuncs.o $(LIBS) -o $(PROGRAM)
