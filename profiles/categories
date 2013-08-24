@@ -5,7 +5,6 @@ app-portage
 app-text
 app-vim
 dev-db
-dev-java
 dev-libs
 dev-python
 dev-tex
