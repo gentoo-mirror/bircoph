@@ -11,7 +11,7 @@ SRC_URI="http://freeworld.thc.org/releases/${P}.tar.gz"
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS="amd64 ppc x86"
+KEYWORDS="~amd64 ~ppc ~x86"
 IUSE="firebird gtk idn mysql ncp oracle pcre postgres ssl subversion"
 
 RDEPEND="
@@ -48,7 +48,7 @@ src_prepare() {
 		-e '/ -o /s:$(OPTS):& $(LDFLAGS):g' \
 		Makefile.am || die "sed failed"
 
-	epatch "${FILESDIR}/${P}-preserved-libs.patch"
+	epatch "${FILESDIR}/${PN}-7.4.2-preserved-libs.patch"
 }
 
 src_configure() {
