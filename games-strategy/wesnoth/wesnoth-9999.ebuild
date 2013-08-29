@@ -15,7 +15,7 @@ SLOT="0"
 KEYWORDS=""
 IUSE="dbus dedicated doc nls server"
 
-RDEPEND=">=media-libs/libsdl-1.2.7[joystick,video,X]
+RDEPEND=">=media-libs/libsdl-1.2.7:0[joystick,video,X]
 	media-libs/sdl-net
 	!dedicated? (
 		>=media-libs/sdl-ttf-2.0.8
