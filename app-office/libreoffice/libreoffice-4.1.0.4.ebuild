@@ -523,7 +523,7 @@ src_compile() {
 	local target
 	use test && target="build" || target="build-nocheck"
 	# this is not a proper make script
-	make $target || die
+	make "${target}" || die
 }
 
 src_test() {
