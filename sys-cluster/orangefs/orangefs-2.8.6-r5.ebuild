@@ -181,7 +181,7 @@ src_install() {
 
 	keepdir /var/log/pvfs2
 
-	dodoc AUTHORS CREDITS ChangeLog INSTALL README "${FILESDIR}/README.Gentoo"
+	dodoc AUTHORS CREDITS ChangeLog INSTALL README "${FILESDIR}/README.gentoo"
 
 	if use doc; then
 		dodoc doc/{coding/,}*.{pdf,txt} doc/random/*.pdf \

@@ -2,20 +2,18 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/sys-cluster/pvfs2/Attic/pvfs2-2.7.1-r1.ebuild,v 1.3 2011/07/15 13:57:08 xarthisius dead $
 
-EAPI=4
-inherit autotools linux-info linux-mod toolchain-funcs
+EAPI=5
+inherit autotools linux-info linux-mod readme.gentoo
 
-REV="9510"
 DESCRIPTION="OrangeFS is a branch of PVFS2 cluster filesystem"
 HOMEPAGE="http://www.orangefs.org/"
-SRC_URI="http://orangefs.org/downloads/${PV}/source/${P}.tar.gz
-		 ftp://mirror.mephi.ru/projects/${PN}/${P}-r${REV}.patch.xz"
+SRC_URI="http://orangefs.org/downloads/${PV}/source/${P}.tar.gz"
 
 LICENSE="LGPL-2.1"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="+aio apidocs debug doc examples fuse gtk infiniband kmod-threads memtrace
-+mmap +modules open-mx reset-file-pos secure sendfile +server ssl static
+IUSE="aio apidocs debug doc examples fuse gtk infiniband kmod-threads memtrace
++mmap modules open-mx reset-file-pos secure sendfile +server ssl static
 static-libs +tcp +threads +usrint usrint-cache +usrint-cwd usrint-kmount
 valgrind"
 
@@ -70,9 +68,10 @@ BUILD_TARGETS="just_kmod"
 MODULE_NAMES="pvfs2(fs::src/kernel/linux-2.6)"
 
 pkg_setup() {
-	linux-mod_pkg_setup
-	if use modules && kernel_is -ge 3 3; then
-		eerror "Sorry, linux kernels >= 3.3 are not support yet."
+	use modules && linux-mod_pkg_setup
+	if use modules && kernel_is -ge 3 4; then
+		eerror "Sorry, linux kernels >= 3.4 are not support yet."
+		eerror "(Well they are, but you'll have a dead lock.)"
 		eerror "You may disable modules use flag and use fuse client to mount filesystem."
 		eerror "PVFS2 server and ROMIO I/O API are still available too."
 		return 1
@@ -80,9 +79,6 @@ pkg_setup() {
 }
 
 src_prepare() {
-	# Latest stable patches (kernel module fix, ucached installation fix)
-	epatch "${DISTDIR}"/${P}-r${REV}.patch.xz
-
 	# Upstream doesn't seem to want to apply this which makes
 	# sense as it probably only matters to us.  Simple patch
 	# to split the installation of the module (which we use
@@ -90,7 +86,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/${PN}-2.8.5-split-kernapps.patch
 
 	# Allow data layout control (proposed by upstream)
-	epatch "${FILESDIR}"/${P}-layout.patch
+	epatch "${FILESDIR}"/${PN}-2.8.6-layout.patch
 
 	# Change defalt server logfile location to more appropriate value
 	# used by init script.
@@ -152,7 +148,7 @@ src_configure() {
 src_compile() {
 	emake all
 	if use modules; then
-		linux-mod_src_compile || die "kernel module compilation failed"
+		linux-mod_src_compile
 		emake kernapps
 	fi
 
@@ -166,7 +162,7 @@ src_compile() {
 src_install() {
 	emake DESTDIR="${D}" install
 	if use modules; then
-		linux-mod_src_install || die
+		linux-mod_src_install
 		emake DESTDIR="${D}" kernapps_install
 
 		newinitd "${FILESDIR}"/pvfs2-client-init.d pvfs2-client
@@ -180,7 +176,8 @@ src_install() {
 
 	keepdir /var/log/pvfs2
 
-	dodoc AUTHORS CREDITS ChangeLog INSTALL README "${FILESDIR}/README.Gentoo"
+	dodoc AUTHORS CREDITS ChangeLog INSTALL README
+	readme.gentoo_create_doc
 
 	if use doc; then
 		dodoc doc/{coding/,}*.{pdf,txt} doc/random/*.pdf \
@@ -200,10 +197,9 @@ src_install() {
 }
 
 pkg_postinst() {
-	linux-mod_pkg_postinst || die
+	use modules && linux-mod_pkg_postinst
 
-	ewarn "Plese read ${ROOT}usr/share/doc/${PF}/README.Gentoo documentation carefully!"
-	ewarn "It contains very important usage information and known issues."
+	readme.gentoo_pkg_postinst
 	if ! use modules; then
 		ewarn
 		ewarn "Without modules support you wouldn't be able to use pvfs2-client and mount"
