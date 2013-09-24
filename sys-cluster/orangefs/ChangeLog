@@ -2,6 +2,13 @@
 # Copyright 1999-2013 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+*orangefs-2.9_beta20130530 (24 Sep 2013)
+
+  24 Sep 2013; Andrew Savchenko <bircoph@gmail.com>
+  +orangefs-2.9_beta20130530.ebuild, metadata.xml:
+  Version bump. Add new security protocols. Remove not full and poorly
+  tested layout patch. Disable hadoop as out-of-tree for now.
+
 *orangefs-2.8.7 (14 Sep 2013)
 
   14 Sep 2013; Andrew Savchenko <bircoph@gmail.com> -orangefs-2.8.6-r4.ebuild,
