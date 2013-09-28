@@ -3,12 +3,11 @@
 # $Header: /var/cvsroot/gentoo-x86/games-strategy/wesnoth/wesnoth-1.10.6.ebuild,v 1.5 2013/07/04 12:23:20 ago Exp $
 
 EAPI=5
-inherit cmake-utils eutils multilib toolchain-funcs flag-o-matic games subversion
+inherit cmake-utils eutils multilib toolchain-funcs flag-o-matic games git
 
 DESCRIPTION="Battle for Wesnoth - A fantasy turn-based strategy game"
 HOMEPAGE="http://www.wesnoth.org/"
-ESVN_REPO_URI="http://svn.gna.org/svn/wesnoth/trunk"
-ESVN_PROJECT="wesnoth"
+EGIT_REPO_URI="git://github.com/wesnoth/wesnoth-old.git"
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -32,10 +31,6 @@ RDEPEND=">=media-libs/libsdl-1.2.7:0[joystick,video,X]
 DEPEND="${RDEPEND}
 	virtual/pkgconfig
 	sys-devel/gettext"
-
-src_unpack() {
-	subversion_src_unpack
-}
 
 src_prepare() {
 	if use dedicated || use server ; then
@@ -71,6 +66,16 @@ src_prepare() {
 	# bug #472994
 	mv icons/wesnoth-icon-Mac.png icons/wesnoth-icon.png || die
 	mv icons/map-editor-icon-Mac.png icons/wesnoth_editor-icon.png || die
+
+	# respect LINGUAS (bug #483316)
+	if [[ ${LINGUAS+set} ]] ; then
+		local langs
+		for lang in $(cat po/LINGUAS)
+		do
+			has $lang $LINGUAS && langs+="$lang "
+		done
+		echo "$langs" > po/LINGUAS || die
+	fi
 }
 
 src_configure() {
@@ -106,6 +111,7 @@ src_configure() {
 		"-DBINDIR=${GAMES_BINDIR}"
 		"-DICONDIR=/usr/share/pixmaps"
 		"-DDESKTOPDIR=/usr/share/applications"
+		"-DLOCALEDIR=/usr/share/locale"
 		"-DMANDIR=/usr/share/man"
 		"-DDOCDIR=/usr/share/doc/${PF}"
 		)
