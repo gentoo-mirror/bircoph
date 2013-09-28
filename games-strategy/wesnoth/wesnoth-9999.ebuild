@@ -3,7 +3,7 @@
 # $Header: /var/cvsroot/gentoo-x86/games-strategy/wesnoth/wesnoth-1.10.6.ebuild,v 1.5 2013/07/04 12:23:20 ago Exp $
 
 EAPI=5
-inherit cmake-utils eutils multilib toolchain-funcs flag-o-matic games git
+inherit cmake-utils eutils multilib toolchain-funcs flag-o-matic games git-2
 
 DESCRIPTION="Battle for Wesnoth - A fantasy turn-based strategy game"
 HOMEPAGE="http://www.wesnoth.org/"
