@@ -139,8 +139,6 @@ src_configure() {
 	    --enable-shared \
 		--enable-verbose-build \
 	    --sysconfdir="${EPREFIX}"/etc/pvfs2 \
-		--without-jdk \
-		--without-hadoop \
 	    $(use_enable aio kernel-aio) \
 	    $(use_enable capcache) \
 	    $(use_enable certcache) \

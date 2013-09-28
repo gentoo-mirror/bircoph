@@ -4,7 +4,8 @@
 
   28 Sep 2013; Andrew Savchenko <bircoph@gmail.com>
   orangefs-2.9_beta20130530.ebuild:
-  Fix typo in econf argument
+  Fix typo in econf argument. --without can't be used properly for
+  path-related arguments.
 
 *orangefs-2.9_beta20130530 (24 Sep 2013)
 
