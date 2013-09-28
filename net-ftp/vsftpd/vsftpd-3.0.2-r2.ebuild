@@ -1,6 +1,6 @@
 # Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/net-ftp/vsftpd/vsftpd-3.0.2-r1.ebuild,v 1.1 2013/04/20 16:51:02 hwoarang Exp $
+# $Header: /var/cvsroot/gentoo-x86/net-ftp/vsftpd/vsftpd-3.0.2-r2.ebuild,v 1.1 2013/09/03 20:11:27 pacho Exp $
 
 EAPI="4"
 
@@ -12,7 +12,7 @@ SRC_URI="http://security.appspot.com/downloads/${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="alpha amd64 arm hppa ~ia64 ppc ppc64 ~s390 ~sh ~sparc ~x86 ~x86-fbsd"
+KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~x86-fbsd"
 IUSE="caps pam tcpd ssl selinux xinetd"
 
 DEPEND="caps? ( >=sys-libs/libcap-2 )
@@ -25,7 +25,6 @@ RDEPEND="${DEPEND}
 	xinetd? ( sys-apps/xinetd )"
 
 src_prepare() {
-
 	# kerberos patch. bug #335980
 	epatch "${FILESDIR}/${PN}-2.3.2-kerberos.patch"
 
@@ -102,6 +101,8 @@ src_install() {
 	exeinto /usr/libexec
 	doexe "${FILESDIR}/vsftpd-checkconfig.sh"
 	systemd_dounit "${FILESDIR}/${PN}.service"
+	systemd_newunit "${FILESDIR}/${PN}_at.service" "${PN}@.service"
+	systemd_dounit "${FILESDIR}/${PN}.socket"
 }
 
 pkg_preinst() {
@@ -113,7 +114,7 @@ pkg_preinst() {
 }
 
 pkg_postinst() {
-	einfo "vsftpd init script can now be multiplexed."
+	einfo "vsftpd openRC init script can now be multiplexed."
 	einfo "The default init script forces /etc/vsftpd/vsftpd.conf to exist."
 	einfo "If you symlink the init script to another one, say vsftpd.foo"
 	einfo "then that uses /etc/vsftpd/foo.conf instead."

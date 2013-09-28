@@ -2,6 +2,7 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
 	<herd>net-ftp</herd>
+	<herd>proxy-maintainers</herd>
 	<maintainer>
 		<email>hwoarang@gentoo.org</email>
 		<name>Markos Chandras</name>
@@ -9,10 +10,6 @@
 	<maintainer>
 		<email>wired@gentoo.org</email>
 		<name>Alex Alexander</name>
-	</maintainer>
-	<maintainer>
-			<email>c1pher@gentoo.org</email>
-			<name>Dane Smith</name>
 	</maintainer>
 	<maintainer>
 		<email>bugs@bergstroem.nu</email>
