@@ -104,6 +104,9 @@ src_prepare() {
 	# the eclass for) and the installation of the kernapps.
 	epatch "${FILESDIR}"/${PN}-2.8.5-split-kernapps.patch
 
+	# Fix libm underliking issue for kernapps
+	epatch "${FILESDIR}"/${P}-kernapps-lm.patch
+
 	# Change defalt server logfile location to more appropriate value
 	# used by init script.
 	sed -i "s%/tmp/pvfs2-server.log%${EPREFIX}var/log/pvfs2/server.log%g" \
