@@ -131,7 +131,7 @@ src_configure() {
 	# and jdk/jni is useless otherwise
 	econf \
 		--disable-jni \
-		--disable-hadoop
+		--disable-hadoop \
 		--disable-nptl-workaround \
 		--disable-redhat24 \
 		--disable-visual \
