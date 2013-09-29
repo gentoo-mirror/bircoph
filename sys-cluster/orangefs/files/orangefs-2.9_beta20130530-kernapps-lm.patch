@@ -1,0 +1,14 @@
+diff -Naurd orangefs-2.9beta.20130530.orig/src/apps/kernel/linux/module.mk.in orangefs-2.9beta.20130530/src/apps/kernel/linux/module.mk.in
+--- orangefs-2.9beta.20130530.orig/src/apps/kernel/linux/module.mk.in	2013-05-31 01:50:36.000000000 +0400
++++ orangefs-2.9beta.20130530/src/apps/kernel/linux/module.mk.in	2013-09-28 18:51:58.649517038 +0400
+@@ -27,7 +27,8 @@
+ endif
+ 
+ # explicitly uses pthreads both threaded and not-threaded versions, even if
+-# threading is turned off in the rest of libpvfs
+-MODLDFLAGS_$(DIR)/pvfs2-client-core.o = -lpthread
++# threading is turned off in the rest of libpvfs;
++# libm is needed for libpvfs2-threaded (ceil and log functions) 
++MODLDFLAGS_$(DIR)/pvfs2-client-core.o = -lpthread -lm
+ 
+ endif

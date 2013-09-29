@@ -11,9 +11,10 @@
   With improper argument SIGKILL was not possible.
 
   28 Sep 2013; Andrew Savchenko <bircoph@gmail.com>
-  orangefs-2.9_beta20130530.ebuild:
+  orangefs-2.9_beta20130530.ebuild,
+  +files/orangefs-2.9_beta20130530-kernapps-lm.patch:
   Fix typo in econf argument. --without can't be used properly for
-  path-related arguments.
+  path-related arguments. Fix kernapps underlinking with libm.
 
 *orangefs-2.9_beta20130530 (24 Sep 2013)
 
