@@ -1,11 +1,14 @@
 # Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/app-emulation/wine/wine-1.5.25.ebuild,v 1.2 2013/03/04 15:44:18 tetromino Exp $
+# $Header: /var/cvsroot/gentoo-x86/app-emulation/wine/wine-1.7.4.ebuild,v 1.4 2013/12/01 09:45:09 mgorny Exp $
 
 EAPI="5"
 
 AUTOTOOLS_AUTORECONF=1
-inherit autotools-multilib eutils flag-o-matic gnome2-utils multilib pax-utils toolchain-funcs user virtualx
+PLOCALES="ar bg ca cs da de el en en_US eo es fa fi fr he hi hr hu it ja ko lt ml nb_NO nl or pa pl pt_BR pt_PT rm ro ru sk sl sr_RS@cyrillic sr_RS@latin sv te th tr uk wa zh_CN zh_TW"
+PLOCALE_BACKUP="en"
+
+inherit autotools-multilib eutils fdo-mime flag-o-matic gnome2-utils l10n multilib pax-utils toolchain-funcs user virtualx
 
 if [[ ${PV} == "9999" ]] ; then
 	EGIT_REPO_URI="git://source.winehq.org/git/wine.git"
@@ -19,10 +22,10 @@ else
 	S=${WORKDIR}/${MY_P}
 fi
 
-GV="1.9"
+GV="2.24"
 MV="0.0.8"
-PULSE_PATCHES="winepulse-patches-1.5.25"
-WINE_GENTOO="wine-gentoo-2012.11.24"
+PULSE_PATCHES="winepulse-patches-1.7.4"
+WINE_GENTOO="wine-gentoo-2013.06.24"
 DESCRIPTION="Free implementation of Windows(tm) on Unix"
 HOMEPAGE="http://www.winehq.org/"
 SRC_URI="${SRC_URI}
@@ -36,7 +39,7 @@ SRC_URI="${SRC_URI}
 
 LICENSE="LGPL-2.1"
 SLOT="0"
-IUSE="+abi_x86_32 +abi_x86_64 alsa capi cups custom-cflags elibc_glibc fontconfig +gecko gphoto2 gsm gstreamer jpeg lcms ldap +mono mp3 ncurses nls odbc openal opencl +opengl osmesa +oss +perl png +prelink samba scanner selinux ssl test +threads +truetype udisks v4l +X xcomposite xinerama xml"
+IUSE="+abi_x86_32 +abi_x86_64 +alsa capi cups custom-cflags dos elibc_glibc +fontconfig +gecko gphoto2 gsm gstreamer +jpeg lcms ldap +mono mp3 ncurses nls odbc openal opencl +opengl osmesa oss +perl +png +prelink +realtime +run-exes samba scanner selinux +ssl test +threads +truetype +udisks v4l +X xcomposite xinerama +xml"
 [[ ${PV} == "9999" ]] || IUSE="${IUSE} pulseaudio"
 REQUIRED_USE="|| ( abi_x86_32 abi_x86_64 )
 	test? ( abi_x86_32 )
@@ -48,24 +51,20 @@ REQUIRED_USE="|| ( abi_x86_32 abi_x86_64 )
 # or fail due to Xvfb's opengl limitations.
 RESTRICT="test"
 
-RDEPEND="truetype? ( >=media-libs/freetype-2.0.0 media-fonts/corefonts )
-	perl? ( dev-lang/perl dev-perl/XML-Simple )
+NATIVE_DEPEND="
+	truetype? ( >=media-libs/freetype-2.0.0  )
 	capi? ( net-dialup/capi4k-utils )
 	ncurses? ( >=sys-libs/ncurses-5.2:= )
+	udisks? ( sys-apps/dbus )
 	fontconfig? ( media-libs/fontconfig:= )
 	gphoto2? ( media-libs/libgphoto2:= )
 	openal? ( media-libs/openal:= )
-	udisks? (
-		sys-apps/dbus
-		sys-fs/udisks:2
-	)
 	gstreamer? ( media-libs/gstreamer:0.10 media-libs/gst-plugins-base:0.10 )
 	X? (
 		x11-libs/libXcursor
 		x11-libs/libXext
 		x11-libs/libXrandr
 		x11-libs/libXi
-		x11-libs/libXmu
 		x11-libs/libXxf86vm
 	)
 	xinerama? ( x11-libs/libXinerama )
@@ -77,47 +76,136 @@ RDEPEND="truetype? ( >=media-libs/freetype-2.0.0 media-fonts/corefonts )
 		virtual/opengl
 	)
 	gsm? ( media-sound/gsm:= )
-	jpeg? ( virtual/jpeg:= )
+	jpeg? ( virtual/jpeg:0= )
 	ldap? ( net-nds/openldap:= )
-	lcms? ( media-libs/lcms:0= )
+	lcms? ( media-libs/lcms:2= )
 	mp3? ( >=media-sound/mpg123-1.5.0 )
 	nls? ( sys-devel/gettext )
 	odbc? ( dev-db/unixODBC:= )
 	osmesa? ( media-libs/mesa[osmesa] )
-	samba? ( >=net-fs/samba-3.0.25 )
-	selinux? ( sec-policy/selinux-wine )
 	xml? ( dev-libs/libxml2 dev-libs/libxslt )
 	scanner? ( media-gfx/sane-backends:= )
-	ssl? (
-		dev-libs/openssl:0=
-		net-libs/gnutls:= )
+	ssl? ( net-libs/gnutls:= )
 	png? ( media-libs/libpng:0= )
 	v4l? ( media-libs/libv4l )
-	xcomposite? ( x11-libs/libXcomposite )
+	xcomposite? ( x11-libs/libXcomposite )"
+[[ ${PV} == "9999" ]] || NATIVE_DEPEND="${NATIVE_DEPEND}
+	pulseaudio? ( media-sound/pulseaudio )"
+
+COMMON_DEPEND="
+	!amd64? ( ${NATIVE_DEPEND} )
 	amd64? (
+		abi_x86_64? ( ${NATIVE_DEPEND} )
 		abi_x86_32? (
-			truetype? ( >=app-emulation/emul-linux-x86-xlibs-2.1[development] )
-			X? (
+			truetype? ( || (
 				>=app-emulation/emul-linux-x86-xlibs-2.1[development]
-				>=app-emulation/emul-linux-x86-soundlibs-2.1[development]
+				>=media-libs/freetype-2.0.0[abi_x86_32]
+			) )
+			ncurses? ( || (
+				app-emulation/emul-linux-x86-baselibs[development]
+				sys-libs/ncurses[abi_x86_32]
+			) )
+			udisks? ( >=app-emulation/emul-linux-x86-baselibs-20130224[development] )
+			fontconfig? ( || (
+				app-emulation/emul-linux-x86-xlibs[development]
+				media-libs/fontconfig[abi_x86_32]
+			) )
+			gphoto2? (
+				app-emulation/emul-linux-x86-medialibs[development]
 			)
-			mp3? ( app-emulation/emul-linux-x86-soundlibs[development] )
+			openal? ( || (
+				app-emulation/emul-linux-x86-sdl[development]
+				media-libs/openal[abi_x86_32]
+			) )
+			gstreamer? (
+				app-emulation/emul-linux-x86-gstplugins
+				app-emulation/emul-linux-x86-medialibs[development]
+			)
+			X? ( || (
+				app-emulation/emul-linux-x86-xlibs[development]
+				(
+					x11-libs/libXcursor[abi_x86_32]
+					x11-libs/libXext[abi_x86_32]
+					x11-libs/libXrandr[abi_x86_32]
+					x11-libs/libXi[abi_x86_32]
+					x11-libs/libXxf86vm[abi_x86_32]
+				)
+			) )
+			xinerama? ( || (
+				app-emulation/emul-linux-x86-xlibs[development]
+				x11-libs/libXinerama[abi_x86_32]
+			) )
+			alsa? ( || (
+				app-emulation/emul-linux-x86-soundlibs[alsa,development]
+				media-libs/alsa-lib[abi_x86_32]
+			) )
+			cups? ( app-emulation/emul-linux-x86-baselibs )
+			opencl? ( virtual/opencl[abi_x86_32] )
+			opengl? ( || (
+				app-emulation/emul-linux-x86-opengl[development]
+				(
+					virtual/glu[abi_x86_32]
+					virtual/opengl[abi_x86_32]
+				)
+			) )
+			gsm? ( || (
+				app-emulation/emul-linux-x86-soundlibs[development]
+				media-sound/gsm[abi_x86_32]
+			) )
+			jpeg? ( || (
+				app-emulation/emul-linux-x86-baselibs[development]
+				virtual/jpeg:0[abi_x86_32]
+			) )
+			ldap? ( app-emulation/emul-linux-x86-baselibs[development] )
+			lcms? ( || (
+				app-emulation/emul-linux-x86-baselibs[development]
+				media-libs/lcms:2[abi_x86_32]
+			) )
+			mp3? ( || (
+				app-emulation/emul-linux-x86-soundlibs[development]
+				>=media-sound/mpg123-1.5.0[abi_x86_32]
+			) )
+			nls? ( app-emulation/emul-linux-x86-baselibs[development] )
 			odbc? ( app-emulation/emul-linux-x86-db[development] )
-			openal? ( app-emulation/emul-linux-x86-sdl[development] )
-			opengl? ( app-emulation/emul-linux-x86-opengl[development] )
-			osmesa? ( >=app-emulation/emul-linux-x86-opengl-20121028[development] )
+			osmesa? ( || (
+				>=app-emulation/emul-linux-x86-opengl-20121028[development]
+				media-libs/mesa[osmesa,abi_x86_32]
+			) )
+			xml? ( >=app-emulation/emul-linux-x86-baselibs-20131008[development] )
 			scanner? ( app-emulation/emul-linux-x86-medialibs[development] )
-			v4l? ( app-emulation/emul-linux-x86-medialibs[development] )
-			>=app-emulation/emul-linux-x86-baselibs-20130224[development]
-			>=sys-kernel/linux-headers-2.6
+			ssl? ( app-emulation/emul-linux-x86-baselibs[development] )
+			png? ( || (
+				app-emulation/emul-linux-x86-baselibs[development]
+				media-libs/libpng:0[abi_x86_32]
+			) )
+			v4l? ( || (
+				app-emulation/emul-linux-x86-medialibs[development]
+				media-libs/libv4l[abi_x86_32]
+			) )
+			xcomposite? ( || (
+				app-emulation/emul-linux-x86-xlibs[development]
+				x11-libs/libXcomposite[abi_x86_32]
+			) )
 		)
 	)"
+[[ ${PV} == "9999" ]] || COMMON_DEPEND="${COMMON_DEPEND}
+	amd64? ( abi_x86_32? ( pulseaudio? (
+		|| (
+			app-emulation/emul-linux-x86-soundlibs[development]
+			>=media-sound/pulseaudio-4.0-r1[abi_x86_32]
+		)
+	) ) )"
+
+RDEPEND="${COMMON_DEPEND}
+	dos? ( games-emulation/dosbox )
+	perl? ( dev-lang/perl dev-perl/XML-Simple )
+	samba? ( >=net-fs/samba-3.0.25 )
+	selinux? ( sec-policy/selinux-wine )
+	udisks? ( sys-fs/udisks:2 )"
 [[ ${PV} == "9999" ]] || RDEPEND="${RDEPEND}
-	pulseaudio? (
-		media-sound/pulseaudio
-		sys-auth/rtkit
-	)"
-DEPEND="${RDEPEND}
+	pulseaudio? ( realtime? ( sys-auth/rtkit ) )"
+
+DEPEND="${COMMON_DEPEND}
 	X? (
 		x11-proto/inputproto
 		x11-proto/xextproto
@@ -125,6 +213,7 @@ DEPEND="${RDEPEND}
 	)
 	xinerama? ( x11-proto/xineramaproto )
 	prelink? ( sys-devel/prelink )
+	>=sys-kernel/linux-headers-2.6
 	virtual/pkgconfig
 	virtual/yacc
 	sys-devel/flex"
@@ -136,18 +225,30 @@ usr/share/applications/wine-notepad.desktop
 usr/share/applications/wine-uninstaller.desktop
 usr/share/applications/wine-winecfg.desktop"
 
+wine_build_environment_check() {
+	[[ ${MERGE_TYPE} = "binary" ]] && return 0
+
+	if use abi_x86_64 && [[ $(( $(gcc-major-version) * 100 + $(gcc-minor-version) )) -lt 404 ]]; then
+		eerror "You need gcc-4.4+ to build 64-bit wine"
+		eerror
+		return 1
+	fi
+
+	if use abi_x86_32 && use opencl && [[ x$(eselect opencl show 2> /dev/null) = "xintel" ]]; then
+		eerror "You cannot build wine with USE=opencl because intel-ocl-sdk is 64-bit only."
+		eerror "See https://bugs.gentoo.org/487864 for more details."
+		eerror
+		return 1
+	fi
+}
+
+pkg_pretend() {
+	wine_build_environment_check || die
+}
+
 pkg_setup() {
 	enewgroup wine
-
-	if use abi_x86_64; then
-		[[ $(( $(gcc-major-version) * 100 + $(gcc-minor-version) )) -lt 404 ]] \
-			&& die "you need gcc-4.4+ to build 64bit wine"
-	fi
-
-	if use abi_x86_32 && use opencl; then
-		[[ x$(eselect opencl show) = "xintel" ]] &&
-			die "Cannot build wine[opencl,abi_x86_32]: intel-ocl-sdk is 64-bit only" # 403947
-	fi
+	wine_build_environment_check || die
 }
 
 src_unpack() {
@@ -159,15 +260,17 @@ src_unpack() {
 
 	unpack "${PULSE_PATCHES}.tar.bz2"
 	unpack "${WINE_GENTOO}.tar.bz2"
+
+	l10n_find_plocales_changes "${S}/po" "" ".po"
 }
 
 src_prepare() {
 	local md5="$(md5sum server/protocol.def)"
 	local PATCHES=(
-		"${FILESDIR}"/${PN}-1.1.15-winegcc.patch #260726
+		"${FILESDIR}"/${PN}-1.5.26-winegcc.patch #260726
 		"${FILESDIR}"/${PN}-1.4_rc2-multilib-portage.patch #395615
-		"${FILESDIR}"/${PN}-1.5.17-osmesa-check.patch #429386
-		"${FILESDIR}"/${PN}-1.5.23-winebuild-CCAS.patch #455308
+		"${FILESDIR}"/${PN}-1.7.2-osmesa-check.patch #429386
+		"${FILESDIR}"/${PN}-1.6-memset-O3.patch #480508
 	)
 	[[ ${PV} == "9999" ]] || PATCHES+=(
 		"../${PULSE_PATCHES}"/*.patch #421365
@@ -180,14 +283,18 @@ src_prepare() {
 		tools/make_requests || die #432348
 	fi
 	sed -i '/^UPDATE_DESKTOP_DATABASE/s:=.*:=true:' tools/Makefile.in || die
-	sed -i '/^MimeType/d' tools/wine.desktop || die #117785
+	if ! use run-exes; then
+		sed -i '/^MimeType/d' tools/wine.desktop || die #117785
+	fi
+
+	# hi-res default icon, #472990, http://bugs.winehq.org/show_bug.cgi?id=24652
+	cp "${WORKDIR}"/${WINE_GENTOO}/icons/oic_winlogo.ico dlls/user32/resources/ || die
+
+	l10n_get_locales > po/LINGUAS # otherwise wine doesn't respect LINGUAS
 }
 
 do_configure() {
-	local myeconfargs=(
-		"${myeconfargs[@]}"
-		CCAS="$(tc-getAS)"
-	)
+	local myeconfargs=( "${myeconfargs[@]}" )
 
 	if use amd64; then
 		if [[ ${ABI} == amd64 ]]; then
@@ -228,7 +335,6 @@ src_configure() {
 		$(use_with openal)
 		$(use_with opencl)
 		$(use_with opengl)
-		$(use_with ssl openssl)
 		$(use_with osmesa)
 		$(use_with oss)
 		$(use_with png)
@@ -245,6 +351,12 @@ src_configure() {
 	)
 
 	[[ ${PV} == "9999" ]] || myeconfargs+=( $(use_with pulseaudio pulse) )
+
+	if use amd64 && use abi_x86_32; then
+		# Avoid crossdev's i686-pc-linux-gnu-pkg-config if building wine32 on amd64; #472038
+		# set AR and RANLIB to make QA scripts happy; #483342
+		tc-export PKG_CONFIG AR RANLIB
+	fi
 
 	multilib_parallel_foreach_abi do_configure
 }
@@ -270,6 +382,11 @@ src_test() {
 
 src_install() {
 	local DOCS=( ANNOUNCE AUTHORS README )
+	add_locale_docs() {
+		local locale_doc="documentation/README.$1"
+		[[ ! -e ${locale_doc} ]] || DOCS=( "${DOCS[@]}" ${locale_doc} )
+	}
+	l10n_for_each_locale_do add_locale_docs
 	autotools-multilib_src_install
 
 	emake -C "../${WINE_GENTOO}" install DESTDIR="${D}" EPREFIX="${EPREFIX}"
@@ -294,6 +411,11 @@ src_install() {
 		dosym /usr/bin/wine{64,}-preloader
 	fi
 
+	# respect LINGUAS when installing man pages, #469418
+	for l in de fr pl; do
+		use linguas_${l} || rm -r "${D}"usr/share/man/${l}*
+	done
+
 	# for all bins and libs disable world access and group write access
 	# only users from wine group may be able to use it
 	local filelist=$( find "${D}"/usr/{bin,lib} -type f | gawk -v path="${D}" '{ gsub("^"path,""); print $0 }')
@@ -307,6 +429,7 @@ pkg_preinst() {
 
 pkg_postinst() {
 	gnome2_icon_cache_update
+	fdo-mime_desktop_database_update
 
 	ewarn "You must be in the wine group in order to be able to use wine."
 	ewarn "It is recommended to use a separate user for running wine in order"
@@ -316,4 +439,5 @@ pkg_postinst() {
 
 pkg_postrm() {
 	gnome2_icon_cache_update
+	fdo-mime_desktop_database_update
 }

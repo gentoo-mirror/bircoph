@@ -1,6 +1,88 @@
 # ChangeLog for app-emulation/wine
 # Copyright 1999-2013 Gentoo Foundation; Distributed under the GPL v2
-# $Header: /var/cvsroot/gentoo-x86/app-emulation/wine/ChangeLog,v 1.474 2013/08/05 09:31:06 ssuominen Exp $
+# $Header: /var/cvsroot/gentoo-x86/app-emulation/wine/ChangeLog,v 1.486 2013/12/01 09:45:09 mgorny Exp $
+
+  01 Dec 2013; Michał Górny <mgorny@gentoo.org> wine-1.7.4.ebuild,
+  wine-9999.ebuild:
+  Support multilib pulseaudio aside of emul-linux.
+
+  15 Oct 2013; Alexandre Rostovtsev <tetromino@gentoo.org> wine-1.6.ebuild,
+  wine-1.7.0.ebuild, wine-1.7.3.ebuild, wine-1.7.4.ebuild, wine-9999.ebuild:
+  Update multilib dependencies and allow in some cases for individual libraries
+  with ABI_X86=32 to be used instead of emul-linux-x86-* (bug #488116, thanks
+  to Thomas Berger)
+
+  13 Oct 2013; Alexandre Rostovtsev <tetromino@gentoo.org> wine-1.2.3.ebuild,
+  wine-1.4.ebuild, wine-1.4.1.ebuild, wine-1.5.0.ebuild, wine-1.5.1.ebuild,
+  wine-1.5.2.ebuild, wine-1.5.3.ebuild, wine-1.5.4.ebuild, wine-1.5.5.ebuild,
+  wine-1.5.6.ebuild, wine-1.5.7.ebuild, wine-1.5.8.ebuild, wine-1.5.9.ebuild,
+  wine-1.5.10-r1.ebuild, wine-1.5.11-r1.ebuild, wine-1.5.12-r1.ebuild,
+  wine-1.5.13-r1.ebuild, wine-1.5.14-r1.ebuild, wine-1.5.15-r2.ebuild,
+  wine-1.5.16-r1.ebuild, wine-1.5.17.ebuild, wine-1.5.18.ebuild,
+  wine-1.5.19.ebuild, wine-1.5.20.ebuild, wine-1.5.21.ebuild,
+  wine-1.5.22.ebuild, wine-1.5.23-r1.ebuild, wine-1.5.24.ebuild,
+  wine-1.5.25.ebuild, wine-1.5.26.ebuild, wine-1.5.27.ebuild,
+  wine-1.5.28.ebuild, wine-1.5.29.ebuild, wine-1.5.30.ebuild,
+  wine-1.5.31.ebuild, wine-1.6.ebuild, wine-1.7.0.ebuild, wine-1.7.3.ebuild,
+  wine-1.7.4.ebuild, wine-9999.ebuild:
+  Move gcc and opencl build environment check into a separate function and run
+  it in pkg_pretend() and pkg_setup() for non-binpkg merges for user
+  friendliness.
+
+*wine-1.7.4 (13 Oct 2013)
+
+  13 Oct 2013; Alexandre Rostovtsev <tetromino@gentoo.org> +wine-1.7.4.ebuild,
+  wine-9999.ebuild:
+  Version bump, see http://www.winehq.org/announce/1.7.4 for the announcement
+  (bug #487780).
+
+*wine-1.7.3 (09 Oct 2013)
+
+  09 Oct 2013; Alexandre Rostovtsev <tetromino@gentoo.org> wine-1.6.ebuild,
+  +wine-1.7.3.ebuild, wine-9999.ebuild, metadata.xml:
+  Belated version bump (bug #483276); see http://www.winehq.org/announce/1.7.3
+  (and .../1.7.2 and .../1.7.1) for release notes. Respect AR and RANLIB (bug
+  #483342 and #483344, thanks to Agostino Sarubbo). Make rtkit dependency
+  optional since apparently winepulse can work without it (bug #487152, thanks
+  to Stefan Reimer).
+
+  22 Sep 2013; Agostino Sarubbo <ago@gentoo.org> wine-1.6.ebuild:
+  Stable for x86, wrt bug #483280
+
+  13 Sep 2013; Alexandre Rostovtsev <tetromino@gentoo.org> wine-9999.ebuild:
+  libSM and libICE not needed for >=1.7.2 (bug #483984, thanks to Rafał
+  Mużyło).
+
+  12 Sep 2013; Alexandre Rostovtsev <tetromino@gentoo.org> wine-9999.ebuild,
+  +files/wine-1.7.2-osmesa-check.patch:
+  Update osmesa patch (bug #483984, thanks to Maksym).
+
+  02 Sep 2013; Agostino Sarubbo <ago@gentoo.org> wine-1.6.ebuild:
+  Stable for amd64, wrt bug #483280
+
+  01 Sep 2013; Alexandre Rostovtsev <tetromino@gentoo.org> wine-1.6.ebuild,
+  wine-1.7.0.ebuild, wine-9999.ebuild, +files/wine-1.6-memset-O3.patch:
+  Fix USE=custom-cflags build with -O3 and recent gcc versions (bug #480508,
+  thanks to Konstantin).
+
+  01 Sep 2013; Alexandre Rostovtsev <tetromino@gentoo.org> wine-1.2.3.ebuild,
+  wine-1.3.28.ebuild, wine-1.4.ebuild, wine-1.4.1.ebuild, wine-1.5.0.ebuild,
+  wine-1.5.1.ebuild, wine-1.5.2.ebuild, wine-1.5.3.ebuild, wine-1.5.4.ebuild,
+  wine-1.5.5.ebuild, wine-1.5.6.ebuild, wine-1.5.7.ebuild, wine-1.5.8.ebuild,
+  wine-1.5.9.ebuild, wine-1.5.10-r1.ebuild, wine-1.5.11-r1.ebuild,
+  wine-1.5.12-r1.ebuild, wine-1.5.13-r1.ebuild, wine-1.5.14-r1.ebuild,
+  wine-1.5.15-r2.ebuild, wine-1.5.16-r1.ebuild, wine-1.5.17.ebuild,
+  wine-1.5.18.ebuild, wine-1.5.19.ebuild, wine-1.5.20.ebuild,
+  wine-1.5.21.ebuild, wine-1.5.22.ebuild, wine-1.5.23-r1.ebuild,
+  wine-1.5.24.ebuild, wine-1.5.25.ebuild, wine-1.5.26.ebuild,
+  wine-1.5.27.ebuild, wine-1.5.28.ebuild, wine-1.5.29.ebuild,
+  wine-1.5.30.ebuild, wine-1.5.31.ebuild, wine-1.6.ebuild, wine-1.7.0.ebuild,
+  wine-9999.ebuild:
+  Do not pull in corefonts when USE=truetype; users who need the original
+  corefonts instead of Wine's version can use winetricks (bug #481122, thanks
+  to Luke-Jr). Do not depend on libXmu (not needed), but do depend on libSM and
+  libICE (pulled in due to AC_PATH_XTRA silliness) (bug #483252, thanks to
+  Rafał Mużyło).
 
   05 Aug 2013; Samuli Suominen <ssuominen@gentoo.org> wine-1.2.3.ebuild,
   wine-1.3.28.ebuild, wine-1.4.ebuild, wine-1.4.1.ebuild, wine-1.5.0.ebuild,
@@ -229,4 +311,3 @@
   Split ChangeLog.
 
   For previous entries, please see ChangeLog-2012.
-
