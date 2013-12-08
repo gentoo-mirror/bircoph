@@ -5,10 +5,10 @@
 EAPI="5"
 PYTHON_COMPAT=( python{2_6,2_7} )
 
-inherit autotools eutils fdo-mime flag-o-matic multilib python-r1 toolchain-funcs user
+inherit autotools eutils fdo-mime flag-o-matic multilib python-single-r1 toolchain-funcs user
 
 MY_P="${P/_}"
-DESCRIPTION="a program to distribute compilation of C code across several machines on a network"
+DESCRIPTION="Distribute compilation of C code across several machines on a network"
 HOMEPAGE="http://distcc.org/"
 SRC_URI="http://distcc.googlecode.com/files/${MY_P}.tar.bz2"
 
@@ -54,8 +54,7 @@ DCCC_PATH="/usr/$(get_libdir)/distcc/bin"
 
 pkg_setup() {
 	enewuser distcc 240 -1 -1 daemon
-	python_set_active_version 2
-	python_pkg_setup
+	python-single-r1_pkg_setup
 
 	if use cc32_64; then
 			use x86 && arch="x86_64"
@@ -71,6 +70,8 @@ src_prepare() {
 	epatch "${FILESDIR}/${P}-freedesktop.patch"
 	# bug #258364
 	epatch "${FILESDIR}/${P}-python.patch"
+	# bug #351979
+	epatch "${FILESDIR}/${PN}-3.1-argc-fix.patch"
 	# for net-libs/libgssglue
 	epatch "${FILESDIR}/${P}-gssapi.patch"
 	# for cross-compiling
@@ -81,7 +82,6 @@ src_prepare() {
 	# Bugs #120001, #167844 and probably more. See patch for description.
 	use hardened && epatch "${FILESDIR}/distcc-hardened.patch"
 
-	python_convert_shebangs -r $(python_get_version) .
 	sed -i \
 		-e "/PATH/s:\$distcc_location:${EPREFIX}${DCCC_PATH}:" \
 		-e "s:@PYTHON@:${EPREFIX}$(PYTHON -a):" \
@@ -210,12 +210,14 @@ src_install() {
 	rm -r "${ED}/etc/default" || die
 	rm "${ED}/etc/distcc/clients.allow" || die
 	rm "${ED}/etc/distcc/commands.allow.sh" || die
+
+	python_fix_shebang "${ED}"
+	python_optimize "${ED}"/$(python_get_sitedir)
 }
 
 pkg_postinst() {
 	pkg_config
 
-	python_mod_optimize include_server
 	use gnome && fdo-mime_desktop_database_update
 
 	elog
@@ -254,7 +256,6 @@ pkg_postrm() {
 		rmdir "${EPREFIX}${DCCC_PATH}"
 	fi
 
-	python_mod_cleanup include_server
 	use gnome && fdo-mime_desktop_database_update
 }
 

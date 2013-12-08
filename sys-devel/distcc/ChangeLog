@@ -1,6 +1,30 @@
 # ChangeLog for sys-devel/distcc
 # Copyright 1999-2013 Gentoo Foundation; Distributed under the GPL v2
-# $Header: /var/cvsroot/gentoo-x86/sys-devel/distcc/ChangeLog,v 1.224 2013/07/20 18:34:38 pacho Exp $
+# $Header: /var/cvsroot/gentoo-x86/sys-devel/distcc/ChangeLog,v 1.230 2013/12/07 09:51:47 pacho Exp $
+
+  07 Dec 2013; Pacho Ramos <pacho@gentoo.org> distcc-3.1-r9.ebuild:
+  x86 stable, bug #480112
+
+  19 Oct 2013; Pacho Ramos <pacho@gentoo.org> distcc-3.1-r9.ebuild:
+  amd64 stable, bug #480112
+
+  08 Oct 2013; Markus Meier <maekke@gentoo.org> distcc-3.1-r9.ebuild:
+  arm stable, bug #480112
+
+  06 Oct 2013; Jeroen Roovers <jer@gentoo.org> distcc-3.1-r9.ebuild:
+  Stable for HPPA (bug #480112).
+
+*distcc-3.1-r9 (21 Sep 2013)
+
+  21 Sep 2013; Pacho Ramos <pacho@gentoo.org> +distcc-3.1-r9.ebuild,
+  +files/distccd.service.conf, -distcc-3.1-r8.ebuild, distcc-3.2_rc1.ebuild,
+  files/distccd.service:
+  Stop relying in conf.d file, fix zeroconf handling (#480386 by Malte
+  Starostik)
+
+  05 Sep 2013; Michał Górny <mgorny@gentoo.org> distcc-3.1-r7.ebuild,
+  distcc-3.1-r8.ebuild:
+  Clean up PYTHON_COMPAT from old implementations.
 
   20 Jul 2013; Pacho Ramos <pacho@gentoo.org> +files/distccd.service:
   Commit missing file (#477512 by Xavier Miller)
