@@ -41,7 +41,7 @@ src_configure() {
 }
 
 src_install() {
-	emake DESTDIR="${D}" install
+	autotools-multilib_src_install
 	use examples && mv "${ED}/usr/bin/aac-enc" "${ED}/usr/bin/fdk-aac-enc"
 }
 
