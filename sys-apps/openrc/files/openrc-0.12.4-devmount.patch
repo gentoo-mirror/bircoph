@@ -1,0 +1,158 @@
+From 73a1401cdf9d1fccbc4779f3a6fe58b9913d92f6 Mon Sep 17 00:00:00 2001
+From: William Hubbs <w.d.hubbs@gmail.com>
+Date: Sun, 1 Dec 2013 13:22:16 -0600
+Subject: [PATCH] create devmount service
+
+The devmount service is used to mount /dev properly on Linux. The
+process it follows is below:
+
+1. If static_dev is yes, nothing is done.
+2. if /dev is an entry in fstab it is mounted or remounted based on that
+entry.
+3. If /dev is not in fstab, it attempts to mount /dev as a devtmpfs or
+   tmpfs depending on which is defined in the kernel; devtmpfs is
+   preferred.
+4. If neither devtmpfs or tmpfs is defined, it assumes the user wants
+static /dev and prints a warning.
+---
+ conf.d/Makefile        |  2 +-
+ conf.d/devmount        |  2 ++
+ init.d/Makefile        |  2 +-
+ init.d/devfs.in        |  2 +-
+ init.d/devmount.in     | 48 ++++++++++++++++++++++++++++++++++++++++++++++++
+ init.d/tmpfiles.dev.in |  2 +-
+ runlevels/Makefile     |  2 +-
+ 7 files changed, 55 insertions(+), 5 deletions(-)
+ create mode 100644 conf.d/devmount
+ create mode 100644 init.d/devmount.in
+
+diff --git a/conf.d/Makefile b/conf.d/Makefile
+index aefb612..68cb4c2 100644
+--- a/conf.d/Makefile
++++ b/conf.d/Makefile
+@@ -15,7 +15,7 @@ include ${MK}/os.mk
+ 
+ CONF-FreeBSD=	ipfw moused powerd rarpd savecore syscons
+ 
+-CONF-Linux=	consolefont dmesg hwclock keymaps killprocs modules
++CONF-Linux=	consolefont dmesg devmount hwclock keymaps killprocs modules
+ 
+ CONF-NetBSD=	moused rarpd savecore
+ 
+diff --git a/conf.d/devmount b/conf.d/devmount
+new file mode 100644
+index 0000000..92a8a99
+--- /dev/null
++++ b/conf.d/devmount
+@@ -0,0 +1,2 @@
++# Set this to yes if your /dev is not a devtmpfs or tmpfs.
++# static_dev="NO"
+diff --git a/init.d/Makefile b/init.d/Makefile
+index c2c3ea1..5cb781a 100644
+--- a/init.d/Makefile
++++ b/init.d/Makefile
+@@ -21,7 +21,7 @@ SRCS-FreeBSD=	hostid.in moused.in newsyslog.in pf.in rarpd.in rc-enabled.in \
+ SRCS-FreeBSD+=	adjkerntz.in devd.in dumpon.in encswap.in ipfw.in \
+ 		mixer.in nscd.in powerd.in syscons.in
+ 
+-SRCS-Linux=	devfs.in dmesg.in hwclock.in consolefont.in keymaps.in \
++SRCS-Linux=	devfs.in devmount.in dmesg.in hwclock.in consolefont.in keymaps.in \
+ 		killprocs.in modules.in mount-ro.in mtab.in numlock.in \
+ 		procfs.in sysfs.in termencoding.in tmpfiles.dev.in
+ 
+diff --git a/init.d/devfs.in b/init.d/devfs.in
+index afc2cb7..a6565e1 100644
+--- a/init.d/devfs.in
++++ b/init.d/devfs.in
+@@ -5,7 +5,7 @@
+ description="Mount system critical filesystems in /dev."
+ 
+ depend() {
+-	use dev-mount
++	after devmount
+ 	before dev
+ 	keyword -prefix -vserver -lxc
+ }
+diff --git a/init.d/devmount.in b/init.d/devmount.in
+new file mode 100644
+index 0000000..b84699f
+--- /dev/null
++++ b/init.d/devmount.in
+@@ -0,0 +1,48 @@
++#!@SBINDIR@/runscript
++# Copyright (c) 2013 William Hubbs <w.d.hubbs@gmail.com>
++# Released under the 2-clause BSD license.
++
++description="Mount the /dev file system"
++
++depend() {
++	provide dev-mount
++	before dev
++	keyword -prefix -vserver -lxc
++}
++
++start()
++{
++	local action=--mount devfstype msg=Mounting
++	# Some devices require exec, Bug #92921
++	local mountopts="exec,nosuid,mode=0755,size=10M"
++	if yesno ${static_dev:-no}; then
++		einfo "Using static /dev"
++		return 0
++	fi
++	if mountinfo -q /dev; then
++		action=--remount
++		mountopts="remount,$mountopts"
++		msg=Remounting
++	fi
++	if fstabinfo -q /dev; then
++		ebegin "$msg /dev according to @SYSCONFDIR@/fstab"
++		fstabinfo -q $action /dev
++		eend $?
++		return 0
++	fi
++	if grep -q devtmpfs /proc/filesystems; then
++		devfstype=devtmpfs
++	elif grep -q tmpfs /proc/filesystems; then
++		devfstype=tmpfs
++	fi
++	if [ -z "$devfstype" ]; then
++		ewarn "This kernel does not have devtmpfs or tmpfs support."
++		ewarn "Assuming you want static /dev. If this is not the case, please"
++		ewarn "activate either CONFIG_DEVTMPFS or CONFIG_TMPFS in your kernel."
++	else
++		ebegin "$msg /dev"
++		mount -n -t $devfstype -o $mountopts dev /dev
++		eend $?
++	fi
++	return 0
++}
+diff --git a/init.d/tmpfiles.dev.in b/init.d/tmpfiles.dev.in
+index 477fafa..dcbd711 100644
+--- a/init.d/tmpfiles.dev.in
++++ b/init.d/tmpfiles.dev.in
+@@ -6,7 +6,7 @@ description="set up tmpfiles.d entries"
+ 
+ depend()
+ {
+-	use dev-mount
++	after devmount
+ 	before dev
+ 	keyword -prefix -vserver
+ }
+diff --git a/runlevels/Makefile b/runlevels/Makefile
+index 25e3e1a..bbe1fcf 100644
+--- a/runlevels/Makefile
++++ b/runlevels/Makefile
+@@ -36,7 +36,7 @@ BOOT-FreeBSD+=	adjkerntz dumpon syscons
+ 
+ BOOT-Linux+=	hwclock keymaps modules mtab procfs termencoding tmpfiles.setup
+ SHUTDOWN-Linux=	killprocs mount-ro
+-SYSINIT-Linux=	devfs dmesg sysfs tmpfiles.dev
++SYSINIT-Linux=	devmount devfs dmesg sysfs tmpfiles.dev
+ 
+ # Generic BSD stuff
+ BOOT-NetBSD+=	hostid newsyslog savecore syslogd
+-- 
+1.8.3.2
+
