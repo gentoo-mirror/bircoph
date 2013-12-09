@@ -41,7 +41,7 @@ src_configure() {
 }
 
 src_install() {
-	default
+	emake DESTDIR="${D}" install
 	use examples && mv "${ED}/usr/bin/aac-enc" "${ED}/usr/bin/fdk-aac-enc"
 }
 
