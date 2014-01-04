@@ -1,4 +1,4 @@
-# Copyright 1999-2013 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/media-libs/win32codecs/win32codecs-20071007-r4.ebuild,v 1.4 2010/01/08 06:47:49 abcd Exp $
 
@@ -28,8 +28,6 @@ pkg_setup() {
 }
 
 src_install() {
-	use prefix || EPREFIX=
-
 	insinto /usr/$(get_libdir)/win32
 	doins *.dll *.ax *.xa *.acm *.vwp *.drv *.DLL *.qtx *.qts
 
