@@ -1,0 +1,2 @@
+# Only real codecs are affected by GLSA 201312-11
+media-libs/win32codecs real
