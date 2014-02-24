@@ -4,7 +4,7 @@
 
 EAPI=4
 
-inherit toolchain-funcs
+inherit base toolchain-funcs
 
 DESCRIPTION="LaTeX to RTF converter"
 HOMEPAGE="http://latex2rtf.sourceforge.net/"
@@ -26,6 +26,8 @@ DEPEND="${RDEPEND}
 		dev-texlive/texlive-latexextra
 		dev-tex/latex2html
 	)"
+
+PATCHES=( "${FILESDIR}/${P}-no-htmldoc.patch" )
 
 src_compile() {
 	export VARTEXFONTS="${T}/fonts"
