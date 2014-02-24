@@ -35,7 +35,6 @@ src_compile() {
 		cd "${S}/doc"
 		emake realclean
 		emake -j1
-		emake latex2rtf.html
 	fi
 }
 
