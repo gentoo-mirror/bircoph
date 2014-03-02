@@ -7,12 +7,12 @@ inherit cmake-utils eutils multilib toolchain-funcs flag-o-matic games git-2
 
 DESCRIPTION="Battle for Wesnoth - A fantasy turn-based strategy game"
 HOMEPAGE="http://www.wesnoth.org/"
-EGIT_REPO_URI="git://github.com/wesnoth/wesnoth-old.git"
+EGIT_REPO_URI="git://github.com/wesnoth/wesnoth.git"
 
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS=""
-IUSE="dbus dedicated doc nls server"
+IUSE="dbus +debug dedicated doc nls server"
 
 RDEPEND=">=media-libs/libsdl-1.2.7:0[joystick,video,X]
 	media-libs/sdl-net
