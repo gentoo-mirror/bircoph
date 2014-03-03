@@ -1,9 +1,9 @@
-# Copyright 1999-2013 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/media-gfx/nip2/nip2-7.26.4.ebuild,v 1.3 2012/04/05 03:33:33 jdhore Exp $
 
 EAPI=5
-inherit eutils autotools fdo-mime gnome2-utils versionator
+inherit fdo-mime gnome2-utils versionator
 
 MY_MAJ_VER=$(get_version_component_range 1-2)
 DESCRIPTION="VIPS Image Processing Graphical User Interface"
@@ -13,14 +13,15 @@ HOMEPAGE="http://vips.sourceforge.net"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64 x86"
-IUSE="debug fftw goffice gsl test"
+IUSE="debug fftw graphviz goffice gsl test"
 
 RDEPEND=">=dev-libs/glib-2.14:2
 	dev-libs/libxml2
 	x11-misc/xdg-utils
-	>=media-libs/vips-${MY_MAJ_VER}
-	>=x11-libs/gtk+-2.18:2
+	=media-libs/vips-${MY_MAJ_VER}*
+	>=x11-libs/gtk+-2.24:2
 	goffice? ( x11-libs/goffice:0.8 )
+	graphviz? ( <media-gfx/graphviz-2.30 )
 	gsl? ( sci-libs/gsl )
 	fftw? ( sci-libs/fftw:3.0 )"
 DEPEND="${RDEPEND}
@@ -28,17 +29,12 @@ DEPEND="${RDEPEND}
 	sys-devel/flex
 	test? ( media-libs/vips[jpeg,lcms,tiff] )"
 
-src_prepare() {
-	epatch "${FILESDIR}"/${PN}-7.16.4-fftw3-build.patch
-	epatch "${FILESDIR}"/${P}-lex.patch
-	eautoreconf
-}
-
 src_configure() {
 	econf \
 		--disable-update-desktop \
 		$(use_enable debug) \
 		$(use_with goffice libgoffice) \
+		$(use_with graphviz libgvc) \
 		$(use_with gsl) \
 		$(use_with fftw fftw3)
 }
@@ -48,17 +44,17 @@ src_test() {
 		ewarn "Some tests require USE=gsl. Disabling test_math.ws tests."
 		rm test/workspaces/test_math.ws
 	fi
-	make check || die
+	emake check
 }
 
 src_install() {
 	emake DESTDIR="${D}" install
-	dodoc AUTHORS ChangeLog NEWS README*
+	dodoc AUTHORS ChangeLog THANKS
 	insinto /usr/share/icons/hicolor/128x128/apps
 	newins share/nip2/data/vips-128.png nip2.png
 
-	mv "${D}"/usr/share/doc/${PN}/* "${D}"/usr/share/doc/${PF}
-	rmdir "${D}"/usr/share/doc/${PN}/
+	mv "${D}"/usr/share/doc/${PN}/* "${D}"/usr/share/doc/${PF} || die
+	rmdir "${D}"/usr/share/doc/${PN}/ || die
 	dosym /usr/share/doc/${PF}/html /usr/share/doc/${PN}/
 }
 
