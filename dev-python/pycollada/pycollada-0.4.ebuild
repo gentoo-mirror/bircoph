@@ -47,13 +47,13 @@ src_install()
 	fi
 
 	if use examples ; then
-		insinto /usr/share/${P}/
-		doins -r ${S}/examples
+		insinto "/usr/share/${P}/"
+		doins -r "${S}/examples"
 	fi
 
 	install_test_data() {
-		insinto $(python_get_sitedir)/collada/tests/
-		doins -r ${S}/collada/tests/data
+		insinto "$(python_get_sitedir)/collada/tests/"
+		doins -r "${S}/collada/tests/data"
 	}
 	python_foreach_impl install_test_data
 }
@@ -61,9 +61,9 @@ src_install()
 src_test()
 {
 	test_collada() {
-		for script in ${S}/collada/tests/*.py
+		for script in "${S}/collada/tests/*.py"
 		do
-			$EPYTHON "${script}"
+			"$EPYTHON" "${script}"
 		done
 	}
 	python_foreach_impl test_collada

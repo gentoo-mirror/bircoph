@@ -82,7 +82,7 @@ src_prepare() {
 	einfo "Patching cMake/FindCoin3DDoc.cmake ..."
 	local my_coin_version=$(best_version media-libs/coin)
 	local my_coin_path="${EROOT}"usr/share/doc/${my_coin_version##*/}/html
-    sed -e "s:/usr/share/doc/libcoin60-doc/html:${my_coin_path}:" \
+	sed -e "s:/usr/share/doc/libcoin60-doc/html:${my_coin_path}:" \
 		-i cMake/FindCoin3DDoc.cmake || die
 }
 
@@ -140,6 +140,6 @@ src_install() {
 	dodoc README.Linux ChangeLog.txt
 
 	# disable compression of QT assistant help files
-	>> ${ED}usr/share/doc/${P}/freecad.qhc.ecompress.skip
-	>> ${ED}usr/share/doc/${P}/freecad.qch.ecompress.skip
+	>> "${ED}usr/share/doc/${P}/freecad.qhc.ecompress.skip"
+	>> "${ED}usr/share/doc/${P}/freecad.qch.ecompress.skip"
 }
