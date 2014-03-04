@@ -1,0 +1,68 @@
+--- a/src/3rdParty/salomesmesh/src/StdMeshers/StdMeshers_RadialPrism_3D.cpp	2014-01-05 10:38:36.000000000 +0100
++++ b/src/3rdParty/salomesmesh/src/StdMeshers/StdMeshers_RadialPrism_3D.cpp	2014-01-05 10:39:33.000000000 +0100
+@@ -42,10 +42,14 @@
+ 
+ #include "utilities.h"
+ 
++#include <Standard_Version.hxx>
+ #include <BRepAdaptor_Curve.hxx>
+ #include <BRepBuilderAPI_MakeEdge.hxx>
+ #include <BRepTools.hxx>
+ #include <BRep_Tool.hxx>
++#if OCC_VERSION_HEX >= 0x060600
++#include <BRepClass3d.hxx>
++#endif
+ #include <TopExp_Explorer.hxx>
+ #include <TopoDS.hxx>
+ #include <TopoDS_Shell.hxx>
+@@ -161,7 +165,11 @@ bool StdMeshers_RadialPrism_3D::Compute(
+ 
+   // get 2 shells
+   TopoDS_Solid solid = TopoDS::Solid( aShape );
++#if OCC_VERSION_HEX >= 0x060600
++  TopoDS_Shell outerShell = BRepClass3d::OuterShell( solid );
++#else
+   TopoDS_Shell outerShell = BRepTools::OuterShell( solid );
++#endif
+   TopoDS_Shape innerShell;
+   int nbShells = 0;
+   for ( TopoDS_Iterator It (solid); It.More(); It.Next(), ++nbShells )
+@@ -401,7 +409,11 @@ bool StdMeshers_RadialPrism_3D::Evaluate
+ {
+   // get 2 shells
+   TopoDS_Solid solid = TopoDS::Solid( aShape );
++#if OCC_VERSION_HEX >= 0x060600
++  TopoDS_Shell outerShell = BRepClass3d::OuterShell( solid );
++#else
+   TopoDS_Shell outerShell = BRepTools::OuterShell( solid );
++#endif
+   TopoDS_Shape innerShell;
+   int nbShells = 0;
+   for ( TopoDS_Iterator It (solid); It.More(); It.Next(), ++nbShells )
+--- a/src/Mod/Part/App/TopoShapeSolidPyImp.cpp	2014-01-05 10:38:49.000000000 +0100
++++ b/src/Mod/Part/App/TopoShapeSolidPyImp.cpp	2014-01-05 10:39:20.000000000 +0100
+@@ -23,8 +23,12 @@
+ 
+ #include "PreCompiled.h"
+ 
++#include <Standard_Version.hxx>
+ #include <BRepGProp.hxx>
+ #include <BRepTools.hxx>
++#if OCC_VERSION_HEX >= 0x060600
++#include <BRepClass3d.hxx>
++#endif
+ #include <GProp_GProps.hxx>
+ #include <BRepBuilderAPI_MakeSolid.hxx>
+ #include <TopExp_Explorer.hxx>
+@@ -104,7 +108,11 @@ Py::Object TopoShapeSolidPy::getOuterShe
+     TopoDS_Shell shell;
+     const TopoDS_Shape& shape = getTopoShapePtr()->_Shape;
+     if (!shape.IsNull() && shape.ShapeType() == TopAbs_SOLID)
++#if OCC_VERSION_HEX >= 0x060600
++        shell = BRepClass3d::OuterShell(TopoDS::Solid(shape));
++#else
+         shell = BRepTools::OuterShell(TopoDS::Solid(shape));
++#endif
+     return Py::Object(new TopoShapeShellPy(new TopoShape(shell)),true);
+ }
+ 
