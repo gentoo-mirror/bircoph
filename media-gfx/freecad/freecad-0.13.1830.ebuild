@@ -4,9 +4,9 @@
 
 EAPI=5
 
-PYTHON_DEPEND=2
+PYTHON_COMPAT=( python2_{6,7} )
 
-inherit eutils multilib fortran-2 python cmake-utils
+inherit cmake-utils eutils fortran-2 multilib python-single-r1
 
 DESCRIPTION="QT based Computer Aided Design application"
 HOMEPAGE="http://www.freecadweb.org/"
@@ -34,7 +34,8 @@ COMMON_DEPEND="dev-cpp/eigen:3
 	sci-libs/gts
 	sci-libs/opencascade:=
 	sys-libs/zlib
-	virtual/glu"
+	virtual/glu
+	${PYTHON_DEPS}"
 RDEPEND="${COMMON_DEPEND}
 	dev-qt/assistant:4
 	dev-python/pycollada
@@ -56,7 +57,7 @@ RESTRICT="bindist mirror"
 
 pkg_setup() {
 	fortran-2_pkg_setup
-	python_set_active_version 2
+	python-single-r1_pkg_setup
 }
 
 src_prepare() {
@@ -142,4 +143,6 @@ src_install() {
 	# disable compression of QT assistant help files
 	>> "${ED}usr/share/doc/${P}/freecad.qhc.ecompress.skip"
 	>> "${ED}usr/share/doc/${P}/freecad.qch.ecompress.skip"
+
+	python_optimize "${D}"/usr/{"$(get_libdir)",share}"/${P}/Mod/"
 }
