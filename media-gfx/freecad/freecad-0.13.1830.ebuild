@@ -144,5 +144,5 @@ src_install() {
 	>> "${ED}usr/share/doc/${P}/freecad.qhc.ecompress.skip"
 	>> "${ED}usr/share/doc/${P}/freecad.qch.ecompress.skip"
 
-	python_optimize "${D}"/usr/{"$(get_libdir)",share}"/${P}/Mod/"
+	python_optimize "${D}"/usr/{"$(get_libdir)",share}/"${P}"/Mod/
 }
