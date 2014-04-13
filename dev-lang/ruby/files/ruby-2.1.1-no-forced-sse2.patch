@@ -1,0 +1,25 @@
+--- configure.in.orig	2014-04-14 00:46:14.000000000 +0400
++++ configure.in	2014-04-14 01:38:54.597889225 +0400
+@@ -856,22 +856,6 @@
+     for oflag in -fno-fast-math; do
+ 	RUBY_TRY_CFLAGS($oflag, [RUBY_APPEND_OPTION(optflags, $oflag)])
+     done
+-    AS_CASE(["$target"],
+-	[*-darwin*], [
+-	    # doesn't seem necessary on Mac OS X
+-	],
+-	[[i[4-6]86*]], [
+-	    RUBY_TRY_CFLAGS(-msse2 -mfpmath=sse, [
+-		RUBY_APPEND_OPTION(XCFLAGS, -msse2 -mfpmath=sse)
+-	    ])
+-            AS_CASE(["$XCFLAGS"],
+-                [[*-msse2*]], [
+-                    RUBY_TRY_CFLAGS(-mstackrealign, [
+-                        RUBY_APPEND_OPTION(XCFLAGS, -mstackrealign)
+-                    ])
+-                ])
+-	]
+-    )
+ fi
+ 
+ AC_ARG_WITH(opt-dir,
