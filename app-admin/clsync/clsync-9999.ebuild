@@ -46,6 +46,8 @@ src_configure() {
 
 	econf \
 		--docdir="${EPREFIX}/usr/share/doc/${PF}" \
+		--enable-clsync \
+		--disable-libclsync \
 		--enable-paranoid=${harden_level} \
 		$(use_enable cluster) \
 		$(use_enable control-socket socket) \
