@@ -211,7 +211,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/${PN}-9.2-dont-require-llvm-for-r300.patch
 
 	# do not force sse41 just because compiler supports this flag
-	epatch "${FILESDIR}"/${P}-sse41.patch
+	epatch "${FILESDIR}"/${PN}-10.1.0-sse41.patch
 
 	# fix for hardened pax_kernel, bug 240956
 	[[ ${PV} != 9999* ]] && epatch "${FILESDIR}"/glx_ro_text_segm.patch
