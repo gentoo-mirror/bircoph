@@ -1,6 +1,11 @@
 # ChangeLog for dev-util/symlookup
-# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2014 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
+
+  14 Jun 2014; Andrew Savchenko <bircoph@gmail.com> symlookup-9999.ebuild:
+  Update svn trunk URI
+
+  Old one is dead. And update to EAPI 5.
 
 *symlookup-0.5.2 (27 Oct 2011)
 

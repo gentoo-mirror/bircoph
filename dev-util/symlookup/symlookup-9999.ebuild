@@ -1,11 +1,11 @@
-# Copyright 1999-2013 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI="4"
+EAPI="5"
 
 [[ ${PV} = *9999* ]] && inherit subversion
-ESVN_REPO_URI="https://symbol-lookup.svn.sourceforge.net/svnroot/symbol-lookup/trunk"
+ESVN_REPO_URI="svn://svn.code.sf.net/p/symbol-lookup/code/trunk"
 
 DESCRIPTION="Utility for searching of object files containing requested symbols"
 HOMEPAGE="http://symbol-lookup.sourceforge.net/"
@@ -33,5 +33,5 @@ src_configure() {
 	local myconf="--disable-strip --enable-cflags"
 	use portage || myconf+=" --disable-portage"
 	use rpm || myconf+=" --disable-rpm"
-	econf ${myconf} || die "econf failed"
+	econf ${myconf}
 }
