@@ -10,9 +10,9 @@ DESCRIPTION="Samsung Unified Linux Driver"
 HOMEPAGE="http://www.samsung.com"
 SRC_URI="http://downloadcenter.samsung.com/content/DR/201403/20140312091542348/ULD_V1.00.21.tar.gz -> ${P}.tar.gz"
 
-LICENSE="samsung"
+LICENSE="samsung-eula"
 SLOT="0"
-KEYWORDS="~amd64 ~x86 ~arm"
+KEYWORDS="~amd64 ~x86"
 IUSE="cups scanner network"
 RESTRICT="mirror strip"
 REQUIRED_USE="network? ( cups )"
@@ -34,47 +34,24 @@ RDEPEND="
 
 S=${WORKDIR}/uld
 
-pkg_setup() {
-	if use kernel_linux; then
-		linux-info_pkg_setup
-		if ! linux_config_exists; then
-			ewarn "Can't check the linux kernel configuration."
-			ewarn "You might have some incompatible options enabled."
-		else
-			if use scanner; then
-				if linux_chkconfig_present USB_PRINTER; then
-					ewarn "You've enabled scanner support, your device will be managed via libusb."
-					ewarn "You should disable the USB_PRINTER support in your kernel config."
-					ewarn "Please disable it:"
-					ewarn "    CONFIG_USB_PRINTER=n"
-					ewarn "in /usr/src/linux/.config or"
-					ewarn "    Device Drivers --->"
-					ewarn "        USB support  --->"
-					ewarn "            [ ] USB Printer support"
-					ewarn "Scanning WILL NOT work with loaded usblp module."
-				fi
-			fi
-		fi
+QA_SONAME=""
+
+pkg_pretend() {
+	if use scanner; then
+		CONFIG_CHECK="~!USB_PRINTER"
+		ERROR_USB_PRINTER="USB scanners will be managed via libusb. If you're going to use them"
+		ERROR_USB_PRINTER+="USB_PRINTER support should be disabled in your kernel config."
+		ERROR_USB_PRINTER+="Scanning WILL NOT work with loaded usblp module."
 	fi
-}
-
-src_unpack() {
-	tar xozf "${DISTDIR}/${A}"
-}
-
-src_prepare() {
-	find . -type d -exec chmod 755 '{}' \;
-	find . -type f -exec chmod 644 '{}' \;
+	use cups && QA_SONAME="usr/$(get_libdir)/libscmssc.so"
 }
 
 src_install() {
-	if [ "${ABI}" == "amd64" ]; then
-		SARCH="x86_64"
-	elif [ "${ABI}" == "x86" ]; then
-		SARCH="i386"
-	else
-		SARCH="arm"
-	fi
+	local SARCH=""
+	use amd64 && SARCH="x86_64"
+	use arm && SARCH="arm"
+	use x86 && SARCH="x86"
+	[[ -z "${SARCH}" ]] && die "Unsupported architecture. Package supports amd64, arm, x86"
 
 	# Printing support
 	if use cups; then
@@ -82,21 +59,19 @@ src_install() {
 		# though ldd doesn't show any binary that needs it.
 		# Apparently it is required for ppds with cms (cts) profile
 		# and such drivers won't work otherwise.
-		exeinto /usr/$(get_libdir)
-		doexe ${SARCH}/libscmssc.so
+		dolib.so ${SARCH}/libscmssc.so
 
 		exeinto /usr/libexec/cups/filter
-		doexe ${SARCH}/pstosecps
-		doexe ${SARCH}/rastertospl
+		doexe ${SARCH}/{pstosecps,rastertospl}
 
 		dodir   /usr/share/cups/model/samsung
 		insinto /usr/share/cups/model/samsung
-		doins noarch/share/ppd/*
-		gzip "${D}"/usr/share/cups/model/samsung/*.ppd || die
+		doins noarch/share/ppd/*.ppd
+		gzip -9 "${D}"/usr/share/cups/model/samsung/*.ppd || die "gzip failed"
 
 		dodir   /usr/share/cups/profiles/samsung
 		insinto /usr/share/cups/profiles/samsung
-		doins noarch/share/ppd/cms/*
+		doins noarch/share/ppd/cms/*.cts
 	fi
 
 	# Scanning support
@@ -108,7 +83,7 @@ src_install() {
 		doexe ${SARCH}/libsane-smfp.so.1.0.1
 
 		dosym libsane-smfp.so.1.0.1 /usr/$(get_libdir)/sane/libsane-smfp.so.1
-		dosym libsane-smfp.so.1.0.1 /usr/$(get_libdir)/sane/libsane-smfp.so
+		dosym libsane-smfp.so.1 /usr/$(get_libdir)/sane/libsane-smfp.so
 	fi
 
 	# Network tool
@@ -122,5 +97,9 @@ pkg_postinst() {
 	if use scanner; then
 		elog "You need to manually add smfp to /etc/sane.d/dll.conf:"
 		elog "# echo smfp >> /etc/sane.d/dll.conf"
+	fi
+	if use network; then
+		elog "If you're using firewall and want to use smfpnetdiscovery tool,"
+		elog "you need to allow SNMP UDP packets (source port 161)"
 	fi
 }
