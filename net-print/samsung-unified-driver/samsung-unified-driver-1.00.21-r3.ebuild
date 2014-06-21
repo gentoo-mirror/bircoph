@@ -13,7 +13,7 @@ SRC_URI="http://downloadcenter.samsung.com/content/DR/201403/20140312091542348/U
 LICENSE="samsung-eula"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="cups scanner network"
+IUSE="cups network scanner"
 RESTRICT="mirror strip"
 REQUIRED_USE="network? ( cups )"
 
@@ -34,7 +34,18 @@ RDEPEND="
 
 S=${WORKDIR}/uld
 
-QA_SONAME=""
+if use cups; then
+	QA_FLAGS_IGNORED="usr/$(get_libdir)/libscmssc.so"
+	QA_FLAGS_IGNORED+=" usr/libexec/cups/filter/pstosecps"
+	QA_FLAGS_IGNORED+=" usr/libexec/cups/filter/rastertospl"
+	QA_SONAME="usr/$(get_libdir)/libscmssc.so"
+fi
+if use scanner; then
+	QA_FLAGS_IGNORED+=" usr/$(get_libdir)/sane/libsane-smfp.so.1.0.1"
+fi
+if use network; then
+	QA_FLAGS_IGNORED+=" usr/libexec/cups/backend/smfpnetdiscovery"
+fi
 
 pkg_pretend() {
 	if use scanner; then
@@ -43,7 +54,6 @@ pkg_pretend() {
 		ERROR_USB_PRINTER+="USB_PRINTER support should be disabled in your kernel config."
 		ERROR_USB_PRINTER+="Scanning WILL NOT work with loaded usblp module."
 	fi
-	use cups && QA_SONAME="usr/$(get_libdir)/libscmssc.so"
 }
 
 src_install() {

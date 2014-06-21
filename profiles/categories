@@ -22,11 +22,12 @@ net-fs
 net-ftp
 net-libs
 net-misc
+net-print
 sci-geosciences
 sci-visualization
 sys-apps
 sys-cluster
 sys-devel
-sys-libs
 sys-kernel
+sys-libs
 x11-misc
