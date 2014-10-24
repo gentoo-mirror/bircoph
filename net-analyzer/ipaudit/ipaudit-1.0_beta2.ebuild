@@ -6,7 +6,7 @@ EAPI=5
 
 inherit eutils flag-o-matic multilib
 
-DESCRIPTION="IPAudit monitors network activity on a network by host, protocol and port."
+DESCRIPTION="IPAudit monitors network activity on a network by host, protocol and port"
 HOMEPAGE="http://ipaudit.sourceforge.net/"
 MY_P="${PN}-${PV/_beta/BETA}"
 SRC_URI="mirror://sourceforge/${PN}/${MY_P}.tar.gz"
