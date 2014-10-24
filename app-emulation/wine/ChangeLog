@@ -1,6 +1,122 @@
 # ChangeLog for app-emulation/wine
 # Copyright 1999-2014 Gentoo Foundation; Distributed under the GPL v2
-# $Header: /var/cvsroot/gentoo-x86/app-emulation/wine/ChangeLog,v 1.506 2014/05/04 01:23:57 tetromino Exp $
+# $Header: /var/cvsroot/gentoo-x86/app-emulation/wine/ChangeLog,v 1.520 2014/10/05 13:17:36 ryao Exp $
+
+*wine-1.7.28 (05 Oct 2014)
+*wine-1.7.22 (05 Oct 2014)
+
+  05 Oct 2014; Richard Yao <ryao@gentoo.org>
+  +files/wine-1.7.28-gstreamer-v4.patch, +wine-1.7.22.ebuild,
+  +wine-1.7.28.ebuild, metadata.xml:
+  Version bump, see http://www.winehq.org/announce/1.7.28 for the announcement,
+  bug #518792, #516006 Version bump, see http://www.winehq.org/announce/1.7.22
+  for the announcement.  I am updating app-emulation/wine after maintainer
+  timeout on bug #518792. It was trivial to do a bump to wine 1.7.22, so I am
+  taking the opportunity to provide both wine 1.7.22 and wine 1.7.28. The latter
+  of which is the latest. Newer versions require revised patch sets, so I have
+  opted to change our we apply patches by obtaining pulseaudio patches from the
+  compholio patchset, which includes them.  Previously, we bundled the gstreamer
+  patch in our pulseaudio patch set, but the compholio patches do not include
+  it. In addition, Andreas Sturmlechner points out that there is a gstreamer v4
+  patch. It is a small enough patch that is a small enough patch that I have
+  opted to add it to the files directory. This should simplify ebuild
+  maintenance because bumps will not require updating external tarballs. If time
+  shows that this assumption is wrong, we can always move the patch to an
+  external tarball later.  In addition, wine 1.7.25 (if I recall correctly)
+  introduced an optional dependency on libpcap. net-libs/libpcap is not multilib
+  capable and none of the app-emulation/emul-linux-x86-* packages appear to
+  include it. Adding USE=pcap requires making net-libs/libpcap multilib capable,
+  which is a task for which I do not have time. Since this should not block a
+  new wine ebuild, I have opted to add --without-pcap to the 1.7.28 ebuild.
+  Lastly, the wine 1.7.28 bump was initially written independently, but Andreas
+  Sturmlechner contributed his own changes in bug #518792 to provide a working
+  1.7.28 ebuild. Some of his changes were rather good, so I have adopted them in
+  the wine 1.7.28 bump to produce an ebuild better than what either of us had
+  created on our own.
+
+  24 Jul 2014; Samuli Suominen <ssuominen@gentoo.org> metadata.xml:
+  Remove description for USE="udisks" which is a global USE flag now.
+
+  29 Jun 2014; Alexandre Rostovtsev <tetromino@gentoo.org> -wine-1.4.ebuild,
+  -wine-1.5.0.ebuild, -wine-1.5.1.ebuild, -wine-1.5.2.ebuild,
+  -wine-1.5.3.ebuild, -wine-1.5.4.ebuild, -wine-1.5.5.ebuild,
+  -wine-1.5.6.ebuild, -wine-1.5.7.ebuild, -wine-1.5.8.ebuild,
+  -wine-1.5.9.ebuild, -wine-1.5.10-r1.ebuild, -wine-1.5.11-r1.ebuild,
+  -wine-1.5.12-r1.ebuild, -wine-1.5.13-r1.ebuild, -wine-1.5.14-r1.ebuild,
+  -wine-1.5.15-r2.ebuild, -wine-1.5.16-r1.ebuild, -wine-1.5.17.ebuild,
+  -wine-1.5.18.ebuild, -wine-1.5.19.ebuild, -wine-1.5.20.ebuild,
+  -wine-1.5.21.ebuild, -wine-1.5.22.ebuild, -wine-1.5.23-r1.ebuild,
+  -wine-1.5.24.ebuild, -wine-1.5.25.ebuild, -wine-1.5.26.ebuild,
+  -wine-1.5.27.ebuild, -wine-1.5.28.ebuild, -wine-1.5.29.ebuild,
+  -wine-1.5.30.ebuild, -wine-1.5.31.ebuild, -wine-1.6.ebuild,
+  -files/wine-1.5.11-osmesa-check.patch, -files/wine-1.5.30-libwine.patch,
+  -files/wine-1.5.31-gnutls-3.2.0.patch:
+  Clean up obsolete ebuilds.
+
+*wine-1.7.21 (29 Jun 2014)
+
+  29 Jun 2014; Alexandre Rostovtsev <tetromino@gentoo.org> +wine-1.7.21.ebuild,
+  wine-9999.ebuild:
+  Version bump, see http://www.winehq.org/announce/1.7.21 for the announcement.
+  Apply experimental gstreamer fix only when USE=gstreamer because it has been
+  reported to cause crashes in Bioshock (thanks to David Heidelberger).
+
+  18 Jun 2014; Michał Górny <mgorny@gentoo.org> wine-1.6.1.ebuild,
+  wine-1.6.2.ebuild, wine-1.6.ebuild, wine-1.7.0.ebuild, wine-1.7.10.ebuild,
+  wine-1.7.11.ebuild, wine-1.7.12.ebuild, wine-1.7.13.ebuild,
+  wine-1.7.14.ebuild, wine-1.7.15.ebuild, wine-1.7.16.ebuild,
+  wine-1.7.17.ebuild, wine-1.7.18.ebuild, wine-1.7.19-r1.ebuild,
+  wine-1.7.20.ebuild, wine-1.7.3.ebuild, wine-1.7.4.ebuild, wine-1.7.8.ebuild,
+  wine-1.7.9.ebuild, wine-9999.ebuild:
+  Update dependencies to require guaranteed EAPI=5 or multilib ebuilds, bug
+  #513718.
+
+  17 Jun 2014; Chema Alonso <nimiux@gentoo.org> wine-1.6.2.ebuild:
+  Stable for amd64 wrt bug #501442
+
+*wine-1.7.20 (16 Jun 2014)
+
+  16 Jun 2014; Alexandre Rostovtsev <tetromino@gentoo.org> +wine-1.7.20.ebuild,
+  wine-9999.ebuild:
+  Version bump, see http://www.winehq.org/announce/1.7.20 for the announcement.
+  Use samba with ABI_X86="32 64" for win32 netapi support; note that there is
+  no emul-linux-x86-* alternative for netapi. Switch to multilib-minimal.eclass
+  (bugs #494394 and #511184, thanks to Michał Górny). Enable experimental
+  pthreads patch from winepulse patchset, otherwise gstreamer support is simply
+  broken with any version of dev-libs/glib we have in portage.
+
+  15 Jun 2014; Michał Górny <mgorny@gentoo.org> wine-1.7.19-r1.ebuild:
+  Disallow mixing of emul-linux-x86 with multilib dependencies, since all
+  dependencies are unmasked now.
+
+  12 Jun 2014; Michał Górny <mgorny@gentoo.org> wine-1.7.19-r1.ebuild,
+  wine-9999.ebuild:
+  Support multilib gstreamer.
+
+  25 May 2014; Michał Górny <mgorny@gentoo.org> wine-1.7.19-r1.ebuild,
+  wine-9999.ebuild:
+  Support multilib unixODBC ebuild.
+
+  23 May 2014; Michał Górny <mgorny@gentoo.org> wine-9999.ebuild:
+  Forward-port the emul-linux dependency changes to the live ebuild.
+
+  21 May 2014; Michał Górny <mgorny@gentoo.org> wine-1.7.19-r1.ebuild:
+  Support new multilib-enabled packages as dependencies. Partially bug #510646.
+
+*wine-1.7.19-r1 (17 May 2014)
+
+  17 May 2014; Alexandre Rostovtsev <tetromino@gentoo.org> -wine-1.7.19.ebuild,
+  +wine-1.7.19-r1.ebuild, wine-9999.ebuild:
+  Pipelight needs xattrs to be enabled (bug #507950, thanks to Michael
+  Müller).
+
+*wine-1.7.19 (17 May 2014)
+
+  17 May 2014; Alexandre Rostovtsev <tetromino@gentoo.org> +wine-1.7.19.ebuild,
+  wine-9999.ebuild, metadata.xml:
+  Version bump, see http://www.winehq.org/announce/1.7.19 for the announcement.
+  Optionally apply the unofficial and unsupported Compholio patch set required
+  for Pipelight support (bug #507950, thanks to Patrick McMunn).
 
 *wine-1.7.18 (04 May 2014)
 
