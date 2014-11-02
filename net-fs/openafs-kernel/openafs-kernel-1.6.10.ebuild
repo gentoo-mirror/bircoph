@@ -42,7 +42,7 @@ src_prepare() {
 	EPATCH_EXCLUDE="012_all_kbuild.patch 020_all_fbsd.patch" \
 	EPATCH_SUFFIX="patch" \
 	epatch "${WORKDIR}"/gentoo/patches
-	epatch "${FILESDIR}/${PN}-3.16.patch"
+	epatch "${FILESDIR}/${PN}-3.17.patch"
 	epatch_user
 
 	# packaging is f-ed up, so we can't run eautoreconf
