@@ -79,7 +79,8 @@ SRC_URI="mirror://gentoo/${PN}-${TARBALL_PV}.tar.bz2
 
 python_prepare_all() {
 	distutils-r1_python_prepare_all
-	epatch "${FILESDIR}/${P}-use_reduce-cache.patch"
+	epatch "${FILESDIR}/${P}-bug_529660.patch"
+	epatch "${FILESDIR}/${P}-bug_530010.patch"
 
 	if ! use ipc ; then
 		einfo "Disabling ipc..."
