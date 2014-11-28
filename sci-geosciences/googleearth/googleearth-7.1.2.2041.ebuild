@@ -142,9 +142,10 @@ src_install() {
 
 	# for all bins and libs disable world access and group write access
 	# only users from earth group may be able to use it
-	local filelist=$( find "${D}"/{opt,/usr/bin} -type f -perm +a+x | gawk -v path="${D}" '{ gsub("^"path,""); print $0 }')
+	local filelist=$( find "${D}"/{opt,/usr/bin} -type f \( -perm -a+x -o -name "*.so*" \) |
+		gawk -v path="${D}" '{ gsub("^"path,""); print $0 }')
 	fowners :earth ${filelist} || die "chown failed"
-	fperms -R o-rwx,g-w ${filelist} || die "chmod failed"
+	fperms -R o-rwx,g-w,u+x,o+x ${filelist} || die "chmod failed"
 
 	pax-mark -m "${ED%/}"/opt/${PN}/${PN}-bin
 }
