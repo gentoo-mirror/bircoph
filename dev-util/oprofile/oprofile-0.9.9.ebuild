@@ -3,7 +3,7 @@
 # $Header: /var/cvsroot/gentoo-x86/dev-util/oprofile/oprofile-0.9.9.ebuild,v 1.3 2013/12/22 14:44:44 ago Exp $
 
 EAPI="5"
-inherit eutils linux-info multilib user java-pkg-opt-2
+inherit autotools eutils linux-info multilib user java-pkg-opt-2
 
 MY_P=${PN}-${PV/_/-}
 DESCRIPTION="A transparent low-overhead system-wide profiler"
@@ -12,7 +12,7 @@ SRC_URI="mirror://sourceforge/${PN}/${MY_P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~alpha ~amd64 ~arm ~hppa ~mips ppc ppc64 ~sparc ~x86"
+KEYWORDS="~alpha ~amd64 ~arm ~hppa ~mips ~ppc ~ppc64 ~sparc ~x86"
 IUSE="java pch qt4"
 
 DEPEND=">=dev-libs/popt-1.7-r1
@@ -50,6 +50,7 @@ src_prepare() {
 	epatch "${FILESDIR}/${P}-gcc-4.9-non-ppc.patch"
 	epatch "${FILESDIR}/${P}-gcc-4.9-unused.patch"
 	epatch "${FILESDIR}/${PN}-1.0.0-athlon.patch"
+	eautoreconf
 }
 
 src_configure() {
