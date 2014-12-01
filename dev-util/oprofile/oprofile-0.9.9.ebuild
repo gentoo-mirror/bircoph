@@ -1,4 +1,4 @@
-# Copyright 1999-2013 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-util/oprofile/oprofile-0.9.9.ebuild,v 1.3 2013/12/22 14:44:44 ago Exp $
 
@@ -49,6 +49,7 @@ pkg_setup() {
 src_prepare() {
 	epatch "${FILESDIR}/${P}-gcc-4.9-non-ppc.patch"
 	epatch "${FILESDIR}/${P}-gcc-4.9-unused.patch"
+	epatch "${FILESDIR}/${PN}-1.0.0-athlon.patch"
 }
 
 src_configure() {
