@@ -46,6 +46,11 @@ pkg_setup() {
 	use java && java-pkg_init
 }
 
+src_prepare() {
+	epatch "${FILESDIR}/${P}-gcc-4.9-non-ppc.patch"
+	epatch "${FILESDIR}/${P}-gcc-4.9-unused.patch"
+}
+
 src_configure() {
 	econf \
 		--disable-werror \

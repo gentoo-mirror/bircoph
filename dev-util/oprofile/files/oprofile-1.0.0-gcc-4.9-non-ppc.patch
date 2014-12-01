@@ -1,0 +1,49 @@
+commit 008e470a9b8751de0a3745e511cbc05b68759688
+Author: Aaro Koskinen <aaro.koskinen@iki.fi>
+Date:   Mon May 12 08:28:46 2014 -0500
+
+    configure: fix test-for-synth check with GCC 4.9.0
+    
+    With GCC 4.9.0 oprofile 0.9.9 build fails on non-PPC platfroms because
+    the "test-for-synth" configure check result is incorrect: There is a NULL
+    pointer dereference in the test program, so the compiler seems to optimize
+    the rest of the code away, and the test will always succeed regardless
+    whether powerpc_elf64_vec/bfd_elf64_powerpc_vec are present or not.
+    Fix by allocating the referred struct statically.
+    
+    While at it, also include stdio.h to avoid a compiler warning.
+    
+    Signed-off-by: Aaro Koskinen <aaro.koskinen@iki.fi>
+
+diff --git a/m4/binutils.m4 b/m4/binutils.m4
+index c83ba41..c50e2f3 100644
+--- a/m4/binutils.m4
++++ b/m4/binutils.m4
+@@ -23,9 +23,10 @@ dnl Use a different bfd function here so as not to use cached result from above
+ AC_LANG_PUSH(C)
+ # Determine if bfd_get_synthetic_symtab macro is available
+ AC_MSG_CHECKING([whether bfd_get_synthetic_symtab() exists in BFD library])
+-AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <bfd.h>
+-	]],
+-	[[asymbol * synthsyms;	bfd * ibfd = 0;
++AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <bfd.h>]
++	[#include <stdio.h>]
++	[static bfd _ibfd;]],
++	[[asymbol * synthsyms;	bfd * ibfd = &_ibfd;
+ 	long synth_count = bfd_get_synthetic_symtab(ibfd, 0, 0, 0, 0, &synthsyms);
+ 	extern const bfd_target powerpc_elf64_vec;
+ 	char *ppc_name = powerpc_elf64_vec.name;
+@@ -33,9 +34,10 @@ AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <bfd.h>
+ 	]])],
+ 	[AC_MSG_RESULT([yes])
+ 	SYNTHESIZE_SYMBOLS=2],
+-	[AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <bfd.h>
+-		]],
+-		[[asymbol * synthsyms;	bfd * ibfd = 0;
++	[AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <bfd.h>]
++		[#include <stdio.h>]
++		[static bfd _ibfd;]],
++		[[asymbol * synthsyms;	bfd * ibfd = &_ibfd;
+ 		long synth_count = bfd_get_synthetic_symtab(ibfd, 0, 0, 0, 0, &synthsyms);
+ 		extern const bfd_target bfd_elf64_powerpc_vec;
+ 		char *ppc_name = bfd_elf64_powerpc_vec.name;
