@@ -1,3 +1,5 @@
+Backported from 1.0.0:
+======================================================================
 commit 008e470a9b8751de0a3745e511cbc05b68759688
 Author: Aaro Koskinen <aaro.koskinen@iki.fi>
 Date:   Mon May 12 08:28:46 2014 -0500
@@ -16,34 +18,17 @@ Date:   Mon May 12 08:28:46 2014 -0500
     Signed-off-by: Aaro Koskinen <aaro.koskinen@iki.fi>
 
 diff --git a/m4/binutils.m4 b/m4/binutils.m4
-index c83ba41..c50e2f3 100644
+index 25fb15a..a3bc66e 100644
 --- a/m4/binutils.m4
 +++ b/m4/binutils.m4
-@@ -23,9 +23,10 @@ dnl Use a different bfd function here so as not to use cached result from above
- AC_LANG_PUSH(C)
- # Determine if bfd_get_synthetic_symtab macro is available
- AC_MSG_CHECKING([whether bfd_get_synthetic_symtab() exists in BFD library])
--AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <bfd.h>
--	]],
--	[[asymbol * synthsyms;	bfd * ibfd = 0;
-+AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <bfd.h>]
-+	[#include <stdio.h>]
-+	[static bfd _ibfd;]],
-+	[[asymbol * synthsyms;	bfd * ibfd = &_ibfd;
- 	long synth_count = bfd_get_synthetic_symtab(ibfd, 0, 0, 0, 0, &synthsyms);
- 	extern const bfd_target powerpc_elf64_vec;
- 	char *ppc_name = powerpc_elf64_vec.name;
-@@ -33,9 +34,10 @@ AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <bfd.h>
- 	]])],
- 	[AC_MSG_RESULT([yes])
- 	SYNTHESIZE_SYMBOLS=2],
--	[AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <bfd.h>
--		]],
--		[[asymbol * synthsyms;	bfd * ibfd = 0;
-+	[AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <bfd.h>]
-+		[#include <stdio.h>]
-+		[static bfd _ibfd;]],
-+		[[asymbol * synthsyms;	bfd * ibfd = &_ibfd;
- 		long synth_count = bfd_get_synthetic_symtab(ibfd, 0, 0, 0, 0, &synthsyms);
- 		extern const bfd_target bfd_elf64_powerpc_vec;
- 		char *ppc_name = bfd_elf64_powerpc_vec.name;
+@@ -28,7 +28,9 @@ if test "$OS" = "Linux"; then
+ 	rm -f test-for-synth
+ 	AC_LANG_CONFTEST(
+ 		[AC_LANG_PROGRAM([[#include <bfd.h>]],
+-			[[asymbol * synthsyms;	bfd * ibfd = 0; 
++                        [#include <stdio.h>]
++                        [static bfd _ibfd;]],
++                        [[asymbol * synthsyms;	bfd * ibfd = &_ibfd;
+ 			long synth_count = bfd_get_synthetic_symtab(ibfd, 0, 0, 0, 0, &synthsyms);
+ 			extern const bfd_target bfd_elf64_powerpc_vec;
+ 			extern const bfd_target bfd_elf64_powerpcle_vec;
