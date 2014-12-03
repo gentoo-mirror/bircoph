@@ -1,4 +1,4 @@
-# Copyright 1999-2013 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/media-video/mplayer/mplayer-9999.ebuild,v 1.133 2012/06/21 08:10:42 yngwin Exp $
 
@@ -301,8 +301,7 @@ src_configure() {
 	# dvdread - accessing a DVD
 	# dvdnav - navigation of menus
 	#
-	# use external libdvdcss, dvdread and dvdnav
-	myconf+=" --disable-dvdread-internal --disable-libdvdcss-internal"
+	# use libdvdcss, dvdread and dvdnav
 	use dvd || myconf+=" --disable-dvdread"
 	use dvdnav || myconf+=" --disable-dvdnav"
 

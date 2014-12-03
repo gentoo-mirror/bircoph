@@ -1,10 +1,13 @@
 # ChangeLog for media-video/mplayer
-# Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2014 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 # This is ChangeLog for overlay specific changes.
 # Please refer to ChangeLog.portage for changes in portage ebuild.
 # Advanced overlay ebuild is meant to be in sync with portage one,
 # provide additional features and eventually send some of them upstream.
+
+  03 Dec 2014; Andrew Savchenko <bircoph@gentoo.org> mplayer-9999.ebuild:
+  Remove configure options dropped by upstream
 
   24 Sep 2012; Andrew Savchenko <bircoph@gmail.com>
   -files/mplayer-live555.patch, mplayer-9999.ebuild:
