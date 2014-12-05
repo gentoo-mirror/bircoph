@@ -26,6 +26,7 @@ net-print
 sci-geosciences
 sci-visualization
 sys-apps
+sys-boot
 sys-cluster
 sys-devel
 sys-kernel
