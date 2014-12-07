@@ -23,8 +23,7 @@ RDEPEND="
 	>=net-libs/libotr-4.1.0
 	>=net-irc/irssi-0.8.15"
 
-DEPEND="${PYTHON_DEPS}
-	${RDEPEND}
+DEPEND="${RDEPEND}
 	virtual/pkgconfig"
 
 AUTOTOOLS_AUTORECONF="yes"
