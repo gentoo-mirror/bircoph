@@ -13,7 +13,7 @@ SRC_URI="https://github.com/cryptodotis/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="debug"
+IUSE=""
 
 # please note >=libotr-4.1.0 is required due to critical bugfix
 # d748757e581b74e7298df155ad49174cb914102b, see README.md
