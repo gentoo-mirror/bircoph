@@ -29,6 +29,7 @@ sys-apps
 sys-boot
 sys-cluster
 sys-devel
+sys-infiniband
 sys-kernel
 sys-libs
 x11-misc
