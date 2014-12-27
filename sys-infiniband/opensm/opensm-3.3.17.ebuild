@@ -13,17 +13,21 @@ inherit autotools eutils openib
 
 DESCRIPTION="OpenSM - InfiniBand Subnet Manager and Administration for OpenIB"
 KEYWORDS="~amd64 ~x86 ~amd64-linux"
-IUSE=""
+IUSE="tools"
 
 DEPEND="
 	sys-infiniband/libibmad:${SLOT}
 	sys-infiniband/libibumad:${SLOT}"
 RDEPEND="$DEPEND
-	 net-misc/iputils"
+	 tools? ( 
+		net-misc/iputils
+		net-misc/openssh
+	)"
 block_other_ofed_versions
 
 src_prepare() {
 	epatch "${FILESDIR}/${P}-norpm.patch"
+	epatch "${FILESDIR}/${P}-sldd.patch"
 	eautoreconf
 }
 
@@ -42,6 +46,12 @@ src_install() {
 	newins "${S}/scripts/opensm.logrotate" opensm
 	# we dont nee this int script
 	rm "${ED}/etc/init.d/opensmd" || die "Dropping of upstream initscript failed"
+
+	if use tools; then
+		dosbin scripts/sldd.sh
+		newconfd "${FILESDIR}/sldd.conf.d" sldd
+		newinitd "${FILESDIR}/sldd.init.d" sldd
+	fi
 }
 
 pkg_postinst() {
