@@ -1,9 +1,10 @@
-# Copyright 1999-2013 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/sys-devel/distcc/distcc-3.2_rc1.ebuild,v 1.5 2013/02/12 09:09:20 armin76 Exp $
 
-EAPI="5"
-PYTHON_COMPAT=( python{2_6,2_7} )
+EAPI=5
+
+PYTHON_COMPAT=( python2_7 )
 
 inherit autotools eutils fdo-mime flag-o-matic multilib python-single-r1 toolchain-funcs user
 
@@ -19,7 +20,7 @@ IUSE="avahi cc32_64 crossdev gnome gssapi gtk hardened ipv6 +secure selinux xine
 
 RESTRICT="test"
 
-RDEPEND="dev-libs/popt
+CDEPEND="dev-libs/popt
 	avahi? ( >=net-dns/avahi-0.6[dbus] )
 	cc32_64? (
 		amd64? ( sys-devel/gcc[multilib] )
@@ -33,9 +34,9 @@ RDEPEND="dev-libs/popt
 	)
 	gssapi? ( net-libs/libgssglue )
 	gtk? ( x11-libs/gtk+:2 )"
-DEPEND="${RDEPEND}
+DEPEND="${CDEPEND}
 	virtual/pkgconfig"
-RDEPEND="${RDEPEND}
+RDEPEND="${CDEPEND}
 	!net-misc/pump
 	>=sys-devel/gcc-config-1.4.1
 	selinux? ( sec-policy/selinux-distcc )
@@ -43,6 +44,7 @@ RDEPEND="${RDEPEND}
 
 # crosscompilation requirements
 REQUIRED_USE="
+	${PYTHON_REQUIRED_USE}
 	cc32_64? (
 		!crossdev
 		^^ ( amd64 x86 )
