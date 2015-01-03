@@ -11,7 +11,8 @@ inherit autotools eutils fdo-mime flag-o-matic multilib python-single-r1 toolcha
 MY_P="${P/_}"
 DESCRIPTION="Distribute compilation of C code across several machines on a network"
 HOMEPAGE="http://distcc.org/"
-SRC_URI="http://distcc.googlecode.com/files/${MY_P}.tar.bz2"
+SRC_URI="http://distcc.googlecode.com/files/${MY_P}.tar.bz2
+		 http://dev.gentoo.org/~bircoph/patches/${P}-native.patch.xz"
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -79,14 +80,14 @@ src_prepare() {
 	# for cross-compiling
 	epatch "${FILESDIR}/${P}-crosscompile.patch"
 	# to support native arguments
-	epatch "${FILESDIR}/${P}-native.patch"
+	epatch "${WORKDIR}/${P}-native.patch"
 
 	# Bugs #120001, #167844 and probably more. See patch for description.
 	use hardened && epatch "${FILESDIR}/distcc-hardened.patch"
 
 	sed -i \
 		-e "/PATH/s:\$distcc_location:${EPREFIX}${DCCC_PATH}:" \
-		-e "s:@PYTHON@:${EPREFIX}$(PYTHON -a):" \
+		-e "s:@PYTHON@:${EPYTHON}:" \
 		pump.in || die "sed failed"
 
 	sed \
