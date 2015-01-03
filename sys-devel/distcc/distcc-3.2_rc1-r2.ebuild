@@ -1,4 +1,4 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/sys-devel/distcc/distcc-3.2_rc1.ebuild,v 1.5 2013/02/12 09:09:20 armin76 Exp $
 
@@ -154,7 +154,8 @@ src_compile() {
 }
 
 src_install() {
-	emake DESTDIR="${D}" install
+	default
+	python_optimize
 
 	if use cc32_64 ; then
 		exeinto "${DCCC_PATH}-${arch}"
@@ -212,9 +213,6 @@ src_install() {
 	rm -r "${ED}/etc/default" || die
 	rm "${ED}/etc/distcc/clients.allow" || die
 	rm "${ED}/etc/distcc/commands.allow.sh" || die
-
-	python_fix_shebang "${ED}"
-	python_optimize "${ED}"/$(python_get_sitedir)
 }
 
 pkg_postinst() {
