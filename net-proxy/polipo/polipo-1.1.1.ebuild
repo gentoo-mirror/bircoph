@@ -11,17 +11,15 @@ if [[ ${PV} == "9999" ]] ; then
 	KEYWORDS=""
 else
 	SRC_URI="http://www.pps.jussieu.fr/~jch/software/files/${PN}/${P}.tar.gz"
-	KEYWORDS="~amd64 ~x86 ~amd64-linux ~x86-linux"
+	KEYWORDS="~amd64 ~x86"
 fi
 
 inherit ${_GIT} toolchain-funcs user
 
 DESCRIPTION="A caching web proxy"
 HOMEPAGE="http://www.pps.jussieu.fr/~jch/software/polipo/"
-
 LICENSE="MIT GPL-2"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
 
 DEPEND="sys-apps/texinfo"
 RDEPEND=""
