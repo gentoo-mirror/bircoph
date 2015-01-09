@@ -14,7 +14,12 @@ SRC_URI="mirror://sourceforge/tsocks/${PN}-${PV/_}.tar.gz
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~alpha ~amd64 ~arm ~ppc ~ppc64 ~sparc ~x86 ~x86-fbsd"
-IUSE="tordns"
+IUSE="dns envconf tordns +server-lookups"
+
+REQUIRED_USE="
+	?? ( dns tordns )
+	dns? ( !server-lookups )
+"
 
 S="${WORKDIR}/${P%%_*}"
 
@@ -38,6 +43,9 @@ src_configure() {
 	# /usr/lib and add it to /etc/ld.so.preload on many systems /usr isn't
 	# mounted in time :-( (Ben Lutgens) <lamer@gentoo.org>
 	econf \
+		$(use_enable dns socksdns) \
+		$(use_enable envconf) \
+		$(use_enable server-lookups hostnames) \
 		--with-conf=/etc/socks/tsocks.conf \
 		--libdir=/$(get_libdir)
 }
