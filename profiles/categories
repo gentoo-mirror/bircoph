@@ -23,6 +23,7 @@ net-irc
 net-libs
 net-misc
 net-print
+net-proxy
 sci-geosciences
 sci-visualization
 sys-apps
