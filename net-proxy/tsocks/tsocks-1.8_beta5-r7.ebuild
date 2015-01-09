@@ -9,7 +9,7 @@ inherit autotools eutils multilib toolchain-funcs
 DESCRIPTION="Transparent SOCKS v4 proxying library"
 HOMEPAGE="http://tsocks.sourceforge.net/"
 SRC_URI="mirror://sourceforge/tsocks/${PN}-${PV/_}.tar.gz
-	tordns? ( http://dev.gentoo.org/~naota/patch/${PN}-${PV/_beta/b}-tordns1-gentoo-r2.patch.gz )"
+	tordns? ( http://dev.gentoo.org/~bircoph/patches/${PN}-${PV/_beta/b}-tordns1-gentoo-r3.patch.xz )"
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -25,7 +25,7 @@ src_prepare() {
 	"${FILESDIR}/${P}-rename.patch" \
 	"${FILESDIR}/${P}-bsd.patch" \
 	"${FILESDIR}/${P}-poll.patch"
-	use tordns && epatch "../${PN}-${PV/_beta/b}-tordns1-gentoo-r2.patch"
+	use tordns && epatch "../${PN}-${PV/_beta/b}-tordns1-gentoo-r3.patch"
 
 	sed -i 's/TSOCKS_CONFFILE/TSOCKS_CONF_FILE/' tsocks.8 || die "sed tsocks.8 failed"
 	eautoreconf
