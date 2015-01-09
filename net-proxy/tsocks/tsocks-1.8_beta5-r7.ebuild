@@ -27,7 +27,7 @@ src_prepare() {
 	"${FILESDIR}/${P}-poll.patch"
 	use tordns && epatch "../${PN}-${PV/_beta/b}-tordns1-gentoo-r2.patch"
 
-	sed -i 's/TSOCKS_CONFFILE/TSOCKS_CONF_FILE/' tsocks.8
+	sed -i 's/TSOCKS_CONFFILE/TSOCKS_CONF_FILE/' tsocks.8 || die "sed tsocks.8 failed"
 	eautoreconf
 }
 
