@@ -23,7 +23,8 @@ src_prepare() {
 	"${FILESDIR}/${P}-flags.patch" \
 	"${FILESDIR}/${P}-ld_preload.patch" \
 	"${FILESDIR}/${P}-rename.patch" \
-	"${FILESDIR}/${P}-bsd.patch"
+	"${FILESDIR}/${P}-bsd.patch" \
+	"${FILESDIR}/${P}-poll.patch"
 	use tordns && epatch "../${PN}-${PV/_beta/b}-tordns1-gentoo-r2.patch"
 	eautoreconf
 }
