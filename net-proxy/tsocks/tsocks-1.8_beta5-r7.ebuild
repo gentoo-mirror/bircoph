@@ -14,11 +14,11 @@ SRC_URI="mirror://sourceforge/tsocks/${PN}-${PV/_}.tar.gz
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~alpha ~amd64 ~arm ~ppc ~ppc64 ~sparc ~x86 ~x86-fbsd"
-IUSE="dns envconf tordns +server-lookups"
+IUSE="dns envconf tordns server-lookups"
 
 REQUIRED_USE="
-	?? ( dns tordns )
-	dns? ( !server-lookups )
+	dns? ( !dns !server-lookups )
+	tordns? ( !tordns !server-lookups )
 "
 
 S="${WORKDIR}/${P%%_*}"
