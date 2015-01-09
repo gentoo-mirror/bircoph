@@ -39,7 +39,7 @@ src_install() {
 
 	newinitd "${FILESDIR}/${PN}.initd-2" ${PN}
 	insinto /etc/${PN} ; doins "${FILESDIR}/config"
-	exeinto /etc/cron.daily ; newexe "${FILESDIR}/${PN}.crond" ${PN}.sh
+	exeinto /etc/cron.weekly ; newexe "${FILESDIR}/${PN}.crond" ${PN}
 
 	dodoc CHANGES README
 	dohtml html/*
