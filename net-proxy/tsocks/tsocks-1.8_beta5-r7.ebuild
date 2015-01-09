@@ -17,8 +17,8 @@ KEYWORDS="~alpha ~amd64 ~arm ~ppc ~ppc64 ~sparc ~x86 ~x86-fbsd"
 IUSE="dns envconf tordns server-lookups"
 
 REQUIRED_USE="
-	dns? ( !dns !server-lookups )
-	tordns? ( !tordns !server-lookups )
+	dns? ( !tordns !server-lookups )
+	tordns? ( !dns !server-lookups )
 "
 
 S="${WORKDIR}/${P%%_*}"
