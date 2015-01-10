@@ -22,7 +22,6 @@ net-libs
 net-misc
 net-print
 sci-geosciences
-sci-visualization
 sys-apps
 sys-boot
 sys-cluster
