@@ -1,8 +1,8 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/sci-visualization/opendx/opendx-4.4.4-r4.ebuild,v 1.11 2012/10/24 19:45:23 ulm Exp $
 
-EAPI=4
+EAPI=5
 
 MYP=dx-${PV}
 inherit eutils flag-o-matic autotools multilib
@@ -13,7 +13,7 @@ SRC_URI="http://opendx.sdsc.edu/source/${MYP}.tar.gz"
 
 LICENSE="IBM"
 SLOT="0"
-KEYWORDS="amd64 ppc x86 ~amd64-linux ~x86-linux"
+KEYWORDS="~amd64 ~ppc ~x86 ~amd64-linux ~x86-linux"
 IUSE="hdf cdf netcdf tiff imagemagick szip smp"
 
 RDEPEND="x11-libs/libXmu
@@ -46,7 +46,6 @@ src_prepare() {
 	epatch "${FILESDIR}/${P}-open.patch"
 	epatch "${FILESDIR}/${P}-szip.patch"
 	epatch "${FILESDIR}/${P}-null.patch"
-	epatch "${FILESDIR}/${P}-magick.patch"
 	eautoreconf
 }
 
