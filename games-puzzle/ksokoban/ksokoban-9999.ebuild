@@ -1,1 +1,0 @@
-ksokoban-0.5.0_pre20120725.ebuild
