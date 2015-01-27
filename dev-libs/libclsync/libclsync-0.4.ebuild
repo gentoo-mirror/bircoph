@@ -5,14 +5,13 @@
 EAPI=5
 
 MY_PN=${PN#lib}
+MY_P="${MY_PN}-${PV}"
 
 if [[ ${PV} == "9999" ]] ; then
 	inherit git-r3
 	EGIT_REPO_URI="https://github.com/xaionaro/${MY_PN}.git"
-	SRC_URI=""
-	KEYWORDS=""
 else
-	SRC_URI="https://github.com/xaionaro/${MY_PN}/archive/v${PV}.tar.gz -> ${MY_PN}-${PV}.tar.gz"
+	SRC_URI="https://github.com/xaionaro/${MY_PN}/archive/v${PV}.tar.gz -> ${MY_P}.tar.gz"
 	KEYWORDS="~amd64 ~x86"
 fi
 
@@ -27,11 +26,12 @@ REQUIRED_USE="
 	extra-hardened? ( hardened )
 "
 
-RDEPEND=""
 DEPEND="
 	virtual/pkgconfig
 	doc? ( ~app-doc/clsync-docs-${PV} )
 "
+
+S="${WORKDIR}/${MY_P}"
 
 src_prepare() {
 	eautoreconf
@@ -53,7 +53,6 @@ src_configure() {
 		--enable-socket \
 		$(use_enable debug) \
 		--disable-highload-locks \
-		--disable-unshare \
 		--without-capabilities \
 		--without-libcgroup \
 		--without-gio \
