@@ -13,6 +13,7 @@ if [[ ${PV} == "9999" ]] ; then
 else
 	SRC_URI="https://github.com/xaionaro/${MY_PN}/archive/v${PV}.tar.gz -> ${MY_P}.tar.gz"
 	KEYWORDS="~amd64 ~x86"
+	S="${WORKDIR}/${MY_P}"
 fi
 
 inherit autotools eutils
@@ -30,8 +31,6 @@ DEPEND="
 	virtual/pkgconfig
 	doc? ( ~app-doc/clsync-docs-${PV} )
 "
-
-S="${WORKDIR}/${MY_P}"
 
 src_prepare() {
 	eautoreconf

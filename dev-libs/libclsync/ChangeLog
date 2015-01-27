@@ -2,6 +2,10 @@
 # Copyright 1999-2015 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  27 Jan 2015; Andrew Savchenko <bircoph@gentoo.org> libclsync-0.4.ebuild,
+  libclsync-9999.ebuild:
+  Set S only for non-live builds
+
   27 Jan 2015; Andrew Savchenko <bircoph@gentoo.org> libclsync-0.4.ebuild:
   Remove empty variables. Set proper source directory. Remove not yet
   implemented flag.
