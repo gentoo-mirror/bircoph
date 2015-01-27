@@ -14,7 +14,7 @@ else
 	KEYWORDS="~amd64 ~x86"
 fi
 
-inherit autotools linux-info
+inherit autotools eutils linux-info
 
 DESCRIPTION="Live sync tool based on inotify, written in GNU C"
 HOMEPAGE="http://ut.mephi.ru/oss/clsync https://github.com/xaionaro/clsync"
@@ -47,6 +47,9 @@ pkg_pretend() {
 }
 
 src_prepare() {
+	epatch \
+		"${FILESDIR}/${P}-unshare-configure.patch" \
+		"${FILESDIR}/${P}-unshare-ifdef.patch"
 	eautoreconf
 }
 
