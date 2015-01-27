@@ -2,6 +2,10 @@
 # Copyright 1999-2015 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  27 Jan 2015; Andrew Savchenko <bircoph@gentoo.org> clsync-0.4.ebuild,
+  clsync-9999.ebuild:
+  Remove empty variables
+
 *clsync-0.4 (27 Jan 2015)
 
   27 Jan 2015; Andrew Savchenko <bircoph@gentoo.org> +clsync-0.4.ebuild,
