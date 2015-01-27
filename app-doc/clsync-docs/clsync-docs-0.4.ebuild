@@ -13,6 +13,7 @@ if [[ ${PV} == "9999" ]] ; then
 else
 	SRC_URI="https://github.com/xaionaro/${MY_PN}/archive/v${PV}.tar.gz -> ${MY_P}.tar.gz"
 	KEYWORDS="~amd64 ~x86"
+	S="${WORKDIR}/${MY_P}"
 fi
 
 DESCRIPTION="Clsync and libclsync API documentation"
@@ -24,8 +25,6 @@ DEPEND="
 	app-doc/doxygen
 	virtual/pkgconfig
 "
-
-S="${WORKDIR}/${MY_P}"
 
 src_configure() {
 	: # doxygen doesn't depend on configuration
