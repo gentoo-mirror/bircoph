@@ -48,8 +48,10 @@ pkg_pretend() {
 
 src_prepare() {
 	epatch \
+		"${FILESDIR}/${P}-gio.patch" \
 		"${FILESDIR}/${P}-unshare-configure.patch" \
-		"${FILESDIR}/${P}-unshare-ifdef.patch"
+		"${FILESDIR}/${P}-unshare-ifdef.patch" \
+		"${FILESDIR}/${P}-version.patch"
 	eautoreconf
 }
 
