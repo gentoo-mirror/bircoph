@@ -33,6 +33,7 @@ DEPEND="
 "
 
 src_prepare() {
+	epatch "${FILESDIR}/${P}-version.patch"
 	eautoreconf
 }
 
