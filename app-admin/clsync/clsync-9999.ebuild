@@ -29,7 +29,6 @@ REQUIRED_USE="
 
 RDEPEND="
 	dev-libs/glib:2
-	caps? ( sys-libs/libcap )
 	cgroups? ( dev-libs/libcgroup )
 	mhash? ( app-crypt/mhash )
 	seccomp? ( sys-libs/libseccomp )
