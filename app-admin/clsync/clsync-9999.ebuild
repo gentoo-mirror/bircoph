@@ -69,7 +69,7 @@ src_configure() {
 		$(use_enable namespaces unshare) \
 		$(use_with caps capabilities) \
 		$(use_with cgroups libcgroup) \
-		$(use_with gio) \
+		$(use_with gio gio lib) \
 		$(use_with inotify inotify native) \
 		$(use_with mhash) \
 		$(use_with seccomp libseccomp)
