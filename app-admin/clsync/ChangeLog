@@ -2,6 +2,10 @@
 # Copyright 1999-2015 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  28 Jan 2015; Andrew Savchenko <bircoph@gentoo.org>
+  +files/clsync-0.4-unset_env.patch:
+  Add missed patch
+
 *clsync-0.4-r1 (28 Jan 2015)
 
   28 Jan 2015; Andrew Savchenko <bircoph@gentoo.org> -clsync-0.4.ebuild,
