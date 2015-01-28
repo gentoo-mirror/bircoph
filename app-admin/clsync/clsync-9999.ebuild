@@ -21,7 +21,9 @@ SLOT="0"
 IUSE="+caps cluster control-socket cgroups debug doc +examples
 extra-hardened gio hardened +highload-locks +inotify mhash
 namespaces seccomp"
+
 REQUIRED_USE="
+	|| ( gio inotify )
 	extra-hardened? ( hardened )
 	mhash? ( cluster )"
 
