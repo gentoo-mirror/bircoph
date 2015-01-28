@@ -47,11 +47,15 @@ pkg_pretend() {
 }
 
 src_prepare() {
+	# upstream fixes for 0.4
 	epatch \
 		"${FILESDIR}/${P}-gio.patch" \
 		"${FILESDIR}/${P}-unshare-configure.patch" \
 		"${FILESDIR}/${P}-unshare-ifdef.patch" \
-		"${FILESDIR}/${P}-version.patch"
+		"${FILESDIR}/${P}-version.patch" \
+		"${FILESDIR}/${P}-direct_mode.patch" \
+		"${FILESDIR}/${P}-handler_path.patch" \
+		"${FILESDIR}/${P}-hl_locks.patch"
 	eautoreconf
 }
 

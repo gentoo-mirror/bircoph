@@ -2,6 +2,16 @@
 # Copyright 1999-2015 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+*clsync-0.4-r1 (28 Jan 2015)
+
+  28 Jan 2015; Andrew Savchenko <bircoph@gentoo.org> -clsync-0.4.ebuild,
+  +clsync-0.4-r1.ebuild, +files/clsync-0.4-direct_mode.patch,
+  +files/clsync-0.4-handler_path.patch, +files/clsync-0.4-hl_locks.patch:
+  Add upstream patches:
+  - fix highload locks segfault on unicore systems;
+  - support handlers without absolute path;
+  - fix direct mode root directory change passing.
+
   28 Jan 2015; Andrew Savchenko <bircoph@gentoo.org> clsync-0.4.ebuild,
   clsync-9999.ebuild:
   Fix build with USE=gio
