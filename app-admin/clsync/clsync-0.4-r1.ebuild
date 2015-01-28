@@ -55,7 +55,8 @@ src_prepare() {
 		"${FILESDIR}/${P}-version.patch" \
 		"${FILESDIR}/${P}-direct_mode.patch" \
 		"${FILESDIR}/${P}-handler_path.patch" \
-		"${FILESDIR}/${P}-hl_locks.patch"
+		"${FILESDIR}/${P}-hl_locks.patch" \
+		"${FILESDIR}/${P}-unset_env.patch"
 	eautoreconf
 }
 
