@@ -1,4 +1,4 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/sys-apps/memtest86+/memtest86+-4.20-r1.ebuild,v 1.3 2012/09/12 12:53:54 johu Exp $
 
@@ -12,11 +12,12 @@ SRC_URI="http://www.memtest.org/download/${PV}/${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="-* amd64 x86"
+KEYWORDS="-* ~amd64 ~x86"
 IUSE="floppy serial"
 
 BOOTDIR=/boot/memtest86plus
 QA_PRESTRIPPED="${BOOTDIR}/memtest.netbsd"
+QA_FLAGS_IGNORED="${BOOTDIR}/memtest.netbsd"
 
 RDEPEND="floppy? ( >=sys-boot/grub-0.95:0 sys-fs/mtools )"
 DEPEND=""
@@ -24,7 +25,8 @@ DEPEND=""
 src_prepare() {
 	sed -i -e 's,0x10000,0x100000,' memtest.lds || die
 	sed -e "s/scp memtest.bin root@192.168.0.12:\/srv\/tftp\/mt86plus//g" -i Makefile
-	epatch "${FILESDIR}/${P}-gcc-473.patch"
+	epatch "${FILESDIR}/${P}-gcc-473.patch" \
+		   "${FILESDIR}/${P}-hardcoded_cc.patch"
 
 	if use serial ; then
 		sed -i \
