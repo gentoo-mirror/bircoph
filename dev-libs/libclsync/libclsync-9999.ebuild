@@ -48,17 +48,17 @@ src_configure() {
 		--enable-paranoid=${harden_level} \
 		--without-bsm \
 		--without-kqueue \
+		--disable-capabilities \
 		--disable-cluster \
 		--enable-socket \
 		$(use_enable debug) \
 		--disable-highload-locks \
 		--disable-unshare \
-		--without-capabilities \
+		--disable-seccomp \
 		--without-libcgroup \
 		--without-gio \
 		--with-inotify=native \
-		--without-mhash \
-		--without-libseccomp
+		--without-mhash
 }
 
 src_install() {
