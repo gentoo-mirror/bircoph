@@ -31,7 +31,6 @@ RDEPEND="
 	dev-libs/glib:2
 	cgroups? ( dev-libs/libcgroup )
 	mhash? ( app-crypt/mhash )
-	seccomp? ( sys-libs/libseccomp )
 "
 DEPEND="${RDEPEND}
 	virtual/pkgconfig
@@ -61,17 +60,17 @@ src_configure() {
 		--enable-paranoid=${harden_level} \
 		--without-bsm \
 		--without-kqueue \
+		$(use_enable caps capabilities) \
 		$(use_enable cluster) \
 		$(use_enable control-socket socket) \
 		$(use_enable debug) \
 		$(use_enable highload-locks) \
 		$(use_enable namespaces unshare) \
-		$(use_with caps capabilities) \
+		$(use_enable seccomp) \
 		$(use_with cgroups libcgroup) \
 		$(use_with gio gio lib) \
 		$(use_with inotify inotify native) \
-		$(use_with mhash) \
-		$(use_with seccomp libseccomp)
+		$(use_with mhash)
 }
 
 src_install() {
