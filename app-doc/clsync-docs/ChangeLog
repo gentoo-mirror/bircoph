@@ -2,6 +2,10 @@
 # Copyright 1999-2015 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  11 Feb 2015; Andrew Savchenko <bircoph@gentoo.org> -clsync-docs-0.4.ebuild,
+  metadata.xml:
+  Releases are now in portage, keep live ebuild only.
+
   27 Jan 2015; Andrew Savchenko <bircoph@gentoo.org> clsync-docs-0.4.ebuild:
   Set S only for non-live builds
 
