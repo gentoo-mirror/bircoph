@@ -2,6 +2,10 @@
 # Copyright 1999-2015 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  10 Feb 2015; Andrew Savchenko <bircoph@gentoo.org> clsync-0.4-r1.ebuild,
+  +files/clsync-0.4-unused-deps.patch:
+  Port unused-depes patch from current HEAD.
+
   10 Feb 2015; Andrew Savchenko <bircoph@gentoo.org> clsync-9999.ebuild:
   Adapt new chaneges
 
