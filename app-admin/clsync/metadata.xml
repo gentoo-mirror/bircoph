@@ -2,7 +2,7 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
 <maintainer>
-  <email>bircoph@gmail.com</email>
+  <email>bircoph@gentoo.org</email>
   <name>Andrew Savchenko</name>
 </maintainer>
 <longdescription>
@@ -18,8 +18,8 @@
 	<flag name="cluster">Enable clustering support (allows master-master clsync on multiple hosts). Not fully implemented yet.</flag>
 	<flag name="control-socket">Enable AF_UNIX control socket support.</flag>
 	<flag name="cgroups">Use cgroups to limit /dev access.</flag>
-	<flag name="extra-hardened">Enable extra security checks. This may hurt performance.</flag>
-	<flag name="gio">Enable GIO for FS monitoring (glib based alternative to inotify interface, not recommended, but if both are compiled, may be selected at runtime).</flag>
+	<flag name="extra-hardened">Enable extra security checks. This will hurt performance.</flag>
+	<flag name="gio">Enable GIO for FS monitoring (glib based alternative to inotify interface, not recommended; if both are compiled, may be selected at runtime).</flag>
 	<flag name="highload-locks">Allows to use spinlocks for short delays instead of mutexes, but only on SMP systems.</flag>
 	<flag name="namespaces">Enable namespaces isolation.</flag>
 	<flag name="seccomp">Enable seccomp for system call filtering.</flag>

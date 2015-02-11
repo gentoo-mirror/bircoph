@@ -2,6 +2,16 @@
 # Copyright 1999-2015 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  11 Feb 2015; Andrew Savchenko <bircoph@gentoo.org> -clsync-0.2.1.ebuild,
+  -clsync-0.3.ebuild, -clsync-0.4-r1.ebuild, clsync-9999.ebuild,
+  -files/clsync-0.4-direct_mode.patch, -files/clsync-0.4-gio.patch,
+  -files/clsync-0.4-handler_path.patch, -files/clsync-0.4-hl_locks.patch,
+  -files/clsync-0.4-unset_env.patch, -files/clsync-0.4-unshare-configure.patch,
+  -files/clsync-0.4-unshare-ifdef.patch, -files/clsync-0.4-unused-deps.patch,
+  -files/clsync-0.4-version.patch, -files/clsync.conf-2, -files/clsync.initd-2,
+  files/clsync.conf, files/clsync.initd, metadata.xml:
+  Releases are now in portage, keep live ebuild only.
+
   10 Feb 2015; Andrew Savchenko <bircoph@gentoo.org> clsync-0.4-r1.ebuild,
   +files/clsync-0.4-unused-deps.patch:
   Port unused-depes patch from current HEAD.

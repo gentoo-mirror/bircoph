@@ -15,7 +15,7 @@ fi
 inherit autotools linux-info
 
 DESCRIPTION="Live sync tool based on inotify, written in GNU C"
-HOMEPAGE="http://ut.mephi.ru/oss/clsync https://github.com/xaionaro/clsync"
+HOMEPAGE="https://github.com/xaionaro/clsync http://ut.mephi.ru/oss/clsync"
 LICENSE="GPL-3+"
 SLOT="0"
 IUSE="+caps cluster control-socket cgroups debug doc +examples
@@ -38,10 +38,9 @@ DEPEND="${RDEPEND}
 "
 
 pkg_pretend() {
-	if use namespaces; then
-		CONFIG_CHECK="~NAMESPACES ~UTS_NS ~IPC_NS ~USER_NS ~PID_NS ~NET_NS"
-		check_extra_config
-	fi
+	use namespaces && CONFIG_CHECK="~NAMESPACES ~UTS_NS ~IPC_NS ~USER_NS ~PID_NS ~NET_NS"
+	use seccomp && CONFIG_CHECK+=" ~SECCOMP"
+	check_extra_config
 }
 
 src_prepare() {
@@ -80,13 +79,13 @@ src_install() {
 	rm "${ED}/usr/share/doc/${PF}/LICENSE" || die "failed to cleanup docs"
 	use examples || rm -r "${ED}/usr/share/doc/${PF}/examples" || die "failed to remove examples"
 
-	newinitd "${FILESDIR}/${PN}.initd-2" "${PN}"
+	newinitd "${FILESDIR}/${PN}.initd" "${PN}"
 	newconfd "${FILESDIR}/${PN}.confd" "${PN}"
 
 	# filter rules and sync scripts are supposed to be here
 	keepdir "${EPREFIX}/etc/${PN}"
 	insinto "/etc/${PN}"
-	newins "${FILESDIR}/${PN}.conf-2" "${PN}.conf"
+	newins "${FILESDIR}/${PN}.conf" "${PN}.conf"
 }
 
 pkg_postinst() {
