@@ -9,7 +9,8 @@ inherit flag-o-matic eutils autotools multilib toolchain-funcs versionator pam s
 MY_PV=$(delete_version_separator '_')
 MY_P="${PN}-${MY_PV}"
 PVER="1"
-GENTOO_PATCHES="${P}-patches-${PVER}.tar.bz2"
+OAFS_PVER="1.6.5"
+
 DESCRIPTION="The OpenAFS distributed file system"
 HOMEPAGE="http://www.openafs.org/"
 # We always d/l the doc tarball as man pages are not USE=doc material
@@ -24,7 +25,7 @@ else
 		http://openafs.org/dl/openafs/${MY_PV}/${MY_P}-doc.tar.bz2
 	"
 fi
-SRC_URI="${SRC_URI} mirror://gentoo/${GENTOO_PATCHES}"
+SRC_URI+=" mirror://gentoo/${PN}-${OAFS_PVER}-patches-${PVER}.tar.bz2"
 
 LICENSE="IBM BSD openafs-krb5-a APSL-2"
 SLOT="0"
