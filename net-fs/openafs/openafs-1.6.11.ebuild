@@ -1,6 +1,6 @@
-# Copyright 1999-2013 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/net-fs/openafs/openafs-1.6.5-r1.ebuild,v 1.4 2013/10/07 20:27:16 hasufell Exp $
+# $Header: $
 
 EAPI="4"
 
@@ -9,20 +9,30 @@ inherit flag-o-matic eutils autotools multilib toolchain-funcs versionator pam s
 MY_PV=$(delete_version_separator '_')
 MY_P="${PN}-${MY_PV}"
 PVER="1"
+GENTOO_PATCHES="${P}-patches-${PVER}.tar.bz2"
 DESCRIPTION="The OpenAFS distributed file system"
 HOMEPAGE="http://www.openafs.org/"
 # We always d/l the doc tarball as man pages are not USE=doc material
-SRC_URI="http://openafs.org/dl/openafs/${MY_PV}/${MY_P}-src.tar.bz2
-	http://openafs.org/dl/openafs/${MY_PV}/${MY_P}-doc.tar.bz2
-	mirror://gentoo/${PN}-1.6.5-patches-${PVER}.tar.bz2"
+if [[ ${PV} == *_pre* ]]; then
+	SRC_URI="
+		http://openafs.org/dl/openafs/candidate/${MY_PV}/${MY_P}-src.tar.bz2
+		http://openafs.org/dl/openafs/candidate/${MY_PV}/${MY_P}-doc.tar.bz2
+	"
+else
+	SRC_URI="
+		http://openafs.org/dl/openafs/${MY_PV}/${MY_P}-src.tar.bz2
+		http://openafs.org/dl/openafs/${MY_PV}/${MY_P}-doc.tar.bz2
+	"
+fi
+SRC_URI="${SRC_URI} mirror://gentoo/${GENTOO_PATCHES}"
 
 LICENSE="IBM BSD openafs-krb5-a APSL-2"
 SLOT="0"
-KEYWORDS="~amd64 ~sparc ~x86 ~amd64-fbsd ~x86-fbsd ~amd64-linux ~x86-linux"
+KEYWORDS="~amd64 ~sparc ~x86 ~amd64-linux ~x86-linux"
 
 IUSE="doc kerberos pam"
 
-RDEPEND="|| ( ~net-fs/openafs-kernel-${PV} !net-fs/openafs-kernel )
+RDEPEND="~net-fs/openafs-kernel-${PV}
 	sys-libs/ncurses
 	pam? ( sys-libs/pam )
 	kerberos? ( virtual/krb5 )"
@@ -155,5 +165,5 @@ pkg_postinst() {
 	elog "(warning: it is not yet up to date wrt the new file locations)"
 	elog
 	elog "The documentation can be found at:"
-	elog "  http://www.gentoo.org/doc/en/openafs.xml"
+	elog "  https://wiki.gentoo.org/wiki/OpenAFS"
 }
