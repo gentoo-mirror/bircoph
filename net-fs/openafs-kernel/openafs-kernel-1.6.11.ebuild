@@ -4,7 +4,7 @@
 
 EAPI="5"
 
-inherit autotools eutils multilib linux-mod versionator toolchain-funcs
+inherit autotools eutils linux-mod multilib toolchain-funcs versionator
 
 MY_PV=$(delete_version_separator '_')
 MY_P="${PN/-kernel}-${MY_PV}"
@@ -14,18 +14,12 @@ OAFS_PVER="1.6.5"
 DESCRIPTION="The OpenAFS distributed file system kernel module"
 HOMEPAGE="http://www.openafs.org/"
 # We always d/l the doc tarball as man pages are not USE=doc material
-if [[ ${PV} == *_pre* ]]; then
-	SRC_URI="
-		http://openafs.org/dl/openafs/candidate/${MY_PV}/${MY_P}-src.tar.bz2
-		http://openafs.org/dl/openafs/candidate/${MY_PV}/${MY_P}-doc.tar.bz2
-	"
-else
-	SRC_URI="
-		http://openafs.org/dl/openafs/${MY_PV}/${MY_P}-src.tar.bz2
-		http://openafs.org/dl/openafs/${MY_PV}/${MY_P}-doc.tar.bz2
-	"
-fi
-SRC_URI+=" mirror://gentoo/${PN/-kernel/}-${OAFS_PVER}-patches-${PVER}.tar.bz2"
+[[ ${PV} == *_pre* ]] && MY_PRE="candidate/" || MY_PRE=""
+SRC_URI="
+	http://openafs.org/dl/openafs/${MY_PRE}${MY_PV}/${MY_P}-src.tar.bz2
+	http://openafs.org/dl/openafs/${MY_PV}/${MY_P}-doc.tar.bz2
+	http://dev.gentoo.org/~bircoph/patches/${MY_P}-patches.tar.xz
+"
 
 LICENSE="IBM BSD openafs-krb5-a APSL-2"
 SLOT="0"
@@ -45,9 +39,7 @@ QA_TEXTRELS_amd64_fbsd="/boot/modules/libafs.ko"
 pkg_pretend() {
 	if use kernel_linux && kernel_is ge 4 ; then
 		ewarn "Gentoo supports kernels which are supported by OpenAFS"
-		ewarn "which are limited to the following kernel versions:"
-		ewarn "<sys-kernel/gentoo-sources-4.0"
-		ewarn "<sys-kernel/vanilla-sources-4.0"
+		ewarn "which are limited to the kernel versions: <4.0"
 		ewarn ""
 		ewarn "You are free to utilize epatch_user to provide whatever"
 		ewarn "support you feel is appropriate, but will not receive"
@@ -64,7 +56,8 @@ pkg_setup() {
 }
 
 src_prepare() {
-	EPATCH_EXCLUDE="012_all_kbuild.patch 020_all_fbsd.patch" \
+	# do not tamper with CFLAGS for the kernel module
+	EPATCH_EXCLUDE="040_all_flags.patch" \
 	EPATCH_SUFFIX="patch" \
 	epatch "${WORKDIR}"/gentoo/patches
 	epatch_user
@@ -94,7 +87,7 @@ src_configure() {
 }
 
 src_compile() {
-	ARCH="$(tc-arch-kernel)" AR="$(tc-getAR)" emake V=1 -j1 only_libafs || die
+	ARCH="$(tc-arch-kernel)" AR="$(tc-getAR)" emake V=1 -j1 only_libafs
 }
 
 src_install() {
