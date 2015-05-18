@@ -18,9 +18,8 @@ DESCRIPTION="Live sync tool based on inotify, written in GNU C"
 HOMEPAGE="https://github.com/xaionaro/clsync http://ut.mephi.ru/oss/clsync"
 LICENSE="GPL-3+"
 SLOT="0"
-IUSE="+caps cluster control-socket cgroups debug doc +examples
-extra-hardened gio hardened +highload-locks +inotify mhash
-namespaces seccomp"
+IUSE="+caps cluster control-socket cgroups debug extra-hardened
+gio hardened +highload-locks +inotify mhash namespaces seccomp"
 
 REQUIRED_USE="
 	|| ( gio inotify )
@@ -34,7 +33,7 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}
 	virtual/pkgconfig
-	doc? ( ~app-doc/clsync-docs-${PV} )
+	~app-doc/clsync-docs-${PV}
 "
 
 pkg_pretend() {
@@ -75,9 +74,8 @@ src_configure() {
 src_install() {
 	emake DESTDIR="${D}" install
 
-	# remove unwanted docs
-	rm "${ED}/usr/share/doc/${PF}/LICENSE" || die "failed to cleanup docs"
-	use examples || rm -r "${ED}/usr/share/doc/${PF}/examples" || die "failed to remove examples"
+	# docs go into clsync-docs
+	rm -rf "${ED}/usr/share/doc" || die
 
 	newinitd "${FILESDIR}/${PN}.initd" "${PN}"
 	newconfd "${FILESDIR}/${PN}.confd" "${PN}"
