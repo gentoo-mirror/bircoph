@@ -20,6 +20,7 @@ DESCRIPTION="Clsync and libclsync API documentation"
 HOMEPAGE="http://ut.mephi.ru/oss/clsync https://github.com/xaionaro/clsync"
 LICENSE="GPL-3+"
 SLOT="0"
+IUSE="api +examples"
 
 DEPEND="
 	app-doc/doxygen
@@ -31,9 +32,19 @@ src_configure() {
 }
 
 src_compile() {
-	doxygen .doxygen || die "doxygen failed"
+	if use api; then
+		doxygen .doxygen || die "doxygen failed"
+	fi
 }
 
 src_install() {
-	dohtml -r doc/doxygen/html/*
+	dodoc CONTRIB DEVELOPING NOTES PROTOCOL README.md SHORTHANDS TODO
+	if use api; then
+		dohtml -r doc/doxygen/html/*
+		dodoc -r doc/devel/*
+	fi
+	if use examples; then
+		docinto examples
+		dodoc -r examples/{production,clsync*}
+	fi
 }
