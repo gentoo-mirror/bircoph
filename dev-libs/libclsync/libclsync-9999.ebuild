@@ -22,14 +22,14 @@ DESCRIPTION="Control and monitoring library for clsync"
 HOMEPAGE="http://ut.mephi.ru/oss/clsync https://github.com/xaionaro/clsync"
 LICENSE="GPL-3+"
 SLOT="0"
-IUSE="debug doc extra-hardened hardened static-libs"
+IUSE="debug extra-hardened hardened static-libs"
 REQUIRED_USE="
 	extra-hardened? ( hardened )
 "
 
 DEPEND="
 	virtual/pkgconfig
-	doc? ( ~app-doc/clsync-docs-${PV} )
+	=app-doc/clsync-docs-0.4*
 "
 
 src_prepare() {

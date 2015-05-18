@@ -2,6 +2,12 @@
 # Copyright 1999-2015 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+*libclsync-0.4.1 (18 May 2015)
+
+  18 May 2015; Andrew Savchenko <bircoph@gentoo.org> +libclsync-0.4.1.ebuild,
+  libclsync-9999.ebuild:
+  Version bump.
+
   11 Feb 2015; Andrew Savchenko <bircoph@gentoo.org> -libclsync-0.4.ebuild,
   -files/libclsync-0.4-version.patch, metadata.xml:
   Releases are now in portage, keep live ebuild only.
