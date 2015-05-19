@@ -27,10 +27,8 @@ REQUIRED_USE="
 	extra-hardened? ( hardened )
 "
 
-DEPEND="
-	virtual/pkgconfig
-	=app-doc/clsync-docs-0.4*
-"
+DEPEND="virtual/pkgconfig "
+RDEPEND="~app-doc/clsync-docs-${PV}"
 
 src_prepare() {
 	eautoreconf
@@ -66,9 +64,8 @@ src_install() {
 	prune_libtool_files
 	use static-libs || find "${ED}" -name "*.a" -delete || die "failed to remove static libs"
 
-	# remove unwanted docs
-	rm "${ED}/usr/share/doc/${PF}"/{LICENSE,TODO} || die "failed to cleanup docs"
-	rm -r "${ED}/usr/share/doc/${PF}/examples" || die "failed to remove examples"
+	# docs go into clsync-docs
+	rm -rf "${ED}/usr/share/doc" || die
 }
 
 pkg_postinst() {
