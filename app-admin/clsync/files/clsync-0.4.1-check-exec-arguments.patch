@@ -1,0 +1,21 @@
+commit 48bc49bc21ed0aea9c1b8a06434a0db31530b217
+Author: Dmitry Yu Okunev <dyokunev@ut.mephi.ru>
+Date:   Tue May 19 16:45:36 2015 +0300
+
+    Fixed name of option "--check-exec-arguments"
+    
+    Was "--check-exec-args"
+
+diff --git a/main.c b/main.c
+index 19e2fb8..e52429e 100644
+--- a/main.c
++++ b/main.c
+@@ -97,7 +97,7 @@ static const struct option long_options[] =
+ 	{"secure-splitting",	no_argument,		NULL,	SECURESPLITTING},
+ # endif
+ 	{"splitting",		required_argument,	NULL,	SPLITTING},
+-	{"check-execvp-args",	optional_argument,	NULL,	CHECK_EXECVP_ARGS},
++	{"check-execvp-arguments",optional_argument,	NULL,	CHECK_EXECVP_ARGS},
+ 	{"add-permitted-hook-files",required_argument,	NULL,	ADDPERMITTEDHOOKFILES},
+ # ifdef SECCOMP_SUPPORT
+ 	{"seccomp-filter",	optional_argument,	NULL,	SECCOMP_FILTER},

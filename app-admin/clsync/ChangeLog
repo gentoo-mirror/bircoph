@@ -2,12 +2,11 @@
 # Copyright 1999-2015 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
-*clsync-0.4.1 (18 May 2015)
-
-  18 May 2015; Andrew Savchenko <bircoph@gentoo.org> +clsync-0.4.1.ebuild,
-  clsync-9999.ebuild, files/clsync.conf, files/clsync.confd,
-  files/clsync.initd, metadata.xml:
-  Version 0.4.1 is added for testing.
+  19 May 2015; Andrew Savchenko <bircoph@gentoo.org> clsync-9999.ebuild,
+  +files/clsync-0.4.1-capabilities.patch,
+  +files/clsync-0.4.1-check-exec-arguments.patch,
+  +files/clsync-0.4.1-splitting.patch:
+  Version bump (0.4.1 testing)
 
   11 Feb 2015; Andrew Savchenko <bircoph@gentoo.org> -clsync-0.2.1.ebuild,
   -clsync-0.3.ebuild, -clsync-0.4-r1.ebuild, clsync-9999.ebuild,

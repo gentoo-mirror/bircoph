@@ -31,8 +31,10 @@ RDEPEND="
 	cgroups? ( dev-libs/libcgroup )
 	mhash? ( app-crypt/mhash )
 "
-DEPEND="${RDEPEND}
+DEPEND="${CDEPEND}
 	virtual/pkgconfig
+"
+RDEPEND="${CDEPEND}
 	~app-doc/clsync-docs-${PV}
 "
 
