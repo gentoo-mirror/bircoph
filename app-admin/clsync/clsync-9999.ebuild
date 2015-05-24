@@ -18,14 +18,17 @@ DESCRIPTION="Live sync tool based on inotify, written in GNU C"
 HOMEPAGE="https://github.com/xaionaro/clsync http://ut.mephi.ru/oss/clsync"
 LICENSE="GPL-3+"
 SLOT="0"
-IUSE="+caps cluster control-socket cgroups debug extra-hardened
-gio hardened +highload-locks +inotify mhash namespaces seccomp"
+IUSE="+caps cluster control-socket cgroups debug extra-debug
+extra-hardened gio hardened +highload-locks +inotify mhash
+namespaces seccomp"
 
 REQUIRED_USE="
 	|| ( gio inotify )
+	extra-debug? ( debug )
 	extra-hardened? ( hardened )
-	mhash? ( cluster )"
-
+	mhash? ( cluster )
+	seccomp? ( caps )
+"
 RDEPEND="
 	dev-libs/glib:2
 	cgroups? ( dev-libs/libcgroup )
@@ -53,17 +56,21 @@ src_configure() {
 	use hardened && harden_level=1
 	use extra-hardened && harden_level=2
 
+	local debug_level=0
+	use debug && debug_level=1
+	use extra-debug && debug_level=2
+
 	econf \
 		--docdir="${EPREFIX}/usr/share/doc/${PF}" \
 		--disable-socket-library \
 		--enable-clsync \
+		--enable-debug=${debug_level} \
 		--enable-paranoid=${harden_level} \
 		--without-bsm \
 		--without-kqueue \
 		$(use_enable caps capabilities) \
 		$(use_enable cluster) \
 		$(use_enable control-socket socket) \
-		$(use_enable debug) \
 		$(use_enable highload-locks) \
 		$(use_enable namespaces unshare) \
 		$(use_enable seccomp) \
