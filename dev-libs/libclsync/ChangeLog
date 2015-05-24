@@ -2,6 +2,10 @@
 # Copyright 1999-2015 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  24 May 2015; Andrew Savchenko <bircoph@gentoo.org> libclsync-0.4.1.ebuild,
+  libclsync-9999.ebuild, metadata.xml:
+  Add extra debugging support.
+
   19 May 2015; Andrew Savchenko <bircoph@gentoo.org> libclsync-9999.ebuild:
   Fix docs stuff
 

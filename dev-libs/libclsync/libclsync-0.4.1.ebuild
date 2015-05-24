@@ -22,8 +22,9 @@ DESCRIPTION="Control and monitoring library for clsync"
 HOMEPAGE="http://ut.mephi.ru/oss/clsync https://github.com/xaionaro/clsync"
 LICENSE="GPL-3+"
 SLOT="0"
-IUSE="debug extra-hardened hardened static-libs"
+IUSE="debug extra-debug extra-hardened hardened static-libs"
 REQUIRED_USE="
+	extra-debug? ( debug )
 	extra-hardened? ( hardened )
 "
 
@@ -39,17 +40,21 @@ src_configure() {
 	use hardened && harden_level=1
 	use extra-hardened && harden_level=2
 
+	local debug_level=0
+	use debug && debug_level=1
+	use extra-debug && debug_level=2
+
 	econf \
 		--docdir="${EPREFIX}/usr/share/doc/${PF}" \
 		--enable-socket-library \
 		--disable-clsync \
+		--enable-debug=${debug_level} \
 		--enable-paranoid=${harden_level} \
 		--without-bsm \
 		--without-kqueue \
 		--disable-capabilities \
 		--disable-cluster \
 		--enable-socket \
-		$(use_enable debug) \
 		--disable-highload-locks \
 		--disable-unshare \
 		--disable-seccomp \
