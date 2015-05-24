@@ -8,7 +8,11 @@ if [[ ${PV} == "9999" ]] ; then
 	inherit git-r3
 	EGIT_REPO_URI="https://github.com/xaionaro/${PN}.git"
 else
-	SRC_URI="https://github.com/xaionaro/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
+	PVER="20150524"
+	SRC_URI="
+		https://github.com/xaionaro/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz
+		http://dev.gentoo.org/~bircoph/patches/${P}-${PVER}.patch.xz
+	"
 	KEYWORDS="~amd64 ~x86"
 fi
 
@@ -46,10 +50,7 @@ pkg_pretend() {
 
 src_prepare() {
 	# upstream fixes for 0.4.1
-	epatch \
-		"${FILESDIR}/${P}-capabilities.patch" \
-		"${FILESDIR}/${P}-check-exec-arguments.patch" \
-		"${FILESDIR}/${P}-splitting.patch"
+	epatch "${WORKDIR}/${P}-${PVER}.patch"
 	eautoreconf
 }
 
