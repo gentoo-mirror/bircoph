@@ -1,0 +1,157 @@
+# ChangeLog for media-video/mplayer
+# Copyright 1999-2014 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+# This is ChangeLog for overlay specific changes.
+# Please refer to ChangeLog.portage for changes in portage ebuild.
+# Advanced overlay ebuild is meant to be in sync with portage one,
+# provide additional features and eventually send some of them upstream.
+
+  03 Dec 2014; Andrew Savchenko <bircoph@gentoo.org> mplayer-9999.ebuild:
+  Remove configure options dropped by upstream
+
+  24 Sep 2012; Andrew Savchenko <bircoph@gmail.com>
+  -files/mplayer-live555.patch, mplayer-9999.ebuild:
+  mplayer: live555 is fixed upstream
+
+  23 Sep 2012; Andrew Savchenko <bircoph@gmail.com> mplayer-9999.ebuild:
+  Fully synced with portage tree.
+  Remove hooks for non-live ebuilds: they will not be supported
+  anyway.
+
+  22 Sep 2012; Andrew Savchenko <bircoph@gmail.com>
+  -files/mplayer-x86-sse2.patch, files/mplayer-live555.patch,
+  mplayer-9999.ebuild:
+  SSE2 issue is fixed upstream in FFmpeg.
+  Fix live555 detection in a better, non-intrusive way suggested by
+  Carl Eugen Hoyos.
+
+  07 Sep 2012; Andrew Savchenko <bircoph@gmail.com> mplayer-9999.ebuild,
+  metadata.xml:
+  Add libopus decoder support.
+
+  07 Sep 2012; Andrew Savchenko <bircoph@gmail.com> mplayer-9999.ebuild,
+  +files/mplayer-vesa.patch:
+  Finally make VESA available using libvbe from vesautils.
+  It works!
+
+  06 Sep 2012; Andrew Savchenko <bircoph@gmail.com>
+  +files/mplayer-live555.patch, +files/mplayer-x86-sse2.patch,
+  mplayer-9999.ebuild, metadata.xml:
+  Fix configure test on recent live libraries.
+  Fix build of bundled ffmpeg on non-SSE2 x86 hosts.
+  Remove USE="libav": due to severe incompatibilities between libav
+  and ffmpeg, mplayer now supports only libav.
+  Remove cdio and cddb mutual block: they may be used at the same
+  time now.
+
+  07 Apr 2012; Andrew Savchenko <bircoph@gmail.com> mplayer-9999.ebuild:
+  mplayer: sync with portage
+
+  29 Feb 2012; Andrew Savchenko <bircoph@gmail.com> -portage/ChangeLog-2008,
+  mplayer-9999.ebuild, -portage/ChangeLog, metadata.xml:
+  mplayer: sync with portage
+
+  Remove portage aux directory.
+  To simplify further diffs with tree use sources.gentoo.org:
+  http://sources.gentoo.org/cgi-bin/viewvc.cgi/gentoo-x86/media-video/mplayer/
+
+  23 Jan 2012; Andrew Savchenko <bircoph@gmail.com> mplayer-9999.ebuild:
+  Ebuild simplifications, cosmetics and minor changes from main tree
+  ebuild.
+
+  23 Jan 2012; Andrew Savchenko <bircoph@gmail.com> mplayer-9999.ebuild:
+  Update and simplify dependencies.
+  Inspired and based on changes from the main portage tree.
+
+  23 Jan 2012; Andrew Savchenko <bircoph@gmail.com> mplayer-9999.ebuild:
+  Twolame and toolame are mutually exclusive. Prefer the former one.
+
+  23 Jan 2012; Andrew Savchenko <bircoph@gmail.com> mplayer-9999.ebuild:
+  Update library requirements, remove custom-cpuopts as upstrem does.
+
+  23 Jan 2012; Andrew Savchenko <bircoph@gmail.com> mplayer-9999.ebuild:
+  Remove esd as esound is to be removed from portage.
+
+  25 Nov 2011; Andrew Savchenko <bircoph@gmail.com> mplayer-9999.ebuild:
+  Sync with portage:
+  - remove v4l1 support;
+  - remove unneeded die calls.
+  Fix documentation build.
+
+  02 Aug 2011; Andrew Savchenko <bircoph@gmail.com> mplayer-9999.ebuild,
+  ChangeLog.portage:
+  Replace deprecated hasq by has.
+
+  06 Jun 2011; Andrew Savchenko <bircoph@gmail.com> mplayer-9999.ebuild:
+  Sync with portage ebuild, but do not unbundle ffmpeg due to both
+  performance and stability reasons. Deselect libav as default.
+
+  19 May 2011; Andrew Savchenko <bircoph@gmail.com> mplayer-9999.ebuild:
+  Make selection between bundled libav and ffmpeg switchable via
+  libav use flag. Left libav as default
+
+  27 Mar 2011; Andrew Savchenko <bircoph@gmail.com> mplayer-9999.ebuild:
+  Use libav as main ffmpeg fork.
+  Sync with upstream, but do not revert REQURIDE_USE for now (no
+  good reason for this).
+
+  Old and good ffmpeg repository is dead now...
+  18 Mar 2011; Andrew Savchenko <bircoph@gmail.com> ChangeLog.portage,
+  mplayer-9999.ebuild:
+  Old and good ffmpeg repository is dead now...
+
+  I tend to use libav fork of ffmpeg as git repository, but for now
+  it doesn't even compile. And I'm not really sure which form to
+  choose: on the one hand, it looks like libav will get better
+  support from mplayer developers; on the other hand ffmpeg repo
+  looks like more active. Of course, anyone is free to select
+  between ffmpeg and libav git repositories. Maybe USE flag should
+  be used for this selection?
+
+  Really, I have all this bikeshed, people should work together,
+  not play in holy wars.
+
+  Fix installation for realcodecs docs and EAPI=4.
+
+  03 Mar 2011; Andrew Savchenko <bircoph@gmail.com> ChangeLog.portage,
+  mplayer-9999.ebuild:
+  Sync with portage ebuild. Minor fixes.
+
+  07 Feb 2011; Andrew Savchenko <bircoph@gmail.com> ChangeLog.portage,
+  mplayer-9999.ebuild:
+  Sync with portage ebuild.
+  Use ffmpeg git.
+
+  17 Jan 2011; Andrew Savchenko <bircoph@gmail.com> ChangeLog.portage,
+  mplayer-9999.ebuild:
+  Sync with portage ebuild.
+
+  15 Jan 2011; Andrew Savchenko <bircoph@gmail.com> ChangeLog.portage,
+  mplayer-9999.ebuild:
+  Sync with portage ebuild:
+  - internal faad2 copy is gone.
+
+  19 Nov 2010; Andrew Savchenko <bircoph@gmail.com> ChangeLog.portage,
+  mplayer-9999.ebuild, metadata.xml:
+  Sync with portage ebuild:
+  - replace media-libs/jpeg -> virtual/jpeg;
+  - improve vpx USE flag description.
+
+  01 Nov 2010; Andrew Savchenko <bircoph@gmail.com> ChangeLog.portage,
+  mplayer-9999.ebuild, metadata.xml:
+  Sync with portage ebuild: add support for mpeg123 and libmpeg2 use flags
+
+  26 Oct 2010; Andrew Savchenko <bircoph@gmail.com> +ChangeLog.portage :
+  Add ChangeLog from the main portage tree.
+
+*mplayer-9999 (18 Oct 2010)
+
+  18 Oct 2010; Andrew Savchenko <bircoph@gmail.com> +mplayer-9999.ebuild:
+  Initial ebuild.
+  This ebuild is intended to be close with portage one, providing
+  (at this moment) the following additional features:
+    - support for tivo (vstream-client);
+    - support for nemesi (libnemesi live ebuild now works fine);
+    - use real binary codecs (in very rare cases when open codecs fail
+      they may be usefull);
+    - restore support for svga video output and svga kernel helper.

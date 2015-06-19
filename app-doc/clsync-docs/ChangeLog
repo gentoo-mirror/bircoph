@@ -1,0 +1,33 @@
+# ChangeLog for app-doc/clsync-docs
+# Copyright 1999-2015 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  25 May 2015; Andrew Savchenko <bircoph@gentoo.org> -clsync-docs-0.4.1.ebuild:
+  Version 0.4.1 is in the tree now
+
+*clsync-docs-0.4.1 (18 May 2015)
+
+  18 May 2015; Andrew Savchenko <bircoph@gentoo.org> +clsync-docs-0.4.1.ebuild,
+  clsync-docs-9999.ebuild, metadata.xml:
+  0.4.1 version bump
+
+  11 Feb 2015; Andrew Savchenko <bircoph@gentoo.org> -clsync-docs-0.4.ebuild,
+  metadata.xml:
+  Releases are now in portage, keep live ebuild only.
+
+  27 Jan 2015; Andrew Savchenko <bircoph@gentoo.org> clsync-docs-0.4.ebuild:
+  Set S only for non-live builds
+
+  27 Jan 2015; Andrew Savchenko <bircoph@gentoo.org> clsync-docs-0.4.ebuild:
+  Remove empty variables. Set proper source directory.
+
+*clsync-docs-0.4 (27 Jan 2015)
+
+  27 Jan 2015; Andrew Savchenko <bircoph@gentoo.org> +clsync-docs-0.4.ebuild:
+  Version bump
+
+*clsync-0.2.1 (16 May 2014)
+
+  16 May 2014; Andrew Savchenko <bircoph@gmail.com> +ChangeLog,
+  +libclsync-0.0.0.ebuild, +libclsync-9999.ebuild:
+  Initial ebuild.

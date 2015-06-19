@@ -1,0 +1,13 @@
+diff -Naurd NetPIPE-3.7.1.orig/src/sctp6.c NetPIPE-3.7.1/src/sctp6.c
+--- NetPIPE-3.7.1.orig/src/sctp6.c	2007-05-10 20:29:09.000000000 +0400
++++ NetPIPE-3.7.1/src/sctp6.c	2012-04-23 23:52:55.995844440 +0400
+@@ -133,7 +133,9 @@
+ 	
+ 	bzero((char *) lsin1, sizeof(*lsin1));
+ 	lsin1->sin6_family      = AF_INET6;
++#ifdef SIN6_LEN
+ 	lsin1->sin6_len         = sizeof(*lsin1);
++#endif
+ 	lsin1->sin6_port        = htons(p->port);
+ 	/* Setting this to all 0 is the "ANY" address. */
+ 	bzero(&lsin1->sin6_addr, sizeof(lsin1->sin6_addr));

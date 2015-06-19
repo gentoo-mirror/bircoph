@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+<maintainer>
+	<email>bircoph@gentoo.org</email>
+	<name>Andrew Savchenko</name>
+</maintainer>
+<longdescription lang="en">
+	NetPIPE is a protocol independent performance tool that visually represents the
+	network performance under a variety of conditions. It performs simple ping-pong
+	tests, bouncing messages of increasing size between two processes, whether
+	across a network or within an SMP system.
+</longdescription>
+<use>
+	<flag name='memcpy'>Build memory testing tool (using memcpy)</flag>
+	<flag name='sctp'>Build SCTP testing tool</flag>
+	<flag name='tcp'>Build TCP testing tool</flag>
+	<flag name='utils'>Install helper scripts</flag>
+</use>
+</pkgmetadata>

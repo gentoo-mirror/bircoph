@@ -1,0 +1,47 @@
+Index: libvbe/Makefile
+===================================================================
+--- libvbe/Makefile	(revision 12)
++++ libvbe/Makefile	(working copy)
+@@ -1,7 +1,7 @@
+ LIBDIR ?= /usr/local/lib
+ INCDIR ?= /usr/local/include
+ 
+-CFLAGS = -g -Wall
++CFLAGS ?= -g -Wall
+ 
+ sources = vbe.c
+ objects = vbe.o
+@@ -9,7 +9,7 @@
+ all = libvbe.a libvbe.so
+ 
+ MAJOR = 0
+-MINOR = 2
++MINOR = 2.0
+ VERSION = $(MAJOR).$(MINOR)
+ LIBNAME = libvbe
+ 
+@@ -26,18 +26,16 @@
+ 
+ libvbe.so: $(pic_objects)
+ #	$(CC) $(CPPFLAGS) $(CFLAGS) -fPIC -shared -o $@ $^
+-	$(CC) $(CPPFLAGS) $(CFLAGS) -Wl,-soname,$(LIBNAME).so.$(MAJOR) -fPIC -shared -o $(LIBNAME).so.$(VERSION) $^
++	$(CC) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) -Wl,-soname,$(LIBNAME).so.$(MAJOR) -fPIC -shared -o $(LIBNAME).so.$(VERSION) $^
+ 	ln -sf $(LIBNAME).so.$(VERSION) $(LIBNAME).so.$(MAJOR)
+ 	ln -sf $(LIBNAME).so.$(MAJOR) $(LIBNAME).so
+ 
+ install:
+-	mkdir -p $(LIBDIR)
+-	install -m 755 -s -p $(LIBNAME).so.$(VERSION) $(LIBDIR)/$(LIBNAME).so.$(VERSION)
+-	rm -f $(LIBDIR)/$(LIBNAME).so
+-	ln -sf $(LIBNAME).so.$(VERSION) $(LIBDIR)/$(LIBNAME).so.$(MAJOR)
+-	ln -sf $(LIBNAME).so.$(MAJOR) $(LIBDIR)/$(LIBNAME).so
+-	install -m 744 -p vbe.h $(INCDIR)/vbe.h
+-	ldconfig
++	mkdir -p $(LIBDIR) $(INCDIR)/libvbe
++# install in libvbe dir due to collision with lrmi
++	install -m 744 -p vbe.h $(INCDIR)/libvbe/vbe.h
++	install -m 755 -p $(LIBNAME).so.$(VERSION) $(LIBDIR)
++	cp -d $(LIBNAME).so.$(MAJOR) $(LIBNAME).so $(LIBDIR)
+ 
+ .PHONY: clean
+ clean:

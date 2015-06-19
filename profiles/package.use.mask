@@ -1,0 +1,5 @@
+# Only real codecs are affected by GLSA 201312-11
+media-libs/win32codecs real
+
+# cluster code is still under development and not fully implemented
+app-admin/clsync cluster mhash

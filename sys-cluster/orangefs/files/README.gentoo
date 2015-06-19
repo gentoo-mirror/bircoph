@@ -1,0 +1,133 @@
+0) General.
+
+OrangeFS is a branch of the Parallel Virtual File System (PVFS2).
+Like PVFS2, OrangeFS is a parallel file system designed for use on
+high end computing (HEC) systems that provides very high
+performance access to disk storage for parallel applications. This
+is not general I/O filesystem, it doesn't support sockets, pipes or
+locks; it is designed for parallel operations with performance in
+mind.
+
+1) Upgrade.
+
+OrangeFS now uses a unified configuration file.
+
+If you have configuration files from an earlier PVFS2 versions,
+use the provided: ${ROOT}usr/bin/pvfs2-config-convert
+to automatically update to the newer configuration scheme.
+
+2) Server setup.
+
+Use emerge --config orangefs to create new configuration files.
+
+If the storage space has not been previously created, either set
+PVFS2_AUTO_MKFS=\"yes\" in /etc/conf.d/pvfs2-server or run:
+
+    /usr/sbin/pvfs2-server --mkfs /etc/pvfs2/fs.conf
+
+You can't start server without storage space properly created.
+
+OrangeFS pvfs2-server init script can be multiplexed.
+The default init script forces /etc/pvfs2/fs.conf to exist.
+If you symlink the init script to another one, say pvfs2-server.foo,
+then that uses /etc/pvfs2/foo.fs.conf instead.
+You can now treat pvfs2-server.foo like any other service, but you
+must manually change config and daemon arguments for multiserver
+configuration as described in PVFS2 FAQ.
+
+WARNING: OrangeFS is picky about hostnames. Make sure you use the
+correct shortname for all nodes and have name resolution for these
+shortnames correctly configured on all nodes.
+
+3) Client setup and usage exeperience.
+
+There are several ways to use PVFS2 filesystem, but for proper
+function of any of them you must provide an /etc/fstab entry like
+(please note recommended intr option):
+
+    tcp://testhost:3334/pvfs2-fs /mnt/pvfs2 pvfs2 noatime,defaults,intr 0 0
+
+Record format is similar to normal fstab enry, please refer to
+pvfs2tab manual page for details.
+
+You may use custom pvfs2tab file (e.g. /etc/pvfs2tab) as described
+in man pvfs2tab. In this case if you plan to use pvfs2-client,
+please modify PVFS2_CLIENT_FSTAB variable in /etc/conf.d/pvfs2-client,
+otherwise your client will not start properly.
+
+OrangeFS may be used in any of the following ways:
+
+a) Kernel VFS interface.
+
+USE="modules" flag is required for this case. Afterwards configure server
+and client as described above, start your servers. Afterwards just
+start pvfs2-client, any found pvfs2 entries will be mounted. If you
+want to disable automount on client startup, use noauto option for
+appropriate fstab entries.
+
+You may synchronize client and server startup through enire cluster
+if all clients and servers are running Gentoo. See conf.d for
+server check, forced umount and forced shutdown options.
+if use fuse; then
+	
+Currently all kernels up to 3.2.x are supported.
+
+b) FUSE client.
+USE="modules" flag is required for this case
+You may use pvfs2fuse FUSE client to mount PVFS2 partitions:
+
+    pvfs2fuse -o allow_other,fs_spec='tcp://testhost:3334/pvfs2-fs' /mnt/pvfs2
+
+FUSE client is similar in functionality to the kernel VFS
+interface, but is less tested and may have some security issues.
+
+You can use pvfs2fuse instead of pvfs2-client to automount
+partitions using pvfs2-client init script. This behaviour is
+controlled by PVFS2_CLIENT_USE_KERNEL option in the conf.d file.
+Please note, that fuse client options are not compatible with
+kernel module, you must provide them in PVFS2_CLIENT_FUSE_OPTIONS
+array. See conf.d file for details.
+
+Please not that you cannot use both interfaces for init script.
+
+c) Userspace library.
+
+You may use userspace library (libofs*) to access filesystem
+directly from your applications, USE="usrint" is required to do so.
+An overview is available here:
+http://www.orangefs.org/trac/orangefs/wiki/High%20performance%20user%20interface
+For further details please refer to PVFS documentation.
+
+d) ROMIO interface.
+
+You may use ROMIO — a high-performance, portable MPI-IO
+implementation — to access OrangeFS from your MPI programs. To use
+this feature one needs to build desired MPI implementation with
+USE="romio" flag.
+
+4) Warnings and known issues.
+
+Please change the following USE flags carefully and only if you
+fully understand how they will affect your PVFS2 setup (read
+documentation and the code to do so):
+
+  apidocs, kmod-threads, memtrace, reset-file-pos, sendfile, usrint,
+  usrint-cache, usrint-cwd, usrint-kmount, valgrind.
+
+Kernels >= 3.3 are not yet supported and >= 2.6.38 are terribly
+buggy, please use other access methods or older kernel.
+	 
+ACL support for 3.1 and 3.2 kernels is known to have bugs. Do not
+use acl mount option on these kernels.
+
+Sendfile support is disabled by default for a reason. If you do not
+plan to use Apache on OrangeFS or serve large files predominatingly, 
+keep it disable, or this may hurt filesystem performance. Your
+mileage may vary, of course.
+
+If file or directory are removed while in use, they may become
+stale files causing I/O error on any attempt to access or remove
+them. These entities can be removed using pvfs2-rm program.
+This is normal behaviour for OrangeFS: filesystem is lockless, but
+all operations are atomic, thus consistency is kept, no data will
+be lost.
