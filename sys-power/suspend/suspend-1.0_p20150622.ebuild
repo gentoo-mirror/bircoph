@@ -4,19 +4,16 @@
 
 EAPI=5
 
-if [[ ${PV} == "9999" ]] ; then
-	inherit git-r3
-	EGIT_REPO_URI="git://github.com/bircoph/suspend.git"
-else
-	SRC_URI="mirror://sourceforge/${PN}/${P/-/-utils-}.tar.bz2"
-	KEYWORDS="~amd64 ~x86"
-	S="${WORKDIR}/${P/-/-utils-}"
-fi
+inherit autotools eutils
 
-inherit autotools
+BASE_PV="1.0_p20120915"
 
 DESCRIPTION="Userspace Software Suspend and S2Ram"
 HOMEPAGE="http://suspend.sourceforge.net/"
+SRC_URI="http://dev.gentoo.org/~bircoph/distfiles/${PN}-${BASE_PV}.tar.xz
+	http://dev.gentoo.org/~bircoph/patches/${P}.patch.xz"
+KEYWORDS="~amd64 ~x86"
+S="${WORKDIR}/${PN}"
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -35,6 +32,7 @@ DEPEND="${RDEPEND}
 	virtual/pkgconfig"
 
 src_prepare() {
+	epatch "${WORKDIR}/${P}.patch"
 	eautoreconf
 }
 
