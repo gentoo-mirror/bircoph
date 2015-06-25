@@ -30,6 +30,7 @@ RDEPEND="
 	fbsplash? ( >=media-gfx/splashutils-1.5.2 )
 	lzo? ( >=dev-libs/lzo-2[static-libs] ) "
 DEPEND="${RDEPEND}
+	>=dev-lang/perl-5.10
 	>=sys-apps/pciutils-2.2.4
 	virtual/pkgconfig"
 
