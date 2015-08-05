@@ -1,0 +1,13 @@
+_eclasses_=toolchain-funcs	42408102d713fbad60ca21349865edb4	multilib	62927b3db3a589b0806255f3a002d5d3
+_md5_=154fef3f6badb170741cd850ceb90106
+SLOT=0
+DEFINED_PHASES=install setup
+EAPI=5
+DESCRIPTION=Windows 32-bit binary codecs for video and audio playback support
+LICENSE=HPND
+IUSE=real
+RESTRICT=strip binchecks
+SRC_URI=mirror://mplayer/releases/codecs/all-20071007.tar.bz2
+KEYWORDS=~amd64 x86
+HOMEPAGE=http://www.mplayerhq.hu/
+RDEPEND=real? ( =virtual/libstdc++-3.3* )

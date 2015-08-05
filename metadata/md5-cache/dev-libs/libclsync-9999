@@ -1,0 +1,12 @@
+_eclasses_=toolchain-funcs	42408102d713fbad60ca21349865edb4	git-r3	727a612b4c6247766904e3f74a326e2b	multilib	62927b3db3a589b0806255f3a002d5d3	libtool	52d0e17251d04645ffaa61bfdd858944	autotools	2264f05fbbbaaf83d34ec81e72b38ffd	eutils	9fb270e417e0e83d64ca52586c4a79de
+_md5_=62e316fa42371c0e7015b1c8e6b0180f
+SLOT=0
+DEFINED_PHASES=configure install postinst prepare unpack
+EAPI=5
+DEPEND=virtual/pkgconfig >=dev-vcs/git-1.8.2.1 !<sys-devel/gettext-0.18.1.1-r3 || ( >=sys-devel/automake-1.15:1.15 ) >=sys-devel/autoconf-2.69 >=sys-devel/libtool-2.4
+DESCRIPTION=Control and monitoring library for clsync
+LICENSE=GPL-3+
+IUSE=debug extra-debug extra-hardened hardened static-libs
+REQUIRED_USE=extra-debug? ( debug ) extra-hardened? ( hardened )
+HOMEPAGE=http://ut.mephi.ru/oss/clsync https://github.com/xaionaro/clsync
+RDEPEND=~app-doc/clsync-docs-9999

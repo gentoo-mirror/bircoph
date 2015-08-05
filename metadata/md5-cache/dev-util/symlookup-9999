@@ -1,0 +1,11 @@
+_eclasses_=subversion	c12bdf4fcc82f86ad89b14c8f76c4026	toolchain-funcs	42408102d713fbad60ca21349865edb4	multilib	62927b3db3a589b0806255f3a002d5d3	eutils	9fb270e417e0e83d64ca52586c4a79de
+_md5_=60326be3e81c4ae49a152d36d3352ef5
+SLOT=0
+DEFINED_PHASES=configure preinst prepare unpack
+EAPI=5
+DEPEND=dev-libs/elfutils portage? ( sys-apps/portage ) rpm? ( app-arch/rpm ) || ( dev-vcs/subversion[http] dev-vcs/subversion[webdav-neon] dev-vcs/subversion[webdav-serf] ) net-misc/rsync
+DESCRIPTION=Utility for searching of object files containing requested symbols
+LICENSE=GPL-3
+IUSE=+portage rpm
+HOMEPAGE=http://symbol-lookup.sourceforge.net/
+RDEPEND=dev-libs/elfutils portage? ( sys-apps/portage ) rpm? ( app-arch/rpm )

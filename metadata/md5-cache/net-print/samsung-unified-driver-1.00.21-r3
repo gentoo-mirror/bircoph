@@ -1,0 +1,14 @@
+_eclasses_=linux-info	8cbc678e083c23e4ad546ca6509cf304	toolchain-funcs	42408102d713fbad60ca21349865edb4	multilib	62927b3db3a589b0806255f3a002d5d3	versionator	cd0bcdb170807e4a1984115e9d53a26f	eutils	9fb270e417e0e83d64ca52586c4a79de
+_md5_=8af18a5ed66bb93e9dbcf4a35a4981e4
+SLOT=0
+DEFINED_PHASES=install postinst pretend setup
+EAPI=5
+DESCRIPTION=Samsung Unified Linux Driver
+LICENSE=samsung-eula
+IUSE=cups network scanner
+REQUIRED_USE=network? ( cups )
+RESTRICT=mirror strip
+SRC_URI=http://downloadcenter.samsung.com/content/DR/201403/20140312091542348/ULD_V1.00.21.tar.gz -> samsung-unified-driver-1.00.21.tar.gz
+KEYWORDS=~amd64 ~x86
+HOMEPAGE=http://www.samsung.com
+RDEPEND=cups? ( net-print/cups !net-print/splix ) scanner? ( media-gfx/sane-backends dev-libs/libxml2:2 virtual/libusb:0 ) network? ( virtual/libusb:0 )

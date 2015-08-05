@@ -1,0 +1,14 @@
+_eclasses_=toolchain-funcs	42408102d713fbad60ca21349865edb4	versionator	cd0bcdb170807e4a1984115e9d53a26f	multilib	62927b3db3a589b0806255f3a002d5d3	libtool	52d0e17251d04645ffaa61bfdd858944	readme.gentoo	106edea5533517715013de909a333abd	linux-info	8cbc678e083c23e4ad546ca6509cf304	autotools	2264f05fbbbaaf83d34ec81e72b38ffd	linux-mod	101302d4b7b694ea9622bbffb187d0de	eutils	9fb270e417e0e83d64ca52586c4a79de
+_md5_=de108db01657de067c599b3b60ae2781
+SLOT=0
+DEFINED_PHASES=compile configure install postinst postrm preinst prepare setup
+EAPI=5
+DEPEND=dev-lang/perl >=sys-libs/db-4.8.30 virtual/perl-Math-BigInt fuse? ( sys-fs/fuse ) gtk? ( x11-libs/gtk+:2 ) infiniband? ( sys-infiniband/ofed ) open-mx? ( sys-cluster/open-mx[static-libs?] ) ssl? ( dev-libs/openssl[static-libs?] ) valgrind? ( dev-util/valgrind ) virtual/pkgconfig >=sys-devel/autoconf-2.59 sys-devel/bison sys-devel/flex apidocs? ( app-doc/doxygen ) doc? ( dev-tex/latex2html ) modules? ( virtual/linux-sources ) !<sys-devel/gettext-0.18.1.1-r3 || ( >=sys-devel/automake-1.15:1.15 ) >=sys-devel/autoconf-2.69 >=sys-devel/libtool-2.4 kernel_linux? ( virtual/modutils ) sys-apps/sed kernel_linux? ( virtual/linux-sources )
+DESCRIPTION=OrangeFS is a branch of PVFS2 cluster filesystem
+LICENSE=LGPL-2.1
+IUSE=aio apidocs debug doc examples fuse gtk infiniband kmod-threads memtrace +mmap modules open-mx reset-file-pos secure sendfile +server ssl static static-libs +tcp +threads +usrint usrint-cache +usrint-cwd usrint-kmount valgrind kernel_linux
+REQUIRED_USE=aio? ( modules ) apidocs? ( doc ) kmod-threads? ( modules threads ) memtrace? ( debug ) reset-file-pos? ( modules ) sendfile? ( modules ) static? ( server static-libs ) tcp? ( !infiniband !open-mx ) usrint-cache? ( usrint ) usrint-cwd? ( usrint ) usrint-kmount? ( usrint ) valgrind? ( debug ) || ( infiniband open-mx tcp )
+SRC_URI=http://orangefs.org/downloads/2.8.7/source/orangefs-2.8.7.tar.gz
+KEYWORDS=~amd64 ~x86
+HOMEPAGE=http://www.orangefs.org/
+RDEPEND=dev-lang/perl >=sys-libs/db-4.8.30 virtual/perl-Math-BigInt fuse? ( sys-fs/fuse ) gtk? ( x11-libs/gtk+:2 ) infiniband? ( sys-infiniband/ofed ) open-mx? ( sys-cluster/open-mx[static-libs?] ) ssl? ( dev-libs/openssl[static-libs?] ) valgrind? ( dev-util/valgrind ) modules? ( virtual/modutils ) kernel_linux? ( virtual/modutils )
