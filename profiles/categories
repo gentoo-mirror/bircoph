@@ -3,6 +3,7 @@ app-doc
 app-emulation
 app-text
 app-vim
+dev-cpp
 dev-libs
 dev-python
 dev-util
@@ -25,5 +26,4 @@ sys-cluster
 sys-devel
 sys-kernel
 sys-libs
-sys-power
 x11-misc
