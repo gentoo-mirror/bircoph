@@ -1,13 +1,13 @@
-_eclasses_=vim-doc	1b0813c9dadf2431c96854a8d46f5eaf	vim-plugin	222d094e412102a0169617b4d68b6250
-_md5_=68588f3f1db69acfb8d9ca719c38c921
-SLOT=0
 DEFINED_PHASES=install postinst postrm prepare unpack
-EAPI=4
 DEPEND=|| ( >=app-editors/vim-7.3 >=app-editors/gvim-7.3 )
 DESCRIPTION=vim plugin: cscope settings
-LICENSE=BSD
-IUSE=swap-meta
-SRC_URI=http://cscope.sourceforge.net/cscope_maps.vim
-KEYWORDS=~amd64 ~x86
+EAPI=4
 HOMEPAGE=http://cscope.sourceforge.net/cscope_vim_tutorial.html
+IUSE=swap-meta
+KEYWORDS=~amd64 ~x86
+LICENSE=BSD
 RDEPEND=app-editors/vim[cscope] || ( >=app-editors/vim-7.3 >=app-editors/gvim-7.3 )
+SLOT=0
+SRC_URI=http://cscope.sourceforge.net/cscope_maps.vim
+_eclasses_=vim-doc	1b0813c9dadf2431c96854a8d46f5eaf	vim-plugin	222d094e412102a0169617b4d68b6250
+_md5_=68588f3f1db69acfb8d9ca719c38c921
