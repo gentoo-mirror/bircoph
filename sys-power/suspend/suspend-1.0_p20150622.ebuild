@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/sys-power/suspend/suspend-1.0.ebuild,v 1.9 2014/03/01 22:15:50 mgorny Exp $
+# $Header: /var/cvsroot/gentoo-x86/sys-power/suspend/suspend-1.0_p20150622.ebuild,v 1.1 2015/08/06 21:53:54 xmw Exp $
 
 EAPI=5
 
@@ -12,11 +12,10 @@ DESCRIPTION="Userspace Software Suspend and S2Ram"
 HOMEPAGE="http://suspend.sourceforge.net/"
 SRC_URI="http://dev.gentoo.org/~bircoph/distfiles/${PN}-${BASE_PV}.tar.xz
 	http://dev.gentoo.org/~bircoph/patches/${P}.patch.xz"
-KEYWORDS="~amd64 ~x86"
-S="${WORKDIR}/${PN}"
 
 LICENSE="GPL-2"
 SLOT="0"
+KEYWORDS="~amd64 ~x86"
 IUSE="crypt fbsplash +lzo threads"
 
 RDEPEND="
@@ -30,6 +29,8 @@ DEPEND="${RDEPEND}
 	>=dev-lang/perl-5.10
 	>=sys-apps/pciutils-2.2.4
 	virtual/pkgconfig"
+
+S="${WORKDIR}/${PN}"
 
 src_prepare() {
 	epatch "${WORKDIR}/${P}.patch"
