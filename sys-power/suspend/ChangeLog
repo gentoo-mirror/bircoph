@@ -2,6 +2,9 @@
 # Copyright 1999-2015 Gentoo Foundation; Distributed under the GPL v2
 # $Header: /var/cvsroot/gentoo-x86/sys-power/suspend/ChangeLog,v 1.29 2015/04/29 19:35:35 mrueg Exp $
 
+  09 Aug 2015; Andrew Savchenko <bircoph@gentoo.org> suspend-9999.ebuild:
+  Sync with tree. Fix bug 556954.
+
 *suspend-1.0_p20150622 (25 Jun 2015)
 
   25 Jun 2015; Andrew Savchenko <bircoph@gentoo.org>

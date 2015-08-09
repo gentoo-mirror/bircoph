@@ -37,6 +37,9 @@ src_configure() {
 		$(use_enable fbsplash) \
 		$(use_enable lzo compress) \
 		$(use_enable threads)
+
+	# workaround until bug 557126 is fixed
+	sed -i 's/libfbsplash.la//g' Makefile || die
 }
 
 src_install() {
