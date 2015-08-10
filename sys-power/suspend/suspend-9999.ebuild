@@ -19,7 +19,7 @@ RDEPEND="
 	crypt? (
 		>=dev-libs/libgcrypt-1.6.3:0[static-libs]
 		dev-libs/libgpg-error[static-libs] )
-	fbsplash? ( >=media-gfx/splashutils-1.5.2 )
+	fbsplash? ( >=media-gfx/splashutils-1.5.4.4-r6 )
 	lzo? ( >=dev-libs/lzo-2[static-libs] ) "
 DEPEND="${RDEPEND}
 	>=dev-lang/perl-5.10
@@ -37,9 +37,6 @@ src_configure() {
 		$(use_enable fbsplash) \
 		$(use_enable lzo compress) \
 		$(use_enable threads)
-
-	# workaround until bug 557126 is fixed
-	sed -i 's/libfbsplash.la//g' Makefile || die
 }
 
 src_install() {
