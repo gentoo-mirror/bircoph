@@ -1,0 +1,12 @@
+DEFINED_PHASES=configure unpack
+DEPEND=dev-libs/elfutils portage? ( sys-apps/portage ) rpm? ( app-arch/rpm )
+DESCRIPTION=Utility for searching of object files containing requested symbols
+EAPI=4
+HOMEPAGE=http://symbol-lookup.sourceforge.net/
+IUSE=+portage rpm
+KEYWORDS=~x86 ~amd64
+LICENSE=GPL-3
+RDEPEND=dev-libs/elfutils portage? ( sys-apps/portage ) rpm? ( app-arch/rpm )
+SLOT=0
+SRC_URI=mirror://sourceforge/symbol-lookup/symlookup-0.5.2.tar.xz
+_md5_=61482fceeba65ac1b6eaf262a9c57c55

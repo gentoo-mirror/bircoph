@@ -1,0 +1,12 @@
+DEFINED_PHASES=configure install postinst prepare pretend setup unpack
+DEPEND=virtual/pkgconfig >=dev-vcs/git-1.8.2.1 !<sys-devel/gettext-0.18.1.1-r3 || ( >=sys-devel/automake-1.15:1.15 ) >=sys-devel/autoconf-2.69 >=sys-devel/libtool-2.4
+DESCRIPTION=Live sync tool based on inotify, written in GNU C
+EAPI=5
+HOMEPAGE=https://github.com/xaionaro/clsync http://ut.mephi.ru/oss/clsync
+IUSE=+caps cluster control-socket cgroups debug extra-debug extra-hardened gio hardened +highload-locks +inotify mhash namespaces seccomp
+LICENSE=GPL-3+
+RDEPEND=~app-doc/clsync-docs-9999
+REQUIRED_USE=|| ( gio inotify ) extra-debug? ( debug ) extra-hardened? ( hardened ) mhash? ( cluster ) seccomp? ( caps )
+SLOT=0
+_eclasses_=autotools	8056957fdccf2b3cd6e282a4b4551d1a	eutils	351a78113be5b393c09a2c948701ad36	git-r3	1502b9838d043db47700b8120083e637	libtool	7f78cd7d403808a350c9ae23f5821fb4	linux-info	8f92e5ac1a1da684c5450b1b21a1f56a	multilib	df4e4d5cfd3d137d0c248e1991c0e4d6	toolchain-funcs	4b8d3388c0a6e798504e20ba30b49361	versionator	99ae9d758cbe7cfed19170e7d48f5a9c
+_md5_=c6b026225792b871fba929b0712cd3a6

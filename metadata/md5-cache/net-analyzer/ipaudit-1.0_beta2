@@ -1,0 +1,13 @@
+DEFINED_PHASES=configure
+DEPEND=net-libs/libpcap mysql? ( virtual/mysql )
+DESCRIPTION=IPAudit monitors network activity on a network by host, protocol and port
+EAPI=5
+HOMEPAGE=http://ipaudit.sourceforge.net/
+IUSE=mysql
+KEYWORDS=~amd64 ppc x86
+LICENSE=GPL-2
+RDEPEND=net-libs/libpcap mysql? ( virtual/mysql )
+SLOT=0
+SRC_URI=mirror://sourceforge/ipaudit/ipaudit-1.0BETA2.tar.gz
+_eclasses_=eutils	351a78113be5b393c09a2c948701ad36	flag-o-matic	02090c5a622458303e6bf68837ac6b96	multilib	df4e4d5cfd3d137d0c248e1991c0e4d6	toolchain-funcs	4b8d3388c0a6e798504e20ba30b49361
+_md5_=984f7a1c9f1fd1f28ee870fd88cc76b0
