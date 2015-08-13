@@ -1,0 +1,147 @@
+# This file is deprecated as per GLEP 56 in favor of metadata.xml. Please add
+# your descriptions to your package's metadata.xml ONLY.
+# * generated automatically using pmaint *
+
+app-admin/clsync:cgroups - Use cgroups to limit /dev access.
+app-admin/clsync:cluster - Enable clustering support (allows master-master clsync on multiple hosts). Not fully implemented yet.
+app-admin/clsync:control-socket - Enable AF_UNIX control socket support.
+app-admin/clsync:extra-debug - Enable extra debugging. This will hurt performance badly. Be ready for tons of output.
+app-admin/clsync:extra-hardened - Enable extra security checks. This will hurt performance.
+app-admin/clsync:gio - Enable GIO for FS monitoring (glib based alternative to inotify interface, not recommended; if both are compiled, may be selected at runtime).
+app-admin/clsync:highload-locks - Allows to use spinlocks for short delays instead of mutexes, but only on SMP systems.
+app-admin/clsync:namespaces - Enable namespaces isolation.
+app-admin/clsync:seccomp - Enable seccomp for system call filtering.
+app-doc/clsync-docs:api - Install doxygen generated API docs.
+app-emulation/wine:capi - Enable ISDN support via CAPI
+app-emulation/wine:custom-cflags - Bypass strip-flags; use at your own peril
+app-emulation/wine:dos - Pull in games-emulation/dosbox to run DOS applications
+app-emulation/wine:gecko - Add support for the Gecko engine when using iexplore
+app-emulation/wine:mono - Add support for .NET using Wine's Mono add-on
+app-emulation/wine:netapi - Use libnetapi from net-fs/samba to support Windows networks in netapi32.dll
+app-emulation/wine:opencl - Enable OpenCL support
+app-emulation/wine:osmesa - Add support for OpenGL in bitmaps using libOSMesa
+app-emulation/wine:perl - Install helpers written in perl (winedump/winemaker)
+app-emulation/wine:pipelight - Apply unofficial Compholio patches for Pipelight/Silverlight support; use at your own peril
+app-emulation/wine:prelink - Run prelink on DLLs during build -- do not disable if you do not know what this means as it can break things at runtime
+app-emulation/wine:realtime - Pull in sys-auth/rtkit for low-latency pulseaudio support
+app-emulation/wine:run-exes - Use Wine to open and run .EXE and .MSI files
+app-emulation/wine:samba - Add support for NTLM auth. see http://wiki.winehq.org/NtlmAuthSetupGuide and http://wiki.winehq.org/NtlmSigningAndSealing
+app-emulation/wine:udisks - Support dynamic storage devices using sys-fs/udisks
+app-vim/cscope-plugin:swap-meta - Swap C-\ and C-@ meta sequences
+dev-libs/libclsync:extra-debug - Enable extra debugging. This will hurt performance badly. Be ready for tons of output.
+dev-libs/libclsync:extra-hardened - Enable extra security checks. This may hurt performance.
+dev-util/symlookup:portage - Enable support for Portage database queries.
+dev-util/symlookup:rpm - Enable support for RPM database queries. May be useful if app-arch/rpm is used to install packages outside of portage
+games-engines/renpy:development - Install IDE for game developers and an empty game template
+games-strategy/wesnoth:server - Enable compilation of server
+media-gfx/nip2:goffice - use x11-libs/goffice to show plots
+media-gfx/splashutils:fbcondecor - Support for the fbcondecor kernel patch.
+media-libs/vips:fits - Enable support for the FITS image format through sci-libs/cfitsio
+media-libs/vips:matio - Enable support for reading images from Matlab files through sci-libs/matio
+media-libs/vips:webp - Enable support for webp image format
+media-libs/win32codecs:real - Installs the real video codecs
+media-libs/x264:10bit - Set output bit depth to 10, this may not be compatible with all decoders
+media-libs/x264:interlaced - enable interlaced encoding support, this can decrease encoding speed by up to 2%
+media-libs/x264:opencl - Add support for OpenCL.
+media-libs/x264:pic - disable optimized assembly code that is not PIC friendly
+media-sound/tuxguitar:fluidsynth - Use software media-sound/fluidsynth real-time synthesizer
+media-video/mplayer:3dnowext - Enable 3dnowext cpu instructions
+media-video/mplayer:amr - Enables Adaptive Multi-Rate format support
+media-video/mplayer:bl - Blinkenlights video output
+media-video/mplayer:bluray - Enable playback of Blu-ray filesystems
+media-video/mplayer:bs2b - Enable Bauer stereophonic-to-binaural headphone filter
+media-video/mplayer:cdio - Use libcdio for CD support (instead of cdparanoia)
+media-video/mplayer:cpudetection - Enables runtime CPU detection (useful for bindist, compatibility on other CPUs)
+media-video/mplayer:dirac - Enable Dirac video support (an advanced royalty-free video compression format) via the reference library: dirac.
+media-video/mplayer:dvdnav - Use forked libdvdnav, navigate menus in GUIs
+media-video/mplayer:dxr3 - Enable DXR3/H+ video output
+media-video/mplayer:enca - Enables support for charset discovery and conversion
+media-video/mplayer:external-ffmpeg - Use shared FFmpeg libraries instead of static bundled ones. Discouraged by upstream.
+media-video/mplayer:faac - Use external faac library for AAC encoding
+media-video/mplayer:faad - Use external faad library for AAC decoding
+media-video/mplayer:libmpeg2 - Build support for mpeg2 over media-libs/libmpeg2 rather than using ffmpeg.
+media-video/mplayer:live - Enables live.com streaming media support
+media-video/mplayer:md5sum - Enables md5sum video output
+media-video/mplayer:mmxext - Enables mmx2 support
+media-video/mplayer:mng - MNG input support
+media-video/mplayer:mpg123 - Enable support for mp3 decoding over media-sound/mpg123.
+media-video/mplayer:nemesi - Enable Nemesi Streaming Media support
+media-video/mplayer:network - Enables network streaming support
+media-video/mplayer:nut - Enables support for the NUT container format
+media-video/mplayer:opus - Enables support for Opus audio codec via media-libs/opus
+media-video/mplayer:osdmenu - Enables support for on-screen display (OSD) menus
+media-video/mplayer:pnm - Add PNM video output option, to create PPM/PGM/PGMYUV images
+media-video/mplayer:pvr - Enable Video4Linux2 MPEG PVR
+media-video/mplayer:radio - Enable V4L2 radio interface and support
+media-video/mplayer:rar - Enable Unique RAR File Library
+media-video/mplayer:real - Adds Real audio/video support
+media-video/mplayer:rtc - Enables usage of the linux real time clock. The alternative is software emulation of rtc
+media-video/mplayer:rtmp - Enables RTMPDump Streaming Media support
+media-video/mplayer:schroedinger - Enable Dirac video support (an advanced royalty-free video compression format) via libschroedinger (high-speed implementation in C of the Dirac codec).
+media-video/mplayer:shm - Enable support for shm
+media-video/mplayer:ssse3 - faster floating point optimization for SSSE3 capable chips (Intel Core 2 and later chips)
+media-video/mplayer:svga - SVGA video output
+media-video/mplayer:svga-helper - Use SVGA kernel helper for userspace access
+media-video/mplayer:tga - Enables Targa video output
+media-video/mplayer:tivo - Enables vstream client support for TiVo streams
+media-video/mplayer:toolame - Enable toolame MPEG-2 encoding
+media-video/mplayer:tremor - Enable internal support for Vorbis
+media-video/mplayer:twolame - Enable twolame MPEG-2 encoding
+media-video/mplayer:vdpau - Enables experimental VDPAU support (requires nVidia video cards) to offload MPEG2/MPEG4/VC1/WMV CPU processing to video card
+media-video/mplayer:vidix - Support for vidix video output
+media-video/mplayer:vpx - Enables vp8 codec support using libvpx: Decoding vp8 does not require this to be enabled but libvpx can also be used for decoding; encoding vp8 requires this useflag to be enabled though.
+media-video/mplayer:win32codecs - Support for binary win32 codecs
+media-video/mplayer:xanim - Enables support for xanim based codecs
+media-video/mplayer:xvmc - Enables X-Video Motion Compensation support
+media-video/mplayer:zoran - Enables ZR360[56]7/ZR36060 video output
+net-dialup/openl2tp:client - Enable l2tp client
+net-dialup/openl2tp:rpc - Enable RPC queries and control. This flag is required for l2tpconfig to be built and used.
+net-dialup/openl2tp:server - Enable l2tp server
+net-dialup/openl2tp:stats - Enable status files. Note: when they are used, this hampers performance of the daemon.
+net-libs/libnemesi:sctp - Support for Stream Control Transmission Protocol
+net-print/samsung-unified-driver:network - Enable network printing support
+sci-geosciences/googleearth:bundled-libs - Use bundled libraries.
+sys-apps/openrc:earlyloop - enable early loop detector
+sys-apps/openrc:laterloop - enable later loop detector
+sys-apps/openrc:netifrc - enable Gentoo's network stack (net.* scripts)
+sys-apps/openrc:newnet - enable the new network stack (experimental)
+sys-apps/openrc:tools - build optional tools
+sys-cluster/maui:pbs - Enable pbs integration
+sys-cluster/maui:slurm - Enable slurm integration
+sys-cluster/netpipe:memcpy - Build memory testing tool (using memcpy)
+sys-cluster/netpipe:sctp - Build SCTP testing tool
+sys-cluster/netpipe:tcp - Build TCP testing tool
+sys-cluster/netpipe:utils - Install helper scripts
+sys-cluster/orangefs:aio - Enable file AIO support
+sys-cluster/orangefs:apidocs - Build API documentation from the code using doxygen (size > 800 MB)
+sys-cluster/orangefs:capcache - Enable capabilities cache for security modes
+sys-cluster/orangefs:certcache - Enable certificate cache for security-cert mode
+sys-cluster/orangefs:fuse - Enable client filesystem support using sys-fs/fuse.
+sys-cluster/orangefs:kmod-threads - Use experimental threads support for kernel helper code
+sys-cluster/orangefs:memtrace - Use mtrace for memory debugging (must set MALLOC_TRACE to output file)
+sys-cluster/orangefs:open-mx - Add support for Myrinet Express over Ethernet
+sys-cluster/orangefs:reset-file-pos - Resets file position pointer in kernel interface upon error. See ChangeLog for 2.8.6 for more details
+sys-cluster/orangefs:secure - Enable connections only from trusted hosts/ports
+sys-cluster/orangefs:security-cert - Enable certificate-based security
+sys-cluster/orangefs:security-key - Enable key-based security
+sys-cluster/orangefs:sendfile - Enable kernel sendfile support (recommended for serving of large files only)
+sys-cluster/orangefs:server - Enable compilation of server code
+sys-cluster/orangefs:tcp - Use TCP interface in BMI library (you must use it unless you have Myrinet or InfiniBand available)
+sys-cluster/orangefs:trusted-connections - Enable connections only from trusted hosts/ports
+sys-cluster/orangefs:usrint - Build user interface libraries
+sys-cluster/orangefs:usrint-cache - Build ucached (user interface data cache daemon)
+sys-cluster/orangefs:usrint-cwd - Enable current working directory calls in user interface libraries
+sys-cluster/orangefs:usrint-kmount - Assume that FS is mounted via kervel VFS in user interface libraries
+sys-cluster/orangefs:valgrind - Use dev-util/valgrind for memory debugging
+sys-cluster/torque:cpusets - Enable pbs_mom to utilize linux cpusets if available
+sys-cluster/torque:drmaa - Enable the Distributed Resource Management Application API
+sys-cluster/torque:munge - Enable authentication via munge
+sys-cluster/torque:nvidia - Enable management of Nvidia GPUs
+sys-cluster/torque:server - Enable compilation of pbs_server and pbs_sched
+sys-devel/distcc:cc32_64 - Enable second distcc server to crosscompile amd64 on x86 host or vice versa depending on your host architecture
+sys-devel/distcc:crossdev - Enable support for sys-devel/crossdev
+sys-devel/distcc:gssapi - Enable support for net-libs/libgssglue
+sys-devel/distcc:secure - Limit the list of allowed commands by the list of installed compilers. Otherwise crafted client may execute arbitrary command on a server host with distcc user id
+sys-kernel/vanilla-sources:deblob - Remove binary blobs from kernel sources to provide libre license compliance.
+sys-power/suspend:crypt - Allows suspend and resume from encrypted disk
+sys-power/suspend:fbsplash - Add support for framebuffer splash

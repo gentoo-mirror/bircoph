@@ -1,0 +1,41 @@
+app-admin/clsync 9999: Live sync tool based on inotify, written in GNU C
+app-doc/clsync-docs 9999: Clsync and libclsync API documentation
+app-emulation/wine 1.7.28 1.7.29: Free implementation of Windows(tm) on Unix
+app-text/xpdf-poppler 9999: Customized version of xpdf with the use of the poppler library
+app-vim/cscope-plugin 2002.03.07: vim plugin: cscope settings
+dev-cpp/gtkglextmm 1.2.0-r2: C++ bindings for gtkglext
+dev-libs/libclsync 9999: Control and monitoring library for clsync
+dev-python/pyDes 2.0.1: Python implementation of DES an Triple-DES algorithms
+dev-util/symlookup 0.5.2 9999: Utility for searching of object files containing requested symbols
+games-engines/renpy 6.18.3: Visual novel engine written in python
+games-strategy/wesnoth 9999: Battle for Wesnoth - A fantasy turn-based strategy game
+media-gfx/dmtx-utils 0.7.4: Tools for reading and writing Data Matrix barcodes
+media-gfx/nip2 7.38.1: VIPS Image Processing Graphical User Interface
+media-gfx/splashutils 1.5.4.4-r6: Framebuffer splash utilities
+media-libs/fdk-aac 0.1.3: Fraunhofer AAC codec library
+media-libs/vips 7.38.5: VIPS Image Processing Library
+media-libs/vstream-client 1.2.1.1: Allows streaming video from a hacked TiVo running vserver
+media-libs/win32codecs 20071007-r4: Windows 32-bit binary codecs for video and audio playback support
+media-libs/x264 9999: A free library for encoding X264/AVC streams
+media-sound/tuxguitar 1.2-r1: TuxGuitar is a multitrack guitar tablature editor and player written in Java-SWT
+media-video/mplayer 9999: Media Player for Linux
+net-analyzer/ipaudit 1.0_beta2: IPAudit monitors network activity on a network by host, protocol and port
+net-dialup/openl2tp 1.8-r5: Userspace tools for kernel L2TP implementation
+net-dns/bind2nsd 0.7.2: Program to translate DNS information in BIND format to NSD format
+net-ftp/vsftpd 3.0.2-r3: Very Secure FTP Daemon written with speed, size and security in mind
+net-libs/libnemesi 9999: a RTSP/RTP client library
+net-misc/prtunnel 0.2.7: Tunnels TCP/IP connections in a variety of ways, including through HTTP and SOCKS5 proxy servers
+net-print/samsung-unified-driver 1.00.21-r3: Samsung Unified Linux Driver
+sci-geosciences/googleearth 7.1.2.2041: A 3D interface to the planet
+sys-apps/openrc 9999: OpenRC manages the services, startup and shutdown of a host
+sys-apps/strerror 0.2: System error description utility
+sys-apps/userchroot 0.1: Safe chroot from userspace
+sys-cluster/maui 3.3.1-r2: Maui Cluster Scheduler
+sys-cluster/netpipe 3.7.2: A Network Protocol Independent Performance Evaluator
+sys-cluster/orangefs 2.8.6-r5 2.8.7 2.9_beta20130530-r1: OrangeFS is a branch of PVFS2 cluster filesystem
+sys-cluster/torque 3.0.6-r1: Resource manager and queuing system based on OpenPBS
+sys-devel/distcc 3.2_rc1-r2: Distribute compilation of C code across several machines on a network
+sys-kernel/vanilla-sources 3.2.59 3.12.33 3.13.11 3.14.31 3.17.6: Full sources for the Linux kernel
+sys-libs/libvbe 9999: A library for handling the VESA BIOS Extension (aka VBE)
+sys-power/suspend 1.0_p20150810 9999: Userspace Software Suspend and S2Ram
+x11-misc/switchscreen 0.1.1: Utility for switching between multiple X screens
