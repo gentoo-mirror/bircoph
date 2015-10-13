@@ -10,5 +10,5 @@ REQUIRED_USE=network? ( cups )
 RESTRICT=mirror strip
 SLOT=0
 SRC_URI=http://downloadcenter.samsung.com/content/DR/201403/20140312091542348/ULD_V1.00.21.tar.gz -> samsung-unified-driver-1.00.21.tar.gz
-_eclasses_=eutils	43da5163ba106e87d22d2e7d6d67537f	linux-info	8f92e5ac1a1da684c5450b1b21a1f56a	multilib	df4e4d5cfd3d137d0c248e1991c0e4d6	toolchain-funcs	1dfcad7b3f439dbc511d76c49f23da0d	versionator	99ae9d758cbe7cfed19170e7d48f5a9c
+_eclasses_=eutils	43da5163ba106e87d22d2e7d6d67537f	linux-info	8f92e5ac1a1da684c5450b1b21a1f56a	multilib	df4e4d5cfd3d137d0c248e1991c0e4d6	toolchain-funcs	7a212e5e01adfa4805c9978366e6ee85	versionator	99ae9d758cbe7cfed19170e7d48f5a9c
 _md5_=8af18a5ed66bb93e9dbcf4a35a4981e4
