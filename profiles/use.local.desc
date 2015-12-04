@@ -35,7 +35,6 @@ dev-util/symlookup:rpm - Enable support for RPM database queries. May be useful 
 games-engines/renpy:development - Install IDE for game developers and an empty game template
 games-strategy/wesnoth:server - Enable compilation of server
 media-gfx/nip2:goffice - use x11-libs/goffice to show plots
-media-gfx/splashutils:fbcondecor - Support for the fbcondecor kernel patch.
 media-libs/vips:fits - Enable support for the FITS image format through sci-libs/cfitsio
 media-libs/vips:matio - Enable support for reading images from Matlab files through sci-libs/matio
 media-libs/vips:webp - Enable support for webp image format
