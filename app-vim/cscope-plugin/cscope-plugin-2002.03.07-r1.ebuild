@@ -24,6 +24,7 @@ src_unpack() {
 }
 
 src_prepare() {
+	default
 	if use swap-meta; then
 		sed -i 's%C-\\%C-X%g' "plugin/${MY_PN}" || die "sed failed"
 		sed -i 's%C-@%C-\\%g' "plugin/${MY_PN}" || die "sed failed"
