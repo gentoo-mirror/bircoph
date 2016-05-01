@@ -1,8 +1,8 @@
-# Copyright 1999-2013 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Id$
 
-EAPI=4
+EAPI=6
 inherit vim-plugin
 MY_PN="cscope_maps.vim"
 
@@ -19,8 +19,8 @@ VIM_PLUGIN_HELPTEXT=\
 simplifies cscope DB loading."
 
 src_unpack() {
-	mkdir -p "${S}/plugin"
-	cp "${DISTDIR}/${A}" "${S}/plugin/"
+	mkdir -p "${S}/plugin" || die
+	cp "${DISTDIR}/${A}" "${S}/plugin/" || die
 }
 
 src_prepare() {

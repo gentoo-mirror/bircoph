@@ -1,6 +1,6 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Id$
 
 EAPI=5
 
@@ -16,7 +16,7 @@ else
 	S="${WORKDIR}/${MY_P}"
 fi
 
-inherit autotools eutils
+inherit autotools
 
 DESCRIPTION="Control and monitoring library for clsync"
 HOMEPAGE="http://ut.mephi.ru/oss/clsync https://github.com/xaionaro/clsync"
