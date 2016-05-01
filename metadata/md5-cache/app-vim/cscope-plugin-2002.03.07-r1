@@ -11,4 +11,4 @@ SLOT=0
 SRC_URI=http://cscope.sourceforge.net/cscope_maps.vim
 _eclass_exported_funcs=pkg_postrm:vim-plugin pkg_postinst:vim-plugin src_unpack:- src_prepare:- src_install:vim-plugin
 _eclasses_=vim-doc	1b0813c9dadf2431c96854a8d46f5eaf	vim-plugin	1bbfc3364a7588372fb4c21734f0cd96
-_md5_=8f55fd5fcba01671bb4b86de868ca556
+_md5_=996699dffc32f817a3644d5b03fdcee2
