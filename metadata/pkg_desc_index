@@ -1,8 +1,7 @@
 app-admin/clsync 9999: Live sync tool based on inotify, written in GNU C
 app-doc/clsync-docs 9999: Clsync and libclsync API documentation
-app-emulation/wine 1.7.28 1.7.29: Free implementation of Windows(tm) on Unix
-app-text/xpdf-poppler 9999: Customized version of xpdf with the use of the poppler library
-app-vim/cscope-plugin 2002.03.07: vim plugin: cscope settings
+app-emulation/wine 1.9.8: Free implementation of Windows(tm) on Unix
+app-vim/cscope-plugin 2002.03.07-r1: vim plugin: cscope settings
 dev-libs/libclsync 9999: Control and monitoring library for clsync
 dev-python/pyDes 2.0.1: Python implementation of DES an Triple-DES algorithms
 dev-util/symlookup 0.5.2 9999: Utility for searching of object files containing requested symbols
