@@ -4,7 +4,7 @@ app-emulation/wine 1.9.8: Free implementation of Windows(tm) on Unix
 app-text/a2ps 4.14-r4: Any to PostScript filter
 app-vim/cscope-plugin 2002.03.07-r1: vim plugin: cscope settings
 dev-libs/libclsync 9999: Control and monitoring library for clsync
-dev-python/pyDes 2.0.1: Python implementation of DES an Triple-DES algorithms
+dev-python/pyDes 2.0.1 2.0.1-r1: Python implementation of DES an Triple-DES algorithms
 dev-util/symlookup 0.5.2 9999: Utility for searching of object files containing requested symbols
 games-engines/renpy 6.18.3: Visual novel engine written in python
 games-strategy/wesnoth 9999: Battle for Wesnoth - A fantasy turn-based strategy game
