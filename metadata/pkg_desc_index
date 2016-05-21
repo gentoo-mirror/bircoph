@@ -1,26 +1,23 @@
 app-admin/clsync 9999: Live sync tool based on inotify, written in GNU C
 app-doc/clsync-docs 9999: Clsync and libclsync API documentation
-app-emulation/wine 1.9.8: Free implementation of Windows(tm) on Unix
+app-emulation/wine 1.9.9: Free implementation of Windows(tm) on Unix
 app-vim/cscope-plugin 2002.03.07-r1: vim plugin: cscope settings
 dev-libs/libclsync 9999: Control and monitoring library for clsync
 dev-python/pyDes 2.0.1 2.0.1-r1: Python implementation of DES an Triple-DES algorithms
 dev-util/symlookup 0.5.2 9999: Utility for searching of object files containing requested symbols
-games-engines/renpy 6.18.3: Visual novel engine written in python
-games-strategy/wesnoth 9999: Battle for Wesnoth - A fantasy turn-based strategy game
+games-engines/renpy 6.99.6: Visual novel engine written in python
 media-gfx/dmtx-utils 0.7.4: Tools for reading and writing Data Matrix barcodes
 media-gfx/nip2 7.38.1: VIPS Image Processing Graphical User Interface
-media-libs/fdk-aac 0.1.3: Fraunhofer AAC codec library
+media-libs/fdk-aac 0.1.4: Fraunhofer AAC codec library
 media-libs/giflib 5.1.4: Library to handle, display and manipulate GIF images
 media-libs/vips 7.38.5: VIPS Image Processing Library
 media-libs/vstream-client 1.2.1.1: Allows streaming video from a hacked TiVo running vserver
 media-libs/win32codecs 20071007-r4: Windows 32-bit binary codecs for video and audio playback support
-media-libs/x264 9999: A free library for encoding X264/AVC streams
 media-sound/tuxguitar 1.2-r1: TuxGuitar is a multitrack guitar tablature editor and player written in Java-SWT
 media-video/mplayer 9999: Media Player for Linux
-net-analyzer/ipaudit 1.0_beta2: IPAudit monitors network activity on a network by host, protocol and port
 net-dialup/openl2tp 1.8-r5: Userspace tools for kernel L2TP implementation
 net-dns/bind2nsd 0.7.2: Program to translate DNS information in BIND format to NSD format
-net-ftp/vsftpd 3.0.2-r3: Very Secure FTP Daemon written with speed, size and security in mind
+net-ftp/vsftpd 3.0.3: Very Secure FTP Daemon written with speed, size and security in mind
 net-libs/libnemesi 9999: a RTSP/RTP client library
 net-misc/prtunnel 0.2.7: Tunnels TCP/IP connections in a variety of ways, including through HTTP and SOCKS5 proxy servers
 net-print/samsung-unified-driver 1.00.21-r3: Samsung Unified Linux Driver

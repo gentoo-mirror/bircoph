@@ -13,6 +13,7 @@ app-admin/clsync:namespaces - Enable namespaces isolation.
 app-doc/clsync-docs:api - Install doxygen generated API docs.
 app-emulation/wine:capi - Enable ISDN support via CAPI
 app-emulation/wine:custom-cflags - Bypass strip-flags; use at your own peril
+app-emulation/wine:d3d9 - Apply highly experimental patches for Gallium Nine support. This patch may break some applications.
 app-emulation/wine:dos - Pull in games-emulation/dosbox to run DOS applications
 app-emulation/wine:gecko - Add support for the Gecko engine when using iexplore
 app-emulation/wine:gstreamer - Use media-libs/gstreamer to provide DirectShow functionality; For versions before wine-1.9.2, uses experimental patch which may break some apps
@@ -35,16 +36,11 @@ dev-libs/libclsync:extra-hardened - Enable extra security checks. This may hurt 
 dev-util/symlookup:portage - Enable support for Portage database queries.
 dev-util/symlookup:rpm - Enable support for RPM database queries. May be useful if app-arch/rpm is used to install packages outside of portage
 games-engines/renpy:development - Install IDE for game developers and an empty game template
-games-strategy/wesnoth:server - Enable compilation of server
 media-gfx/nip2:goffice - use x11-libs/goffice to show plots
 media-libs/vips:fits - Enable support for the FITS image format through sci-libs/cfitsio
 media-libs/vips:matio - Enable support for reading images from Matlab files through sci-libs/matio
 media-libs/vips:webp - Enable support for webp image format
 media-libs/win32codecs:real - Installs the real video codecs
-media-libs/x264:10bit - Set output bit depth to 10, this may not be compatible with all decoders
-media-libs/x264:interlaced - enable interlaced encoding support, this can decrease encoding speed by up to 2%
-media-libs/x264:opencl - Add support for OpenCL.
-media-libs/x264:pic - disable optimized assembly code that is not PIC friendly
 media-sound/tuxguitar:fluidsynth - Use software media-sound/fluidsynth real-time synthesizer
 media-video/mplayer:3dnowext - Enable 3dnowext cpu instructions
 media-video/mplayer:amr - Enables Adaptive Multi-Rate format support
