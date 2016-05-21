@@ -98,11 +98,6 @@ net-dialup/openl2tp:stats - Enable status files. Note: when they are used, this 
 net-libs/libnemesi:sctp - Support for Stream Control Transmission Protocol
 net-print/samsung-unified-driver:network - Enable network printing support
 sci-geosciences/googleearth:bundled-libs - Use bundled libraries.
-sys-apps/openrc:earlyloop - enable early loop detector
-sys-apps/openrc:laterloop - enable later loop detector
-sys-apps/openrc:netifrc - enable Gentoo's network stack (net.* scripts)
-sys-apps/openrc:newnet - enable the new network stack (experimental)
-sys-apps/openrc:tools - build optional tools
 sys-cluster/maui:pbs - Enable pbs integration
 sys-cluster/maui:slurm - Enable slurm integration
 sys-cluster/netpipe:memcpy - Build memory testing tool (using memcpy)
@@ -139,6 +134,5 @@ sys-devel/distcc:cc32_64 - Enable second distcc server to crosscompile amd64 on 
 sys-devel/distcc:crossdev - Enable support for sys-devel/crossdev
 sys-devel/distcc:gssapi - Enable support for net-libs/libgssglue
 sys-devel/distcc:secure - Limit the list of allowed commands by the list of installed compilers. Otherwise crafted client may execute arbitrary command on a server host with distcc user id
-sys-kernel/vanilla-sources:deblob - Remove binary blobs from kernel sources to provide libre license compliance.
 sys-power/suspend:crypt - Allows suspend and resume from encrypted disk
 sys-power/suspend:fbsplash - Add support for framebuffer splash

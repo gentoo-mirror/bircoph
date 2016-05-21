@@ -21,8 +21,7 @@ net-ftp/vsftpd 3.0.3: Very Secure FTP Daemon written with speed, size and securi
 net-libs/libnemesi 9999: a RTSP/RTP client library
 net-misc/prtunnel 0.2.7: Tunnels TCP/IP connections in a variety of ways, including through HTTP and SOCKS5 proxy servers
 net-print/samsung-unified-driver 1.00.21-r3: Samsung Unified Linux Driver
-sci-geosciences/googleearth 7.1.2.2041: A 3D interface to the planet
-sys-apps/openrc 9999: OpenRC manages the services, startup and shutdown of a host
+sci-geosciences/googleearth 7.1.4.1529: A 3D interface to the planet
 sys-apps/strerror 0.2: System error description utility
 sys-apps/userchroot 0.1: Safe chroot from userspace
 sys-cluster/maui 3.3.1-r2: Maui Cluster Scheduler
@@ -30,7 +29,7 @@ sys-cluster/netpipe 3.7.2: A Network Protocol Independent Performance Evaluator
 sys-cluster/orangefs 2.8.6-r5 2.8.7 2.9_beta20130530-r1: OrangeFS is a branch of PVFS2 cluster filesystem
 sys-cluster/torque 3.0.6-r1: Resource manager and queuing system based on OpenPBS
 sys-devel/distcc 3.2_rc1-r2: Distribute compilation of C code across several machines on a network
-sys-kernel/vanilla-sources 3.2.59 3.12.33 3.13.11 3.14.31 3.17.6: Full sources for the Linux kernel
+sys-kernel/vanilla-sources 3.2.59 3.13.11 3.17.6: Full sources for the Linux kernel
 sys-libs/libvbe 9999: A library for handling the VESA BIOS Extension (aka VBE)
-sys-power/suspend 1.0_p20150810 9999: Userspace Software Suspend and S2Ram
+sys-power/suspend 9999: Userspace Software Suspend and S2Ram
 x11-misc/switchscreen 0.1.1: Utility for switching between multiple X screens
