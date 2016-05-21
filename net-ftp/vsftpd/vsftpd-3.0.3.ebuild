@@ -1,6 +1,6 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/net-ftp/vsftpd/vsftpd-3.0.2-r3.ebuild,v 1.1 2014/09/14 11:04:49 hwoarang Exp $
+# $Id$
 
 EAPI="4"
 
@@ -37,9 +37,6 @@ src_prepare() {
 	# Fix building on alpha. Bug #405829
 	epatch "${FILESDIR}/${PN}-3.0.2-alpha.patch"
 
-	# Increase AS_LIMIT. Bug #522412
-	epatch "${FILESDIR}/${P}-aslim.patch"
-
 	# Fix unicode logging
 	epatch "${FILESDIR}/${PN}-2.2.0-logging.patch"
 
@@ -61,7 +58,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/${PN}-3.0.0-Makefile.patch
 
 	#Bug #450536
-	epatch "${FILESDIR}"/${P}-remove-legacy-cap.patch
+	epatch "${FILESDIR}"/${PN}-3.0.2-remove-legacy-cap.patch
 
 	epatch_user
 }

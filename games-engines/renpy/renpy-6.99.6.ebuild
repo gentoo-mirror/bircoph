@@ -1,6 +1,6 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/games-engines/renpy/renpy-6.18.3.ebuild,v 1.2 2015/03/31 19:25:35 ulm Exp $
+# $Id$
 
 EAPI=5
 PYTHON_COMPAT=( python2_7 )
@@ -19,13 +19,13 @@ IUSE="development doc examples"
 REQUIRED_USE="examples? ( development )"
 
 RDEPEND="
-	>=app-eselect/eselect-renpy-0.5
+	>=app-eselect/eselect-renpy-0.6
 	dev-libs/fribidi
-	dev-python/pygame[X,${PYTHON_USEDEP}]
+	~dev-python/pygame_sdl2-${PV}[${PYTHON_USEDEP}]
 	>=dev-lang/python-exec-0.3[${PYTHON_USEDEP}]
 	media-libs/glew
 	media-libs/libpng:0
-	media-libs/libsdl[X,video]
+	media-libs/libsdl2[video]
 	media-libs/freetype:2
 	sys-libs/zlib
 	virtual/ffmpeg"
