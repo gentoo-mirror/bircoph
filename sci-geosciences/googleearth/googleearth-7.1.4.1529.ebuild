@@ -1,18 +1,18 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/sci-geosciences/googleearth/googleearth-7.1.2.2041.ebuild,v 1.1 2014/02/08 15:56:20 mschiff Exp $
+# $Id$
 
 EAPI=5
 
 inherit pax-utils eutils unpacker fdo-mime gnome2-utils user
 
 DESCRIPTION="A 3D interface to the planet"
-HOMEPAGE="http://earth.google.com/"
+HOMEPAGE="https://earth.google.com/"
 # no upstream versioning, version determined from help/about
 # incorrect digest means upstream bumped and thus needs version bump
-SRC_URI="x86? ( http://dl.google.com/dl/earth/client/current/google-earth-stable_current_i386.deb
+SRC_URI="x86? ( https://dl.google.com/dl/earth/client/current/google-earth-stable_current_i386.deb
 			-> GoogleEarthLinux-${PV}_i386.deb )
-	amd64? ( http://dl.google.com/dl/earth/client/current/google-earth-stable_current_amd64.deb
+	amd64? ( https://dl.google.com/dl/earth/client/current/google-earth-stable_current_amd64.deb
 			-> GoogleEarthLinux-${PV}_amd64.deb )"
 LICENSE="googleearth GPL-2"
 SLOT="0"
@@ -58,7 +58,7 @@ S=${WORKDIR}/opt/google/earth/free
 pkg_nofetch() {
 	einfo "Wrong checksum or file size means that Google silently replaced the distfile with a newer version."
 	einfo "Note that Gentoo cannot mirror the distfiles due to license reasons, so we have to follow the bump."
-	einfo "Please file a version bump bug on http://bugs.gentoo.org (search existing bugs for googleearth first!)."
+	einfo "Please file a version bump bug on https://bugs.gentoo.org (search existing bugs for googleearth first!)."
 	einfo "By redigesting the file yourself, you will install a different version than the ebuild says, untested!"
 }
 
@@ -92,6 +92,7 @@ src_unpack() {
 }
 
 src_prepare() {
+
 	# we have no ld-lsb.so.3 symlink
 	# thanks to Nathan Phillip Brink <ohnobinki@ohnopublishing.net> for suggesting patchelf
 	einfo "running patchelf"
@@ -102,9 +103,12 @@ src_prepare() {
 	for x in * ; do
 		# Use \x7fELF header to separate ELF executables and libraries
 		[[ -f ${x} && $(od -t x1 -N 4 "${x}") == *"7f 45 4c 46"* ]] || continue
+		fperms u+w "${x}"
 		patchelf --set-rpath '$ORIGIN' "${x}" ||
 			die "patchelf failed on ${x}"
 	done
+	# prepare file permissions so that >patchelf-0.8 can work on the files
+	fperms u+w plugins/*.so plugins/imageformats/*.so
 	for x in plugins/*.so ; do
 		[[ -f ${x} ]] || continue
 		patchelf --set-rpath '$ORIGIN/..' "${x}" ||
@@ -155,7 +159,7 @@ pkg_preinst() {
 }
 
 pkg_postinst() {
-	elog "When you get a crash starting Google Earth, try adding a file ~./config/Google/GoogleEarthPlus.conf"
+	elog "When you get a crash starting Google Earth, try adding a file ~./.config/Google/GoogleEarthPlus.conf"
 	elog "with the following options:"
 	elog "lastTip = 4"
 	elog "enableTips = false"
