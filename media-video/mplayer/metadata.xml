@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
-<herd>video</herd>
-<maintainer>
-	<email>media-video@gentoo.org</email>
+<maintainer type="person">
+  <email>bircoph@gentoo.org</email>
+  <name>Andrew Savchenko</name>
 </maintainer>
 <use>
-	<flag name="3dnowext">Enable 3dnowext cpu instructions</flag>
 	<flag name="amr">Enables Adaptive Multi-Rate format support</flag>
 	<flag name="bl">Blinkenlights video output</flag>
 	<flag name="bluray">Enable playback of Blu-ray filesystems</flag>
@@ -23,7 +22,6 @@
 	<flag name="libmpeg2">Build support for mpeg2 over media-libs/libmpeg2 rather than using ffmpeg.</flag>
 	<flag name="live">Enables live.com streaming media support</flag>
 	<flag name="md5sum">Enables md5sum video output</flag>
-	<flag name="mmxext">Enables mmx2 support</flag>
 	<flag name="mng">MNG input support</flag>
 	<flag name="mpg123">Enable support for mp3 decoding over media-sound/mpg123.</flag>
 	<flag name="nemesi">Enable Nemesi Streaming Media support</flag>
@@ -42,7 +40,6 @@
 	<flag name="shm">Enable support for shm</flag>
 	<flag name="svga">SVGA video output</flag>
 	<flag name="svga-helper">Use SVGA kernel helper for userspace access</flag>
-	<flag name="ssse3">faster floating point optimization for SSSE3 capable chips (Intel Core 2 and later chips)</flag>
 	<flag name="tga">Enables Targa video output</flag>
 	<flag name="tivo">Enables vstream client support for TiVo streams</flag>
 	<flag name="toolame">Enable toolame MPEG-2 encoding</flag>

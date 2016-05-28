@@ -1,20 +1,20 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/media-video/mplayer/mplayer-9999.ebuild,v 1.133 2012/06/21 08:10:42 yngwin Exp $
+# $Id$
 
 EAPI=4
 
 ESVN_REPO_URI="svn://svn.mplayerhq.hu/mplayer/trunk"
 
-inherit base eutils flag-o-matic git-2 multilib subversion toolchain-funcs ${SVN_ECLASS}
+inherit eutils flag-o-matic git-2 multilib subversion toolchain-funcs ${SVN_ECLASS}
 
-IUSE="3dnow 3dnowext +a52 aalib +alsa altivec amr aqua bidi bindist bl bluray
+IUSE="cpu_flags_x86_3dnow cpu_flags_x86_3dnowext +a52 aalib +alsa altivec amr aqua bidi bindist bl bluray
 bs2b cddb +cdio cdparanoia cpudetection debug dga +dirac
 directfb doc +dts +dv dvb +dvd +dvdnav dxr3 +enca +encode -external-ffmpeg faac +faad fbcon
 ftp gif ggi gsm +iconv ipv6 jack joystick jpeg jpeg2k kernel_linux ladspa
-+libass libcaca libmpeg2 lirc +live lzo mad md5sum +mmx mmxext mng +mp3 mpg123 nas nemesi
++libass libcaca libmpeg2 lirc +live lzo mad md5sum +cpu_flags_x86_mmx cpu_flags_x86_mmxext mng +mp3 mpg123 nas nemesi
 +network nut openal +opengl opus +osdmenu oss png pnm pulseaudio pvr +quicktime
-radio +rar +real +rtc rtmp samba +shm +schroedinger sdl +speex sse sse2 ssse3 svga svga-helper
+radio +rar +real +rtc rtmp samba +shm +schroedinger sdl +speex cpu_flags_x86_sse cpu_flags_x86_sse2 cpu_flags_x86_ssse3 svga svga-helper
 tga +theora tivo +tremor +truetype toolame +twolame +unicode v4l vdpau vidix
 +vorbis vpx win32codecs +X +x264 xanim xinerama +xscreensaver +xv +xvid xvmc
 zoran"
@@ -56,7 +56,7 @@ RDEPEND+="
 	aalib? ( media-libs/aalib )
 	alsa? ( media-libs/alsa-lib )
 	amr? ( media-libs/opencore-amr )
-	libass? ( ${FONT_RDEPS} >=media-libs/libass-0.9.10[enca?] )
+	libass? ( ${FONT_RDEPS} >=media-libs/libass-0.9.10[enca(+)?] )
 	bidi? ( dev-libs/fribidi )
 	bluray? ( >=media-libs/libbluray-0.2.1 )
 	bs2b? ( media-libs/libbs2b )
