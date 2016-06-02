@@ -30,7 +30,6 @@ sys-cluster/orangefs 2.8.6-r5 2.8.7 2.9_beta20130530-r1: OrangeFS is a branch of
 sys-cluster/torque 3.0.6-r1: Resource manager and queuing system based on OpenPBS
 sys-devel/distcc 3.2_rc1-r2: Distribute compilation of C code across several machines on a network
 sys-kernel/vanilla-sources 3.2.59 3.13.11 3.17.6: Full sources for the Linux kernel
-sys-libs/libhx 3.22-r1: Platform independent library providing basic system functions
 sys-libs/libvbe 9999: A library for handling the VESA BIOS Extension (aka VBE)
 sys-power/suspend 9999: Userspace Software Suspend and S2Ram
 x11-misc/switchscreen 0.1.1: Utility for switching between multiple X screens
