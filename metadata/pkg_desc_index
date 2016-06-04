@@ -19,6 +19,7 @@ net-dialup/openl2tp 1.8-r5: Userspace tools for kernel L2TP implementation
 net-dns/bind2nsd 0.7.2: Program to translate DNS information in BIND format to NSD format
 net-ftp/vsftpd 3.0.3: Very Secure FTP Daemon written with speed, size and security in mind
 net-libs/libnemesi 9999: a RTSP/RTP client library
+net-libs/libupnp 1.6.19: An Portable Open Source UPnP Development Kit
 net-misc/prtunnel 0.2.7: Tunnels TCP/IP connections in a variety of ways, including through HTTP and SOCKS5 proxy servers
 net-print/samsung-unified-driver 1.00.21-r3: Samsung Unified Linux Driver
 sci-geosciences/googleearth 7.1.4.1529: A 3D interface to the planet
