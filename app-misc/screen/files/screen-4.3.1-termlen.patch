@@ -1,0 +1,164 @@
+Backported git commit 37ca949e462a7608572f653848b5a7554964fd53
+"Fix more hardcoded termlen"
+See bug 585696.
+
+diff -Naurd screen-4.3.1.orig/attacher.c screen-4.3.1/attacher.c
+--- screen-4.3.1.orig/attacher.c	2015-06-29 00:22:55.000000000 +0300
++++ screen-4.3.1/attacher.c	2016-06-12 17:00:41.091761944 +0300
+@@ -364,8 +364,8 @@
+     }
+ #endif
+   ASSERT(how == MSG_ATTACH || how == MSG_CONT);
+-  strncpy(m.m.attach.envterm, attach_term, sizeof(m.m.attach.envterm) - 1);
+-  m.m.attach.envterm[sizeof(m.m.attach.envterm) - 1] = 0;
++  strncpy(m.m.attach.envterm, attach_term, MAXTERMLEN);
++  m.m.attach.envterm[MAXTERMLEN] = 0;
+   debug1("attach: sending %d bytes... ", (int)sizeof(m));
+ 
+   strncpy(m.m.attach.auser, LoginName, sizeof(m.m.attach.auser) - 1); 
+diff -Naurd screen-4.3.1.orig/display.c screen-4.3.1/display.c
+--- screen-4.3.1.orig/display.c	2015-06-29 00:22:55.000000000 +0300
++++ screen-4.3.1/display.c	2016-06-12 17:03:00.196561319 +0300
+@@ -309,8 +309,8 @@
+ 
+   strncpy(D_usertty, utty, sizeof(D_usertty) - 1);
+   D_usertty[sizeof(D_usertty) - 1] = 0;
+-  strncpy(D_termname, term, sizeof(D_termname) - 1);
+-  D_termname[sizeof(D_termname) - 1] = 0;
++  strncpy(D_termname, term, MAXTERMLEN);
++  D_termname[MAXTERMLEN] = 0;
+   D_user = *u;
+   D_processinput = ProcessInput;
+   D_mousetrack = defmousetrack;
+@@ -3725,14 +3725,14 @@
+   char *m;
+   int pid;
+   int slave = -1;
+-  char termname[30];
++  char termname[MAXTERMLEN + 6];
+ #ifndef TIOCSWINSZ
+   char libuf[20], cobuf[20];
+ #endif
+   char **np;
+ 
+   strcpy(termname, "TERM=");
+-  strncpy(termname + 5, D_termname, sizeof(termname) - 6);
++  strncpy(termname + 5, D_termname, MAXTERMLEN - 6);
+   termname[sizeof(termname) - 1] = 0;
+   KillBlanker();
+   D_blankerpid = -1;
+diff -Naurd screen-4.3.1.orig/process.c screen-4.3.1/process.c
+--- screen-4.3.1.orig/process.c	2015-06-29 00:22:56.000000000 +0300
++++ screen-4.3.1/process.c	2016-06-12 17:04:37.999014093 +0300
+@@ -2672,13 +2672,14 @@
+       s = NULL;
+       if (ParseSaveStr(act, &s))
+ 	break;
+-      if (strlen(s) >= MAXTERMLEN)
++      if (strlen(s) > MAXTERMLEN)
+ 	{
+ 	  OutputMsg(0, "%s: term: argument too long ( < %d)", rc_name, MAXTERMLEN);
+ 	  free(s);
+ 	  break;
+ 	}
+-      strcpy(screenterm, s);
++      strncpy(screenterm, s, MAXTERMLEN);
++      screenterm[MAXTERMLEN] = '\0';
+       free(s);
+       debug1("screenterm set to %s\n", screenterm);
+       MakeTermcap((display == 0));
+diff -Naurd screen-4.3.1.orig/screen.c screen-4.3.1/screen.c
+--- screen-4.3.1.orig/screen.c	2015-06-29 00:22:56.000000000 +0300
++++ screen-4.3.1/screen.c	2016-06-12 17:18:35.887758770 +0300
+@@ -507,7 +507,8 @@
+ #endif
+   nwin = nwin_undef;
+   nwin_options = nwin_undef;
+-  strcpy(screenterm, "screen");
++  strncpy(screenterm, "screen", MAXTERMLEN);
++  screenterm[MAXTERMLEN] = '\0';
+ #ifdef BUILTIN_TELNET
+   af = AF_UNSPEC;
+ #endif
+@@ -689,8 +690,10 @@
+ 		case 'T':
+ 		  if (--ac == 0)
+ 		    exit_with_usage(myname, "Specify terminal-type with -T", NULL);
+-		  if (strlen(*++av) < 20)
+-		    strcpy(screenterm, *av);
++		  if (strlen(*++av) < MAXTERMLEN) {
++		    strncpy(screenterm, *av, MAXTERMLEN);
++            screenterm[MAXTERMLEN] = '\0';
++          }
+ 		  else
+ 		    Panic(0, "-T: terminal name too long. (max. 20 char)");
+ 		  nwin_options.term = screenterm;
+@@ -1034,7 +1037,7 @@
+ 
+       if ((attach_term = getenv("TERM")) == 0 || *attach_term == 0)
+ 	Panic(0, "Please set a terminal type.");
+-      if (strlen(attach_term) > sizeof(D_termname) - 1)
++      if (strlen(attach_term) > MAXTERMLEN)
+ 	Panic(0, "$TERM too long - sorry.");
+       GetTTY(0, &attach_Mode);
+ #ifdef DEBUGGGGGGGGGGGGGGG
+diff -Naurd screen-4.3.1.orig/screen.h screen-4.3.1/screen.h
+--- screen-4.3.1.orig/screen.h	2015-06-29 00:22:56.000000000 +0300
++++ screen-4.3.1/screen.h	2016-06-12 17:19:07.821253585 +0300
+@@ -204,7 +204,7 @@
+ 	  int nargs;
+ 	  char line[MAXPATHLEN];
+ 	  char dir[MAXPATHLEN];
+-	  char screenterm[MAXTERMLEN];	/* is screen really "screen" ? */
++	  char screenterm[MAXTERMLEN + 1];	/* is screen really "screen" ? */
+ 	}
+       create;
+       struct
+diff -Naurd screen-4.3.1.orig/socket.c screen-4.3.1/socket.c
+--- screen-4.3.1.orig/socket.c	2015-06-29 00:22:56.000000000 +0300
++++ screen-4.3.1/socket.c	2016-06-12 17:20:01.577403167 +0300
+@@ -695,8 +695,8 @@
+       return;
+     }
+   if (nwin->term != nwin_undef.term)
+-    strncpy(m.m.create.screenterm, nwin->term, 19);
+-  m.m.create.screenterm[19] = '\0';
++    strncpy(m.m.create.screenterm, nwin->term, MAXTERMLEN);
++  m.m.create.screenterm[MAXTERMLEN] = '\0';
+   m.protocol_revision = MSG_REVISION;
+   debug1("SendCreateMsg writing '%s'\n", m.m.create.line);
+   if (write(s, (char *) &m, sizeof m) != sizeof m)
+diff -Naurd screen-4.3.1.orig/termcap.c screen-4.3.1/termcap.c
+--- screen-4.3.1.orig/termcap.c	2015-06-29 00:22:56.000000000 +0300
++++ screen-4.3.1/termcap.c	2016-06-12 17:21:40.297841419 +0300
+@@ -72,7 +72,7 @@
+ static int Termcaplen;
+ static int tcLineLen;
+ char Term[MAXSTR+5];		/* +5: "TERM=" */
+-char screenterm[20];		/* new $TERM, usually "screen" */
++char screenterm[MAXTERMLEN + 1];    /* new $TERM, usually "screen" */
+ 
+ char *extra_incap, *extra_outcap;
+ 
+@@ -883,7 +883,8 @@
+   if (*screenterm == '\0' || strlen(screenterm) > MAXSTR - 3)
+     {
+       debug("MakeTermcap sets screenterm=screen\n");
+-      strcpy(screenterm, "screen");
++      strncpy(screenterm, "screen", MAXTERMLEN);
++      screenterm[MAXTERMLEN] = '\0';
+     }
+ #if 0
+   found = 1;
+diff -Naurd screen-4.3.1.orig/window.c screen-4.3.1/window.c
+--- screen-4.3.1.orig/window.c	2015-06-29 00:22:56.000000000 +0300
++++ screen-4.3.1/window.c	2016-06-12 17:22:53.174688514 +0300
+@@ -1438,7 +1438,7 @@
+       NewEnv[4] = shellbuf;
+       debug1("ForkWindow: NewEnv[4] = '%s'\n", shellbuf);
+       if (win->w_term && *win->w_term && strcmp(screenterm, win->w_term) &&
+-	  (strlen(win->w_term) < 20))
++	  (strlen(win->w_term) < MAXTERMLEN))
+ 	{
+ 	  char *s1, *s2, tl;
+ 
