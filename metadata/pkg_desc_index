@@ -10,7 +10,6 @@ games-engines/renpy 6.99.6: Visual novel engine written in python
 media-gfx/dmtx-utils 0.7.4: Tools for reading and writing Data Matrix barcodes
 media-gfx/nip2 7.38.1: VIPS Image Processing Graphical User Interface
 media-libs/fdk-aac 0.1.4: Fraunhofer AAC codec library
-media-libs/giflib 5.1.4: Library to handle, display and manipulate GIF images
 media-libs/vips 7.38.5: VIPS Image Processing Library
 media-libs/vstream-client 1.2.1.1: Allows streaming video from a hacked TiVo running vserver
 media-libs/win32codecs 20071007-r4: Windows 32-bit binary codecs for video and audio playback support
