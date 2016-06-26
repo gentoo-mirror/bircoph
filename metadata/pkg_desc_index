@@ -1,7 +1,6 @@
 app-admin/clsync 9999: Live sync tool based on inotify, written in GNU C
 app-doc/clsync-docs 9999: Clsync and libclsync API documentation
 app-emulation/wine 1.9.9: Free implementation of Windows(tm) on Unix
-app-misc/screen 4.3.1-r1 9999: Full-screen window manager that multiplexes physical terminals between several processes
 app-vim/cscope-plugin 2002.03.07-r1: vim plugin: cscope settings
 dev-libs/libclsync 9999: Control and monitoring library for clsync
 dev-python/pyDes 2.0.1 2.0.1-r1: Python implementation of DES an Triple-DES algorithms
