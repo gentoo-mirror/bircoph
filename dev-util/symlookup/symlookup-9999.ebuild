@@ -20,8 +20,9 @@ DEPEND="
 "
 RDEPEND="${DEPEND}"
 
-src_unpack() {
-	subversion_src_unpack
+src_prepare() {
+	subversion_src_prepare
+	eapply_user
 }
 
 src_configure() {
