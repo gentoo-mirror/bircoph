@@ -39,7 +39,6 @@ games-engines/renpy:development - Install IDE for game developers and an empty g
 media-gfx/nip2:goffice - use x11-libs/goffice to show plots
 media-libs/vips:fits - Enable support for the FITS image format through sci-libs/cfitsio
 media-libs/vips:matio - Enable support for reading images from Matlab files through sci-libs/matio
-media-libs/vips:webp - Enable support for webp image format
 media-libs/win32codecs:real - Installs the real video codecs
 media-sound/tuxguitar:fluidsynth - Use software media-sound/fluidsynth real-time synthesizer
 media-video/mplayer:amr - Enables Adaptive Multi-Rate format support
