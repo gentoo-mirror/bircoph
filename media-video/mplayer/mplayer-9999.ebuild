@@ -2,11 +2,11 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI=4
+EAPI=6
 
 ESVN_REPO_URI="svn://svn.mplayerhq.hu/mplayer/trunk"
 
-inherit eutils flag-o-matic git-2 multilib subversion toolchain-funcs ${SVN_ECLASS}
+inherit flag-o-matic git-r3 multilib subversion toolchain-funcs ${SVN_ECLASS}
 
 IUSE="cpu_flags_x86_3dnow cpu_flags_x86_3dnowext +a52 aalib +alsa altivec amr aqua bidi bindist bl bluray
 bs2b cddb +cdio cdparanoia cpudetection debug dga +dirac
@@ -49,7 +49,7 @@ X_RDEPS="
 # Rar: althrought -gpl version is nice, it cant do most functions normal rars can
 #	nemesi? ( net-libs/libnemesi )
 RDEPEND+="
-	sys-libs/ncurses
+	sys-libs/ncurses:0=
 	app-arch/bzip2
 	sys-libs/zlib
 	a52? ( media-libs/a52dec )
@@ -86,8 +86,8 @@ RDEPEND+="
 	gsm? ( media-sound/gsm )
 	iconv? ( virtual/libiconv )
 	jack? ( media-sound/jack-audio-connection-kit )
-	jpeg? ( virtual/jpeg )
-	jpeg2k? ( media-libs/openjpeg )
+	jpeg? ( virtual/jpeg:0= )
+	jpeg2k? ( media-libs/openjpeg:= )
 	ladspa? ( media-libs/ladspa-sdk )
 	libcaca? ( media-libs/libcaca )
 	libmpeg2? ( media-libs/libmpeg2 )
@@ -103,7 +103,7 @@ RDEPEND+="
 	openal? ( media-libs/openal )
 	opengl? ( virtual/opengl )
 	opus? ( media-libs/opus )
-	png? ( media-libs/libpng )
+	png? ( media-libs/libpng:0= )
 	pnm? ( media-libs/netpbm )
 	pulseaudio? ( media-sound/pulseaudio )
 	rar? (
@@ -145,7 +145,6 @@ ASM_DEP="dev-lang/yasm"
 DEPEND="${RDEPEND}
 	virtual/pkgconfig
 	dga? ( x11-proto/xf86dgaproto )
-	dxr3? ( media-video/em8300-libraries )
 	X? ( ${X_DEPS} )
 	xinerama? ( x11-proto/xineramaproto )
 	xscreensaver? ( x11-proto/scrnsaverproto )
@@ -227,7 +226,7 @@ src_unpack() {
 	subversion_src_unpack
 	cd "${WORKDIR}"
 	rm -rf "${WORKDIR}/${P}/ffmpeg/"
-	( S="${WORKDIR}/${P}/ffmpeg/" git-2_src_unpack )
+	( S="${WORKDIR}/${P}/ffmpeg/" git-r3_src_unpack )
 
 	if ! use truetype; then
 		unpack font-arial-iso-8859-1.tar.bz2 \
@@ -247,7 +246,9 @@ src_prepare() {
 	base_src_prepare
 
 	# change libvbe header location according to Gentoo's libvbe
-	epatch "${FILESDIR}/${PN}-vesa.patch"
+	eapply "${FILESDIR}/${PN}-vesa.patch"
+
+	eapply_user
 }
 
 src_configure() {
