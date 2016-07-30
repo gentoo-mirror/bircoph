@@ -6,7 +6,7 @@ EAPI=6
 
 ESVN_REPO_URI="svn://svn.mplayerhq.hu/mplayer/trunk"
 
-inherit eutils flag-o-matic git-r3 multilib subversion toolchain-funcs ${SVN_ECLASS}
+inherit flag-o-matic git-r3 multilib subversion toolchain-funcs ${SVN_ECLASS}
 
 IUSE="cpu_flags_x86_3dnow cpu_flags_x86_3dnowext +a52 aalib +alsa altivec amr aqua bidi bindist bl bluray
 bs2b cddb +cdio cdparanoia cpudetection debug dga +dirac
@@ -246,7 +246,7 @@ src_prepare() {
 	base_src_prepare
 
 	# change libvbe header location according to Gentoo's libvbe
-	epatch "${FILESDIR}/${PN}-vesa.patch"
+	eapply "${FILESDIR}/${PN}-vesa.patch"
 
 	eapply_user
 }
