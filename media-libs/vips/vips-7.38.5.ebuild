@@ -1,4 +1,4 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -28,10 +28,10 @@ RDEPEND=">=dev-libs/glib-2.6:2
 	matio? ( >=sci-libs/matio-1.3.4 )
 	openexr? ( >=media-libs/openexr-1.2.2 )
 	exif? ( >=media-libs/libexif-0.6 )
-	tiff? ( media-libs/tiff )
-	jpeg? ( virtual/jpeg )
+	tiff? ( media-libs/tiff:0= )
+	jpeg? ( virtual/jpeg:0= )
 	fits? ( sci-libs/cfitsio )
-	png? ( >=media-libs/libpng-1.2.9 )
+	png? ( >=media-libs/libpng-1.2.9:0= )
 	python? ( ${PYTHON_DEPS} )
 	webp? ( media-libs/libwebp )
 	orc? ( >=dev-lang/orc-0.4.11 )"
