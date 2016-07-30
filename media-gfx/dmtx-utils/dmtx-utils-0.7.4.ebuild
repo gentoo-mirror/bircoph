@@ -5,7 +5,7 @@
 EAPI=6
 
 DESCRIPTION="Tools for reading and writing Data Matrix barcodes"
-HOMEPAGE="http://www.libdmtx.org/"
+HOMEPAGE="http://libdmtx.sourceforge.net/"
 SRC_URI="mirror://sourceforge/libdmtx/${P}.tar.bz2"
 
 LICENSE="LGPL-2.1"
