@@ -92,7 +92,6 @@ net-dialup/openl2tp:rpc - Enable RPC queries and control. This flag is required 
 net-dialup/openl2tp:server - Enable l2tp server
 net-dialup/openl2tp:stats - Enable status files. Note: when they are used, this hampers performance of the daemon.
 net-libs/libnemesi:sctp - Support for Stream Control Transmission Protocol
-net-print/samsung-unified-driver:network - Enable network printing support
 sci-geosciences/googleearth:bundled-libs - Use bundled libraries.
 sys-cluster/maui:pbs - Enable pbs integration
 sys-cluster/maui:slurm - Enable slurm integration
