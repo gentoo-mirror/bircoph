@@ -16,7 +16,7 @@ media-libs/win32codecs 20071007-r4: Windows 32-bit binary codecs for video and a
 media-sound/tuxguitar 1.2-r1: TuxGuitar is a multitrack guitar tablature editor and player written in Java-SWT
 media-video/mplayer 9999: Media Player for Linux
 net-dialup/openl2tp 1.8-r6: Userspace tools for kernel L2TP implementation
-net-dns/bind2nsd 0.7.2: Program to translate DNS information in BIND format to NSD format
+net-dns/bind2nsd 0.7.2-r1: Program to translate DNS information in BIND format to NSD format
 net-ftp/vsftpd 3.0.3: Very Secure FTP Daemon written with speed, size and security in mind
 net-libs/libnemesi 9999: a RTSP/RTP client library
 net-misc/prtunnel 0.2.7: Tunnels TCP/IP connections in a variety of ways, including through HTTP and SOCKS5 proxy servers
