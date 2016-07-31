@@ -1,10 +1,10 @@
-# Copyright 1999-2013 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI=4
+EAPI=6
 
-inherit base linux-info
+inherit linux-info
 
 DESCRIPTION="Userspace tools for kernel L2TP implementation"
 HOMEPAGE="http://www.openl2tp.org/"
@@ -12,13 +12,13 @@ SRC_URI="mirror://sourceforge/openl2tp/${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="amd64 x86"
+KEYWORDS="~amd64 ~x86"
 IUSE="+client doc +examples rpc server -stats"
 
 REQUIRED_USE="|| ( client server )"
 
 CDEPEND=">=net-dialup/ppp-2.4.5
-	sys-libs/readline
+	sys-libs/readline:=
 	"
 DEPEND="${CDEPEND}
 	sys-devel/bison
@@ -71,7 +71,6 @@ src_compile() {
 
 src_install() {
 	emake ${myconf} DESTDIR="${D}" install
-	dodoc CHANGES INSTALL README
 
 	if use examples; then
 		docinto event_socket
@@ -86,7 +85,7 @@ src_install() {
 		dodoc -r ipsec
 	fi
 
-	newinitd "${FILESDIR}"/openl2tpd.initd-2 openl2tpd
+	newinitd "${FILESDIR}"/openl2tpd.initd openl2tpd
 	# init.d script is quite different for RPC and non-RPC versions.
 	use rpc || sed -i s/userpc=\"yes\"/userpc=\"no\"/ "${D}/etc/init.d/openl2tpd" || die "sed failed"
 	newconfd "${FILESDIR}"/openl2tpd.confd openl2tpd
