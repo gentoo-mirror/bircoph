@@ -2,11 +2,11 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI=6
+EAPI=5
 
 ESVN_REPO_URI="svn://svn.mplayerhq.hu/mplayer/trunk"
 
-inherit flag-o-matic git-r3 multilib subversion toolchain-funcs ${SVN_ECLASS}
+inherit flag-o-matic git-2 multilib subversion toolchain-funcs ${SVN_ECLASS}
 
 IUSE="cpu_flags_x86_3dnow cpu_flags_x86_3dnowext +a52 aalib +alsa altivec amr aqua bidi bindist bl bluray
 bs2b cddb +cdio cdparanoia cpudetection debug dga +dirac
@@ -226,7 +226,7 @@ src_unpack() {
 	subversion_src_unpack
 	cd "${WORKDIR}"
 	rm -rf "${WORKDIR}/${P}/ffmpeg/"
-	( S="${WORKDIR}/${P}/ffmpeg/" git-r3_src_unpack )
+	( S="${WORKDIR}/${P}/ffmpeg/" git-2_src_unpack )
 
 	if ! use truetype; then
 		unpack font-arial-iso-8859-1.tar.bz2 \
@@ -470,7 +470,11 @@ src_configure() {
 	# Platform specific flags, hardcoded on amd64 (see below)
 	use cpudetection && myconf+=" --enable-runtime-cpudetection"
 
-	uses="3dnow 3dnowext altivec mmx mmxext shm sse sse2 ssse3"
+	uses="3dnow 3dnowext mmx mmxext sse sse2 ssse3"
+	for i in ${uses}; do
+		myconf+=" $(use_enable cpu_flags_x86_${i} ${i})"
+	done
+	uses="altivec shm"
 	for i in ${uses}; do
 		myconf+=" $(use_enable ${i})"
 	done
