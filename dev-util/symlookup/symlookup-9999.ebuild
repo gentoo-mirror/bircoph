@@ -20,11 +20,6 @@ DEPEND="
 "
 RDEPEND="${DEPEND}"
 
-src_prepare() {
-	subversion_src_prepare
-	eapply_user
-}
-
 src_configure() {
 	local myconf="--disable-strip --enable-cflags"
 	use portage || myconf+=" --disable-portage"
