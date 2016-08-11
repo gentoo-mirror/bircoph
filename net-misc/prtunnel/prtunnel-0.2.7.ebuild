@@ -15,10 +15,15 @@ IUSE="ipv6"
 src_prepare() {
 	default
 
-	sed -i -e "s|PREFIX=.*|PREFIX=${EPREFIX}/usr|" \
-		   -e 's|CFLAGS=|CFLAGS+=|' \
-		   -e 's|$(CC)|$(CC) $(CFLAGS) $(LDFLAGS)|' Makefile
+	sed -i -e 's|CFLAGS=|CFLAGS+=|' \
+		   -e 's|$(CC)|$(CC) $(CFLAGS) $(LDFLAGS)|' Makefile || die
 	use ipv6 || sed -i -e "s|CFLAGS+= -DIPV6||" \
 					   -e "s|direct6\.o:.*||" \
-					   -e "s|direct6\.o ||" Makefile
+					   -e "s|direct6\.o ||" Makefile || die
+}
+
+src_install() {
+	dobin prtunnel
+	doman prtunnel.1
+	dodoc ChangeLog README
 }
