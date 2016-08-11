@@ -1,23 +1,25 @@
-# Copyright 1999-2013 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/net-libs/libnemesi/libnemesi-0.6.ebuild,v 1.1 2009/10/27 12:45:51 ssuominen Exp $
+# $Id$
 
-EAPI=5
-inherit autotools git-2 multilib
+EAPI=6
+inherit autotools git-r3
 
 DESCRIPTION="a RTSP/RTP client library"
-HOMEPAGE="http://lscube.org/projects/libnemesi/"
-EGIT_REPO_URI="git://git.lscube.org/libnemesi.git"
+HOMEPAGE="https://github.com/bircoph/libnemesi"
+EGIT_REPO_URI="https://github.com/bircoph/libnemesi.git"
 
 LICENSE="LGPL-2.1"
 SLOT="0"
 KEYWORDS=""
-IUSE="examples ipv6 +sctp"
+IUSE="doc examples ipv6 +sctp"
 
-DEPEND=">=net-libs/netembryo-0.0.9[sctp?]"
-RDEPEND=${DEPEND}
+RDEPEND=">=net-libs/netembryo-0.0.9[sctp?]"
+DEPEND="${RDEPEND}
+	doc? ( app-doc/doxygen[dot] )"
 
 src_prepare() {
+	default
 	eautoreconf
 }
 
@@ -28,4 +30,16 @@ src_configure() {
 		$(use_enable examples) \
 		--disable-static \
 		--disable-dependency-tracking
+}
+
+src_compile() {
+	default
+	use doc && doxygen
+}
+
+src_install() {
+	default
+	if use doc; then
+		mv docs/html "${D}/usr/share/doc/${PF}/" || die
+	fi
 }
