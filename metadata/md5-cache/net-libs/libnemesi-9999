@@ -1,12 +1,12 @@
-DEFINED_PHASES=configure prepare unpack
-DEPEND=>=net-libs/netembryo-0.0.9[sctp?] !<sys-devel/gettext-0.18.1.1-r3 || ( >=sys-devel/automake-1.15:1.15 ) >=sys-devel/autoconf-2.69 >=sys-devel/libtool-2.4 dev-vcs/git
+DEFINED_PHASES=compile configure install prepare unpack
+DEPEND=>=net-libs/netembryo-0.0.9[sctp?] doc? ( app-doc/doxygen[dot] ) !<sys-devel/gettext-0.18.1.1-r3 || ( >=sys-devel/automake-1.15:1.15 ) >=sys-devel/autoconf-2.69 >=sys-devel/libtool-2.4 >=dev-vcs/git-1.8.2.1
 DESCRIPTION=a RTSP/RTP client library
-EAPI=5
-HOMEPAGE=http://lscube.org/projects/libnemesi/
-IUSE=examples ipv6 +sctp
+EAPI=6
+HOMEPAGE=https://github.com/bircoph/libnemesi
+IUSE=doc examples ipv6 +sctp
 LICENSE=LGPL-2.1
 RDEPEND=>=net-libs/netembryo-0.0.9[sctp?]
 SLOT=0
-_eclass_exported_funcs=src_unpack:git-2 src_prepare:- src_configure:-
-_eclasses_=autotools	07e71b3b5690738ef7e8bc097077e00c	git-2	7af5d170bfc02983b4bcd3167dc5edd4	libtool	4890219c51da247200223277f993e054	multilib	d062ae4ba2fc40a19c11de2ad89b6616	toolchain-funcs	6198c04daba0e1307bd844df7d37f423
-_md5_=48d70cb9592ccaaa796318aa5cc93d23
+_eclass_exported_funcs=src_unpack:git-r3 src_prepare:- src_configure:- src_compile:- src_install:-
+_eclasses_=autotools	07e71b3b5690738ef7e8bc097077e00c	eutils	792f83d5ec9536cb5ccef375469d8bde	git-r3	00f60a84fc7b499c99edfe99caea9f95	libtool	4890219c51da247200223277f993e054	multilib	d062ae4ba2fc40a19c11de2ad89b6616	toolchain-funcs	6198c04daba0e1307bd844df7d37f423
+_md5_=4050f1132dbd52173dacbe9413aaf935
