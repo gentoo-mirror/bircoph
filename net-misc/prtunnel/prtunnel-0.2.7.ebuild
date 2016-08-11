@@ -1,31 +1,24 @@
-# Copyright 1999-2013 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Id$
 
-EAPI=5
+EAPI=6
 
-DESCRIPTION="Tunnels TCP/IP connections in a variety of ways, including through HTTP and SOCKS5 proxy servers"
-HOMEPAGE="http://joshbeam.com/software/prtunnel.php"
-SRC_URI="http://joshbeam.com/files/${P}.tar.gz"
-LICENSE="BSD"
+DESCRIPTION="Tunnels TCP/IP through HTTP, SOCKS5 proxies; IPv4/IPV6 bridge"
+HOMEPAGE="http://joshbeam.com/software/prtunnel/"
+SRC_URI="https://github.com/joshb/${PN}/releases/download/${PV}/${P}.tar.gz"
+LICENSE="BSD-2"
 SLOT="0"
-KEYWORDS="~x86"
+KEYWORDS="~amd64 ~x86"
 IUSE="ipv6"
-DEPEND="virtual/libc"
-RDEPEND=${DEPEND}
 
 src_prepare() {
-	sed -i -e "s:CFLAGS=:CFLAGS+=:" Makefile
-	sed -i -e "s:-o prtunnel:\$\(LDFLAGS\) -o prtunnel:" Makefile
-	use ipv6 || {
-		sed -i -e "s:CFLAGS+= -DIPV6:#CFLAGS+= -DIPV6:" Makefile
-		sed -i -e "s|direct6\.o:.*||" Makefile
-		sed -i -e "s|direct6.o ||" Makefile
-	}
-}
+	default
 
-src_install() {
-	dobin prtunnel
-	doman prtunnel.1
-	dodoc README ChangeLog
+	sed -i -e "s|PREFIX=.*|PREFIX=${EPREFIX}/usr|" \
+		   -e 's|CFLAGS=|CFLAGS+=|' \
+		   -e 's|$(CC)|$(CC) $(CFLAGS) $(LDFLAGS)|' Makefile
+	use ipv6 || sed -i -e "s|CFLAGS+= -DIPV6||" \
+					   -e "s|direct6\.o:.*||" \
+					   -e "s|direct6\.o ||" Makefile
 }
