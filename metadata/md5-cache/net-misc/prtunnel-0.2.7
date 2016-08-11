@@ -1,4 +1,4 @@
-DEFINED_PHASES=prepare
+DEFINED_PHASES=install prepare
 DESCRIPTION=Tunnels TCP/IP through HTTP, SOCKS5 proxies; IPv4/IPV6 bridge
 EAPI=6
 HOMEPAGE=http://joshbeam.com/software/prtunnel/
@@ -7,5 +7,5 @@ KEYWORDS=~amd64 ~x86
 LICENSE=BSD-2
 SLOT=0
 SRC_URI=https://github.com/joshb/prtunnel/releases/download/0.2.7/prtunnel-0.2.7.tar.gz
-_eclass_exported_funcs=src_prepare:-
-_md5_=4d0c5f534d4e5a0e077d00bfff1616ba
+_eclass_exported_funcs=src_prepare:- src_install:-
+_md5_=936e7858b3e60fc18fe868719d277ce8
