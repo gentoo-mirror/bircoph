@@ -1,8 +1,8 @@
 DEFINED_PHASES=configure install prepare setup
 DEPEND=pbs? ( sys-cluster/torque ) slurm? ( sys-cluster/slurm )
 DESCRIPTION=Maui Cluster Scheduler
-EAPI=4
-HOMEPAGE=http://www.clusterresources.com/pages/products/maui-cluster-scheduler.php
+EAPI=6
+HOMEPAGE=http://www.adaptivecomputing.com/products/open-source/maui/
 IUSE=pbs slurm
 KEYWORDS=~amd64 ~x86 ~amd64-linux
 LICENSE=maui
@@ -12,5 +12,4 @@ RESTRICT=fetch mirror
 SLOT=0
 SRC_URI=http://www.adaptivecomputing.com/download/maui/maui-3.3.1.tar.gz
 _eclass_exported_funcs=pkg_setup:- src_prepare:- src_configure:- src_install:-
-_eclasses_=eutils	792f83d5ec9536cb5ccef375469d8bde	multilib	d062ae4ba2fc40a19c11de2ad89b6616	toolchain-funcs	6198c04daba0e1307bd844df7d37f423
-_md5_=7eca95c81372be5516f547d315bf9a41
+_md5_=c3593c3f4c82199c9ad183cf1e567ff0

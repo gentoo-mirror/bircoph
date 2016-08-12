@@ -1,6 +1,6 @@
 app-admin/clsync 9999: Live sync tool based on inotify, written in GNU C
 app-doc/clsync-docs 9999: Clsync and libclsync API documentation
-app-emulation/wine 1.9.15: Free implementation of Windows(tm) on Unix
+app-emulation/wine 1.9.16: Free implementation of Windows(tm) on Unix
 app-vim/cscope-plugin 2002.03.07-r1: vim plugin: cscope settings
 dev-libs/libclsync 9999: Control and monitoring library for clsync
 dev-python/pyDes 2.0.1-r1: Python implementation of DES an Triple-DES algorithms
@@ -25,7 +25,7 @@ sys-apps/strerror 0.2: System error description utility
 sys-apps/userchroot 0.1-r1: Safe chroot from userspace
 sys-cluster/maui 3.3.1-r2: Maui Cluster Scheduler
 sys-cluster/netpipe 3.7.2: A Network Protocol Independent Performance Evaluator
-sys-cluster/orangefs 2.8.6-r5 2.8.7 2.9_beta20130530-r1: OrangeFS is a branch of PVFS2 cluster filesystem
+sys-cluster/orangefs 2.8.7 2.9_beta20130530-r1: OrangeFS is a branch of PVFS2 cluster filesystem
 sys-cluster/torque 3.0.6-r1: Resource manager and queuing system based on OpenPBS
 sys-devel/distcc 3.2_rc1-r2: Distribute compilation of C code across several machines on a network
 sys-kernel/vanilla-sources 3.2.59 3.13.11 3.17.6: Full sources for the Linux kernel
