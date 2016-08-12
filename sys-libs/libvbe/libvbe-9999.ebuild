@@ -1,10 +1,10 @@
-# Copyright 1999-2013 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Id$
 
-EAPI="4"
+EAPI="6"
 
-inherit eutils subversion toolchain-funcs
+inherit subversion toolchain-funcs
 
 DESCRIPTION="A library for handling the VESA BIOS Extension (aka VBE)"
 HOMEPAGE="http://www.mplayerhq.hu/vesautils/index.html"
@@ -15,15 +15,11 @@ S="${WORKDIR}/vesautils"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS=""
-IUSE="" # this package can be used only on (~)x86.
 
 DEPEND="sys-libs/lrmi"
 RDEPEND="${DEPEND}"
 
-src_prepare() {
-	epatch "${FILESDIR}/${PN}-makefile.patch"
-}
+PATCHES=( "${FILESDIR}/${PN}-makefile.patch" )
 
 src_compile() {
 	CC="$(tc-getCC)" emake -C libvbe

@@ -1,10 +1,8 @@
-# Copyright 1999-2013 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Id$
 
-EAPI=5
-
-inherit eutils
+EAPI=6
 
 DESCRIPTION="Utility for switching between multiple X screens"
 HOMEPAGE="http://sampo.kapsi.fi/switchscreen/"
@@ -12,17 +10,13 @@ SRC_URI="http://sampo.kapsi.fi/switchscreen/${P}.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE=""
 
 DEPEND="x11-libs/libX11"
 RDEPEND=${DEPEND}
 
-src_prepare() {
-	epatch "${FILESDIR}"/${PN}-Makefile.diff
-}
+PATCHES=( "${FILESDIR}"/${PN}-Makefile.diff )
 
 src_install() {
-	exeinto /usr/bin/
-	doexe switchscreen togglescreen.sh
+	dobin switchscreen togglescreen.sh
 	dodoc README
 }
