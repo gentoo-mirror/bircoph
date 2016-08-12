@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
-  <herd>cluster</herd>
-  <maintainer>
-    <email>jsbronder@gentoo.org</email>
-  </maintainer>
+<maintainer type="person">
+	<email>bircoph@gentoo.org</email>
+	<name>Andrew Savchenko</name>
+</maintainer>
   <use>
     <flag name="cpusets">Enable pbs_mom to utilize linux cpusets if available</flag>
     <flag name="drmaa">Enable the Distributed Resource Management Application API</flag>
