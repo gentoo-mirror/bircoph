@@ -1,4 +1,4 @@
-# Copyright 1999-2013 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/sys-cluster/pvfs2/Attic/pvfs2-2.7.1-r1.ebuild,v 1.3 2011/07/15 13:57:08 xarthisius dead $
 
@@ -23,11 +23,11 @@ trusted-connections +usrint usrint-cache +usrint-cwd usrint-kmount valgrind"
 
 CDEPEND="
 	dev-lang/perl
-	>=sys-libs/db-4.8.30
+	>=sys-libs/db-4.8.30:=
 	virtual/perl-Math-BigInt
 	fuse? ( sys-fs/fuse )
 	gtk? ( x11-libs/gtk+:2 )
-	infiniband? ( sys-infiniband/ofed )
+	infiniband? ( sys-fabric/ofed )
 	ldap? ( net-nds/openldap )
 	open-mx? ( sys-cluster/open-mx[static-libs?] )
 	ssl? ( dev-libs/openssl[static-libs?] )

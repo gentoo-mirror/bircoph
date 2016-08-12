@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
-<maintainer>
+<maintainer type="person">
 	<email>bircoph@gentoo.org</email>
 	<name>Andrew Savchenko</name>
 </maintainer>
@@ -13,7 +13,6 @@
 </longdescription>
 <use>
 	<flag name='memcpy'>Build memory testing tool (using memcpy)</flag>
-	<flag name='sctp'>Build SCTP testing tool</flag>
 	<flag name='tcp'>Build TCP testing tool</flag>
 	<flag name='utils'>Install helper scripts</flag>
 </use>

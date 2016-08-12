@@ -1,9 +1,9 @@
-# Copyright 1999-2013 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Id$
 
 EAPI=5
-inherit eutils toolchain-funcs
+inherit toolchain-funcs
 
 MY_PN="NetPIPE"
 MY_P="${MY_PN}-${PV}"
@@ -19,7 +19,7 @@ KEYWORDS="~amd64 ~x86"
 IUSE="doc examples infiniband ipv6 +memcpy mpi sctp +tcp utils"
 
 DEPEND="
-	infiniband? ( sys-infiniband/ofed )
+	infiniband? ( sys-fabric/ofed )
 	mpi? ( virtual/mpi )
 "
 RDEPEND="${DEPEND}
@@ -38,15 +38,10 @@ REQUIRED_USE="
 	|| ( memcpy infiniband mpi sctp tcp )
 "
 
-src_prepare() {
-	# fix build with ipv6
-	epatch "${FILESDIR}/${P}-ipv6.patch"
-	# use gv instead of ghostscript program (not in tree anymore)
-	epatch "${FILESDIR}/${PN}-3.7.1-gv.patch"
-	# fix makefile to respect system CC, CFLAGS, LDFLAGS
-	# use standard system infiniband headers and libs
-	epatch "${FILESDIR}/${PN}-3.7.1-makefile.patch"
-}
+PATCHES=(
+	"${FILESDIR}/${P}-ipv6.patch"
+	"${FILESDIR}/${PN}-3.7.1-gv.patch"
+	"${FILESDIR}/${PN}-3.7.1-makefile.patch" )
 
 src_configure() {
 	# no configure script, create list of make targets

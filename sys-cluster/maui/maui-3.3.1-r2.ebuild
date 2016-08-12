@@ -1,13 +1,11 @@
-# Copyright 1999-2013 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/sys-cluster/maui/maui-3.3.1-r2.ebuild,v 1.4 2011/10/31 10:30:09 jlec Exp $
+# $Id$
 
-EAPI="4"
-
-inherit eutils multilib
+EAPI="6"
 
 DESCRIPTION="Maui Cluster Scheduler"
-HOMEPAGE="http://www.clusterresources.com/pages/products/maui-cluster-scheduler.php"
+HOMEPAGE="http://www.adaptivecomputing.com/products/open-source/maui/"
 SRC_URI="http://www.adaptivecomputing.com/download/${PN}/${P}.tar.gz"
 
 LICENSE="maui"
@@ -24,6 +22,8 @@ RDEPEND="${DEPEND}"
 
 RESTRICT="fetch mirror"
 
+PATCHES=( "${FILESDIR}/${P}-showstats.patch" )
+
 pkg_setup() {
 	if use slurm; then
 		if [ -z ${MAUI_KEY} ]; then
@@ -36,7 +36,7 @@ pkg_setup() {
 src_prepare() {
 	sed -e "s:\$(INST_DIR)/lib:\$(INST_DIR)/$(get_libdir):" \
 		-i src/{moab,server,mcom}/Makefile || die
-	epatch "${FILESDIR}/${P}-showstats.patch"
+	default
 }
 
 src_configure() {
@@ -49,10 +49,9 @@ src_configure() {
 }
 
 src_install() {
-	emake BUILDROOT="${D}" INST_DIR="${ED}/usr" install || die
-	dodoc docs/README CHANGELOG || die
-	dohtml docs/mauidocs.html || die
-	newinitd "${FILESDIR}/${PN}.initd" ${PN} || die
+	emake BUILDROOT="${D}" INST_DIR="${ED}/usr" install
+	dodoc docs/README CHANGELOG docs/mauidocs.html
+	newinitd "${FILESDIR}/${PN}.initd" ${PN}
 }
 
 pkg_nofetch() {
