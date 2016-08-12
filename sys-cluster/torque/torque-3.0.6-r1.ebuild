@@ -1,8 +1,8 @@
-# Copyright 1999-2013 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/sys-cluster/torque/torque-3.0.6-r1.ebuild,v 1.2 2013/01/22 18:44:49 jlec Exp $
 
-EAPI=4
+EAPI=5
 
 AUTOTOOLS_AUTORECONF=yes
 
@@ -19,11 +19,11 @@ IUSE="cpusets +crypt doc drmaa kernel_linux munge nvidia server static-libs +sys
 
 # ed is used by makedepend-sh
 DEPEND_COMMON="
-	sys-libs/ncurses
-	sys-libs/readline
+	sys-libs/ncurses:*
+	sys-libs/readline:0=
 	munge? ( sys-auth/munge )
 	nvidia? ( >=x11-drivers/nvidia-drivers-275 )
-	tk? ( dev-lang/tk )
+	tk? ( dev-lang/tk:0= )
 	syslog? ( virtual/logger )
 	!games-util/qstat"
 
