@@ -1,7 +1,7 @@
 #!/sbin/openrc-run
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/sys-cluster/pvfs2/files/Attic/pvfs2-client-init.d-2.7.0,v 1.2 2011/07/15 13:57:08 xarthisius dead $
+# $Id$
 
 PVFS2_CLIENT_USE_KERNEL=${PVFS2_CLIENT_USE_KERNEL:-"yes"}
 PVFS2_CLIENT_PID=${PVFS2_CLIENT_PID:-"/var/run/pvfs2-client.pid"}
