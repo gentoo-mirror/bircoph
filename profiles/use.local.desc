@@ -37,9 +37,6 @@ dev-libs/libclsync:extra-hardened - Enable extra security checks. This may hurt 
 dev-util/symlookup:portage - Enable support for Portage database queries.
 dev-util/symlookup:rpm - Enable support for RPM database queries. May be useful if app-arch/rpm is used to install packages outside of portage
 games-engines/renpy:development - Install IDE for game developers and an empty game template
-media-gfx/nip2:goffice - use x11-libs/goffice to show plots
-media-libs/vips:fits - Enable support for the FITS image format through sci-libs/cfitsio
-media-libs/vips:matio - Enable support for reading images from Matlab files through sci-libs/matio
 media-libs/win32codecs:real - Installs the real video codecs
 media-sound/tuxguitar:fluidsynth - Use software media-sound/fluidsynth real-time synthesizer
 media-video/mplayer:amr - Enables Adaptive Multi-Rate format support
