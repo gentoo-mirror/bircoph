@@ -41,13 +41,15 @@ start() {
 
     # it is possible to not to have config at all
     if [ "${userpc}" = "yes" ] && [ -r "${OPENL2TPD_CONFIG_FILE}" ]; then
-    # on system startup it may take some time to load daemon
-    for (( i=0; i<$retry_count; i++ )); do
-        l2tpconfig config restore file="${OPENL2TPD_CONFIG_FILE}" >/dev/null 2>&1
-        retcode=$?
-        [ ${retcode} = 0 ] && break
-        sleep $retry_delay
-    done
+        # on system startup it may take some time to load daemon
+        local i=0;
+        while [ $i -lt $retry_count ]; do
+            l2tpconfig config restore file="${OPENL2TPD_CONFIG_FILE}" >/dev/null 2>&1
+            retcode=$?
+            [ ${retcode} = 0 ] && break
+            i=$((i+1))
+            sleep $retry_delay
+        done
     fi
     eend $retcode
 }
