@@ -1,5 +1,5 @@
 #!/sbin/openrc-run
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 userpc="yes"
@@ -8,16 +8,16 @@ retry_delay="0.5"
 
 bin=/usr/sbin/openl2tpd
 pid=/var/run/openl2tpd.pid
-[[ -z "${OPENL2TPD_CONFIG_FILE}" ]] && OPENL2TPD_CONFIG_FILE="/etc/openl2tpd.conf"
+[ -z "${OPENL2TPD_CONFIG_FILE}" ] && OPENL2TPD_CONFIG_FILE="/etc/openl2tpd.conf"
 
 depend() {
     need net
-    [[ $userpc == "yes" ]] && need portmap
+    [ "${userpc}" = "yes" ] && need portmap
     use dns ipsec racoon
 }
 
 check_module () {
-    if ! [[ -f /proc/net/pppol2tp ]]; then
+    if ! [ -f /proc/net/pppol2tp ]; then
     ebegin "Loading l2tp module"
     # try both new and old module names
 	modprobe l2tp_ppp 2>/dev/null || modprobe pppol2tp 2>/dev/null
@@ -30,7 +30,7 @@ start() {
     ebegin "Starting openl2tpd"
     # if rpc is enabled do not read config file by daemon (has bugs),
     # but read by l2tpconfig instead
-    if [[ $userpc == "yes" ]]; then 
+    if [ "${userpc}" = "yes" ]; then 
         conf="/dev/null"
     else
         conf="${OPENL2TPD_CONFIG_FILE}"
@@ -40,12 +40,12 @@ start() {
         -- -c "$conf" ${OPENL2TPDARGS}
 
     # it is possible to not to have config at all
-    if [[ $userpc == "yes" ]] && [[ -r "${OPENL2TPD_CONFIG_FILE}" ]]; then
+    if [ "${userpc}" = "yes" ] && [ -r "${OPENL2TPD_CONFIG_FILE}" ]; then
     # on system startup it may take some time to load daemon
     for (( i=0; i<$retry_count; i++ )); do
         l2tpconfig config restore file="${OPENL2TPD_CONFIG_FILE}" >/dev/null 2>&1
         retcode=$?
-        [[ $retcode == 0 ]] && break
+        [ ${retcode} = 0 ] && break
         sleep $retry_delay
     done
     fi
@@ -58,7 +58,7 @@ stop() {
     start-stop-daemon --stop --quiet --exec ${bin} --pidfile ${pid}
     rc=$?
 
-    if [[ ${RC_CMD} == "restart" ]]; then
+    if [ ${RC_CMD} = "restart" ]; then
         einfo "sleepinng for server to finilize connections"
         sleep 2
     fi

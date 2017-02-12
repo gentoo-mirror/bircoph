@@ -1,5 +1,5 @@
 #!/sbin/openrc-run
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the Torque 2.5+ License
 
 . /etc/conf.d/torque
@@ -57,8 +57,8 @@ stop() {
     # workaround bogus 141 code
     /usr/bin/qterm -t ${stop_type}
     ret=$?
-    [[ ${ret} -eq 141 ]] && ret=0
-    [[ ${ret} -gt 0 ]] && {
+    [ ${ret} -eq 141 ] && ret=0
+    [ ${ret} -gt 0 ] && {
         start-stop-daemon --stop -p ${PBS_SERVER_HOME}/server_priv/server.lock
         ret=$?
     }

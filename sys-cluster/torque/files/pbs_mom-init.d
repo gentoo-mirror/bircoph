@@ -1,5 +1,5 @@
 #!/sbin/openrc-run
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the Torque 2.5+ License
 
 . /etc/conf.d/torque
@@ -27,10 +27,10 @@ start() {
     # check for a stale lock file, otherwise pbs_mom may fail to
     # start, see unicluster # 75 bug
     local utime unchtime
-    if [[ -f ${PBS_SERVER_HOME}/torque/mom_priv/mom.lock ]]; then
+    if [ -f ${PBS_SERVER_HOME}/torque/mom_priv/mom.lock ]; then
         utime=$( gawk -F "[ .]" '{ print $1 }' /proc/uptime) 
         unchtime=$(( $(date +%s) - $(stat -c %Y ${PBS_SERVER_HOME}/mom_priv/mom.lock) ))
-        [[ "$utime" -lt "$unchtime" ]] && rm ${PBS_SERVER_HOME}/mom_priv/mom.lock
+        [ "$utime" -lt "$unchtime" ] && rm ${PBS_SERVER_HOME}/mom_priv/mom.lock
     fi
 
     ebegin "Starting Torque pbs_mom"
