@@ -8,5 +8,5 @@ LICENSE=GPL-3
 RDEPEND=dev-libs/elfutils portage? ( sys-apps/portage ) rpm? ( app-arch/rpm )
 SLOT=0
 _eclass_exported_funcs=pkg_preinst:subversion src_unpack:subversion src_configure:-
-_eclasses_=eutils	ea170b525f6a38a006be05c9d9429f13	multilib	165fc17c38d1b11dac2008280dab6e80	subversion	352e2f8415dd2e3c297d2d2e32670deb	toolchain-funcs	1b1da0c45c555989dc5d832b54880783
+_eclasses_=eutils	708f85bc1bf00876604e223fb56e062a	multilib	165fc17c38d1b11dac2008280dab6e80	subversion	352e2f8415dd2e3c297d2d2e32670deb	toolchain-funcs	1b1da0c45c555989dc5d832b54880783
 _md5_=e8d648fb1b80a5d1a9b3d06ac01b2f82
