@@ -5,7 +5,6 @@ app-vim/cscope-plugin 2002.03.07-r1: vim plugin: cscope settings
 dev-libs/libclsync 9999: Control and monitoring library for clsync
 dev-python/pyDes 2.0.1-r1: Python implementation of DES an Triple-DES algorithms
 dev-util/symlookup 0.5.2 9999: Utility for searching of object files containing requested symbols
-games-engines/renpy 6.99.6: Visual novel engine written in python
 media-gfx/dmtx-utils 0.7.4: Tools for reading and writing Data Matrix barcodes
 media-libs/vstream-client 1.2.1.1: Allows streaming video from a hacked TiVo running vserver
 media-libs/win32codecs 20071007-r4: Windows 32-bit binary codecs for video and audio playback support
