@@ -1,0 +1,90 @@
+char may be signed on unsigned depending on arch and compiler,
+since upper table needs to be set for cp12* charsets, we need
+unsigned char unconditionally
+--- cuneiform-linux-1.1.0/cuneiform_src/Kern/include/utf8-tables.h.orig	2011-04-19 16:49:57.000000000 +0400
++++ cuneiform-linux-1.1.0/cuneiform_src/Kern/include/utf8-tables.h	2017-09-05 16:53:26.627848057 +0300
+@@ -68,7 +68,7 @@
+ #endif
+ 
+ 
+-const char win1250_to_utf8[][4] = {
++const unsigned char win1250_to_utf8[][4] = {
+   {0, 0, 0, 0},
+   {1, 0, 0, 0},
+   {2, 0, 0, 0},
+@@ -328,7 +328,7 @@
+ };
+ 
+ 
+-const char win1251_to_utf8[][4] = {
++const unsigned char win1251_to_utf8[][4] = {
+   {0, 0, 0, 0},
+   {1, 0, 0, 0},
+   {2, 0, 0, 0},
+@@ -587,7 +587,7 @@
+   {209, 143, 0, 0},
+ };
+ 
+-const char win1252_to_utf8[][4] = {
++const unsigned char win1252_to_utf8[][4] = {
+   {0, 0, 0, 0},
+   {1, 0, 0, 0},
+   {2, 0, 0, 0},
+@@ -847,7 +847,7 @@
+ };
+ 
+ 
+-const char win1254_to_utf8[][4] = {
++const unsigned char win1254_to_utf8[][4] = {
+   {0, 0, 0, 0},
+   {1, 0, 0, 0},
+   {2, 0, 0, 0},
+@@ -1107,7 +1107,7 @@
+ };
+ 
+ 
+-const char win1257_to_utf8[][4] = {
++const unsigned char win1257_to_utf8[][4] = {
+   {0, 0, 0, 0},
+   {1, 0, 0, 0},
+   {2, 0, 0, 0},
+--- cuneiform-linux-1.1.0/cuneiform_src/Kern/rout/src/codetables.cpp.orig	2017-09-05 17:49:05.000000000 +0300
++++ cuneiform-linux-1.1.0/cuneiform_src/Kern/rout/src/codetables.cpp	2017-09-05 17:49:38.263100712 +0300
+@@ -937,13 +937,13 @@
+  * codepage.
+  */
+ 
+-const char * getUTF8Str(const unsigned char in, const int codepage) {
++const unsigned char * getUTF8Str(const unsigned char in, const int codepage) {
+   switch(codepage) {
+   case 1250 : return win1250_to_utf8[in];
+   case 1251 : return win1251_to_utf8[in];
+   case 1252 : return win1252_to_utf8[in];
+   case 1254 : return win1254_to_utf8[in];
+   case 1257 : return win1257_to_utf8[in];
+-  default : return "?";
++  default : return reinterpret_cast<const unsigned char*>("?");
+   }
+ }
+--- cuneiform-linux-1.1.0/cuneiform_src/Kern/rout/src/rout_own.h.orig	2011-04-19 16:49:57.000000000 +0400
++++ cuneiform-linux-1.1.0/cuneiform_src/Kern/rout/src/rout_own.h	2017-09-05 17:22:32.078758198 +0300
+@@ -458,7 +458,7 @@
+ void ResetCodeTables();
+ Bool UpdateActiveCodeTable();
+ long GetCodePage();
+-const char * getUTF8Str(const unsigned char in, const int codepage);
++const unsigned char * getUTF8Str(const unsigned char in, const int codepage);
+ 
+ //*****************************************************************
+ // Rout.cpp
+--- cuneiform-linux-1.1.0/cuneiform_src/Kern/rout/src/text.cpp.orig	2011-04-19 16:49:57.000000000 +0400
++++ cuneiform-linux-1.1.0/cuneiform_src/Kern/rout/src/text.cpp	2017-09-05 17:23:01.388753649 +0300
+@@ -310,7 +310,7 @@
+ 				*gMemCur++ = c2;
+ 		}
+ 		else {
+-			const char *utfchar;
++			const unsigned char *utfchar;
+ 			utfchar = getUTF8Str((char )c2, GetCodePage());
+ 			int i;
+ 			for(i=0; utfchar[i] != '\0' ;i++){

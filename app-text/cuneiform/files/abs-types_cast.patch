@@ -1,3 +1,4 @@
+std::abs() overload is not happy with int32_t
 --- cuneiform-linux-1.1.0/cuneiform_src/Kern/rimage/sources/main/cricontrol.cpp.orig	2011-04-19 16:49:57.000000000 +0400
 +++ cuneiform-linux-1.1.0/cuneiform_src/Kern/rimage/sources/main/cricontrol.cpp	2017-09-05 12:55:11.908311163 +0300
 @@ -594,8 +594,8 @@
@@ -6,8 +7,8 @@
  
 -	wNewHeight = (mbMarginsFlag ? abs(mrMargins.rmBottomMarg - mrMargins.rmTopMarg) : mpSourceDIB->GetLinesNumber());
 -	wNewWidth = (mbMarginsFlag ? abs(mrMargins.rmLeftMarg - mrMargins.rmRightMarg) : mpSourceDIB->GetLineWidth());
-+	wNewHeight = (mbMarginsFlag ? std::abs(mrMargins.rmBottomMarg - mrMargins.rmTopMarg) : mpSourceDIB->GetLinesNumber());
-+	wNewWidth = (mbMarginsFlag ? std::abs(mrMargins.rmLeftMarg - mrMargins.rmRightMarg) : mpSourceDIB->GetLineWidth());
++	wNewHeight = (mbMarginsFlag ? abs(static_cast<int>(mrMargins.rmBottomMarg - mrMargins.rmTopMarg)) : mpSourceDIB->GetLinesNumber());
++	wNewWidth = (mbMarginsFlag ? abs(static_cast<int>(mrMargins.rmLeftMarg - mrMargins.rmRightMarg)) : mpSourceDIB->GetLineWidth());
  	mpSourceDIB->GetResolutionDPM( &wXResolution, &wYResolution);
  
  	if ( !mpDestinationDIB->CreateDIBBegin( wNewWidth, wNewHeight, BitCount) )

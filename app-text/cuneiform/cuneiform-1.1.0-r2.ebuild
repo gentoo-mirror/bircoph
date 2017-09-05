@@ -29,11 +29,19 @@ DOCS=( readme.txt )
 PATCHES=(
 	"${FILESDIR}/c-assert.diff"
 	"${FILESDIR}/libm.diff"
-	"${FILESDIR}/gcc6-abs.patch"
+	"${FILESDIR}/abs-types_cast.patch"
+	"${FILESDIR}/charset-signedness.patch"
+	"${FILESDIR}/minmax.patch"
 )
 
 src_prepare(){
-	use graphicsmagick && PATCHES+=( "${FILESDIR}/graphicsmagick.diff" )
+	if use graphicsmagick; then
+		PATCHES+=( "${FILESDIR}/graphicsmagick.diff" )
+	else
+		sed -e 's/GraphicsMagick/ImageMagick/g' \
+			-e 's/fBgm/fBImageMagick/g' \
+		"${FILESDIR}/${PN}.1" > "${PN}.1" || die
+	fi
 	cmake-utils_src_prepare
 
 	# respect LDFLAGS
@@ -50,5 +58,5 @@ src_prepare(){
 
 src_install() {
 	cmake-utils_src_install
-	doman "${FILESDIR}/${PN}.1"
+	doman "${PN}.1"
 }

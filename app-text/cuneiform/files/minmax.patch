@@ -1,0 +1,59 @@
+min and max functions are part of stdlib, having them as defines
+breaks libstdc++ internals.
+--- cuneiform-linux-1.1.0/cuneiform_src/Kern/include/minmax.h.orig	2017-09-05 22:47:42.245551111 +0300
++++ cuneiform-linux-1.1.0/cuneiform_src/Kern/include/minmax.h	2017-09-05 22:48:57.433930220 +0300
+@@ -60,6 +60,10 @@
+  * code use them without proper includes which lead to link errors.
+  */
+ 
++//#ifdef __cplusplus
++//#include <algorithm>
++//#endif
++
+ #ifndef MIN
+ #define MIN(a,b) (((a)>(b))?(b):(a))
+ #endif
+@@ -67,6 +71,8 @@
+ #define MAX(a,b) (((a)>(b))?(a):(b))
+ #endif
+ 
++#ifndef __cplusplus
++
+ #ifndef min
+ #define min(a,b) (((a)>(b))?(b):(a))
+ #endif
+@@ -74,4 +80,5 @@
+ #define max(a,b) (((a)>(b))?(a):(b))
+ #endif
+ 
++#endif // __cplusplus
+ #endif
+--- cuneiform-linux-1.1.0/cuneiform_src/Kern/rcutp/sources/main/rcutp_func.cpp.orig	2011-04-19 16:49:57.000000000 +0400
++++ cuneiform-linux-1.1.0/cuneiform_src/Kern/rcutp/sources/main/rcutp_func.cpp	2017-09-05 23:37:11.405501024 +0300
+@@ -902,8 +902,8 @@
+    if(l1<0 || r1<0) return -1;
+    if(i>0)
+     {
+-     minl=MIN(minl,l1); minr=min(minr,r1);
+-     maxl=MAX(maxl,l1); maxr=max(maxr,r1);
++     minl=MIN(minl,l1); minr=MIN(minr,r1);
++     maxl=MAX(maxl,l1); maxr=MAX(maxr,r1);
+     }
+    else
+     {
+--- cuneiform-linux-1.1.0/cuneiform_src/Kern/rcutp/sources/main/rcutp_mainfunc.cpp.orig	2011-04-19 16:49:57.000000000 +0400
++++ cuneiform-linux-1.1.0/cuneiform_src/Kern/rcutp/sources/main/rcutp_mainfunc.cpp	2017-09-05 23:53:03.816381210 +0300
+@@ -73,13 +73,6 @@
+ 
+ extern  int16_t      minrow,bbs1,bbs2,bbs3,bbs4,Nb1,Nb2,Nb3;
+ extern  uchar      language;
+-#ifndef max
+-#define MAX(a,b)            (((a) > (b)) ? (a) : (b))
+-#endif
+-
+-#ifndef min
+-#define MIN(a,b)            (((a) < (b)) ? (a) : (b))
+-#endif
+ 
+ extern int16_t   up_position,dw_position;
+ uchar MemForCutPoints[65536];
