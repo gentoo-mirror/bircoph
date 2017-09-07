@@ -6,6 +6,5 @@ HOMEPAGE=http://ut.mephi.ru/oss/clsync https://github.com/xaionaro/clsync
 IUSE=api +examples
 LICENSE=GPL-3+
 SLOT=0
-_eclass_exported_funcs=src_unpack:git-r3 src_configure:- src_compile:- src_install:-
 _eclasses_=git-r3	4f7ddb4119309845d6687213171ab445
 _md5_=7f2d4a3d11b14157ee6dd2cc92cdb654

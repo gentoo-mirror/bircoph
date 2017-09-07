@@ -11,5 +11,4 @@ REQUIRED_USE=^^ ( pbs slurm )
 RESTRICT=fetch mirror
 SLOT=0
 SRC_URI=http://www.adaptivecomputing.com/download/maui/maui-3.3.1.tar.gz
-_eclass_exported_funcs=pkg_setup:- src_prepare:- src_configure:- src_install:-
 _md5_=8424fea892c26df9ef453a7a6cea9996
