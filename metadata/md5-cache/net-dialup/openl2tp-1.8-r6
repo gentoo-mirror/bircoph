@@ -1,14 +1,14 @@
 DEFINED_PHASES=compile configure install postinst setup
-DEPEND=>=net-dialup/ppp-2.4.5 sys-libs/readline:= sys-devel/bison sys-devel/flex
+DEPEND=>=net-dialup/ppp-2.4.5 sys-libs/readline:= dmalloc? ( dev-libs/dmalloc ) sys-devel/bison sys-devel/flex
 DESCRIPTION=Userspace tools for kernel L2TP implementation
 EAPI=6
 HOMEPAGE=http://www.openl2tp.org/
-IUSE=+client doc +examples rpc server -stats
+IUSE=+client debug dmalloc doc +examples rpc server stats
 KEYWORDS=~amd64 ~x86
 LICENSE=GPL-2
-RDEPEND=>=net-dialup/ppp-2.4.5 sys-libs/readline:= rpc? ( || ( net-nds/rpcbind net-nds/portmap ) )
+RDEPEND=>=net-dialup/ppp-2.4.5 sys-libs/readline:= dmalloc? ( dev-libs/dmalloc ) rpc? ( net-nds/rpcbind )
 REQUIRED_USE=|| ( client server )
 SLOT=0
 SRC_URI=mirror://sourceforge/openl2tp/openl2tp-1.8.tar.gz
 _eclasses_=estack	43ddf5aaffa7a8d0482df54d25a66a1f	linux-info	ca370deef9d44125d829f2eb6ebc83e0	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	885c7d8dd70a58825f3d17e35a3cd1e9	versionator	ce21313503c41896ebcd7d58b0607e37
-_md5_=e76d034ac9e131325e3202e556052aed
+_md5_=4ac008142ecc1cca68c78b346aa60a5e
