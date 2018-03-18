@@ -128,7 +128,7 @@ RDEPEND+="
 	vpx? ( media-libs/libvpx )
 	X? ( ${X_RDEPS} )
 	x86? ( win32codecs? ( media-libs/win32codecs ) )
-	xanim? ( media-video/xanim )
+	xanim? ( media-video/xanim-export )
 	xinerama? ( x11-libs/libXinerama )
 	xscreensaver? ( x11-libs/libXScrnSaver )
 	xv? ( x11-libs/libXv )
