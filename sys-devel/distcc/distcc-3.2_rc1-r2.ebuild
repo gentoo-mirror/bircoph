@@ -1,21 +1,21 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
 
 PYTHON_COMPAT=( python2_7 )
 
-inherit autotools eutils fdo-mime flag-o-matic multilib python-single-r1 toolchain-funcs user
+inherit autotools eutils flag-o-matic multilib python-single-r1 toolchain-funcs user xdg-utils
 
 MY_P="${P/_}"
 DESCRIPTION="Distribute compilation of C code across several machines on a network"
 HOMEPAGE="http://distcc.org/"
-SRC_URI="http://distcc.googlecode.com/files/${MY_P}.tar.bz2
-		 http://dev.gentoo.org/~bircoph/patches/${P}-native.patch.xz"
+SRC_URI="https://distcc.googlecode.com/files/${MY_P}.tar.bz2
+		 https://dev.gentoo.org/~bircoph/patches/${P}-native.patch.xz"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~m68k ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~sparc-fbsd ~x86-fbsd"
+KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~m68k ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~x86-fbsd"
 IUSE="avahi cc32_64 crossdev gnome gssapi gtk hardened ipv6 +secure selinux xinetd"
 
 RESTRICT="test"
@@ -23,7 +23,7 @@ RESTRICT="test"
 CDEPEND="dev-libs/popt
 	avahi? ( >=net-dns/avahi-0.6[dbus] )
 	cc32_64? (
-		amd64? ( sys-devel/gcc[multilib] )
+		amd64? ( sys-devel/gcc[multilib(-)] )
 		x86? ( cross-x86_64-pc-linux-gnu/gcc )
 	)
 	gnome? (
@@ -222,7 +222,7 @@ pkg_postinst() {
 
 	elog
 	elog "Tips on using distcc with Gentoo can be found at"
-	elog "http://www.gentoo.org/doc/en/distcc.xml"
+	elog "https://www.gentoo.org/doc/en/distcc.xml"
 	elog
 	elog "How to use pump mode with Gentoo:"
 	elog "# distcc-config --set-hosts \"foo,cpp,lzo bar,cpp,lzo baz,cpp,lzo\""
@@ -256,7 +256,7 @@ pkg_postrm() {
 		rmdir "${EPREFIX}${DCCC_PATH}"
 	fi
 
-	use gnome && fdo-mime_desktop_database_update
+	use gnome && xdg_desktop_database_update
 }
 
 pkg_config() {

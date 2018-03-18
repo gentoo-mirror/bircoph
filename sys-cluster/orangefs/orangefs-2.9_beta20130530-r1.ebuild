@@ -24,7 +24,7 @@ CDEPEND="
 	dev-lang/perl
 	>=sys-libs/db-4.8.30:=
 	virtual/perl-Math-BigInt
-	fuse? ( sys-fs/fuse )
+	fuse? ( sys-fs/fuse:= )
 	gtk? ( x11-libs/gtk+:2 )
 	infiniband? ( sys-fabric/ofed )
 	ldap? ( net-nds/openldap )

@@ -1,0 +1,19 @@
+--- openl2tp-1.8/Makefile.orig	2018-03-17 14:24:57.000000000 +0300
++++ openl2tp-1.8/Makefile	2018-03-17 15:07:29.794479939 +0300
+@@ -153,14 +155,14 @@
+ endif
+ 
+ CPPFLAGS=		$(CPPFLAGS.l2tptest) $(CPPFLAGS-y)
+-CFLAGS=			-I. -Iusl -Icli -isystem include \
++CFLAGS+=		-I. -Iusl -Icli -isystem include \
+ 				-MMD -Wall -Wno-strict-aliasing \
+ 				$(CPPFLAGS) $(CPPFLAGS.dmalloc) \
+ 				-DSYS_LIBDIR=$(SYS_LIBDIR)
+ LDFLAGS.l2tpd=		-Wl,-E -L. -Lusl -lusl -ldl $(LIBS.dmalloc) -lc
+ LDFLAGS.l2tpconfig=	-Lcli -lcli -lreadline $(LIBS.dmalloc) $(READLINE_LDFLAGS) -lc
+ 
+-OPT_CFLAGS?=		-O
++OPT_CFLAGS?=
+ 
+ ifeq ($(L2TP_DEBUG),y)
+ CFLAGS.optimize=	-g

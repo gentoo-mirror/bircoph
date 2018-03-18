@@ -8,14 +8,12 @@ dev-python
 dev-util
 media-gfx
 media-libs
-media-sound
 media-video
 net-dialup
 net-dns
 net-ftp
 net-libs
 net-misc
-sci-geosciences
 sys-apps
 sys-cluster
 sys-devel
