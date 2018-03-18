@@ -71,11 +71,11 @@ src_configure() {
 }
 
 src_compile() {
-	emake ${myconf}
+	emake ${myconf[@]}
 }
 
 src_install() {
-	emake ${myconf} DESTDIR="${D}" install
+	emake ${myconf[@]} DESTDIR="${D}" install
 
 	if use examples; then
 		docinto event_socket
