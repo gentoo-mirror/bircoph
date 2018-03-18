@@ -24,7 +24,10 @@ CDEPEND="
 DEPEND="${CDEPEND}
 	sys-devel/bison
 	sys-devel/flex
-	"
+	rpc? ( || ( 
+		net-libs/rpcsvc-proto
+		sys-devel/glibc[rpc]
+	) )"
 RDEPEND="${CDEPEND}
 	rpc? ( net-nds/rpcbind )
 	"
