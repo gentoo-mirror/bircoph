@@ -1,4 +1,4 @@
-DEFINED_PHASES=compile configure install postinst postrm preinst prepare setup
+DEFINED_PHASES=compile config configure install postinst postrm preinst prepare setup
 DEPEND=dev-lang/perl >=sys-libs/db-4.8.30:= virtual/perl-Math-BigInt fuse? ( sys-fs/fuse:= ) gtk? ( x11-libs/gtk+:2 ) infiniband? ( sys-fabric/ofed ) ldap? ( net-nds/openldap ) open-mx? ( sys-cluster/open-mx[static-libs?] ) ssl? ( dev-libs/openssl[static-libs?] ) valgrind? ( dev-util/valgrind ) >=sys-devel/autoconf-2.59 sys-devel/bison sys-devel/flex virtual/pkgconfig apidocs? ( app-doc/doxygen ) doc? ( dev-tex/latex2html ) modules? ( virtual/linux-sources ) >=app-portage/elt-patches-20170422 !<sys-devel/gettext-0.18.1.1-r3 || ( >=sys-devel/automake-1.16:1.16 >=sys-devel/automake-1.15.1:1.15 ) >=sys-devel/autoconf-2.69 >=sys-devel/libtool-2.4 kernel_linux? ( virtual/modutils ) sys-apps/sed kernel_linux? ( virtual/linux-sources )
 DESCRIPTION=OrangeFS is a branch of PVFS2 cluster filesystem
 EAPI=5

@@ -1,4 +1,4 @@
-DEFINED_PHASES=compile configure install postinst postrm prepare setup
+DEFINED_PHASES=compile config configure install postinst postrm prepare setup
 DEPEND=dev-libs/popt avahi? ( >=net-dns/avahi-0.6[dbus] ) cc32_64? ( amd64? ( sys-devel/gcc[multilib(-)] ) x86? ( cross-x86_64-pc-linux-gnu/gcc ) ) gnome? ( >=gnome-base/libgnome-2 >=gnome-base/libgnomeui-2 x11-libs/gtk+:2 x11-libs/pango ) gssapi? ( net-libs/libgssglue ) gtk? ( x11-libs/gtk+:2 ) virtual/pkgconfig >=app-portage/elt-patches-20170422 !<sys-devel/gettext-0.18.1.1-r3 || ( >=sys-devel/automake-1.16:1.16 >=sys-devel/automake-1.15.1:1.15 ) >=sys-devel/autoconf-2.69 >=sys-devel/libtool-2.4
 DESCRIPTION=Distribute compilation of C code across several machines on a network
 EAPI=5
