@@ -1,10 +1,10 @@
 DEFINED_PHASES=compile configure install unpack
-DEPEND=virtual/pkgconfig api? ( app-doc/doxygen ) >=dev-vcs/git-1.8.2.1
+DEPEND=virtual/pkgconfig api? ( app-doc/doxygen ) >=dev-vcs/git-1.8.2.1[curl]
 DESCRIPTION=Clsync and libclsync API documentation
 EAPI=5
 HOMEPAGE=http://ut.mephi.ru/oss/clsync https://github.com/xaionaro/clsync
 IUSE=api +examples
 LICENSE=GPL-3+
 SLOT=0
-_eclasses_=git-r3	af51ccfceeb403ab80f1bf9209d372c8
+_eclasses_=git-r3	8f6de46b0aa318aea0e8cac62ece098b
 _md5_=7f2d4a3d11b14157ee6dd2cc92cdb654
