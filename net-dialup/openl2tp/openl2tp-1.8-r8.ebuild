@@ -20,17 +20,16 @@ CDEPEND="
 	>=net-dialup/ppp-2.4.5
 	sys-libs/readline:=
 	dmalloc? ( dev-libs/dmalloc )
-	"
+"
 DEPEND="${CDEPEND}
+	net-libs/libtirpc
+	>=net-libs/rpcsvc-proto-1.3.1-r1
 	sys-devel/bison
 	sys-devel/flex
-	rpc? ( || ( 
-		net-libs/rpcsvc-proto
-		sys-devel/glibc[rpc]
-	) )"
+"
 RDEPEND="${CDEPEND}
 	rpc? ( net-nds/rpcbind )
-	"
+"
 
 CONFIG_CHECK="~PPPOL2TP"
 
@@ -47,7 +46,13 @@ PATCHES=(
 	"${FILESDIR}/${P}-unused-var.patch"
 	"${FILESDIR}/${P}-configure-Makefile.patch"
 	"${FILESDIR}/${P}-cflags.patch"
+	"${FILESDIR}/${P}-tirpc.patch"
 )
+
+src_prepare() {
+	default
+	sed -i 's/CFLAGS.optimize/CFLAGS_optimize/g' Makefile */Makefile || die "Makefile sed failed"
+}
 
 src_configure() {
 	declare -a myconf	# not local, should be used at src_compile()
