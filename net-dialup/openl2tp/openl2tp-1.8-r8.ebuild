@@ -22,7 +22,7 @@ CDEPEND="
 	dmalloc? ( dev-libs/dmalloc )
 "
 DEPEND="${CDEPEND}
-	net-libs/libtirpc
+	>=net-libs/libtirpc-1.0.3
 	>=net-libs/rpcsvc-proto-1.3.1-r1
 	sys-devel/bison
 	sys-devel/flex
