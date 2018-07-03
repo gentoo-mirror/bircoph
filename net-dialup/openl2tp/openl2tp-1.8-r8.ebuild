@@ -18,11 +18,11 @@ REQUIRED_USE="|| ( client server )"
 
 CDEPEND="
 	>=net-dialup/ppp-2.4.5
+	>=net-libs/libtirpc-1.0.3
 	sys-libs/readline:=
 	dmalloc? ( dev-libs/dmalloc )
 "
 DEPEND="${CDEPEND}
-	net-libs/libtirpc
 	>=net-libs/rpcsvc-proto-1.3.1-r1
 	sys-devel/bison
 	sys-devel/flex
