@@ -1,0 +1,184 @@
+diff -Naurd -x '*.swp' sylpheed-3.7.0.orig/INSTALL sylpheed-3.7.0/INSTALL
+--- sylpheed-3.7.0.orig/INSTALL	2017-06-28 11:38:36.000000000 +0300
++++ sylpheed-3.7.0/INSTALL	2018-08-11 21:26:14.701733236 +0300
+@@ -137,7 +137,7 @@
+ 
+   http://freshmeat.net/projects/compface/
+ 
+-GnuPG (>= 1.2.0) and GPGME (>= 1.0.0) are required for GnuPG (PGP) support.
++GnuPG (>= 1.2.0) and GPGME (>= 1.7.0) are required for GnuPG (PGP) support.
+ You can get GnuPG and GPGME from the following location:
+ 
+   ftp://ftp.gnupg.org/gcrypt/gpgme/
+diff -Naurd -x '*.swp' sylpheed-3.7.0.orig/INSTALL.ja sylpheed-3.7.0/INSTALL.ja
+--- sylpheed-3.7.0.orig/INSTALL.ja	2017-06-28 11:38:43.000000000 +0300
++++ sylpheed-3.7.0/INSTALL.ja	2018-08-11 21:26:25.734570136 +0300
+@@ -137,7 +137,7 @@
+ 
+   http://freshmeat.net/projects/compface/
+ 
+-GnuPG (PGP)対応を有効にしたい場合は、 GPGME 1.0.0 以降と GnuPG 1.2.0 以降が
++GnuPG (PGP)対応を有効にしたい場合は、 GPGME 1.7.0 以降と GnuPG 1.2.0 以降が
+ 必要です。 GnuPG と GPGME は以下の場所から取得できます:
+ 
+   ftp://ftp.gnupg.org/gcrypt/gpgme/
+diff -Naurd -x '*.swp' sylpheed-3.7.0.orig/configure.ac sylpheed-3.7.0/configure.ac
+--- sylpheed-3.7.0.orig/configure.ac	2018-01-30 11:49:52.000000000 +0300
++++ sylpheed-3.7.0/configure.ac	2018-08-11 20:36:02.043543279 +0300
+@@ -179,7 +179,7 @@
+ AC_MSG_CHECKING([whether to use GPGME])
+ if test $ac_cv_enable_gpgme = yes; then
+ 	AC_MSG_RESULT(yes)
+-	AM_PATH_GPGME(1.0.0, AC_DEFINE(USE_GPGME, 1, Define if you use GPGME to support OpenPGP.),
++	AM_PATH_GPGME(1.7.0, AC_DEFINE(USE_GPGME, 1, Define if you use GPGME to support OpenPGP.),
+ 		      [use_gpgme=no
+ 		       ac_cv_enable_gpgme=no])
+ 	if test $ac_cv_enable_gpgme = yes; then
+diff -Naurd -x '*.swp' sylpheed-3.7.0.orig/src/rfc2015.c sylpheed-3.7.0/src/rfc2015.c
+--- sylpheed-3.7.0.orig/src/rfc2015.c	2014-03-26 09:55:35.000000000 +0400
++++ sylpheed-3.7.0/src/rfc2015.c	2018-08-19 08:59:42.143390253 +0300
+@@ -157,6 +157,12 @@
+ 			(str, _("		aka \"%s\"\n"), user->uid);
+ 		user = user->next;
+ 	}
++
++	/* gpgme_get_key doesn't set tofu description field even with
++	 * GPGME_KEYLIST_MODE_WITH_TOFU flag set, so it should be
++	 * extracted from sig->key directly */
++	if (sig->key && sig->key->uids && sig->key->uids->tofu)
++		gpgmegtk_tofu_status_to_string (str, sig->key->uids);
+ }
+ 
+ static gchar *sig_status_full(gpgme_ctx_t ctx, gpgme_verify_result_t result)
+diff -Naurd -x '*.swp' sylpheed-3.7.0.orig/src/sigstatus.c sylpheed-3.7.0/src/sigstatus.c
+--- sylpheed-3.7.0.orig/src/sigstatus.c	2010-12-21 11:53:18.000000000 +0300
++++ sylpheed-3.7.0/src/sigstatus.c	2018-08-19 10:58:18.915063156 +0300
+@@ -238,9 +238,15 @@
+ 	case GPG_ERR_NO_ERROR:
+ 		switch (signature->validity) {
+ 		case GPGME_VALIDITY_ULTIMATE:
++			result = use_name ? _("Good signature (ultimate trust) from \"%s\"") :
++				_("Good signature");
++			break;
+ 		case GPGME_VALIDITY_FULL:
++			result = use_name ? _("Good signature (full trust) from \"%s\"") :
++				_("Good signature");
++			break;
+ 		case GPGME_VALIDITY_MARGINAL:
+-			result = use_name ? _("Good signature from \"%s\"") :
++			result = use_name ? _("Good signature (marginal trust) from \"%s\"") :
+ 				_("Good signature");
+ 			break;
+ 		default:
+@@ -270,11 +276,100 @@
+ 		result = _("No public key to verify the signature");
+ 		break;
+ 	default:
+-		result = _("Error verifying the signature");
++		switch (signature->summary) {
++		case GPGME_SIGSUM_KEY_REVOKED:
++			result = _("The key or at least one certificate has been revoked");
++			break;
++		case GPGME_SIGSUM_KEY_MISSING:
++			result = _("Can't verify due to a missing key or certificate");
++			break;
++		case GPGME_SIGSUM_CRL_MISSING:
++			result = _("The CRL (or an equivalent mechanism) is not available");
++			break;
++		case GPGME_SIGSUM_CRL_TOO_OLD:
++			result = _("Available CRL is too old");
++			break;
++		case GPGME_SIGSUM_BAD_POLICY:
++			result = _("A policy requirement was not met");
++			break;
++		case GPGME_SIGSUM_SYS_ERROR:
++			result = _("A system error occured");
++			break;
++		case GPGME_SIGSUM_TOFU_CONFLICT:
++			result = _("A TOFU conflict was detected");
++			break;
++		default:
++			result = _("Error verifying the signature");
++		}
+ 		break;
+ 	}
+ 
+ 	return result;
+ }
+ 
++void tofu_to_string(GString *str, gpgme_tofu_info_t tofu, char *uid)
++{
++	if (tofu->description)
++		g_string_sprintfa(str, _("%s\n"), tofu->description);
++	else
++		g_string_sprintfa(str, _("%s:\n"), uid);
++
++	switch (tofu->validity) {
++	case 0:
++		g_string_append(str, _("	Validity [0]: CONFLICT. "));
++		break;
++	case 1:
++		g_string_append(str, _("	Validity [1]: no prior history. "));
++		break;
++	case 2:
++		g_string_append(str, _("	Validity [2]: too little history. "));
++		break;
++	case 3:
++		g_string_append(str, _("	Validity [3]: enough history for basic trust. "));
++		break;
++	case 4:
++		g_string_append(str, _("	Validity [4]: long established history. "));
++		break;
++	default:
++		g_string_append(str, _("	Validity: unknown. "));
++		break;
++	}
++
++	switch (tofu->policy) {
++	case GPGME_TOFU_POLICY_AUTO:
++		g_string_append(str, _("Policy: auto.\n"));
++		break;
++	case GPGME_TOFU_POLICY_GOOD:
++		g_string_append(str, _("Policy: good.\n"));
++		break;
++	case GPGME_TOFU_POLICY_BAD:
++		g_string_append(str, _("Policy: bad.\n"));
++		break;
++	case GPGME_TOFU_POLICY_ASK:
++		g_string_append(str, _("Policy: ask.\n"));
++		break;
++	default:
++		g_string_append(str, _("Policy: unknown.\n"));
++		break;
++	}
++}
++
++void gpgmegtk_tofu_status_to_string(GString *str, gpgme_user_id_t user)
++{
++	gpgme_tofu_info_t tofu;
++	g_string_append(str, _("TOFU status:\n"));
++
++	do {
++		if (!(tofu = user->tofu))
++			continue;
++		tofu_to_string (str, tofu, user->uid);
++
++		while ((tofu = tofu->next)) {
++			g_string_append(str, _("and:\n"));
++			tofu_to_string (str, tofu, user->uid);
++		}
++	}
++	while ((user = user->next));
++}
++
+ #endif /* USE_GPGME */
+diff -Naurd -x '*.swp' sylpheed-3.7.0.orig/src/sigstatus.h sylpheed-3.7.0/src/sigstatus.h
+--- sylpheed-3.7.0.orig/src/sigstatus.h	2006-08-31 12:21:21.000000000 +0400
++++ sylpheed-3.7.0/src/sigstatus.h	2018-08-19 07:45:17.422291629 +0300
+@@ -30,5 +30,6 @@
+ 
+ const gchar *gpgmegtk_sig_status_to_string(gpgme_signature_t signature,
+         gboolean use_name);
++void gpgmegtk_tofu_status_to_string(GString *str, gpgme_user_id_t user);
+ 
+ #endif /* GPGMEGTK_SIGSTATUS_H */
