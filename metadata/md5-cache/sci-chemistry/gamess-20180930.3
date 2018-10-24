@@ -1,0 +1,15 @@
+DEFINED_PHASES=compile install nofetch postinst prepare setup unpack
+DEPEND=app-shells/tcsh mpi? ( virtual/mpi ) virtual/blas virtual/pkgconfig virtual/fortran
+DESCRIPTION=A powerful quantum chemistry package
+EAPI=6
+HOMEPAGE=http://www.msg.chem.iastate.edu/GAMESS/GAMESS.html
+IUSE=mpi msucc neo openmp pax_kernel qmmm-tinker vb2000
+KEYWORDS=~amd64 ~x86
+LICENSE=gamess
+RDEPEND=app-shells/tcsh mpi? ( virtual/mpi ) virtual/blas net-misc/openssh virtual/fortran
+REQUIRED_USE=( openmp? ( !neo !vb2000 ) )
+RESTRICT=fetch
+SLOT=0
+SRC_URI=gamess-20180930.3.tar.gz qmmm-tinker? ( tinker.tar.gz )
+_eclasses_=desktop	b1d22ac8bdd4679ab79c71aca235009d	epatch	a1bf4756dba418a7238f3be0cb010c54	estack	43ddf5aaffa7a8d0482df54d25a66a1f	eutils	6e6c2737b59a4b982de6fb3ecefd87f8	flag-o-matic	55aaa148741116aa54ad0d80e361818e	fortran-2	68fcf50e02640de6eb5698ea038d9537	ltprune	08f9e1d9ee0af8f5d9a7854efbcd8c0e	multilib	b2f01ad412baf81650c23fcf0975fa33	pax-utils	e85f015e815dd463b0c206d781ef45a5	preserve-libs	ef207dc62baddfddfd39a164d9797648	toolchain-funcs	f164325a2cdb5b3ea39311d483988861	vcs-clean	2a0f74a496fa2b1552c4f3398258b7bf
+_md5_=30cdeaead7e55b815751f3efdffd2ae7
