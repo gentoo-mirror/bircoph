@@ -2,8 +2,8 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
 <maintainer type="person">
-  <email>bircoph@gentoo.org</email>
-  <name>Andrew Savchenko</name>
+	<email>bircoph@gentoo.org</email>
+	<name>Andrew Savchenko</name>
 </maintainer>
 <use>
 	<flag name="amr">Enables Adaptive Multi-Rate format support</flag>
@@ -11,6 +11,7 @@
 	<flag name="bluray">Enable playback of Blu-ray filesystems</flag>
 	<flag name="bs2b">Enable Bauer stereophonic-to-binaural headphone filter</flag>
 	<flag name="cdio">Use libcdio for CD support (instead of cdparanoia)</flag>
+	<flag name="cdparanoia">Enable cdparanoia (audio CD ripper) support</flag>
 	<flag name="cpudetection">Enables runtime CPU detection (useful for bindist, compatibility on other CPUs)</flag>
 	<flag name="dirac">Enable Dirac video support (an advanced royalty-free video compression format) via the reference library: dirac.</flag>
 	<flag name="dvdnav">Use forked libdvdnav, navigate menus in GUIs</flag>
@@ -48,10 +49,12 @@
 	<flag name="vdpau">Enables experimental VDPAU support (requires nVidia video cards) to offload MPEG2/MPEG4/VC1/WMV CPU processing to video card</flag>
 	<flag name="vpx">Enables vp8 codec support using libvpx: Decoding vp8 does not require this to be enabled but libvpx can also be used for decoding; encoding vp8 requires this useflag to be enabled though.</flag>
 	<flag name="video_cards_s3virge">Support for s3virge video card</flag>
+	<flag name="video_cards_tdfx">Support for tdfx video card</flag>
 	<flag name="vidix">Support for vidix video output</flag>
 	<flag name="win32codecs">Support for binary win32 codecs</flag>
 	<flag name="xanim">Enables support for xanim based codecs</flag>
 	<flag name="xvmc">Enables X-Video Motion Compensation support</flag>
+	<flag name="yuv4mpeg">Enables yuv4mpeg video output</flag>
 	<flag name="zoran">Enables ZR360[56]7/ZR36060 video output</flag>
 </use>
 </pkgmetadata>

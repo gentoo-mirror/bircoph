@@ -1,4 +1,4 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
@@ -9,14 +9,13 @@ inherit flag-o-matic git-2 multilib subversion toolchain-funcs ${SVN_ECLASS}
 
 IUSE="cpu_flags_x86_3dnow cpu_flags_x86_3dnowext +a52 aalib +alsa altivec amr aqua bidi bindist bl bluray
 bs2b cddb +cdio cdparanoia cpudetection debug dga +dirac
-directfb doc +dts +dv dvb +dvd +dvdnav dxr3 +enca +encode -external-ffmpeg faac +faad fbcon
+doc +dts +dv dvb +dvd +dvdnav dxr3 +enca +encode -external-ffmpeg faac +faad fbcon
 ftp gif ggi gsm +iconv ipv6 jack joystick jpeg jpeg2k kernel_linux ladspa
 +libass libcaca libmpeg2 lirc +live lzo mad md5sum +cpu_flags_x86_mmx cpu_flags_x86_mmxext mng +mp3 mpg123 nas nemesi
 +network nut openal +opengl opus +osdmenu oss png pnm pulseaudio pvr +quicktime
 radio +rar +real +rtc rtmp samba +shm +schroedinger sdl +speex cpu_flags_x86_sse cpu_flags_x86_sse2 cpu_flags_x86_ssse3 svga svga-helper
 tga +theora tivo +tremor +truetype toolame +twolame +unicode v4l vdpau vidix
-+vorbis vpx win32codecs +X +x264 xanim xinerama +xscreensaver +xv +xvid xvmc
-zoran"
++vorbis vpx win32codecs +X +x264 xanim xinerama +xscreensaver +xv +xvid xvmc yuv4mpeg zoran"
 
 EGIT_REPO_URI="git://git.videolan.org/ffmpeg.git"
 EGIT_PROJECT="ffmpeg" # git eclass sets it to PN otherwise
@@ -63,7 +62,6 @@ RDEPEND+="
 	cdparanoia? ( !cdio? ( media-sound/cdparanoia ) )
 	dga? ( x11-libs/libXxf86dga )
 	dirac? ( media-video/dirac )
-	directfb? ( dev-libs/DirectFB )
 	dts? ( media-libs/libdca )
 	dv? ( media-libs/libdv )
 	dvd? ( >=media-libs/libdvdread-4.1.3 )
@@ -321,8 +319,6 @@ src_configure() {
 	#####################################
 	myconf+=" --disable-tv-bsdbt848"
 	# broken upstream, won't work with recent kernels
-	myconf+=" --disable-ivtv"
-	# gone since linux-headers-2.6.38
 	myconf+=" --disable-tv-v4l1"
 	if { use dvb || use v4l || use pvr || use radio; }; then
 		use dvb || myconf+=" --disable-dvb"
@@ -421,7 +417,7 @@ src_configure() {
 	################
 	# Video Output #
 	################
-	uses="directfb md5sum sdl"
+	uses="md5sum sdl yuv4mpeg"
 	for i in ${uses}; do
 		use ${i} || myconf+=" --disable-${i}"
 	done
