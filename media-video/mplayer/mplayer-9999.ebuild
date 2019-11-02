@@ -9,7 +9,7 @@ inherit flag-o-matic git-2 multilib subversion toolchain-funcs ${SVN_ECLASS}
 
 IUSE="cpu_flags_x86_3dnow cpu_flags_x86_3dnowext +a52 aalib +alsa altivec amr aqua bidi bindist bl bluray
 bs2b cddb +cdio cdparanoia cpudetection debug dga +dirac
-directfb doc +dts +dv dvb +dvd +dvdnav dxr3 +enca +encode -external-ffmpeg faac +faad fbcon
+doc +dts +dv dvb +dvd +dvdnav dxr3 +enca +encode -external-ffmpeg faac +faad fbcon
 ftp gif ggi gsm +iconv ipv6 jack joystick jpeg jpeg2k kernel_linux ladspa
 +libass libcaca libmpeg2 lirc +live lzo mad md5sum +cpu_flags_x86_mmx cpu_flags_x86_mmxext mng +mp3 mpg123 nas nemesi
 +network nut openal +opengl opus +osdmenu oss png pnm pulseaudio pvr +quicktime
@@ -62,7 +62,6 @@ RDEPEND+="
 	cdparanoia? ( !cdio? ( media-sound/cdparanoia ) )
 	dga? ( x11-libs/libXxf86dga )
 	dirac? ( media-video/dirac )
-	directfb? ( dev-libs/DirectFB )
 	dts? ( media-libs/libdca )
 	dv? ( media-libs/libdv )
 	dvd? ( >=media-libs/libdvdread-4.1.3 )
@@ -418,7 +417,7 @@ src_configure() {
 	################
 	# Video Output #
 	################
-	uses="directfb md5sum sdl yuv4mpeg"
+	uses="md5sum sdl yuv4mpeg"
 	for i in ${uses}; do
 		use ${i} || myconf+=" --disable-${i}"
 	done
