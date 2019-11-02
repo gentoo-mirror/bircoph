@@ -52,6 +52,7 @@
 	<flag name="win32codecs">Support for binary win32 codecs</flag>
 	<flag name="xanim">Enables support for xanim based codecs</flag>
 	<flag name="xvmc">Enables X-Video Motion Compensation support</flag>
+	<flag name="yuv4mpeg">Enables yuv4mpeg video output</flag>
 	<flag name="zoran">Enables ZR360[56]7/ZR36060 video output</flag>
 </use>
 </pkgmetadata>

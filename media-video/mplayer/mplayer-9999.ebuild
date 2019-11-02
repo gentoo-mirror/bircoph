@@ -15,8 +15,7 @@ ftp gif ggi gsm +iconv ipv6 jack joystick jpeg jpeg2k kernel_linux ladspa
 +network nut openal +opengl opus +osdmenu oss png pnm pulseaudio pvr +quicktime
 radio +rar +real +rtc rtmp samba +shm +schroedinger sdl +speex cpu_flags_x86_sse cpu_flags_x86_sse2 cpu_flags_x86_ssse3 svga svga-helper
 tga +theora tivo +tremor +truetype toolame +twolame +unicode v4l vdpau vidix
-+vorbis vpx win32codecs +X +x264 xanim xinerama +xscreensaver +xv +xvid xvmc
-zoran"
++vorbis vpx win32codecs +X +x264 xanim xinerama +xscreensaver +xv +xvid xvmc yuv4mpeg zoran"
 
 EGIT_REPO_URI="git://git.videolan.org/ffmpeg.git"
 EGIT_PROJECT="ffmpeg" # git eclass sets it to PN otherwise
@@ -419,7 +418,7 @@ src_configure() {
 	################
 	# Video Output #
 	################
-	uses="directfb md5sum sdl"
+	uses="directfb md5sum sdl yuv4mpeg"
 	for i in ${uses}; do
 		use ${i} || myconf+=" --disable-${i}"
 	done
