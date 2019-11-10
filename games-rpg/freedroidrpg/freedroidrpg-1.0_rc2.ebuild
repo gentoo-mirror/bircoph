@@ -36,10 +36,6 @@ DEPEND="${RDEPEND}
 
 S="${WORKDIR}/${PN}-${MY_PV^^}"
 
-pkg_setup() {
-	python-any-r1_pkg_setup
-}
-
 src_prepare() {
 	default
 
