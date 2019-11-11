@@ -41,9 +41,6 @@ dev-libs/libclsync:extra-debug - Enable extra debugging. This will hurt performa
 dev-libs/libclsync:extra-hardened - Enable extra security checks. This may hurt performance.
 dev-util/symlookup:portage - Enable support for Portage database queries.
 dev-util/symlookup:rpm - Enable support for RPM database queries. May be useful if app-arch/rpm is used to install packages outside of portage
-games-rpg/freedroidrpg:devtools - Compile the additional dev tools
-games-rpg/freedroidrpg:profile - Enable the integration of the ingame real-time profiler
-games-rpg/freedroidrpg:sanitize - Compile with address sanitizer
 mail-client/sylpheed:oniguruma - Use dev-libs/oniguruma for regular expression
 media-libs/win32codecs:real - Installs the real video codecs
 media-video/mplayer:amr - Enables Adaptive Multi-Rate format support
