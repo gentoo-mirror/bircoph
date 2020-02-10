@@ -11,7 +11,6 @@ mail-client/sylpheed 3.7.0-r1: A lightweight email client and newsreader
 media-gfx/dmtx-utils 0.7.4: Tools for reading and writing Data Matrix barcodes
 media-libs/vstream-client 1.2.1.1: Allows streaming video from a hacked TiVo running vserver
 media-libs/win32codecs 20071007-r4: Windows 32-bit binary codecs for video and audio playback support
-media-video/mplayer 9999: Media Player for Linux
 net-dns/bind2nsd 0.7.2-r1: Program to translate DNS information in BIND format to NSD format
 net-ftp/vsftpd 3.0.3: Very Secure FTP Daemon written with speed, size and security in mind
 net-libs/libnemesi 9999: a RTSP/RTP client library
