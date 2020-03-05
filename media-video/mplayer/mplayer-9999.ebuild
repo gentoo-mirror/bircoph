@@ -1,11 +1,12 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
 
+EGIT_REPO_URI="git://git.videolan.org/ffmpeg.git"
 ESVN_REPO_URI="svn://svn.mplayerhq.hu/mplayer/trunk"
 
-inherit flag-o-matic git-2 multilib subversion toolchain-funcs ${SVN_ECLASS}
+inherit flag-o-matic git-r3 multilib subversion toolchain-funcs ${SVN_ECLASS}
 
 IUSE="cpu_flags_x86_3dnow cpu_flags_x86_3dnowext +a52 aalib +alsa altivec amr aqua bidi bindist bl bluray
 bs2b cddb +cdio cdparanoia cpudetection debug dga +dirac
@@ -16,9 +17,6 @@ ftp gif ggi gsm +iconv ipv6 jack joystick jpeg jpeg2k kernel_linux ladspa
 radio +rar +real +rtc rtmp samba +shm +schroedinger sdl +speex cpu_flags_x86_sse cpu_flags_x86_sse2 cpu_flags_x86_ssse3 svga svga-helper
 tga +theora tivo +tremor +truetype toolame +twolame +unicode v4l vdpau vidix
 +vorbis vpx win32codecs +X +x264 xanim xinerama +xscreensaver +xv +xvid xvmc yuv4mpeg zoran"
-
-EGIT_REPO_URI="git://git.videolan.org/ffmpeg.git"
-EGIT_PROJECT="ffmpeg" # git eclass sets it to PN otherwise
 
 VIDEO_CARDS="s3virge mga tdfx vesa"
 for x in ${VIDEO_CARDS}; do
@@ -133,18 +131,14 @@ RDEPEND+="
 	xvmc? ( x11-libs/libXvMC )
 "
 
-X_DEPS="
-	x11-proto/videoproto
-	x11-proto/xf86vidmodeproto
-"
 ASM_DEP="dev-lang/yasm"
 DEPEND="${RDEPEND}
 	virtual/pkgconfig
-	dga? ( x11-proto/xf86dgaproto )
+	dga? ( x11-base/xorg-proto )
 	dvb? ( virtual/linuxtv-dvb-headers )
-	X? ( ${X_DEPS} )
-	xinerama? ( x11-proto/xineramaproto )
-	xscreensaver? ( x11-proto/scrnsaverproto )
+	X? ( x11-base/xorg-proto )
+	xinerama? ( x11-base/xorg-proto )
+	xscreensaver? ( x11-base/xorg-proto )
 	amd64? ( ${ASM_DEP} )
 	doc? (
 		dev-libs/libxslt app-text/docbook-xml-dtd
@@ -223,7 +217,7 @@ src_unpack() {
 	subversion_src_unpack
 	cd "${WORKDIR}"
 	rm -rf "${WORKDIR}/${P}/ffmpeg/"
-	( S="${WORKDIR}/${P}/ffmpeg/" git-2_src_unpack )
+	( EGIT_CHECKOUT_DIR="${WORKDIR}/${P}/ffmpeg/" git-r3_src_unpack )
 
 	if ! use truetype; then
 		unpack font-arial-iso-8859-1.tar.bz2 \
