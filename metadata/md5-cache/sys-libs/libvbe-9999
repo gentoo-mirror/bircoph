@@ -1,5 +1,5 @@
 DEFINED_PHASES=compile install preinst unpack
-DEPEND=sys-libs/lrmi || ( dev-vcs/subversion[http] dev-vcs/subversion[webdav-neon] dev-vcs/subversion[webdav-serf] ) net-misc/rsync
+DEPEND=sys-libs/lrmi dev-vcs/subversion[http(+)] net-misc/rsync
 DESCRIPTION=A library for handling the VESA BIOS Extension (aka VBE)
 EAPI=6
 HOMEPAGE=http://www.mplayerhq.hu/vesautils/index.html
@@ -7,5 +7,5 @@ LICENSE=GPL-2
 PROPERTIES=live
 RDEPEND=sys-libs/lrmi
 SLOT=0
-_eclasses_=estack	686eaab303305a908fd57b2fd7617800	multilib	0914eab919f4f11dd9e0407b92af4726	subversion	4beaac7ba954403d7bbe4d4b8befdb82	toolchain-funcs	d3e75048a89c0445838d2f44e5c65d97
+_eclasses_=estack	686eaab303305a908fd57b2fd7617800	multilib	0914eab919f4f11dd9e0407b92af4726	subversion	ed3498da4fb92dcfb0d6089c85d1465f	toolchain-funcs	d3e75048a89c0445838d2f44e5c65d97
 _md5_=59ebe08c95675607a5833f4e46c4f52a
