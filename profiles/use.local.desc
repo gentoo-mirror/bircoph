@@ -2,15 +2,6 @@
 # Please add your descriptions to your package's metadata.xml ONLY.
 # * generated automatically using pmaint *
 
-app-admin/clsync:cgroups - Use cgroups to limit /dev access.
-app-admin/clsync:cluster - Enable clustering support (allows master-master clsync on multiple hosts). Not fully implemented yet.
-app-admin/clsync:control-socket - Enable AF_UNIX control socket support.
-app-admin/clsync:extra-debug - Enable extra debugging. This will hurt performance badly. Be ready for tons of output.
-app-admin/clsync:extra-hardened - Enable extra security checks. This will hurt performance.
-app-admin/clsync:gio - Enable GIO for FS monitoring (glib based alternative to inotify interface, not recommended; if both are compiled, may be selected at runtime).
-app-admin/clsync:highload-locks - Allows to use spinlocks for short delays instead of mutexes, but only on SMP systems.
-app-admin/clsync:namespaces - Enable namespaces isolation.
-app-doc/clsync-docs:api - Install doxygen generated API docs.
 app-emulation/wine:capi - Enable ISDN support via CAPI
 app-emulation/wine:custom-cflags - Bypass strip-flags; use at your own peril
 app-emulation/wine:d3d9 - Apply highly experimental patches for Gallium Nine support. This patch may break some applications.
@@ -37,8 +28,6 @@ app-i18n/uim:gtk2 - Enable support for x11-libs/gtk+:2
 app-i18n/uim:qt4 - Enable support for deprecated dev-qt/qtgui:4
 app-i18n/uim:skk - Enable support for app-i18n/skk-jisyo
 app-vim/cscope-plugin:swap-meta - Swap C-\ and C-@ meta sequences
-dev-libs/libclsync:extra-debug - Enable extra debugging. This will hurt performance badly. Be ready for tons of output.
-dev-libs/libclsync:extra-hardened - Enable extra security checks. This may hurt performance.
 dev-util/symlookup:portage - Enable support for Portage database queries.
 dev-util/symlookup:rpm - Enable support for RPM database queries. May be useful if app-arch/rpm is used to install packages outside of portage
 mail-client/sylpheed:oniguruma - Use dev-libs/oniguruma for regular expression
