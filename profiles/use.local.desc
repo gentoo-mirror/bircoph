@@ -118,4 +118,3 @@ sys-devel/distcc:crossdev - Enable support for sys-devel/crossdev
 sys-devel/distcc:gssapi - Enable support for net-libs/libgssglue
 sys-devel/distcc:secure - Limit the list of allowed commands by the list of installed compilers. Otherwise crafted client may execute arbitrary command on a server host with distcc user id
 sys-power/suspend:crypt - Allows suspend and resume from encrypted disk
-sys-power/suspend:fbsplash - Add support for framebuffer splash
