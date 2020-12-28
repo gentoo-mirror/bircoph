@@ -8,5 +8,5 @@ LICENSE=GPL-3
 PROPERTIES=live
 RDEPEND=dev-libs/elfutils portage? ( sys-apps/portage ) rpm? ( app-arch/rpm )
 SLOT=0
-_eclasses_=estack	d780995dc525ff7e6a2c4c043ffec242	subversion	ed3498da4fb92dcfb0d6089c85d1465f
+_eclasses_=estack	055c42df72f76a4f45ec92b35e83cd56	subversion	ed3498da4fb92dcfb0d6089c85d1465f
 _md5_=6c5a808b6c328a3e4a23e420c6290dbb
