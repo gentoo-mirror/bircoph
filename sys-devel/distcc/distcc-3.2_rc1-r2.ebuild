@@ -1,11 +1,11 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
 
-PYTHON_COMPAT=( python2_7 )
+PYTHON_COMPAT=( python3_7 )
 
-inherit autotools eutils flag-o-matic multilib python-single-r1 toolchain-funcs user xdg-utils
+inherit autotools eutils flag-o-matic multilib python-single-r1 toolchain-funcs user
 
 MY_P="${P/_}"
 DESCRIPTION="Distribute compilation of C code across several machines on a network"
@@ -15,22 +15,16 @@ SRC_URI="https://distcc.googlecode.com/files/${MY_P}.tar.bz2
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~m68k ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~x86-fbsd"
-IUSE="avahi cc32_64 crossdev gnome gssapi gtk hardened ipv6 +secure selinux xinetd"
+KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~m68k ~mips ~ppc ~ppc64 ~s390 ~sparc ~x86"
+IUSE="cc32_64 crossdev gssapi gtk hardened ipv6 +secure selinux xinetd zeroconf"
 
 RESTRICT="test"
 
 CDEPEND="dev-libs/popt
-	avahi? ( >=net-dns/avahi-0.6[dbus] )
+	zeroconf? ( >=net-dns/avahi-0.6[dbus] )
 	cc32_64? (
 		amd64? ( sys-devel/gcc[multilib(-)] )
 		x86? ( cross-x86_64-pc-linux-gnu/gcc )
-	)
-	gnome? (
-		>=gnome-base/libgnome-2
-		>=gnome-base/libgnomeui-2
-		x11-libs/gtk+:2
-		x11-libs/pango
 	)
 	gssapi? ( net-libs/libgssglue )
 	gtk? ( x11-libs/gtk+:2 )"
@@ -96,7 +90,7 @@ src_prepare() {
 
 	# prepare conf.d before we fork it
 	cp "${FILESDIR}/distccd.confd" "${T}/distccd.confd-base" || die "cp failed"
-	if use avahi; then
+	if use zeroconf; then
 		cat >> "${T}/distccd.confd" <<-EOF
 
 		# Enable zeroconf support in distccd
@@ -140,10 +134,10 @@ src_configure() {
 	use ipv6 && myconf="${myconf} --enable-rfc2553"
 
 	econf \
-		$(use_with avahi) \
+		$(use_with zeroconf avahi) \
 		$(use_with gtk) \
-		$(use_with gnome) \
 		$(use_with gssapi auth) \
+		--without-gnome \
 		--with-docdir="${EPREFIX}/usr/share/doc/${PF}" \
 		${myconf} || die "econf failed"
 }
@@ -198,13 +192,6 @@ src_install() {
 	keepdir /var/run/distccd
 	fowners distcc:daemon /var/run/distccd
 
-	if use gnome || use gtk; then
-		einfo "Renaming /usr/bin/distccmon-gnome to /usr/bin/distccmon-gui"
-		einfo "This is to have a little sensability in naming schemes between distccmon programs"
-		mv "${ED}/usr/bin/distccmon-gnome" "${ED}/usr/bin/distccmon-gui" || die
-		dosym distccmon-gui /usr/bin/distccmon-gnome
-	fi
-
 	if use xinetd; then
 		insinto /etc/xinetd.d || die
 		newins "doc/example/xinetd" distcc
@@ -218,8 +205,6 @@ src_install() {
 pkg_postinst() {
 	pkg_config
 
-	use gnome && fdo-mime_desktop_database_update
-
 	elog
 	elog "Tips on using distcc with Gentoo can be found at"
 	elog "https://www.gentoo.org/doc/en/distcc.xml"
@@ -231,11 +216,6 @@ pkg_postinst() {
 	elog
 	elog "To use the distccmon programs with Gentoo you should use this command:"
 	elog "# DISTCC_DIR=\"${DISTCC_DIR:-${BUILD_PREFIX}/.distcc}\" distccmon-text 5"
-
-	if use gnome || use gtk; then
-		elog "Or:"
-		elog "# DISTCC_DIR=\"${DISTCC_DIR:-${BUILD_PREFIX}/.distcc}\" distccmon-gnome"
-	fi
 
 	elog
 	elog "***SECURITY NOTICE***"
@@ -255,8 +235,6 @@ pkg_postrm() {
 		rm "${EPREFIX}${DCCC_PATH}/"*{cc,c++,gcc,g++}*
 		rmdir "${EPREFIX}${DCCC_PATH}"
 	fi
-
-	use gnome && xdg_desktop_database_update
 }
 
 pkg_config() {
