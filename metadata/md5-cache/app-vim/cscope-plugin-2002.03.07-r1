@@ -3,6 +3,7 @@ DEPEND=|| ( >=app-editors/vim-7.3 >=app-editors/gvim-7.3 )
 DESCRIPTION=vim plugin: cscope settings
 EAPI=6
 HOMEPAGE=http://cscope.sourceforge.net/cscope_vim_tutorial.html
+INHERIT=vim-plugin
 IUSE=swap-meta
 KEYWORDS=~amd64 ~x86
 LICENSE=BSD

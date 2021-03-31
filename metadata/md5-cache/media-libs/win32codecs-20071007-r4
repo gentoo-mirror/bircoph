@@ -2,6 +2,7 @@ DEFINED_PHASES=install setup
 DESCRIPTION=Windows 32-bit binary codecs for video and audio playback support
 EAPI=5
 HOMEPAGE=http://www.mplayerhq.hu/
+INHERIT=multilib
 IUSE=real
 KEYWORDS=~amd64 x86
 LICENSE=HPND
