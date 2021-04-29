@@ -1,9 +1,9 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 
-PYTHON_COMPAT=( python3_7 )
+PYTHON_COMPAT=( python3_{7,8,9} )
 
 inherit autotools eutils flag-o-matic multilib python-single-r1 toolchain-funcs user
 
@@ -20,7 +20,7 @@ IUSE="cc32_64 crossdev gssapi gtk hardened ipv6 +secure selinux xinetd zeroconf"
 
 RESTRICT="test"
 
-CDEPEND="dev-libs/popt
+DEPEND="dev-libs/popt
 	zeroconf? ( >=net-dns/avahi-0.6[dbus] )
 	cc32_64? (
 		amd64? ( sys-devel/gcc[multilib(-)] )
@@ -28,13 +28,13 @@ CDEPEND="dev-libs/popt
 	)
 	gssapi? ( net-libs/libgssglue )
 	gtk? ( x11-libs/gtk+:2 )"
-DEPEND="${CDEPEND}
-	virtual/pkgconfig"
-RDEPEND="${CDEPEND}
+RDEPEND="${DEPEND}
 	!net-misc/pump
 	>=sys-devel/gcc-config-1.4.1
 	selinux? ( sec-policy/selinux-distcc )
 	xinetd? ( sys-apps/xinetd )"
+BDEPEND="
+	virtual/pkgconfig"
 
 # crosscompilation requirements
 REQUIRED_USE="
@@ -45,8 +45,6 @@ REQUIRED_USE="
 	)"
 
 S="${WORKDIR}/${MY_P}"
-
-DCCC_PATH="/usr/$(get_libdir)/distcc/bin"
 
 pkg_setup() {
 	enewuser distcc 240 -1 -1 daemon
@@ -59,6 +57,8 @@ pkg_setup() {
 }
 
 src_prepare() {
+	DCCC_PATH="/usr/$(get_libdir)/distcc/bin"
+
 	epatch "${FILESDIR}/${PN}-3.0-xinetd.patch"
 	# bug #253786
 	epatch "${FILESDIR}/${PN}-3.0-fix-fortify.patch"
@@ -148,6 +148,8 @@ src_compile() {
 }
 
 src_install() {
+	DCCC_PATH="/usr/$(get_libdir)/distcc/bin"
+
 	default
 	python_optimize
 
@@ -229,6 +231,8 @@ pkg_postinst() {
 }
 
 pkg_postrm() {
+	DCCC_PATH="/usr/$(get_libdir)/distcc/bin"
+
 	# delete the masquerade directory
 	if [ ! -f "${EPREFIX}/usr/bin/distcc" ] ; then
 		einfo "Remove masquerade symbolic links."
