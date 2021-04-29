@@ -17,6 +17,7 @@ sys-apps/userchroot 0.1-r1: Safe chroot from userspace
 sys-cluster/maui 3.3.1-r2: Maui Cluster Scheduler
 sys-cluster/netpipe 3.7.2: A Network Protocol Independent Performance Evaluator
 sys-cluster/orangefs 2.8.7 2.9_beta20130530-r1: OrangeFS is a branch of PVFS2 cluster filesystem
+sys-devel/distcc 3.2_rc1-r2: Distribute compilation of C code across several machines on a network
 sys-kernel/vanilla-sources 3.2.59 3.13.11 3.17.6: Full sources for the Linux kernel
 sys-libs/libvbe 9999: A library for handling the VESA BIOS Extension (aka VBE)
 sys-power/suspend 9999: Userspace Software Suspend and S2Ram
