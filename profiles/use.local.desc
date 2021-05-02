@@ -88,11 +88,6 @@ sys-cluster/orangefs:usrint-cache - Build ucached (user interface data cache dae
 sys-cluster/orangefs:usrint-cwd - Enable current working directory calls in user interface libraries
 sys-cluster/orangefs:usrint-kmount - Assume that FS is mounted via kervel VFS in user interface libraries
 sys-cluster/orangefs:valgrind - Use dev-util/valgrind for memory debugging
-sys-cluster/torque:cpusets - Enable pbs_mom to utilize linux cpusets if available
-sys-cluster/torque:drmaa - Enable the Distributed Resource Management Application API
-sys-cluster/torque:munge - Enable authentication via munge
-sys-cluster/torque:nvidia - Enable management of Nvidia GPUs
-sys-cluster/torque:server - Enable compilation of pbs_server and pbs_sched
 sys-devel/distcc:cc32_64 - Enable second distcc server to crosscompile amd64 on x86 host or vice versa depending on your host architecture
 sys-devel/distcc:crossdev - Enable support for sys-devel/crossdev
 sys-devel/distcc:gssapi - Enable support for net-libs/libgssglue
