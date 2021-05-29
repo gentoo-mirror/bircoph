@@ -1,8 +1,8 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-inherit autotools linux-info linux-mod readme.gentoo
+inherit autotools linux-info linux-mod readme.gentoo-r1
 
 DESCRIPTION="OrangeFS is a branch of PVFS2 cluster filesystem"
 HOMEPAGE="http://www.orangefs.org/"
@@ -198,7 +198,7 @@ src_install() {
 pkg_postinst() {
 	use modules && linux-mod_pkg_postinst
 
-	readme.gentoo_pkg_postinst
+	readme.gentoo_print_elog
 	if ! use modules; then
 		ewarn
 		ewarn "Without modules support you wouldn't be able to use pvfs2-client and mount"
