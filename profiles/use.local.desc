@@ -74,9 +74,7 @@ sys-cluster/orangefs:certcache - Enable certificate cache for security-cert mode
 sys-cluster/orangefs:fuse - Enable client filesystem support using sys-fs/fuse.
 sys-cluster/orangefs:kmod-threads - Use experimental threads support for kernel helper code
 sys-cluster/orangefs:memtrace - Use mtrace for memory debugging (must set MALLOC_TRACE to output file)
-sys-cluster/orangefs:open-mx - Add support for Myrinet Express over Ethernet
 sys-cluster/orangefs:reset-file-pos - Resets file position pointer in kernel interface upon error. See ChangeLog for 2.8.6 for more details
-sys-cluster/orangefs:secure - Enable connections only from trusted hosts/ports
 sys-cluster/orangefs:security-cert - Enable certificate-based security
 sys-cluster/orangefs:security-key - Enable key-based security
 sys-cluster/orangefs:sendfile - Enable kernel sendfile support (recommended for serving of large files only)
