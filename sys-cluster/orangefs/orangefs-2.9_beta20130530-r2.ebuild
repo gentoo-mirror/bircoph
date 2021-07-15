@@ -1,7 +1,7 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 inherit autotools linux-info linux-mod readme.gentoo-r1
 
 PV_MAJ="2.9beta"
@@ -16,11 +16,11 @@ LICENSE="LGPL-2.1"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="aio apidocs capcache certcache debug doc examples fuse gtk infiniband
-kmod-threads ldap memtrace +mmap modules open-mx reset-file-pos security-key
+kmod-threads ldap memtrace +mmap modules reset-file-pos security-key
 security-cert sendfile +server ssl static static-libs +tcp +threads
 trusted-connections +usrint usrint-cache +usrint-cwd usrint-kmount valgrind"
 
-CDEPEND="
+DEPEND="
 	dev-lang/perl
 	>=sys-libs/db-4.8.30:=
 	virtual/perl-Math-BigInt
@@ -28,14 +28,13 @@ CDEPEND="
 	gtk? ( x11-libs/gtk+:2 )
 	infiniband? ( sys-fabric/ofed )
 	ldap? ( net-nds/openldap )
-	open-mx? ( sys-cluster/open-mx[static-libs?] )
 	ssl? ( dev-libs/openssl[static-libs?] )
 	valgrind? ( dev-util/valgrind )
 "
-RDEPEND="${CDEPEND}
-	modules? ( virtual/modutils )
+RDEPEND="${DEPEND}
+	modules? ( sys-apps/kmod )
 "
-DEPEND="${CDEPEND}
+BDEPEND="
 	>=sys-devel/autoconf-2.59
 	sys-devel/bison
 	sys-devel/flex
@@ -64,12 +63,12 @@ REQUIRED_USE="
 	security-key? ( ssl )
 	sendfile? ( modules )
 	static? ( server static-libs )
-	tcp? ( !infiniband !open-mx )
+	tcp? ( !infiniband )
 	usrint-cache? ( usrint )
 	usrint-cwd? ( usrint )
 	usrint-kmount? ( usrint )
 	valgrind? ( debug )
-	|| ( infiniband open-mx tcp )
+	|| ( infiniband tcp )
 	?? ( security-cert security-key )
 "
 
@@ -165,7 +164,6 @@ src_configure() {
 	    $(use_with infiniband openib "${EPREFIX}"/usr/) \
 	    $(use_with memtrace mtrace) \
 	    $(use_with ldap) \
-	    $(use_with open-mx mx "${EPREFIX}"/usr/) \
 	    $(use_with ssl) \
 	    $(use_with tcp bmi-tcp) \
 	    $(use_with valgrind) \
