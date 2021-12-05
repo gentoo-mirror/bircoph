@@ -11,6 +11,7 @@ net-dns
 net-ftp
 net-libs
 net-misc
+net-proxy
 sys-apps
 sys-cluster
 sys-devel
