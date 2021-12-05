@@ -1,7 +1,7 @@
 app-i18n/uim 1.8.8-r100: A multilingual input method framework
 app-text/cuneiform 1.1.0-r2: An enterprise quality OCR engine by Cognitive Technologies
 app-vim/cscope-plugin 2002.03.07-r1: vim plugin: cscope settings
-dev-python/pyDes 2.0.1-r2: Python implementation of DES an Triple-DES algorithms
+dev-python/pyDes 2.0.1_p20190107: Python implementation of DES an Triple-DES algorithms
 dev-util/symlookup 0.5.2 9999: Utility for searching of object files containing requested symbols
 mail-client/sylpheed 3.7.0-r1: A lightweight email client and newsreader
 media-gfx/dmtx-utils 0.7.4: Tools for reading and writing Data Matrix barcodes
