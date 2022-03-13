@@ -1,7 +1,7 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=8
 
 EGIT_REPO_URI="git://git.videolan.org/ffmpeg.git"
 ESVN_REPO_URI="svn://svn.mplayerhq.hu/mplayer/trunk"
@@ -13,10 +13,10 @@ bs2b cddb +cdio cdparanoia cpudetection debug dga +dirac
 doc +dts +dv dvb +dvd +dvdnav dxr3 +enca +encode -external-ffmpeg faac +faad fbcon
 ftp gif ggi gsm +iconv ipv6 jack joystick jpeg jpeg2k kernel_linux ladspa
 +libass libcaca libmpeg2 lirc +live lzo mad md5sum +cpu_flags_x86_mmx cpu_flags_x86_mmxext mng +mp3 mpg123 nas nemesi
-+network nut openal +opengl opus +osdmenu oss png pnm pulseaudio pvr +quicktime
-radio +rar +real +rtc rtmp samba +shm +schroedinger sdl +speex cpu_flags_x86_sse cpu_flags_x86_sse2 cpu_flags_x86_ssse3 svga svga-helper
++network openal +opengl opus +osdmenu oss png pnm pulseaudio pvr +quicktime
+radio +rar +real +rtc rtmp samba +shm sdl +speex cpu_flags_x86_sse cpu_flags_x86_sse2 cpu_flags_x86_ssse3 svga svga-helper
 tga +theora tivo +tremor +truetype toolame +twolame +unicode v4l vdpau vidix
-+vorbis vpx win32codecs +X +x264 xanim xinerama +xscreensaver +xv +xvid xvmc yuv4mpeg zoran"
++vorbis vpx win32codecs +X +x264 xinerama +xscreensaver +xv +xvid xvmc yuv4mpeg zoran"
 
 VIDEO_CARDS="s3virge mga tdfx vesa"
 for x in ${VIDEO_CARDS}; do
@@ -93,7 +93,6 @@ RDEPEND+="
 	mpg123? ( media-sound/mpg123 )
 	nas? ( media-libs/nas )
 	nemesi? ( net-libs/libnemesi )
-	nut? ( >=media-libs/libnut-661 )
 	openal? ( media-libs/openal )
 	opengl? ( virtual/opengl )
 	opus? ( media-libs/opus )
@@ -108,7 +107,6 @@ RDEPEND+="
 	)
 	rtmp? ( media-video/rtmpdump )
 	samba? ( net-fs/samba )
-	schroedinger? ( media-libs/schroedinger )
 	sdl? ( media-libs/libsdl )
 	speex? ( media-libs/speex )
 	svga? (
@@ -124,7 +122,6 @@ RDEPEND+="
 	vpx? ( media-libs/libvpx )
 	X? ( ${X_RDEPS} )
 	x86? ( win32codecs? ( media-libs/win32codecs ) )
-	xanim? ( media-video/xanim-export )
 	xinerama? ( x11-libs/libXinerama )
 	xscreensaver? ( x11-libs/libXScrnSaver )
 	xv? ( x11-libs/libXv )
@@ -132,7 +129,8 @@ RDEPEND+="
 "
 
 ASM_DEP="dev-lang/yasm"
-DEPEND="${RDEPEND}
+DEPEND="${RDEPEND}"
+BDEPEND="
 	virtual/pkgconfig
 	dga? ( x11-base/xorg-proto )
 	dvb? ( virtual/linuxtv-dvb-headers )
@@ -145,7 +143,6 @@ DEPEND="${RDEPEND}
 		app-text/docbook-xsl-stylesheets
 	)
 	x86? ( ${ASM_DEP} )
-	x86-fbsd? ( ${ASM_DEP} )
 "
 
 SLOT="0"
@@ -274,7 +271,6 @@ src_configure() {
 	use libass || myconf+=" --disable-ass"
 	use bidi || myconf+=" --disable-fribidi"
 	use ipv6 || myconf+=" --disable-inet6"
-	use nut || myconf+=" --disable-libnut"
 	use rar || myconf+=" --disable-unrarexec"
 	use samba || myconf+=" --disable-smb"
 	use svga && use svga-helper && myconf+=" --enable-svgalib_helper"
@@ -359,10 +355,9 @@ src_configure() {
 	for i in ${uses}; do
 		use ${i} || myconf+=" --disable-lib${i}"
 	done
-	use schroedinger || myconf+=" --disable-libschroedinger-lavc"
 	use amr || myconf+=" --disable-libopencore_amrnb --disable-libopencore_amrwb"
 
-	uses="faad gif jpeg libmpeg2 live mad mng mpg123 png pnm speex tga theora xanim"
+	uses="faad gif jpeg libmpeg2 live mad mng mpg123 png pnm speex tga theora"
 	for i in ${uses}; do
 		use ${i} || myconf+=" --disable-${i}"
 	done
