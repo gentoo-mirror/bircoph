@@ -27,7 +27,6 @@
 	<flag name="mpg123">Enable support for mp3 decoding over media-sound/mpg123.</flag>
 	<flag name="nemesi">Enable Nemesi Streaming Media support</flag>
 	<flag name="network">Enables network streaming support</flag>
-	<flag name="nut">Enables support for the NUT container format</flag>
 	<flag name="opus">Enables support for Opus audio codec via <pkg>media-libs/opus</pkg></flag>
 	<flag name="osdmenu">Enables support for on-screen display (OSD) menus</flag>
 	<flag name="pnm">Add PNM video output option, to create PPM/PGM/PGMYUV images</flag>
@@ -37,7 +36,6 @@
 	<flag name="real">Adds Real audio/video support</flag>
 	<flag name="rtc">Enables usage of the linux real time clock. The alternative is software emulation of rtc</flag>
 	<flag name="rtmp">Enables RTMPDump Streaming Media support</flag>
-	<flag name="schroedinger">Enable Dirac video support (an advanced royalty-free video compression format) via libschroedinger (high-speed implementation in C of the Dirac codec).</flag>
 	<flag name="shm">Enable support for shm</flag>
 	<flag name="svga">SVGA video output</flag>
 	<flag name="svga-helper">Use SVGA kernel helper for userspace access</flag>
@@ -52,7 +50,6 @@
 	<flag name="video_cards_tdfx">Support for tdfx video card</flag>
 	<flag name="vidix">Support for vidix video output</flag>
 	<flag name="win32codecs">Support for binary win32 codecs</flag>
-	<flag name="xanim">Enables support for xanim based codecs</flag>
 	<flag name="xvmc">Enables X-Video Motion Compensation support</flag>
 	<flag name="yuv4mpeg">Enables yuv4mpeg video output</flag>
 	<flag name="zoran">Enables ZR360[56]7/ZR36060 video output</flag>
