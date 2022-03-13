@@ -4,11 +4,12 @@ mail-client/sylpheed 3.7.0-r1: A lightweight email client and newsreader
 media-gfx/dmtx-utils 0.7.4: Tools for reading and writing Data Matrix barcodes
 media-libs/vstream-client 1.2.1.1: Allows streaming video from a hacked TiVo running vserver
 media-libs/win32codecs 20071007-r4: Windows 32-bit binary codecs for video and audio playback support
+media-video/mplayer 9999: Media Player for Linux
 net-dns/bind2nsd 0.7.2-r2: Program to translate DNS information in BIND format to NSD format
 net-ftp/vsftpd 3.0.4: Very Secure FTP Daemon written with speed, size and security in mind
 net-libs/libnemesi 9999: a RTSP/RTP client library
 net-misc/prtunnel 0.2.7: Tunnels TCP/IP through HTTP, SOCKS5 proxies; IPv4/IPV6 bridge
-net-proxy/polipo 1.1.1-r4 1.1.1-r5 9999: A caching web proxy
+net-proxy/polipo 1.1.1-r5 9999: A caching web proxy
 sys-apps/strerror 0.2: System error description utility
 sys-apps/userchroot 0.1-r1: Safe chroot from userspace
 sys-cluster/maui 3.3.1-r2: Maui Cluster Scheduler

@@ -26,7 +26,6 @@ media-video/mplayer:mng - MNG input support
 media-video/mplayer:mpg123 - Enable support for mp3 decoding over media-sound/mpg123.
 media-video/mplayer:nemesi - Enable Nemesi Streaming Media support
 media-video/mplayer:network - Enables network streaming support
-media-video/mplayer:nut - Enables support for the NUT container format
 media-video/mplayer:opus - Enables support for Opus audio codec via media-libs/opus
 media-video/mplayer:osdmenu - Enables support for on-screen display (OSD) menus
 media-video/mplayer:pnm - Add PNM video output option, to create PPM/PGM/PGMYUV images
@@ -36,7 +35,6 @@ media-video/mplayer:rar - Enable Unique RAR File Library
 media-video/mplayer:real - Adds Real audio/video support
 media-video/mplayer:rtc - Enables usage of the linux real time clock. The alternative is software emulation of rtc
 media-video/mplayer:rtmp - Enables RTMPDump Streaming Media support
-media-video/mplayer:schroedinger - Enable Dirac video support (an advanced royalty-free video compression format) via libschroedinger (high-speed implementation in C of the Dirac codec).
 media-video/mplayer:shm - Enable support for shm
 media-video/mplayer:svga - SVGA video output
 media-video/mplayer:svga-helper - Use SVGA kernel helper for userspace access
@@ -51,7 +49,6 @@ media-video/mplayer:video_cards_tdfx - Support for tdfx video card
 media-video/mplayer:vidix - Support for vidix video output
 media-video/mplayer:vpx - Enables vp8 codec support using libvpx: Decoding vp8 does not require this to be enabled but libvpx can also be used for decoding; encoding vp8 requires this useflag to be enabled though.
 media-video/mplayer:win32codecs - Support for binary win32 codecs
-media-video/mplayer:xanim - Enables support for xanim based codecs
 media-video/mplayer:xvmc - Enables X-Video Motion Compensation support
 media-video/mplayer:yuv4mpeg - Enables yuv4mpeg video output
 media-video/mplayer:zoran - Enables ZR360[56]7/ZR36060 video output
