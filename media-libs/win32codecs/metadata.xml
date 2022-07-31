@@ -7,5 +7,5 @@
 </maintainer>
 <use>
 	<flag name="real">Installs the real video codecs</flag>
- </use>
+</use>
 </pkgmetadata>
