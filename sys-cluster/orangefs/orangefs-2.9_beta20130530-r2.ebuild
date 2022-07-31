@@ -1,15 +1,15 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 inherit autotools linux-info linux-mod readme.gentoo-r1
 
 PV_MAJ="2.9beta"
 MY_P="${PN}-${PV_MAJ}.20130530"
 
 DESCRIPTION="OrangeFS is a branch of PVFS2 cluster filesystem"
-HOMEPAGE="http://www.orangefs.org/"
-SRC_URI="http://orangefs.org/downloads/${PV_MAJ}/source/${MY_P}.tar.gz"
+HOMEPAGE="https://www.orangefs.org/"
+SRC_URI="https://s3.amazonaws.com/download.orangefs.org/releases/2.9beta/source/${MY_P}.tar.gz"
 S="${WORKDIR}/${MY_P}"
 
 LICENSE="LGPL-2.1"
