@@ -1,7 +1,7 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2022 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=8
 
 inherit multilib
 
@@ -10,10 +10,8 @@ SRC_URI="mirror://mplayer/releases/codecs/all-${PV}.tar.bz2"
 HOMEPAGE="http://www.mplayerhq.hu/"
 LICENSE="HPND"
 SLOT="0"
-KEYWORDS="~amd64 x86"
+KEYWORDS="~amd64 ~x86"
 IUSE="real"
-
-RDEPEND="real? ( =virtual/libstdc++-3.3* )"
 
 S="${WORKDIR}/all-${PV}"
 
@@ -28,7 +26,7 @@ pkg_setup() {
 
 src_install() {
 	insinto /usr/$(get_libdir)/win32
-	doins *.dll *.ax *.xa *.acm *.vwp *.drv *.DLL *.qtx *.qts
+	doins *.dll *.ax *.xa *.acm *.vwp *.drv *.DLL *.qtx *.qts *.DRV *.vcm
 
 	if use real
 	then
