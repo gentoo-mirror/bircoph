@@ -1,7 +1,6 @@
 app-vim/cscope-plugin 2002.03.07-r1: vim plugin: cscope settings
 dev-python/pyDes 2.0.1_p20190107: Python implementation of DES an Triple-DES algorithms
 mail-client/sylpheed 3.7.0-r1: A lightweight email client and newsreader
-media-gfx/dmtx-utils 0.7.4: Tools for reading and writing Data Matrix barcodes
 media-libs/vstream-client 1.2.1.1: Allows streaming video from a hacked TiVo running vserver
 media-libs/win32codecs 20110131: Windows 32-bit binary codecs for video and audio playback support
 media-video/mplayer 9999: Media Player for Linux
@@ -12,7 +11,6 @@ net-misc/prtunnel 0.2.7: Tunnels TCP/IP through HTTP, SOCKS5 proxies; IPv4/IPV6 
 net-proxy/polipo 1.1.1-r5 9999: A caching web proxy
 sys-apps/strerror 0.2: System error description utility
 sys-apps/userchroot 0.1-r1: Safe chroot from userspace
-sys-cluster/maui 3.3.1-r2: Maui Cluster Scheduler
 sys-cluster/orangefs 2.9_beta20130530-r2: OrangeFS is a branch of PVFS2 cluster filesystem
 sys-devel/distcc 3.2_rc1-r2: Distribute compilation of C code across several machines on a network
 sys-libs/libvbe 9999: A library for handling the VESA BIOS Extension (aka VBE)

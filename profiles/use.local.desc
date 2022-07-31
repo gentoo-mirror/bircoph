@@ -52,8 +52,6 @@ media-video/mplayer:win32codecs - Support for binary win32 codecs
 media-video/mplayer:xvmc - Enables X-Video Motion Compensation support
 media-video/mplayer:yuv4mpeg - Enables yuv4mpeg video output
 media-video/mplayer:zoran - Enables ZR360[56]7/ZR36060 video output
-sys-cluster/maui:pbs - Enable pbs integration
-sys-cluster/maui:slurm - Enable slurm integration
 sys-cluster/orangefs:aio - Enable file AIO support
 sys-cluster/orangefs:apidocs - Build API documentation from the code using doxygen (size > 800 MB)
 sys-cluster/orangefs:capcache - Enable capabilities cache for security modes
