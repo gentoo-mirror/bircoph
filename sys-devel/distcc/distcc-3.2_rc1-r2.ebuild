@@ -9,8 +9,8 @@ inherit autotools eutils flag-o-matic multilib python-single-r1 toolchain-funcs 
 
 MY_P="${P/_}"
 DESCRIPTION="Distribute compilation of C code across several machines on a network"
-HOMEPAGE="http://distcc.org/"
-SRC_URI="https://distcc.googlecode.com/files/${MY_P}.tar.bz2
+HOMEPAGE="https://distcc.org/"
+SRC_URI="https://github.com/distcc/distcc/releases/download/v${PV/_}/${MY_P}.tar.bz2
 		 https://dev.gentoo.org/~bircoph/patches/${P}-native.patch.xz"
 
 LICENSE="GPL-2"
