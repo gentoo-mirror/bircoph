@@ -11,6 +11,5 @@ net-misc/prtunnel 0.2.7: Tunnels TCP/IP through HTTP, SOCKS5 proxies; IPv4/IPV6 
 sys-apps/strerror 0.2: System error description utility
 sys-apps/userchroot 0.1-r1: Safe chroot from userspace
 sys-cluster/orangefs 2.9_beta20130530-r2: OrangeFS is a branch of PVFS2 cluster filesystem
-sys-libs/libvbe 9999: A library for handling the VESA BIOS Extension (aka VBE)
 sys-power/suspend 9999: Userspace Software Suspend and S2Ram
 x11-misc/switchscreen 0.1.1: Utility for switching between multiple X screens
