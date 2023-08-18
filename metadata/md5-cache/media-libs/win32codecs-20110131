@@ -9,5 +9,5 @@ LICENSE=HPND
 RESTRICT=strip binchecks
 SLOT=0
 SRC_URI=mirror://mplayer/releases/codecs/all-20110131.tar.bz2
-_eclasses_=multilib	c19072c3cd7ac5cb21de013f7e9832e0	toolchain-funcs	0c8a0b0d318eb5d5180d114bd3f6592b
+_eclasses_=multilib	c19072c3cd7ac5cb21de013f7e9832e0	toolchain-funcs	862d337d98edb576796827be2c6b11ca
 _md5_=3f9bf5a7ae886b545ced23d2f2651b59
