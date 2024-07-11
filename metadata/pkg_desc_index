@@ -5,7 +5,6 @@ media-libs/vstream-client 1.2.1.1: Allows streaming video from a hacked TiVo run
 media-libs/win32codecs 20110131: Windows 32-bit binary codecs for video and audio playback support
 media-video/mplayer 9999: Media Player for Linux
 net-ftp/vsftpd 3.0.4: Very Secure FTP Daemon written with speed, size and security in mind
-net-libs/libnemesi 9999: a RTSP/RTP client library
 net-misc/prtunnel 0.2.7: Tunnels TCP/IP through HTTP, SOCKS5 proxies; IPv4/IPV6 bridge
 sys-apps/strerror 0.2: System error description utility
 sys-apps/userchroot 0.1-r1: Safe chroot from userspace
